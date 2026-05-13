@@ -35,6 +35,11 @@ text-align:center;
 box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
+.logo{
+width:130px;
+margin-bottom:15px;
+filter:drop-shadow(0 0 15px rgba(255,255,255,0.2));
+}
 
 h1{
 font-size:28px;
@@ -149,8 +154,8 @@ color:#d1d5db;
 
 <div class="container">
 
-<img src="logo.png" class="logo" alt="AAQ Logo">
-
+<img src="ChatGPT Image May 13, 2026, 01_12_37 PM.png" class="logo" alt="AAQ Logo">
+  
 <h1>A.A.Q Solutions & Outsourcing</h1>
 
 <p class="subtitle">
@@ -202,7 +207,7 @@ onclick="closePopup('feedbackPopup')">
 
 <input type="hidden" name="access_key" value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
 
-<input type="hidden" name="subject" value="New Feedback Received From {{name}}">
+<input type="hidden" name="subject" value="New Feedback Received">
 
 <input type="text"
 name="name"
@@ -264,7 +269,7 @@ onclick="closePopup('complaintPopup')">
 
 <input type="hidden" name="access_key" value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
 
-<input type="hidden" name="subject" value="New Complaint Received From {{name}}">
+<input type="hidden" name="subject" value="New Complaint Received">
 
 <input type="text"
 name="name"
@@ -312,7 +317,7 @@ onclick="closePopup('bookingPopup')">
 
 <input type="hidden" name="access_key" value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
 
-<input type="hidden" name="subject" value="New Event Booking From {{name}}">
+<input type="hidden" name="subject" value="New Event Booking">
 
 <input type="text"
 name="name"
@@ -367,6 +372,32 @@ document.getElementById(id).style.display='flex';
 function closePopup(id){
 document.getElementById(id).style.display='none';
 }
+
+const forms = document.querySelectorAll("form");
+
+forms.forEach(form => {
+
+form.addEventListener("submit", function(){
+
+const name = form.querySelector('input[name="name"]').value;
+
+const subjectInput = form.querySelector('input[name="subject"]');
+
+if(subjectInput.value.includes("Feedback")){
+subjectInput.value = "New Feedback Received From " + name;
+}
+
+if(subjectInput.value.includes("Complaint")){
+subjectInput.value = "New Complaint Received From " + name;
+}
+
+if(subjectInput.value.includes("Booking")){
+subjectInput.value = "New Event Booking From " + name;
+}
+
+});
+
+});
 
 </script>
 

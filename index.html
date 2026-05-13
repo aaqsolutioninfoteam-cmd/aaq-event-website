@@ -365,14 +365,12 @@ Submit
 <script>
 
 function openPopup(id){
-document.getElementById(id).style.display='flex';
+document.getElementById(id).style.display = "flex";
 }
 
 function closePopup(id){
-document.getElementById(id).style.display='none';
+document.getElementById(id).style.display = "none";
 }
-
-<script>
 
 const forms = document.querySelectorAll("form");
 
@@ -380,9 +378,13 @@ forms.forEach(form => {
 
 form.addEventListener("submit", function(){
 
-const name = form.querySelector('input[name="name"]').value;
+const nameInput = form.querySelector('input[name="name"]');
 
 const subjectInput = form.querySelector('input[name="subject"]');
+
+if(nameInput && subjectInput){
+
+const name = nameInput.value;
 
 if(subjectInput.value.includes("Feedback")){
 subjectInput.value = "New Feedback Received From " + name;
@@ -396,11 +398,12 @@ if(subjectInput.value.includes("Booking")){
 subjectInput.value = "New Event Booking From " + name;
 }
 
-});
+}
 
 });
 
-
+});
+  
 </script>
 
 </body>

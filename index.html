@@ -16,12 +16,16 @@ font-family:Arial,sans-serif;
 
 body{
 background:
-linear-gradient(rgba(15,23,42,0.85), rgba(15,23,42,0.9)),
-url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1400&auto=format&fit=crop');
+linear-gradient(135deg,
+#000000,
+#1a1a1a,
+#3b2a00,
+#d4af37,
+#3b2a00,
+#000000);
 
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
+background-size:400% 400%;
+animation:goldBg 12s ease infinite;
 
 min-height:100vh;
 display:flex;
@@ -29,6 +33,23 @@ justify-content:center;
 align-items:center;
 padding:20px;
 color:white;
+
+}
+
+@keyframes goldBg{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
 }
 
 .container{

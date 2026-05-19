@@ -12,9 +12,11 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:Arial,sans-serif;
+scroll-behavior:smooth;
 }
 
 body{
+
 background:
 linear-gradient(135deg,
 #000000,
@@ -27,11 +29,6 @@ linear-gradient(135deg,
 background-size:400% 400%;
 animation:goldBg 12s ease infinite;
 
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:20px;
 color:white;
 
 }
@@ -54,48 +51,53 @@ background-position:0% 50%;
 
 .container{
 width:100%;
-max-width:450px;
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
-padding:30px;
-border-radius:25px;
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+header{
 text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
+padding:50px 20px;
 }
 
 .logo{
-width:130px;
-margin-bottom:15px;
-filter:drop-shadow(0 0 15px rgba(255,255,255,0.2));
+width:140px;
+margin-bottom:20px;
+filter:drop-shadow(0 0 20px rgba(255,255,255,0.25));
 }
 
 h1{
-font-size:28px;
+font-size:42px;
 margin-bottom:10px;
 }
 
 .subtitle{
-color:#d1d5db;
+font-size:18px;
+color:#f3f4f6;
 margin-bottom:30px;
 }
 
 .btn{
-display:block;
-width:100%;
-padding:15px;
-margin-bottom:15px;
+display:inline-block;
+padding:15px 30px;
+margin:10px;
 border:none;
 border-radius:15px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
 transition:0.3s;
-color:white;
 text-decoration:none;
+color:white;
 }
 
 .btn:hover{
-transform:scale(1.03);
+transform:scale(1.05);
+}
+
+.booking{
+background:linear-gradient(135deg,#ca8a04,#a16207);
 }
 
 .feedback{
@@ -106,12 +108,53 @@ background:linear-gradient(135deg,#2563eb,#1d4ed8);
 background:linear-gradient(135deg,#dc2626,#991b1b);
 }
 
-.booking{
-background:linear-gradient(135deg,#ca8a04,#a16207);
-}
-
 .contact{
 background:linear-gradient(135deg,#16a34a,#166534);
+}
+
+section{
+margin-top:60px;
+padding:30px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:25px;
+}
+
+.section-title{
+font-size:32px;
+margin-bottom:25px;
+text-align:center;
+}
+
+.services{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.07);
+padding:25px;
+border-radius:20px;
+text-align:center;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.gallery img{
+width:100%;
+border-radius:20px;
+height:220px;
+object-fit:cover;
 }
 
 .popup{
@@ -125,26 +168,23 @@ display:none;
 justify-content:center;
 align-items:center;
 z-index:999;
+padding:15px;
 }
 
 .popup-content{
 background:#111827;
 padding:25px;
 border-radius:20px;
-width:90%;
-max-width:400px;
+width:100%;
+max-width:420px;
 position:relative;
-}
-
-.popup-content h2{
-margin-bottom:20px;
 }
 
 .close{
 position:absolute;
 right:15px;
 top:10px;
-font-size:28px;
+font-size:30px;
 cursor:pointer;
 }
 
@@ -169,10 +209,22 @@ color:black;
 font-weight:bold;
 }
 
-.footer{
-margin-top:20px;
-font-size:14px;
-color:#d1d5db;
+footer{
+text-align:center;
+padding:40px 20px;
+margin-top:50px;
+}
+
+@media(max-width:768px){
+
+h1{
+font-size:30px;
+}
+
+.section-title{
+font-size:26px;
+}
+
 }
 
 </style>
@@ -182,12 +234,20 @@ color:#d1d5db;
 
 <div class="container">
 
-<img src="logo.png" class="logo" alt="AAQ Logo">  
+<header>
+
+<img src="logo.png" class="logo" alt="AAQ Logo">
+
 <h1>A.A.Q Solutions & Outsourcing</h1>
 
 <p class="subtitle">
-Professional Event Management Services
+Professional Event Management & Staffing Services
 </p>
+
+<button class="btn booking"
+onclick="openPopup('bookingPopup')">
+Book Event
+</button>
 
 <button class="btn feedback"
 onclick="openPopup('feedbackPopup')">
@@ -199,21 +259,101 @@ onclick="openPopup('complaintPopup')">
 Complaint
 </button>
 
-<button class="btn booking"
-onclick="openPopup('bookingPopup')">
-Book Event
-</button>
-
 <a class="btn contact"
 href="https://wa.me/917600263704"
 target="_blank">
 Contact Us
 </a>
 
-<div class="footer">
-📞 +91 7600263704<br>
-📧 aaqsolutioninfoteam@gmail.com
+</header>
+
+<section>
+
+<h2 class="section-title">
+About Us
+</h2>
+
+<p style="text-align:center;font-size:18px;line-height:1.8;">
+A.A.Q Solutions & Outsourcing provides professional event management,
+staffing, live streaming, corporate event support,
+religious program management and VIP event solutions across India.
+</p>
+
+</section>
+
+<section>
+
+<h2 class="section-title">
+Our Services
+</h2>
+
+<div class="services">
+
+<div class="card">
+<h3>Event Management</h3>
+<p>Professional event handling solutions.</p>
 </div>
+
+<div class="card">
+<h3>Corporate Events</h3>
+<p>Premium corporate event services.</p>
+</div>
+
+<div class="card">
+<h3>Religious Programs</h3>
+<p>Islamic & social program management.</p>
+</div>
+
+<div class="card">
+<h3>Live Streaming</h3>
+<p>Professional streaming setup.</p>
+</div>
+
+<div class="card">
+<h3>Event Staffing</h3>
+<p>Professional crew & volunteer support.</p>
+</div>
+
+<div class="card">
+<h3>VIP Management</h3>
+<p>Luxury guest & VIP support services.</p>
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2 class="section-title">
+Gallery
+</h2>
+
+<div class="gallery">
+
+<img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop">
+
+<img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop">
+
+<img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=1200&auto=format&fit=crop">
+
+</div>
+
+</section>
+
+<footer>
+
+<h2>Contact Us</h2>
+
+<p>
+📞 +91 7600263704
+</p>
+
+<p>
+📧 aaqsolutioninfoteam@gmail.com
+</p>
+
+</footer>
 
 </div>
 
@@ -232,9 +372,11 @@ onclick="closePopup('feedbackPopup')">
 
 <form action="https://api.web3forms.com/submit" method="POST">
 
-<input type="hidden" name="access_key" value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
+<input type="hidden" name="access_key"
+value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
 
-<input type="hidden" name="subject" value="New Feedback Received">
+<input type="hidden" name="subject"
+value="New Feedback Received">
 
 <input type="text"
 name="name"
@@ -294,9 +436,11 @@ onclick="closePopup('complaintPopup')">
 
 <form action="https://api.web3forms.com/submit" method="POST">
 
-<input type="hidden" name="access_key" value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
+<input type="hidden" name="access_key"
+value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
 
-<input type="hidden" name="subject" value="New Complaint Received">
+<input type="hidden" name="subject"
+value="New Complaint Received">
 
 <input type="text"
 name="name"
@@ -342,9 +486,11 @@ onclick="closePopup('bookingPopup')">
 
 <form action="https://api.web3forms.com/submit" method="POST">
 
-<input type="hidden" name="access_key" value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
+<input type="hidden" name="access_key"
+value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
 
-<input type="hidden" name="subject" value="New Event Booking">
+<input type="hidden" name="subject"
+value="New Event Booking">
 
 <input type="text"
 name="name"
@@ -415,15 +561,18 @@ if(nameInput && subjectInput){
 const name = nameInput.value;
 
 if(subjectInput.value.includes("Feedback")){
-subjectInput.value = "New Feedback Received From " + name;
+subjectInput.value =
+"New Feedback Received From " + name;
 }
 
 if(subjectInput.value.includes("Complaint")){
-subjectInput.value = "New Complaint Received From " + name;
+subjectInput.value =
+"New Complaint Received From " + name;
 }
 
 if(subjectInput.value.includes("Booking")){
-subjectInput.value = "New Event Booking From " + name;
+subjectInput.value =
+"New Event Booking From " + name;
 }
 
 }
@@ -431,7 +580,7 @@ subjectInput.value = "New Event Booking From " + name;
 });
 
 });
-  
+
 </script>
 
 </body>

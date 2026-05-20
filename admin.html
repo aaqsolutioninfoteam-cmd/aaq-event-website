@@ -301,13 +301,24 @@ linear-gradient(
 
 }
 
-.events{
+.attendance{
 
 background:
 linear-gradient(
 135deg,
-#ca8a04,
-#a16207
+#16a34a,
+#166534
+);
+
+}
+
+.idcard{
+
+background:
+linear-gradient(
+135deg,
+#dc2626,
+#991b1b
 );
 
 }
@@ -328,8 +339,8 @@ linear-gradient(
 background:
 linear-gradient(
 135deg,
-#16a34a,
-#166534
+#ca8a04,
+#a16207
 );
 
 }
@@ -449,14 +460,31 @@ Open
 
 <div class="card">
 
-<h2>Events Management</h2>
+<h2>Attendance</h2>
 
 <p>
-Manage event duties and schedules.
+Manage attendance and staff presence.
 </p>
 
 <button
-class="btn events">
+class="btn attendance">
+
+Open
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>ID Card Tracking</h2>
+
+<p>
+Track issued and returned ID cards.
+</p>
+
+<button
+class="btn idcard">
 
 Open
 
@@ -536,7 +564,7 @@ localStorage.setItem(
 );
 
 window.location.href =
-"./staff-management.html";
+"staff-management.html";
 
 }
 

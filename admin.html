@@ -1,37 +1,237 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>AAQ Admin Panel</title>
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
 body{
 
-background:black;
+background:
+linear-gradient(135deg,
+#000000,
+#1a1a1a,
+#3b2a00,
+#d4af37,
+#3b2a00,
+#000000);
+
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+
+min-height:100vh;
+
+padding:20px;
+
 color:white;
-
-font-family:Arial;
-
-display:flex;
-
-justify-content:center;
-align-items:center;
-
-height:100vh;
 
 }
 
-.box{
+@keyframes bgMove{
 
-background:#111827;
+0%{
+background-position:0% 50%;
+}
 
-padding:40px;
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+.header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+background:rgba(255,255,255,0.08);
+
+padding:20px;
 
 border-radius:20px;
 
+backdrop-filter:blur(12px);
+
+margin-bottom:30px;
+
+}
+
+.logo{
+
+width:90px;
+
+}
+
+.header-text h1{
+
+font-size:32px;
+
+}
+
+.header-text p{
+
+color:#e5e7eb;
+
+}
+
+.logout{
+
+background:#dc2626;
+
+padding:12px 22px;
+
+border-radius:12px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:bold;
+
+}
+
+.dashboard{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:25px;
+
+}
+
+.card{
+
+background:rgba(255,255,255,0.08);
+
+padding:30px;
+
+border-radius:25px;
+
+backdrop-filter:blur(12px);
+
 text-align:center;
+
+transition:0.3s;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.4);
+
+}
+
+.card:hover{
+
+transform:translateY(-6px);
+
+}
+
+.card h2{
+
+margin-bottom:15px;
+
+font-size:24px;
+
+}
+
+.card p{
+
+margin-bottom:20px;
+
+color:#e5e7eb;
+
+}
+
+.btn{
+
+display:inline-block;
+
+padding:12px 25px;
+
+border-radius:12px;
+
+text-decoration:none;
+
+font-weight:bold;
+
+color:white;
+
+transition:0.3s;
+
+}
+
+.btn:hover{
+
+transform:scale(1.05);
+
+}
+
+.staff{
+background:
+linear-gradient(135deg,#2563eb,#1d4ed8);
+}
+
+.event{
+background:
+linear-gradient(135deg,#16a34a,#166534);
+}
+
+.attendance{
+background:
+linear-gradient(135deg,#ca8a04,#a16207);
+}
+
+.payment{
+background:
+linear-gradient(135deg,#dc2626,#991b1b);
+}
+
+.report{
+background:
+linear-gradient(135deg,#7c3aed,#5b21b6);
+}
+
+.idcard{
+background:
+linear-gradient(135deg,#0891b2,#155e75);
+}
+
+@media(max-width:768px){
+
+.header{
+
+flex-direction:column;
+
+text-align:center;
+
+gap:15px;
+
+}
+
+.header-text h1{
+
+font-size:26px;
+
+}
 
 }
 
@@ -41,13 +241,123 @@ text-align:center;
 
 <body>
 
-<div class="box">
+<div class="header">
+
+<div>
+
+<img src="logo.png"
+class="logo">
+
+</div>
+
+<div class="header-text">
 
 <h1>AAQ Admin Panel</h1>
 
 <p>
-Admin Dashboard Working
+Professional Event ERP Dashboard
 </p>
+
+</div>
+
+<a href="login.html"
+class="logout">
+Logout
+</a>
+
+</div>
+
+<div class="dashboard">
+
+<div class="card">
+
+<h2>Staff Management</h2>
+
+<p>
+Manage all staff records & profiles.
+</p>
+
+<a href="#"
+class="btn staff">
+Open
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>Event Management</h2>
+
+<p>
+Create and manage all events.
+</p>
+
+<a href="#"
+class="btn event">
+Open
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>Attendance System</h2>
+
+<p>
+Track attendance & QR verification.
+</p>
+
+<a href="#"
+class="btn attendance">
+Open
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>Payment System</h2>
+
+<p>
+Manage staff salaries & payments.
+</p>
+
+<a href="#"
+class="btn payment">
+Open
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>Reports</h2>
+
+<p>
+View event & staff reports.
+</p>
+
+<a href="#"
+class="btn report">
+Open
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>ID Card Tracking</h2>
+
+<p>
+Track issue & return of ID cards.
+</p>
+
+<a href="#"
+class="btn idcard">
+Open
+</a>
+
+</div>
 
 </div>
 

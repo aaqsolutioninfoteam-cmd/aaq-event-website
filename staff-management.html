@@ -157,8 +157,7 @@ margin-bottom:10px;
 
 display:grid;
 
-grid-template-columns:
-repeat(auto-fit,minmax(280px,1fr));
+grid-template-columns:1fr;
 
 gap:20px;
 
@@ -174,49 +173,61 @@ border-radius:20px;
 
 backdrop-filter:blur(12px);
 
-text-align:center;
+}
 
-position:relative;
+.staff-row{
+
+display:flex;
+
+align-items:center;
+
+gap:20px;
+
+text-align:left;
 
 }
 
 .staff-photo{
 
-width:90px;
+width:110px;
 
-height:90px;
+height:110px;
 
 border-radius:50%;
 
 object-fit:cover;
 
-border:3px solid white;
-
-margin-bottom:15px;
+border:4px solid white;
 
 }
 
-.card h3{
+.staff-details{
+
+flex:1;
+
+}
+
+.staff-details h3{
 
 margin-bottom:10px;
 
+font-size:24px;
+
 }
 
-.card p{
+.staff-details p{
 
-margin-bottom:8px;
-
-color:#e5e7eb;
+margin-bottom:7px;
 
 font-size:14px;
+
+color:#e5e7eb;
 
 }
 
 .action-buttons{
 
 display:flex;
-
-justify-content:center;
 
 gap:10px;
 
@@ -227,13 +238,13 @@ margin-top:15px;
 .edit-btn,
 .delete-btn{
 
-width:55px;
+width:40px;
 
-height:55px;
+height:40px;
 
 border-radius:50%;
 
-font-size:22px;
+font-size:18px;
 
 display:flex;
 
@@ -278,6 +289,24 @@ text-decoration:none;
 color:white;
 
 font-weight:bold;
+
+}
+
+@media(max-width:768px){
+
+.staff-row{
+
+flex-direction:column;
+
+text-align:center;
+
+}
+
+.action-buttons{
+
+justify-content:center;
+
+}
 
 }
 
@@ -420,6 +449,8 @@ const db = getFirestore(app);
 
 let editId = null;
 
+window.currentPhoto = "";
+
 window.saveStaff = async function(){
 
 const staffName =
@@ -452,7 +483,8 @@ document.getElementById("status").value;
 const photo =
 document.getElementById("photo").files[0];
 
-let photoURL = "";
+let photoURL =
+window.currentPhoto || "";
 
 if(photo){
 
@@ -511,6 +543,44 @@ alert("Staff Saved Successfully");
 
 }
 
+document.getElementById(
+"staffName"
+).value = "";
+
+document.getElementById(
+"mobile"
+).value = "";
+
+document.getElementById(
+"email"
+).value = "";
+
+document.getElementById(
+"password"
+).value = "";
+
+document.getElementById(
+"position"
+).value = "";
+
+document.getElementById(
+"address"
+).value = "";
+
+document.getElementById(
+"aadhaar"
+).value = "";
+
+document.getElementById(
+"staffId"
+).value = "";
+
+document.getElementById(
+"status"
+).value = "Select Status";
+
+window.currentPhoto = "";
+
 loadStaff();
 
 }catch(error){
@@ -540,7 +610,8 @@ position,
 address,
 aadhaar,
 staffId,
-status
+status,
+photoURL
 
 ){
 
@@ -580,11 +651,16 @@ document.getElementById(
 "status"
 ).value = status;
 
+window.currentPhoto =
+photoURL;
+
 editId = id;
 
 window.scrollTo({
+
 top:0,
 behavior:"smooth"
+
 });
 
 }
@@ -604,25 +680,35 @@ html += `
 
 <div class="card">
 
+<div class="staff-row">
+
 <img src="${
 data.photoURL ||
 'https://i.imgur.com/6VBx3io.png'
 }"
 class="staff-photo">
 
+<div class="staff-details">
+
 <h3>${data.staffName}</h3>
 
-<p>💼 ${data.position}</p>
+<p><b>📱 Mobile :</b>
+${data.mobile}</p>
 
-<p>📞 ${data.mobile}</p>
+<p><b>📧 Email :</b>
+${data.email}</p>
 
-<p>📧 ${data.email}</p>
+<p><b>💼 Position :</b>
+${data.position}</p>
 
-<p>🪪 ${data.staffId}</p>
+<p><b>🪪 ID Card :</b>
+${data.staffId}</p>
 
-<p>📍 ${data.address}</p>
+<p><b>📍 Address :</b>
+${data.address}</p>
 
-<p>✅ ${data.status}</p>
+<p><b>✅ Status :</b>
+${data.status}</p>
 
 <div class="action-buttons">
 
@@ -648,7 +734,9 @@ onclick="editStaff(
 
 '${data.staffId}',
 
-'${data.status}'
+'${data.status}',
+
+'${data.photoURL}'
 
 )">
 🖊️
@@ -661,6 +749,10 @@ onclick="deleteStaff(
 )">
 ❌
 </button>
+
+</div>
+
+</div>
 
 </div>
 

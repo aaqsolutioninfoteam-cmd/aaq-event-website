@@ -22,21 +22,26 @@ font-family:Arial,sans-serif;
 body{
 
 background:
-linear-gradient(135deg,
+linear-gradient(
+135deg,
 #000000,
 #1a1a1a,
 #3b2a00,
 #d4af37,
 #3b2a00,
-#000000);
+#000000
+);
 
 background-size:400% 400%;
+
 animation:bgMove 12s ease infinite;
 
 height:100vh;
 
 display:flex;
+
 justify-content:center;
+
 align-items:center;
 
 padding:20px;
@@ -62,6 +67,7 @@ background-position:0% 50%;
 .login-box{
 
 width:100%;
+
 max-width:400px;
 
 background:rgba(255,255,255,0.08);
@@ -83,7 +89,8 @@ color:white;
 
 .logo{
 
-width:110px;
+width:100px;
+
 margin-bottom:20px;
 
 }
@@ -91,14 +98,18 @@ margin-bottom:20px;
 h1{
 
 margin-bottom:10px;
-font-size:32px;
+
+font-size:30px;
 
 }
 
 .subtitle{
 
 margin-bottom:25px;
+
 color:#e5e7eb;
+
+font-size:14px;
 
 }
 
@@ -133,7 +144,11 @@ border:none;
 border-radius:15px;
 
 background:
-linear-gradient(135deg,#ca8a04,#a16207);
+linear-gradient(
+135deg,
+#ca8a04,
+#a16207
+);
 
 color:white;
 
@@ -156,7 +171,10 @@ transform:scale(1.03);
 #error{
 
 margin-top:15px;
+
 color:#f87171;
+
+font-size:14px;
 
 }
 
@@ -197,7 +215,8 @@ Login
 
 import { initializeApp }
 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 
@@ -207,85 +226,64 @@ getDocs
 
 }
 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
 
-authDomain: "aaq-event-erp.firebaseapp.com",
+authDomain:
+"aaq-event-erp.firebaseapp.com",
 
-projectId: "aaq-event-erp",
+projectId:
+"aaq-event-erp",
 
-storageBucket: "aaq-event-erp.firebasestorage.app",
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
 
-messagingSenderId: "985636664002",
+messagingSenderId:
+"985636664002",
 
-appId: "1:985636664002:web:4b941d3562609d2058815b",
+appId:
+"1:985636664002:web:4b941d3562609d2058815b",
 
-measurementId: "G-HHD049KDS8"
+measurementId:
+"G-HHD049KDS8"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app =
+initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db =
+getFirestore(app);
 
-window.login = async function(){
+window.login =
+async function(){
 
 const email =
-document.getElementById("email").value;
+document.getElementById(
+"email"
+).value;
 
 const password =
-document.getElementById("password").value;
+document.getElementById(
+"password"
+).value;
 
 try{
 
-const querySnapshot =
-await getDocs(collection(db,"staffs"));
-
-let found = false;
-
-querySnapshot.forEach((doc)=>{
-
-const data = doc.data();
-
 if(
 
-data.email === email &&
-
-data.password === password
-
-){
-
-found = true;
-
-localStorage.setItem(
-"loggedUser",
-data.staffName
-);
-
-localStorage.setItem(
-"userPosition",
-data.position
-);
-
-localStorage.setItem(
-"userPhoto",
-data.photoURL
-);
-
-}
-
-});
-
-if(
-
-email === "aaqsolutioninfoteam@gmail.com"
+email ===
+"aaqsolutioninfoteam@gmail.com"
 
 ||
 
-email === "admin@aaq.com"
+email ===
+"admin@aaq.com"
 
 ){
 
@@ -294,36 +292,93 @@ localStorage.setItem(
 "Admin"
 );
 
-localStorage.setItem(
-"userPosition",
-"Administrator"
-);
-
 window.location.href =
 "admin.html";
 
-}else if(found){
+return;
+
+}
+
+const querySnapshot =
+await getDocs(
+collection(db,"staffs")
+);
+
+let found = false;
+
+let foundStaff = null;
+
+querySnapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+if(
+
+data.email === email
+
+&&
+
+data.password === password
+
+){
+
+found = true;
+
+foundStaff = data;
+
+}
+
+});
+
+if(found){
 
 localStorage.setItem(
+
 "staffName",
-data.staffName
+
+foundStaff.staffName || "Staff"
+
 );
 
 localStorage.setItem(
+
 "staffPhoto",
-data.photoURL
+
+foundStaff.photoURL || ""
+
+);
+
+localStorage.setItem(
+
+"loggedUser",
+
+foundStaff.staffName || "Staff"
+
 );
 
 window.location.href =
-"staff-dashboard.html";else{
 
-alert("Invalid Login");
+"staff-dashboard.html";
+
+}else{
+
+document.getElementById(
+"error"
+).innerHTML =
+
+"Invalid Email or Password";
 
 }
 
 }catch(error){
 
-alert("Login Error");
+document.getElementById(
+"error"
+).innerHTML =
+
+"Login Failed";
+
+console.log(error);
 
 }
 

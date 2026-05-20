@@ -273,7 +273,10 @@ found = true;
 });
 
 if(email === "aaqsolutioninfoteam@gmail.com"){
-
+localStorage.setItem(
+"loggedUser",
+email
+);
 window.location.href = "admin.html";
 
 }else if(found){

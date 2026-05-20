@@ -102,7 +102,7 @@ width:65px;
 
 .header-text h1{
 
-font-size:26px;
+font-size:24px;
 
 margin-bottom:4px;
 
@@ -122,9 +122,11 @@ display:flex;
 
 align-items:center;
 
-gap:18px;
+gap:15px;
 
 margin-left:auto;
+
+flex-wrap:wrap;
 
 }
 
@@ -149,6 +151,8 @@ border-radius:50%;
 border:3px solid white;
 
 object-fit:cover;
+
+background:#111827;
 
 }
 
@@ -195,6 +199,10 @@ color:white;
 font-weight:bold;
 
 transition:0.3s;
+
+cursor:pointer;
+
+border:none;
 
 }
 
@@ -273,6 +281,10 @@ font-weight:bold;
 color:white;
 
 transition:0.3s;
+
+cursor:pointer;
+
+border:none;
 
 }
 
@@ -419,13 +431,13 @@ Staff Panel
 
 </div>
 
-<a
-onclick="window.location.href='staff-management.html'"
+<button
+onclick="openStaffManagement()"
 class="logout">
 
 Staff Management
 
-</a>
+</button>
 
 </div>
 
@@ -441,10 +453,13 @@ Staff Management
 Mark and view attendance records.
 </p>
 
-<a href="staff-management.html"
+<button
+onclick="openStaffManagement()"
 class="btn attendance">
+
 Open
-</a>
+
+</button>
 
 </div>
 
@@ -456,10 +471,13 @@ Open
 View personal staff details.
 </p>
 
-<a href="#"
+<button
+onclick="openStaffManagement()"
 class="btn profile">
+
 Open
-</a>
+
+</button>
 
 </div>
 
@@ -471,10 +489,13 @@ Open
 Check assigned event duties.
 </p>
 
-<a href="#"
+<button
+onclick="openStaffManagement()"
 class="btn events">
+
 Open
-</a>
+
+</button>
 
 </div>
 
@@ -486,10 +507,13 @@ Open
 View work & attendance reports.
 </p>
 
-<a href="#"
+<button
+onclick="openStaffManagement()"
 class="btn reports">
+
 Open
-</a>
+
+</button>
 
 </div>
 
@@ -501,10 +525,13 @@ Open
 Track issued & returned ID cards.
 </p>
 
-<a href="#"
+<button
+onclick="openStaffManagement()"
 class="btn idcard">
+
 Open
-</a>
+
+</button>
 
 </div>
 
@@ -548,12 +575,26 @@ localStorage.getItem(
 "staffPhoto"
 );
 
+const userPosition =
+localStorage.getItem(
+"staffPosition"
+) || "Staff Panel";
+
 document.getElementById(
 "userName"
 ).innerHTML =
 userName;
 
-if(userPhoto){
+document.getElementById(
+"userRole"
+).innerHTML =
+userPosition;
+
+if(
+userPhoto &&
+userPhoto !== "undefined" &&
+userPhoto !== "null"
+){
 
 document.getElementById(
 "userPhoto"
@@ -562,10 +603,12 @@ userPhoto;
 
 }
 
-document.getElementById(
-"userRole"
-).innerHTML =
-"Staff Panel";
+function openStaffManagement(){
+
+window.location.href =
+"./staff-management.html";
+
+}
 
 </script>
 

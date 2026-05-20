@@ -304,10 +304,18 @@ window.location.href =
 
 }else if(found){
 
-window.location.href =
-"staff-dashboard.html";
+localStorage.setItem(
+"staffName",
+data.staffName
+);
 
-}else{
+localStorage.setItem(
+"staffPhoto",
+data.photoURL
+);
+
+window.location.href =
+"staff-dashboard.html";else{
 
 alert("Invalid Login");
 

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Staff Management</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(135deg,
+#000000,
+#1a1a1a,
+#3b2a00,
+#d4af37,
+#3b2a00,
+#000000);
+
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+
+min-height:100vh;
+
+padding:20px;
+
+color:white;
+
+}
+
+@keyframes bgMove{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+.container{
+
+max-width:1200px;
+margin:auto;
+
+}
+
+.header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+background:rgba(255,255,255,0.08);
+
+padding:20px;
+
+border-radius:20px;
+
+backdrop-filter:blur(12px);
+
+margin-bottom:30px;
+
+}
+
+.logo{
+
+width:90px;
+
+}
+
+.form-box{
+
+background:rgba(255,255,255,0.08);
+
+padding:30px;
+
+border-radius:25px;
+
+backdrop-filter:blur(12px);
+
+margin-bottom:30px;
+
+}
+
+.form-box h2{
+
+margin-bottom:20px;
+
+}
+
+input,select{
+
+width:100%;
+
+padding:14px;
+
+margin-bottom:18px;
+
+border:none;
+
+border-radius:12px;
+
+background:#1f2937;
+
+color:white;
+
+font-size:16px;
+
+}
+
+button{
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+border-radius:15px;
+
+background:
+linear-gradient(135deg,#ca8a04,#a16207);
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.staff-list{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:20px;
+
+}
+
+.card{
+
+background:rgba(255,255,255,0.08);
+
+padding:25px;
+
+border-radius:20px;
+
+backdrop-filter:blur(12px);
+
+}
+
+.card h3{
+
+margin-bottom:10px;
+
+}
+
+.card p{
+
+margin-bottom:8px;
+
+color:#e5e7eb;
+
+}
+
+.back{
+
+display:inline-block;
+
+margin-top:20px;
+
+padding:12px 25px;
+
+background:#111827;
+
+border-radius:12px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div>
+
+<img src="logo.png"
+class="logo">
+
+</div>
+
+<h1>Staff Management</h1>
+
+</div>
+
+<div class="form-box">
+
+<h2>Add Staff</h2>
+
+<input type="text"
+placeholder="Staff Name">
+
+<input type="tel"
+placeholder="Mobile Number">
+
+<input type="text"
+placeholder="Address">
+
+<input type="text"
+placeholder="Aadhaar Number">
+
+<input type="text"
+placeholder="ID Card Number">
+
+<select>
+
+<option>
+Select Status
+</option>
+
+<option>
+Active
+</option>
+
+<option>
+Inactive
+</option>
+
+</select>
+
+<button>
+Save Staff
+</button>
+
+</div>
+
+<div class="staff-list">
+
+<div class="card">
+
+<h3>Mohammed Salman</h3>
+
+<p>
+📞 9876543210
+</p>
+
+<p>
+🪪 ID: AAQ101
+</p>
+
+<p>
+📍 Gujarat
+</p>
+
+<p>
+✅ Active
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Ahmed Raza</h3>
+
+<p>
+📞 9876543211
+</p>
+
+<p>
+🪪 ID: AAQ102
+</p>
+
+<p>
+📍 Mumbai
+</p>
+
+<p>
+✅ Active
+</p>
+
+</div>
+
+</div>
+
+<a href="admin.html"
+class="back">
+
+⬅ Back To Admin Panel
+
+</a>
+
+</div>
+
+</body>
+
+</html>

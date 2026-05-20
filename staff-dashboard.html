@@ -375,10 +375,9 @@ class="user-photo">
 <div class="user-details">
 
 <h3 id="userName">
-Staff User
 </h3>
 
-<p>
+<p id="userRole">
 Staff Panel
 </p>
 
@@ -516,8 +515,8 @@ localStorage.getItem(
 ) || "Staff User";
 
 document.getElementById(
-"userName"
-).innerHTML = user;
+"userRole"
+).innerHTML = "Staff";
 
 </script>
 

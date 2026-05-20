@@ -251,6 +251,13 @@ class="logo">
 </div>
 
 <div class="header-text">
+  <div id="liveInfo"
+style="
+margin-top:10px;
+font-size:16px;
+color:#f3f4f6;
+">
+  </div>
 
 <h1>AAQ Staff Dashboard</h1>
 
@@ -345,7 +352,39 @@ Open
 </div>
 
 </div>
+<script>
 
+function updateLiveInfo(){
+
+const now = new Date();
+
+const date =
+now.toLocaleDateString();
+
+const time =
+now.toLocaleTimeString();
+
+const user =
+localStorage.getItem("loggedUser")
+|| "Staff";
+
+document.getElementById(
+"liveInfo"
+).innerHTML =
+
+"👤 " + user +
+
+"<br>📅 " + date +
+
+"<br>🕒 " + time;
+
+}
+
+setInterval(updateLiveInfo,1000);
+
+updateLiveInfo();
+
+</script>
 </body>
 
 </html>

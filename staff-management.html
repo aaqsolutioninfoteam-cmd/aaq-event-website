@@ -22,13 +22,15 @@ font-family:Arial,sans-serif;
 body{
 
 background:
-linear-gradient(135deg,
+linear-gradient(
+135deg,
 #000000,
 #1a1a1a,
 #3b2a00,
 #d4af37,
 #3b2a00,
-#000000);
+#000000
+);
 
 background-size:400% 400%;
 animation:bgMove 12s ease infinite;
@@ -59,7 +61,7 @@ background-position:0% 50%;
 
 .container{
 
-max-width:1200px;
+max-width:1100px;
 margin:auto;
 
 }
@@ -78,13 +80,13 @@ border-radius:20px;
 
 backdrop-filter:blur(12px);
 
-margin-bottom:30px;
+margin-bottom:25px;
 
 }
 
 .logo{
 
-width:90px;
+width:85px;
 
 }
 
@@ -92,29 +94,30 @@ width:90px;
 
 background:rgba(255,255,255,0.08);
 
-padding:30px;
+padding:25px;
 
 border-radius:25px;
 
 backdrop-filter:blur(12px);
 
-margin-bottom:30px;
+margin-bottom:25px;
 
 }
 
 .form-box h2{
 
-margin-bottom:20px;
+margin-bottom:18px;
 
 }
 
-input,select{
+input,
+select{
 
 width:100%;
 
 padding:14px;
 
-margin-bottom:18px;
+margin-bottom:15px;
 
 border:none;
 
@@ -124,11 +127,11 @@ background:#1f2937;
 
 color:white;
 
-font-size:16px;
+font-size:15px;
 
 }
 
-button{
+.save-btn{
 
 width:100%;
 
@@ -139,7 +142,11 @@ border:none;
 border-radius:15px;
 
 background:
-linear-gradient(135deg,#ca8a04,#a16207);
+linear-gradient(
+135deg,
+#ca8a04,
+#a16207
+);
 
 color:white;
 
@@ -149,17 +156,13 @@ font-weight:bold;
 
 cursor:pointer;
 
-margin-bottom:10px;
-
 }
 
 .staff-list{
 
 display:grid;
 
-grid-template-columns:1fr;
-
-gap:20px;
+gap:15px;
 
 }
 
@@ -167,7 +170,7 @@ gap:20px;
 
 background:rgba(255,255,255,0.08);
 
-padding:25px;
+padding:15px;
 
 border-radius:20px;
 
@@ -181,23 +184,21 @@ display:flex;
 
 align-items:center;
 
-gap:20px;
-
-text-align:left;
+gap:15px;
 
 }
 
 .staff-photo{
 
-width:110px;
+width:75px;
 
-height:110px;
+height:75px;
 
 border-radius:50%;
 
 object-fit:cover;
 
-border:4px solid white;
+border:3px solid white;
 
 }
 
@@ -209,17 +210,17 @@ flex:1;
 
 .staff-details h3{
 
-margin-bottom:10px;
+font-size:20px;
 
-font-size:24px;
+margin-bottom:8px;
 
 }
 
 .staff-details p{
 
-margin-bottom:7px;
+font-size:13px;
 
-font-size:14px;
+margin-bottom:5px;
 
 color:#e5e7eb;
 
@@ -229,32 +230,32 @@ color:#e5e7eb;
 
 display:flex;
 
-gap:10px;
+gap:8px;
 
-margin-top:15px;
+margin-top:10px;
 
 }
 
 .edit-btn,
 .delete-btn{
 
-width:40px;
+width:36px;
 
-height:40px;
+height:36px;
+
+border:none;
 
 border-radius:50%;
 
-font-size:18px;
+cursor:pointer;
+
+font-size:16px;
 
 display:flex;
 
 justify-content:center;
 
 align-items:center;
-
-border:none;
-
-cursor:pointer;
 
 color:white;
 
@@ -278,7 +279,7 @@ display:inline-block;
 
 margin-top:20px;
 
-padding:12px 25px;
+padding:12px 22px;
 
 background:#111827;
 
@@ -289,6 +290,93 @@ text-decoration:none;
 color:white;
 
 font-weight:bold;
+
+}
+
+.popup{
+
+display:none;
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,0.7);
+
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+
+}
+
+.popup-box{
+
+background:#111827;
+
+padding:25px;
+
+border-radius:20px;
+
+width:320px;
+
+text-align:center;
+
+}
+
+.popup-box h2{
+
+margin-bottom:15px;
+
+}
+
+.popup-box p{
+
+margin-bottom:20px;
+
+color:#d1d5db;
+
+}
+
+.popup-buttons{
+
+display:flex;
+
+gap:10px;
+
+}
+
+.popup-buttons button{
+
+flex:1;
+
+padding:12px;
+
+border:none;
+
+border-radius:12px;
+
+cursor:pointer;
+
+color:white;
+
+font-weight:bold;
+
+}
+
+.confirm-btn{
+
+background:#dc2626;
+
+}
+
+.cancel-btn{
+
+background:#374151;
 
 }
 
@@ -386,13 +474,18 @@ Inactive
 
 </select>
 
-<button onclick="saveStaff()">
+<button
+class="save-btn"
+onclick="saveStaff()">
+
 Save Staff
+
 </button>
 
 </div>
 
-<div class="staff-list" id="staffList">
+<div class="staff-list"
+id="staffList">
 
 </div>
 
@@ -405,11 +498,47 @@ class="back">
 
 </div>
 
+<div class="popup"
+id="deletePopup">
+
+<div class="popup-box">
+
+<h2>Delete Staff?</h2>
+
+<p>
+Are you sure you want to delete this staff?
+</p>
+
+<div class="popup-buttons">
+
+<button
+class="confirm-btn"
+onclick="confirmDelete()">
+
+Confirm
+
+</button>
+
+<button
+class="cancel-btn"
+onclick="closePopup()">
+
+Cancel
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 <script type="module">
 
 import { initializeApp }
 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 
@@ -423,69 +552,101 @@ updateDoc
 
 }
 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
 
-authDomain: "aaq-event-erp.firebaseapp.com",
+authDomain:
+"aaq-event-erp.firebaseapp.com",
 
-projectId: "aaq-event-erp",
+projectId:
+"aaq-event-erp",
 
-storageBucket: "aaq-event-erp.firebasestorage.app",
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
 
-messagingSenderId: "985636664002",
+messagingSenderId:
+"985636664002",
 
-appId: "1:985636664002:web:4b941d3562609d2058815b",
+appId:
+"1:985636664002:web:4b941d3562609d2058815b",
 
-measurementId: "G-HHD049KDS8"
+measurementId:
+"G-HHD049KDS8"
 
 };
 
-const app = initializeApp(firebaseConfig);
+const app =
+initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db =
+getFirestore(app);
 
 let editId = null;
-  let deleteId = null;
 
-window.currentPhoto = "";
+let deleteId = null;
 
-window.saveStaff = async function(){
+let currentPhoto = "";
+
+window.saveStaff =
+async function(){
 
 const staffName =
-document.getElementById("staffName").value;
+document.getElementById(
+"staffName"
+).value;
 
 const mobile =
-document.getElementById("mobile").value;
+document.getElementById(
+"mobile"
+).value;
 
 const email =
-document.getElementById("email").value;
+document.getElementById(
+"email"
+).value;
 
 const password =
-document.getElementById("password").value;
+document.getElementById(
+"password"
+).value;
 
 const position =
-document.getElementById("position").value;
+document.getElementById(
+"position"
+).value;
 
 const address =
-document.getElementById("address").value;
+document.getElementById(
+"address"
+).value;
 
 const aadhaar =
-document.getElementById("aadhaar").value;
+document.getElementById(
+"aadhaar"
+).value;
 
 const staffId =
-document.getElementById("staffId").value;
+document.getElementById(
+"staffId"
+).value;
 
 const status =
-document.getElementById("status").value;
+document.getElementById(
+"status"
+).value;
 
 const photo =
-document.getElementById("photo").files[0];
+document.getElementById(
+"photo"
+).files[0];
 
 let photoURL =
-window.currentPhoto || "";
+currentPhoto;
 
 if(photo){
 
@@ -500,7 +661,11 @@ if(editId){
 
 await updateDoc(
 
-doc(db,"staffs",editId),
+doc(
+db,
+"staffs",
+editId
+),
 
 {
 
@@ -525,7 +690,14 @@ editId = null;
 
 }else{
 
-await addDoc(collection(db,"staffs"),{
+await addDoc(
+
+collection(
+db,
+"staffs"
+),
+
+{
 
 staffName,
 mobile,
@@ -538,9 +710,13 @@ staffId,
 status,
 photoURL
 
-});
+}
 
-alert("Staff Saved Successfully");
+);
+
+alert(
+"Staff Saved Successfully"
+);
 
 }
 
@@ -580,7 +756,11 @@ document.getElementById(
 "status"
 ).value = "Select Status";
 
-window.currentPhoto = "";
+document.getElementById(
+"photo"
+).value = "";
+
+currentPhoto = "";
 
 loadStaff();
 
@@ -592,44 +772,11 @@ alert(error);
 
 }
 
-window.deleteStaff = function(id){
-
-deleteId = id;
-
-document.getElementById(
-"deletePopup"
-).style.display = "flex";
-
-}
-
-window.closePopup = function(){
-
-document.getElementById(
-"deletePopup"
-).style.display = "none";
-
-}
-
-window.confirmDelete = async function(){
-
-await deleteDoc(
-doc(db,"staffs",deleteId)
-);
-
-document.getElementById(
-"deletePopup"
-).style.display = "none";
-
-alert("Staff Deleted");
-
-loadStaff();
-
-}
-
-window.editStaff = function(
+window.editStaff =
+function(
 
 id,
-name,
+staffName,
 mobile,
 email,
 password,
@@ -644,7 +791,7 @@ photoURL
 
 document.getElementById(
 "staffName"
-).value = name;
+).value = staffName;
 
 document.getElementById(
 "mobile"
@@ -678,8 +825,7 @@ document.getElementById(
 "status"
 ).value = status;
 
-window.currentPhoto =
-photoURL;
+currentPhoto = photoURL;
 
 editId = id;
 
@@ -692,16 +838,64 @@ behavior:"smooth"
 
 }
 
+window.deleteStaff =
+function(id){
+
+deleteId = id;
+
+document.getElementById(
+"deletePopup"
+).style.display = "flex";
+
+}
+
+window.closePopup =
+function(){
+
+document.getElementById(
+"deletePopup"
+).style.display = "none";
+
+}
+
+window.confirmDelete =
+async function(){
+
+await deleteDoc(
+doc(
+db,
+"staffs",
+deleteId
+)
+);
+
+document.getElementById(
+"deletePopup"
+).style.display = "none";
+
+alert("Staff Deleted");
+
+loadStaff();
+
+}
+
 async function loadStaff(){
 
 const querySnapshot =
-await getDocs(collection(db,"staffs"));
+await getDocs(
+collection(
+db,
+"staffs"
+)
+);
 
 let html = "";
 
-querySnapshot.forEach((docItem)=>{
+querySnapshot.forEach(
+(docItem)=>{
 
-const data = docItem.data();
+const data =
+docItem.data();
 
 html += `
 
@@ -709,7 +903,8 @@ html += `
 
 <div class="staff-row">
 
-<img src="${
+<img
+src="${
 data.photoURL ||
 'https://i.imgur.com/6VBx3io.png'
 }"
@@ -717,56 +912,57 @@ class="staff-photo">
 
 <div class="staff-details">
 
-<h3>${data.staffName}</h3>
+<h3>
+${data.staffName}
+</h3>
 
-<p><b>📱 Mobile :</b>
-${data.mobile}</p>
+<p>
+<b>📱 Mobile :</b>
+${data.mobile}
+</p>
 
-<p><b>📧 Email :</b>
-${data.email}</p>
+<p>
+<b>📧 Email :</b>
+${data.email}
+</p>
 
-<p><b>💼 Position :</b>
-${data.position}</p>
+<p>
+<b>💼 Position :</b>
+${data.position}
+</p>
 
-<p><b>🪪 ID Card :</b>
-${data.staffId}</p>
+<p>
+<b>🪪 ID :</b>
+${data.staffId}
+</p>
 
-<p><b>📍 Address :</b>
-${data.address}</p>
+<p>
+<b>📍 Address :</b>
+${data.address}
+</p>
 
-<p><b>✅ Status :</b>
-${data.status}</p>
+<p>
+<b>✅ Status :</b>
+${data.status}
+</p>
 
 <div class="action-buttons">
 
 <button
 class="edit-btn"
-onclick='editStaff(
-
-"${docItem.id}",
-
-`${data.staffName}`,
-
-`${data.mobile}`,
-
-`${data.email}`,
-
-`${data.password}`,
-
-`${data.position}`,
-
-`${data.address}`,
-
-`${data.aadhaar}`,
-
-`${data.staffId}`,
-
-`${data.status}`,
-
-`${data.photoURL}`
-
-)'
->
+onclick="editStaff(
+'${docItem.id}',
+'${data.staffName}',
+'${data.mobile}',
+'${data.email}',
+'${data.password}',
+'${data.position}',
+'${data.address}',
+'${data.aadhaar}',
+'${data.staffId}',
+'${data.status}',
+'${data.photoURL}'
+)">
 🖊️
 </button>
 
@@ -800,73 +996,6 @@ loadStaff();
 
 </script>
 
-<div id="deletePopup"
-style="
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-justify-content:center;
-align-items:center;
-z-index:9999;
-">
-
-<div
-style="
-background:#111827;
-padding:25px;
-border-radius:20px;
-width:320px;
-text-align:center;
-">
-
-<h2
-style="
-margin-bottom:15px;
-color:white;
-">
-Delete Staff?
-</h2>
-
-<p
-style="
-margin-bottom:20px;
-color:#d1d5db;
-">
-Are you sure you want to delete this staff?
-</p>
-
-<div
-style="
-display:flex;
-gap:10px;
-">
-
-<button
-onclick="confirmDelete()"
-style="
-background:#dc2626;
-">
-Confirm
-</button>
-
-<button
-onclick="closePopup()"
-style="
-background:#374151;
-">
-Cancel
-</button>
-
-</div>
-
-</div>
-
-</div>
-  
 </body>
 
 </html>

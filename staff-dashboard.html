@@ -60,7 +60,9 @@ background-position:0% 50%;
 .header{
 
 display:flex;
+
 justify-content:space-between;
+
 align-items:center;
 
 margin-bottom:30px;
@@ -72,6 +74,10 @@ padding:20px;
 border-radius:20px;
 
 backdrop-filter:blur(12px);
+
+gap:20px;
+
+flex-wrap:wrap;
 
 }
 
@@ -85,11 +91,67 @@ width:90px;
 
 font-size:30px;
 
+margin-bottom:5px;
+
 }
 
 .header-text p{
 
 color:#e5e7eb;
+
+}
+
+.user-box{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+margin-left:auto;
+
+}
+
+.user-photo{
+
+width:65px;
+
+height:65px;
+
+border-radius:50%;
+
+border:3px solid white;
+
+object-fit:cover;
+
+}
+
+.user-details h3{
+
+font-size:18px;
+
+margin-bottom:5px;
+
+}
+
+.user-details p{
+
+font-size:14px;
+
+margin-bottom:6px;
+
+color:#e5e7eb;
+
+}
+
+.live-date{
+
+font-size:13px;
+
+line-height:1.6;
+
+color:#f3f4f6;
 
 }
 
@@ -106,6 +168,14 @@ text-decoration:none;
 color:white;
 
 font-weight:bold;
+
+transition:0.3s;
+
+}
+
+.logout:hover{
+
+transform:scale(1.05);
 
 }
 
@@ -133,6 +203,9 @@ backdrop-filter:blur(12px);
 text-align:center;
 
 transition:0.3s;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.4);
 
 }
 
@@ -222,8 +295,14 @@ linear-gradient(135deg,#dc2626,#991b1b);
 .header{
 
 flex-direction:column;
+
 text-align:center;
-gap:15px;
+
+}
+
+.user-box{
+
+margin-left:0;
 
 }
 
@@ -251,13 +330,6 @@ class="logo">
 </div>
 
 <div class="header-text">
-  <div id="liveInfo"
-style="
-margin-top:10px;
-font-size:16px;
-color:#f3f4f6;
-">
-  </div>
 
 <h1>AAQ Staff Dashboard</h1>
 
@@ -267,124 +339,25 @@ Welcome To Staff Management System
 
 </div>
 
-<a href="login.html"
-class="logout">
-Logout
-</a>
+<div class="user-box">
 
-</div>
+<img src="https://i.imgur.com/6VBx3io.png"
+class="user-photo">
 
-<div class="dashboard">
+<div class="user-details">
 
-<div class="card">
+<h3 id="userName">
+Staff User
+</h3>
 
-<h2>Attendance</h2>
-
-<p>
-Mark and view attendance records.
+<p id="userRole">
+Staff Panel
 </p>
 
-<a href="#"
-class="btn attendance">
-Open
-</a>
+<div class="live-date">
 
-</div>
+<span id="liveDate"></span>
 
-<div class="card">
+<br>
 
-<h2>My Profile</h2>
-
-<p>
-View personal staff details.
-</p>
-
-<a href="#"
-class="btn profile">
-Open
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>My Events</h2>
-
-<p>
-Check assigned event duties.
-</p>
-
-<a href="#"
-class="btn events">
-Open
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>Reports</h2>
-
-<p>
-View work & attendance reports.
-</p>
-
-<a href="#"
-class="btn reports">
-Open
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>ID Card Status</h2>
-
-<p>
-Track issued & returned ID cards.
-</p>
-
-<a href="#"
-class="btn idcard">
-Open
-</a>
-
-</div>
-
-</div>
-<script>
-
-function updateLiveInfo(){
-
-const now = new Date();
-
-const date =
-now.toLocaleDateString();
-
-const time =
-now.toLocaleTimeString();
-
-const user =
-localStorage.getItem("loggedUser")
-|| "Staff";
-
-document.getElementById(
-"liveInfo"
-).innerHTML =
-
-"👤 " + user +
-
-"<br>📅 " + date +
-
-"<br>🕒 " + time;
-
-}
-
-setInterval(updateLiveInfo,1000);
-
-updateLiveInfo();
-
-</script>
-</body>
-
-</html>
+<span id="liveTime"></span

@@ -149,6 +149,8 @@ font-weight:bold;
 
 cursor:pointer;
 
+margin-bottom:10px;
+
 }
 
 .staff-list{
@@ -156,7 +158,7 @@ cursor:pointer;
 display:grid;
 
 grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
+repeat(auto-fit,minmax(280px,1fr));
 
 gap:20px;
 
@@ -172,6 +174,24 @@ border-radius:20px;
 
 backdrop-filter:blur(12px);
 
+text-align:center;
+
+}
+
+.staff-photo{
+
+width:90px;
+
+height:90px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:3px solid white;
+
+margin-bottom:15px;
+
 }
 
 .card h3{
@@ -185,6 +205,20 @@ margin-bottom:10px;
 margin-bottom:8px;
 
 color:#e5e7eb;
+
+font-size:14px;
+
+}
+
+.edit-btn{
+
+background:#2563eb;
+
+}
+
+.delete-btn{
+
+background:#dc2626;
 
 }
 
@@ -250,6 +284,10 @@ id="password"
 placeholder="Password">
 
 <input type="text"
+id="position"
+placeholder="Position">
+
+<input type="text"
 id="address"
 placeholder="Address">
 
@@ -260,6 +298,9 @@ placeholder="Aadhaar Number">
 <input type="text"
 id="staffId"
 placeholder="ID Card Number">
+
+<input type="file"
+id="photo">
 
 <select id="status">
 
@@ -307,7 +348,9 @@ import {
 getFirestore,
 collection,
 addDoc,
-getDocs
+getDocs,
+deleteDoc,
+doc
 
 }
 
@@ -349,6 +392,9 @@ document.getElementById("email").value;
 const password =
 document.getElementById("password").value;
 
+const position =
+document.getElementById("position").value;
+
 const address =
 document.getElementById("address").value;
 
@@ -361,8 +407,18 @@ document.getElementById("staffId").value;
 const status =
 document.getElementById("status").value;
 
-  const position =
-document.getElementById("position").value;
+const photo =
+document.getElementById("photo").files[0];
+
+let photoURL = "";
+
+if(photo){
+
+photoURL =
+URL.createObjectURL(photo);
+
+}
+
 try{
 
 await addDoc(collection(db,"staffs"),{
@@ -371,11 +427,12 @@ staffName,
 mobile,
 email,
 password,
+position,
 address,
 aadhaar,
 staffId,
 status,
-position
+photoURL
 
 });
 
@@ -391,6 +448,71 @@ alert(error);
 
 }
 
+window.deleteStaff = async function(id){
+
+await deleteDoc(doc(db,"staffs",id));
+
+loadStaff();
+
+}
+
+window.editStaff = function(
+
+name,
+mobile,
+email,
+password,
+position,
+address,
+aadhaar,
+staffId,
+status
+
+){
+
+document.getElementById(
+"staffName"
+).value = name;
+
+document.getElementById(
+"mobile"
+).value = mobile;
+
+document.getElementById(
+"email"
+).value = email;
+
+document.getElementById(
+"password"
+).value = password;
+
+document.getElementById(
+"position"
+).value = position;
+
+document.getElementById(
+"address"
+).value = address;
+
+document.getElementById(
+"aadhaar"
+).value = aadhaar;
+
+document.getElementById(
+"staffId"
+).value = staffId;
+
+document.getElementById(
+"status"
+).value = status;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
 async function loadStaff(){
 
 const querySnapshot =
@@ -398,15 +520,23 @@ await getDocs(collection(db,"staffs"));
 
 let html = "";
 
-querySnapshot.forEach((doc)=>{
+querySnapshot.forEach((docItem)=>{
 
-const data = doc.data();
+const data = docItem.data();
 
 html += `
 
 <div class="card">
 
+<img src="${
+data.photoURL ||
+'https://i.imgur.com/6VBx3io.png'
+}"
+class="staff-photo">
+
 <h3>${data.staffName}</h3>
+
+<p>💼 ${data.position}</p>
 
 <p>📞 ${data.mobile}</p>
 
@@ -418,13 +548,49 @@ html += `
 
 <p>✅ ${data.status}</p>
 
+<button
+class="edit-btn"
+onclick="editStaff(
+
+'${data.staffName}',
+
+'${data.mobile}',
+
+'${data.email}',
+
+'${data.password}',
+
+'${data.position}',
+
+'${data.address}',
+
+'${data.aadhaar}',
+
+'${data.staffId}',
+
+'${data.status}'
+
+)">
+Edit
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteStaff(
+'${docItem.id}'
+)">
+Delete
+</button>
+
 </div>
 
 `;
 
 });
 
-document.getElementById("staffList").innerHTML = html;
+document.getElementById(
+"staffList"
+).innerHTML = html;
 
 }
 

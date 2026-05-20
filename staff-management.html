@@ -361,6 +361,8 @@ document.getElementById("staffId").value;
 const status =
 document.getElementById("status").value;
 
+  const position =
+document.getElementById("position").value;
 try{
 
 await addDoc(collection(db,"staffs"),{
@@ -372,7 +374,8 @@ password,
 address,
 aadhaar,
 staffId,
-status
+status,
+position
 
 });
 

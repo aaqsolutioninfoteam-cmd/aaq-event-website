@@ -234,21 +234,34 @@ class="logo">
 <h2>Add Staff</h2>
 
 <input type="text"
+id="staffName"
 placeholder="Staff Name">
 
 <input type="tel"
+id="mobile"
 placeholder="Mobile Number">
 
+<input type="email"
+id="email"
+placeholder="Email Address">
+
+<input type="password"
+id="password"
+placeholder="Password">
+
 <input type="text"
+id="address"
 placeholder="Address">
 
 <input type="text"
+id="aadhaar"
 placeholder="Aadhaar Number">
 
 <input type="text"
+id="staffId"
 placeholder="ID Card Number">
 
-<select>
+<select id="status">
 
 <option>
 Select Status
@@ -264,57 +277,13 @@ Inactive
 
 </select>
 
-<button>
+<button onclick="saveStaff()">
 Save Staff
 </button>
 
 </div>
 
-<div class="staff-list">
-
-<div class="card">
-
-<h3>Mohammed Salman</h3>
-
-<p>
-📞 9876543210
-</p>
-
-<p>
-🪪 ID: AAQ101
-</p>
-
-<p>
-📍 Gujarat
-</p>
-
-<p>
-✅ Active
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>Ahmed Raza</h3>
-
-<p>
-📞 9876543211
-</p>
-
-<p>
-🪪 ID: AAQ102
-</p>
-
-<p>
-📍 Mumbai
-</p>
-
-<p>
-✅ Active
-</p>
-
-</div>
+<div class="staff-list" id="staffList">
 
 </div>
 
@@ -326,7 +295,8 @@ class="back">
 </a>
 
 </div>
-  <script type="module">
+
+<script type="module">
 
 import { initializeApp }
 
@@ -336,7 +306,8 @@ import {
 
 getFirestore,
 collection,
-addDoc
+addDoc,
+getDocs
 
 }
 
@@ -372,6 +343,12 @@ document.getElementById("staffName").value;
 const mobile =
 document.getElementById("mobile").value;
 
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
 const address =
 document.getElementById("address").value;
 
@@ -381,8 +358,8 @@ document.getElementById("aadhaar").value;
 const staffId =
 document.getElementById("staffId").value;
 
-const password =
-document.getElementById("password").value;
+const status =
+document.getElementById("status").value;
 
 try{
 
@@ -390,14 +367,18 @@ await addDoc(collection(db,"staffs"),{
 
 staffName,
 mobile,
+email,
+password,
 address,
 aadhaar,
 staffId,
-password
+status
 
 });
 
 alert("Staff Saved Successfully");
+
+loadStaff();
 
 }catch(error){
 
@@ -407,7 +388,46 @@ alert(error);
 
 }
 
-  </script>
+async function loadStaff(){
+
+const querySnapshot =
+await getDocs(collection(db,"staffs"));
+
+let html = "";
+
+querySnapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+html += `
+
+<div class="card">
+
+<h3>${data.staffName}</h3>
+
+<p>📞 ${data.mobile}</p>
+
+<p>📧 ${data.email}</p>
+
+<p>🪪 ${data.staffId}</p>
+
+<p>📍 ${data.address}</p>
+
+<p>✅ ${data.status}</p>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("staffList").innerHTML = html;
+
+}
+
+loadStaff();
+
+</script>
 
 </body>
 

@@ -201,15 +201,6 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 
-getAuth,
-signInWithEmailAndPassword
-
-}
-
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
-
 getFirestore,
 collection,
 getDocs
@@ -238,8 +229,6 @@ measurementId: "G-HHD049KDS8"
 
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
-
 const db = getFirestore(app);
 
 window.login = async function(){
@@ -262,22 +251,56 @@ querySnapshot.forEach((doc)=>{
 const data = doc.data();
 
 if(
+
 data.email === email &&
+
 data.password === password
+
 ){
 
 found = true;
+
+localStorage.setItem(
+"loggedUser",
+data.staffName
+);
+
+localStorage.setItem(
+"userPosition",
+data.position
+);
+
+localStorage.setItem(
+"userPhoto",
+data.photoURL
+);
 
 }
 
 });
 
-if(email === "aaqsolutioninfoteam@gmail.com"){
+if(
+
+email === "aaqsolutioninfoteam@gmail.com"
+
+||
+
+email === "admin@aaq.com"
+
+){
+
 localStorage.setItem(
 "loggedUser",
-email
+"Admin"
 );
-window.location.href = "admin.html";
+
+localStorage.setItem(
+"userPosition",
+"Administrator"
+);
+
+window.location.href =
+"admin.html";
 
 }else if(found){
 
@@ -290,56 +313,9 @@ alert("Invalid Login");
 
 }
 
-if(
-
-email === "aaqsolutioninfoteam@gmail.com"
-
-||
-
-email === "admin@aaq.com"
-
-){
-
-window.location.href = "admin.html";
-
-}else{
-
-const querySnapshot =
-await getDocs(collection(db,"staffs"));
-
-let found = false;
-
-querySnapshot.forEach((doc)=>{
-
-const data = doc.data();
-
-if(
-data.email === email &&
-data.password === password
-){
-
-found = true;
-
-}
-
-});
-
-if(found){
-
-window.location.href =
-"staff-dashboard.html";
-
-}else{
-
-alert("Staff Not Found");
-
-}
-
-}
-
 }catch(error){
 
-alert("Invalid Login");
+alert("Login Error");
 
 }
 

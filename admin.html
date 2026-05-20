@@ -460,9 +460,9 @@ Add, edit and manage all staff members.
 </p>
 
 <button
+type="button"
 onclick="openStaffManagement()"
 class="btn staff">
-
 Open
 
 </button>
@@ -586,10 +586,10 @@ updateDateTime();
 
 function openStaffManagement(){
 
-localStorage.setItem(
-"loggedUser",
-"Admin"
-);
+window.location.href =
+"staff-management.html";
+
+}
 
 window.location.href =
 "./staff-management.html";

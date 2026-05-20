@@ -22,15 +22,18 @@ font-family:Arial,sans-serif;
 body{
 
 background:
-linear-gradient(135deg,
+linear-gradient(
+135deg,
 #000000,
 #1a1a1a,
 #3b2a00,
 #d4af37,
 #3b2a00,
-#000000);
+#000000
+);
 
 background-size:400% 400%;
+
 animation:bgMove 12s ease infinite;
 
 min-height:100vh;
@@ -69,7 +72,7 @@ margin-bottom:30px;
 
 background:rgba(255,255,255,0.08);
 
-padding:20px;
+padding:18px;
 
 border-radius:20px;
 
@@ -93,15 +96,15 @@ gap:15px;
 
 .logo{
 
-width:70px;
+width:65px;
 
 }
 
 .header-text h1{
 
-font-size:28px;
+font-size:26px;
 
-margin-bottom:5px;
+margin-bottom:4px;
 
 }
 
@@ -109,7 +112,7 @@ margin-bottom:5px;
 
 color:#e5e7eb;
 
-font-size:14px;
+font-size:12px;
 
 }
 
@@ -119,7 +122,7 @@ display:flex;
 
 align-items:center;
 
-gap:20px;
+gap:18px;
 
 margin-left:auto;
 
@@ -131,15 +134,15 @@ display:flex;
 
 align-items:center;
 
-gap:12px;
+gap:10px;
 
 }
 
 .user-photo{
 
-width:60px;
+width:55px;
 
-height:60px;
+height:55px;
 
 border-radius:50%;
 
@@ -151,27 +154,27 @@ object-fit:cover;
 
 .user-details h3{
 
-font-size:18px;
+font-size:16px;
 
-margin-bottom:4px;
+margin-bottom:2px;
 
 }
 
 .user-details p{
 
-font-size:13px;
+font-size:12px;
 
 color:#e5e7eb;
 
-margin-bottom:4px;
+margin-bottom:3px;
 
 }
 
 .live-box{
 
-font-size:12px;
+font-size:11px;
 
-line-height:1.6;
+line-height:1.5;
 
 color:#f3f4f6;
 
@@ -181,7 +184,7 @@ color:#f3f4f6;
 
 background:#dc2626;
 
-padding:12px 20px;
+padding:10px 18px;
 
 border-radius:12px;
 
@@ -208,7 +211,7 @@ display:grid;
 grid-template-columns:
 repeat(auto-fit,minmax(230px,1fr));
 
-gap:25px;
+gap:22px;
 
 }
 
@@ -216,7 +219,7 @@ gap:25px;
 
 background:rgba(255,255,255,0.08);
 
-padding:30px;
+padding:28px;
 
 border-radius:25px;
 
@@ -239,7 +242,7 @@ transform:translateY(-6px);
 
 .card h2{
 
-margin-bottom:15px;
+margin-bottom:14px;
 
 font-size:24px;
 
@@ -251,7 +254,7 @@ margin-bottom:20px;
 
 color:#e5e7eb;
 
-font-size:15px;
+font-size:14px;
 
 }
 
@@ -282,35 +285,55 @@ transform:scale(1.05);
 .attendance{
 
 background:
-linear-gradient(135deg,#16a34a,#166534);
+linear-gradient(
+135deg,
+#16a34a,
+#166534
+);
 
 }
 
 .profile{
 
 background:
-linear-gradient(135deg,#2563eb,#1d4ed8);
+linear-gradient(
+135deg,
+#2563eb,
+#1d4ed8
+);
 
 }
 
 .events{
 
 background:
-linear-gradient(135deg,#ca8a04,#a16207);
+linear-gradient(
+135deg,
+#ca8a04,
+#a16207
+);
 
 }
 
 .reports{
 
 background:
-linear-gradient(135deg,#7c3aed,#5b21b6);
+linear-gradient(
+135deg,
+#7c3aed,
+#5b21b6
+);
 
 }
 
 .idcard{
 
 background:
-linear-gradient(135deg,#dc2626,#991b1b);
+linear-gradient(
+135deg,
+#dc2626,
+#991b1b
+);
 
 }
 
@@ -369,12 +392,15 @@ Welcome To Staff Management System
 
 <div class="user-box">
 
-<img src="https://i.imgur.com/6VBx3io.png"
+<img
+id="userPhoto"
+src="https://i.imgur.com/6VBx3io.png"
 class="user-photo">
 
 <div class="user-details">
 
 <h3 id="userName">
+Staff User
 </h3>
 
 <p id="userRole">
@@ -509,14 +535,34 @@ setInterval(updateDateTime,1000);
 
 updateDateTime();
 
-const user =
+const userName =
 localStorage.getItem(
-"loggedUser"
+"staffName"
 ) || "Staff User";
+
+const userPhoto =
+localStorage.getItem(
+"staffPhoto"
+);
+
+document.getElementById(
+"userName"
+).innerHTML =
+userName;
+
+if(userPhoto){
+
+document.getElementById(
+"userPhoto"
+).src =
+userPhoto;
+
+}
 
 document.getElementById(
 "userRole"
-).innerHTML = "Staff";
+).innerHTML =
+"Staff Panel";
 
 </script>
 

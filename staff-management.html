@@ -176,6 +176,8 @@ backdrop-filter:blur(12px);
 
 text-align:center;
 
+position:relative;
+
 }
 
 .staff-photo{
@@ -207,6 +209,43 @@ margin-bottom:8px;
 color:#e5e7eb;
 
 font-size:14px;
+
+}
+
+.action-buttons{
+
+display:flex;
+
+justify-content:center;
+
+gap:10px;
+
+margin-top:15px;
+
+}
+
+.edit-btn,
+.delete-btn{
+
+width:55px;
+
+height:55px;
+
+border-radius:50%;
+
+font-size:22px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+border:none;
+
+cursor:pointer;
+
+color:white;
 
 }
 
@@ -265,7 +304,7 @@ class="logo">
 
 <div class="form-box">
 
-<h2>Add Staff</h2>
+<h2>Add / Edit Staff</h2>
 
 <input type="text"
 id="staffName"
@@ -350,7 +389,8 @@ collection,
 addDoc,
 getDocs,
 deleteDoc,
-doc
+doc,
+updateDoc
 
 }
 
@@ -377,6 +417,8 @@ measurementId: "G-HHD049KDS8"
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+
+let editId = null;
 
 window.saveStaff = async function(){
 
@@ -421,6 +463,35 @@ URL.createObjectURL(photo);
 
 try{
 
+if(editId){
+
+await updateDoc(
+
+doc(db,"staffs",editId),
+
+{
+
+staffName,
+mobile,
+email,
+password,
+position,
+address,
+aadhaar,
+staffId,
+status,
+photoURL
+
+}
+
+);
+
+alert("Staff Updated");
+
+editId = null;
+
+}else{
+
 await addDoc(collection(db,"staffs"),{
 
 staffName,
@@ -437,6 +508,8 @@ photoURL
 });
 
 alert("Staff Saved Successfully");
+
+}
 
 loadStaff();
 
@@ -458,6 +531,7 @@ loadStaff();
 
 window.editStaff = function(
 
+id,
 name,
 mobile,
 email,
@@ -506,6 +580,8 @@ document.getElementById(
 "status"
 ).value = status;
 
+editId = id;
+
 window.scrollTo({
 top:0,
 behavior:"smooth"
@@ -548,9 +624,13 @@ class="staff-photo">
 
 <p>✅ ${data.status}</p>
 
+<div class="action-buttons">
+
 <button
 class="edit-btn"
 onclick="editStaff(
+
+'${docItem.id}',
 
 '${data.staffName}',
 
@@ -571,7 +651,7 @@ onclick="editStaff(
 '${data.status}'
 
 )">
-Edit
+🖊️
 </button>
 
 <button
@@ -579,8 +659,10 @@ class="delete-btn"
 onclick="deleteStaff(
 '${docItem.id}'
 )">
-Delete
+❌
 </button>
+
+</div>
 
 </div>
 

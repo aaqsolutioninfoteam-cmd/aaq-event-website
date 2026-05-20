@@ -950,19 +950,47 @@ ${data.status}
 
 <button
 class="edit-btn"
+<button
+class="edit-btn"
+data-id="${docItem.id}"
+data-name="${encodeURIComponent(data.staffName || '')}"
+data-mobile="${encodeURIComponent(data.mobile || '')}"
+data-email="${encodeURIComponent(data.email || '')}"
+data-password="${encodeURIComponent(data.password || '')}"
+data-position="${encodeURIComponent(data.position || '')}"
+data-address="${encodeURIComponent(data.address || '')}"
+data-aadhaar="${encodeURIComponent(data.aadhaar || '')}"
+data-staffid="${encodeURIComponent(data.staffId || '')}"
+data-status="${encodeURIComponent(data.status || '')}"
+data-photo="${encodeURIComponent(data.photoURL || '')}"
+
 onclick="editStaff(
-'${docItem.id}',
-'${data.staffName}',
-'${data.mobile}',
-'${data.email}',
-'${data.password}',
-'${data.position}',
-'${data.address}',
-'${data.aadhaar}',
-'${data.staffId}',
-'${data.status}',
-'${data.photoURL}'
-)">
+
+this.dataset.id,
+
+decodeURIComponent(this.dataset.name),
+
+decodeURIComponent(this.dataset.mobile),
+
+decodeURIComponent(this.dataset.email),
+
+decodeURIComponent(this.dataset.password),
+
+decodeURIComponent(this.dataset.position),
+
+decodeURIComponent(this.dataset.address),
+
+decodeURIComponent(this.dataset.aadhaar),
+
+decodeURIComponent(this.dataset.staffid),
+
+decodeURIComponent(this.dataset.status),
+
+decodeURIComponent(this.dataset.photo)
+
+)"
+
+>
 🖊️
 </button>
 

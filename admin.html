@@ -22,15 +22,18 @@ font-family:Arial,sans-serif;
 body{
 
 background:
-linear-gradient(135deg,
+linear-gradient(
+135deg,
 #000000,
 #1a1a1a,
 #3b2a00,
 #d4af37,
 #3b2a00,
-#000000);
+#000000
+);
 
 background-size:400% 400%;
+
 animation:bgMove 12s ease infinite;
 
 min-height:100vh;
@@ -60,12 +63,14 @@ background-position:0% 50%;
 .header{
 
 display:flex;
+
 justify-content:space-between;
+
 align-items:center;
 
 background:rgba(255,255,255,0.08);
 
-padding:20px;
+padding:18px;
 
 border-radius:20px;
 
@@ -73,39 +78,135 @@ backdrop-filter:blur(12px);
 
 margin-bottom:30px;
 
+flex-wrap:wrap;
+
+gap:15px;
+
+}
+
+.left-header{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
 }
 
 .logo{
 
-width:90px;
+width:70px;
 
 }
 
-.header-text h1{
+.title-box h1{
 
-font-size:32px;
+font-size:26px;
 
-}
-
-.header-text p{
-
-color:#e5e7eb;
+margin-bottom:4px;
 
 }
 
-.logout{
+.title-box p{
+
+font-size:12px;
+
+color:#d1d5db;
+
+}
+
+.right-header{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+margin-left:auto;
+
+flex-wrap:wrap;
+
+}
+
+.user-box{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+}
+
+.user-photo{
+
+width:55px;
+
+height:55px;
+
+border-radius:50%;
+
+border:3px solid white;
+
+object-fit:cover;
+
+background:#111827;
+
+}
+
+.user-details h3{
+
+font-size:16px;
+
+margin-bottom:2px;
+
+}
+
+.user-details p{
+
+font-size:12px;
+
+color:#d1d5db;
+
+margin-bottom:3px;
+
+}
+
+.live-box{
+
+font-size:11px;
+
+line-height:1.5;
+
+color:#f3f4f6;
+
+}
+
+.logout-btn{
 
 background:#dc2626;
 
-padding:12px 22px;
+padding:10px 18px;
+
+border:none;
 
 border-radius:12px;
-
-text-decoration:none;
 
 color:white;
 
 font-weight:bold;
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+.logout-btn:hover{
+
+transform:scale(1.05);
 
 }
 
@@ -114,7 +215,7 @@ font-weight:bold;
 display:grid;
 
 grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
+repeat(auto-fit,minmax(240px,1fr));
 
 gap:25px;
 
@@ -147,7 +248,7 @@ transform:translateY(-6px);
 
 .card h2{
 
-margin-bottom:15px;
+margin-bottom:14px;
 
 font-size:24px;
 
@@ -156,6 +257,8 @@ font-size:24px;
 .card p{
 
 margin-bottom:20px;
+
+font-size:14px;
 
 color:#e5e7eb;
 
@@ -167,13 +270,15 @@ display:inline-block;
 
 padding:12px 25px;
 
-border-radius:12px;
+border:none;
 
-text-decoration:none;
+border-radius:12px;
 
 font-weight:bold;
 
 color:white;
+
+cursor:pointer;
 
 transition:0.3s;
 
@@ -186,33 +291,47 @@ transform:scale(1.05);
 }
 
 .staff{
+
 background:
-linear-gradient(135deg,#2563eb,#1d4ed8);
+linear-gradient(
+135deg,
+#2563eb,
+#1d4ed8
+);
+
 }
 
-.event{
+.events{
+
 background:
-linear-gradient(135deg,#16a34a,#166534);
+linear-gradient(
+135deg,
+#ca8a04,
+#a16207
+);
+
 }
 
-.attendance{
+.reports{
+
 background:
-linear-gradient(135deg,#ca8a04,#a16207);
+linear-gradient(
+135deg,
+#7c3aed,
+#5b21b6
+);
+
 }
 
-.payment{
-background:
-linear-gradient(135deg,#dc2626,#991b1b);
-}
+.settings{
 
-.report{
 background:
-linear-gradient(135deg,#7c3aed,#5b21b6);
-}
+linear-gradient(
+135deg,
+#16a34a,
+#166534
+);
 
-.idcard{
-background:
-linear-gradient(135deg,#0891b2,#155e75);
 }
 
 @media(max-width:768px){
@@ -221,15 +340,21 @@ linear-gradient(135deg,#0891b2,#155e75);
 
 flex-direction:column;
 
-text-align:center;
-
-gap:15px;
+align-items:flex-start;
 
 }
 
-.header-text h1{
+.right-header{
 
-font-size:26px;
+width:100%;
+
+justify-content:space-between;
+
+}
+
+.dashboard{
+
+grid-template-columns:1fr;
 
 }
 
@@ -242,34 +367,63 @@ font-size:26px;
 <body>
 
 <div class="header">
-<div id="liveInfo"
-style="
-margin-top:10px;
-font-size:16px;
-color:#f3f4f6;
-">
-</div>
-<div>
+
+<div class="left-header">
 
 <img src="logo.png"
 class="logo">
 
-</div>
-
-<div class="header-text">
+<div class="title-box">
 
 <h1>AAQ Admin Panel</h1>
 
 <p>
-Professional Event ERP Dashboard
+Professional ERP Management Dashboard
 </p>
 
 </div>
 
-<a href="login.html"
-class="logout">
+</div>
+
+<div class="right-header">
+
+<div class="user-box">
+
+<img
+src="https://i.imgur.com/6VBx3io.png"
+class="user-photo">
+
+<div class="user-details">
+
+<h3>
+Admin
+</h3>
+
+<p>
+Administrator
+</p>
+
+<div class="live-box">
+
+<div id="liveDate"></div>
+
+<div id="liveTime"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<button
+onclick="logout()"
+class="logout-btn">
+
 Logout
-</a>
+
+</button>
+
+</div>
 
 </div>
 
@@ -280,58 +434,33 @@ Logout
 <h2>Staff Management</h2>
 
 <p>
-Manage all staff records & profiles.
+Add, edit and manage all staff members.
 </p>
 
-<a href="staff-management.html"
+<button
+onclick="openStaffManagement()"
 class="btn staff">
+
 Open
-</a>
+
+</button>
 
 </div>
 
 <div class="card">
 
-<h2>Event Management</h2>
+<h2>Events Management</h2>
 
 <p>
-Create and manage all events.
+Manage event duties and schedules.
 </p>
 
-<a href="#"
-class="btn event">
+<button
+class="btn events">
+
 Open
-</a>
 
-</div>
-
-<div class="card">
-
-<h2>Attendance System</h2>
-
-<p>
-Track attendance & QR verification.
-</p>
-
-<a href="#"
-class="btn attendance">
-Open
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>Payment System</h2>
-
-<p>
-Manage staff salaries & payments.
-</p>
-
-<a href="#"
-class="btn payment">
-Open
-</a>
+</button>
 
 </div>
 
@@ -340,65 +469,88 @@ Open
 <h2>Reports</h2>
 
 <p>
-View event & staff reports.
+Check staff and attendance reports.
 </p>
 
-<a href="#"
-class="btn report">
+<button
+class="btn reports">
+
 Open
-</a>
+
+</button>
 
 </div>
 
 <div class="card">
 
-<h2>ID Card Tracking</h2>
+<h2>Settings</h2>
 
 <p>
-Track issue & return of ID cards.
+Manage panel settings and controls.
 </p>
 
-<a href="#"
-class="btn idcard">
+<button
+class="btn settings">
+
 Open
-</a>
+
+</button>
 
 </div>
 
 </div>
+
 <script>
 
-function updateLiveInfo(){
+function updateDateTime(){
 
 const now = new Date();
 
-const date =
-now.toLocaleDateString();
-
-const time =
-now.toLocaleTimeString();
-
-const user =
-localStorage.getItem("loggedUser")
-|| "Admin";
-
 document.getElementById(
-"liveInfo"
+"liveDate"
 ).innerHTML =
 
-"👤 " + user +
+"📅 " +
 
-"<br>📅 " + date +
+now.toLocaleDateString();
 
-"<br>🕒 " + time;
+document.getElementById(
+"liveTime"
+).innerHTML =
+
+"🕒 " +
+
+now.toLocaleTimeString();
 
 }
 
-setInterval(updateLiveInfo,1000);
+setInterval(updateDateTime,1000);
 
-updateLiveInfo();
+updateDateTime();
+
+function openStaffManagement(){
+
+localStorage.setItem(
+"loggedUser",
+"Admin"
+);
+
+window.location.href =
+"./staff-management.html";
+
+}
+
+function logout(){
+
+localStorage.clear();
+
+window.location.href =
+"login.html";
+
+}
 
 </script>
+
 </body>
 
 </html>

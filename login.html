@@ -252,11 +252,40 @@ document.getElementById("password").value;
 
 try{
 
-await signInWithEmailAndPassword(
-auth,
-email,
-password
-);
+const querySnapshot =
+await getDocs(collection(db,"staffs"));
+
+let found = false;
+
+querySnapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+if(
+data.email === email &&
+data.password === password
+){
+
+found = true;
+
+}
+
+});
+
+if(email === "aaqsolutioninfoteam@gmail.com"){
+
+window.location.href = "admin.html";
+
+}else if(found){
+
+window.location.href =
+"staff-dashboard.html";
+
+}else{
+
+alert("Invalid Login");
+
+}
 
 if(email === "aaqsolutioninfoteam@gmail.com"){
 

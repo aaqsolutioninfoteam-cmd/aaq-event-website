@@ -242,7 +242,13 @@ font-size:26px;
 <body>
 
 <div class="header">
-
+<div id="liveInfo"
+style="
+margin-top:10px;
+font-size:16px;
+color:#f3f4f6;
+">
+</div>
 <div>
 
 <img src="logo.png"
@@ -360,7 +366,39 @@ Open
 </div>
 
 </div>
+<script>
 
+function updateLiveInfo(){
+
+const now = new Date();
+
+const date =
+now.toLocaleDateString();
+
+const time =
+now.toLocaleTimeString();
+
+const user =
+localStorage.getItem("loggedUser")
+|| "Admin";
+
+document.getElementById(
+"liveInfo"
+).innerHTML =
+
+"👤 " + user +
+
+"<br>📅 " + date +
+
+"<br>🕒 " + time;
+
+}
+
+setInterval(updateLiveInfo,1000);
+
+updateLiveInfo();
+
+</script>
 </body>
 
 </html>

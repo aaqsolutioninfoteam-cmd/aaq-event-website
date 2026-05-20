@@ -81,15 +81,25 @@ flex-wrap:wrap;
 
 }
 
+.left-header{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
 .logo{
 
-width:90px;
+width:70px;
 
 }
 
 .header-text h1{
 
-font-size:30px;
+font-size:28px;
 
 margin-bottom:5px;
 
@@ -99,6 +109,20 @@ margin-bottom:5px;
 
 color:#e5e7eb;
 
+font-size:14px;
+
+}
+
+.right-header{
+
+display:flex;
+
+align-items:center;
+
+gap:20px;
+
+margin-left:auto;
+
 }
 
 .user-box{
@@ -107,17 +131,15 @@ display:flex;
 
 align-items:center;
 
-gap:15px;
-
-margin-left:auto;
+gap:12px;
 
 }
 
 .user-photo{
 
-width:65px;
+width:60px;
 
-height:65px;
+height:60px;
 
 border-radius:50%;
 
@@ -131,23 +153,23 @@ object-fit:cover;
 
 font-size:18px;
 
-margin-bottom:5px;
+margin-bottom:4px;
 
 }
 
 .user-details p{
 
-font-size:14px;
-
-margin-bottom:6px;
+font-size:13px;
 
 color:#e5e7eb;
 
+margin-bottom:4px;
+
 }
 
-.live-date{
+.live-box{
 
-font-size:13px;
+font-size:12px;
 
 line-height:1.6;
 
@@ -184,7 +206,7 @@ transform:scale(1.05);
 display:grid;
 
 grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
+repeat(auto-fit,minmax(230px,1fr));
 
 gap:25px;
 
@@ -228,6 +250,8 @@ font-size:24px;
 margin-bottom:20px;
 
 color:#e5e7eb;
+
+font-size:15px;
 
 }
 
@@ -296,19 +320,21 @@ linear-gradient(135deg,#dc2626,#991b1b);
 
 flex-direction:column;
 
-text-align:center;
+align-items:flex-start;
 
 }
 
-.user-box{
+.right-header{
 
-margin-left:0;
+width:100%;
+
+justify-content:space-between;
 
 }
 
-.header-text h1{
+.dashboard{
 
-font-size:24px;
+grid-template-columns:1fr;
 
 }
 
@@ -322,12 +348,10 @@ font-size:24px;
 
 <div class="header">
 
-<div>
+<div class="left-header">
 
 <img src="logo.png"
 class="logo">
-
-</div>
 
 <div class="header-text">
 
@@ -338,6 +362,10 @@ Welcome To Staff Management System
 </p>
 
 </div>
+
+</div>
+
+<div class="right-header">
 
 <div class="user-box">
 
@@ -350,14 +378,149 @@ class="user-photo">
 Staff User
 </h3>
 
-<p id="userRole">
+<p>
 Staff Panel
 </p>
 
-<div class="live-date">
+<div class="live-box">
 
-<span id="liveDate"></span>
+<div id="liveDate"></div>
 
-<br>
+<div id="liveTime"></div>
 
-<span id="liveTime"></span
+</div>
+
+</div>
+
+</div>
+
+<a href="login.html"
+class="logout">
+Logout
+</a>
+
+</div>
+
+</div>
+
+<div class="dashboard">
+
+<div class="card">
+
+<h2>Attendance</h2>
+
+<p>
+Mark and view attendance records.
+</p>
+
+<a href="#"
+class="btn attendance">
+Open
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>My Profile</h2>
+
+<p>
+View personal staff details.
+</p>
+
+<a href="#"
+class="btn profile">
+Open
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>My Events</h2>
+
+<p>
+Check assigned event duties.
+</p>
+
+<a href="#"
+class="btn events">
+Open
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>Reports</h2>
+
+<p>
+View work & attendance reports.
+</p>
+
+<a href="#"
+class="btn reports">
+Open
+</a>
+
+</div>
+
+<div class="card">
+
+<h2>ID Card Status</h2>
+
+<p>
+Track issued & returned ID cards.
+</p>
+
+<a href="#"
+class="btn idcard">
+Open
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+function updateDateTime(){
+
+const now = new Date();
+
+document.getElementById(
+"liveDate"
+).innerHTML =
+
+"📅 " +
+
+now.toLocaleDateString();
+
+document.getElementById(
+"liveTime"
+).innerHTML =
+
+"🕒 " +
+
+now.toLocaleTimeString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+const user =
+localStorage.getItem(
+"loggedUser"
+) || "Staff User";
+
+document.getElementById(
+"userName"
+).innerHTML = user;
+
+</script>
+
+</body>
+
+</html>

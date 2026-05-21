@@ -142,9 +142,9 @@ gap:10px;
 
 .user-photo{
 
-width:55px;
+width:60px;
 
-height:55px;
+height:60px;
 
 border-radius:50%;
 
@@ -430,10 +430,10 @@ Staff Panel
 </div>
 
 <button
-onclick="openStaffManagement()"
+onclick="logout()"
 class="logout">
 
-Staff Management
+Logout
 
 </button>
 
@@ -451,13 +451,12 @@ Staff Management
 Mark and view attendance records.
 </p>
 
-<button
-onclick="openStaffManagement()"
+<a href="attendance.html"
 class="btn attendance">
 
 Open
 
-</button>
+</a>
 
 </div>
 
@@ -469,13 +468,12 @@ Open
 View personal staff details.
 </p>
 
-<button
-onclick="openStaffManagement()"
+<a href="my-profile.html"
 class="btn profile">
 
 Open
 
-</button>
+</a>
 
 </div>
 
@@ -487,13 +485,12 @@ Open
 Check assigned event duties.
 </p>
 
-<button
-onclick="openStaffManagement()"
+<a href="my-events.html"
 class="btn events">
 
 Open
 
-</button>
+</a>
 
 </div>
 
@@ -505,13 +502,12 @@ Open
 View work & attendance reports.
 </p>
 
-<button
-onclick="openStaffManagement()"
+<a href="reports.html"
 class="btn reports">
 
 Open
 
-</button>
+</a>
 
 </div>
 
@@ -523,13 +519,12 @@ Open
 Track issued & returned ID cards.
 </p>
 
-<button
-onclick="openStaffManagement()"
+<a href="id-card.html"
 class="btn idcard">
 
 Open
 
-</button>
+</a>
 
 </div>
 
@@ -602,10 +597,12 @@ userPhoto;
 
 }
 
-function openStaffManagement(){
+function logout(){
+
+localStorage.clear();
 
 window.location.href =
-"staff-management.html";
+"login.html";
 
 }
 

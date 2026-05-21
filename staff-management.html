@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>AAQ Login Panel</title>
+<title>Staff Management</title>
 
 <style>
 
@@ -36,15 +36,11 @@ background-size:400% 400%;
 
 animation:bgMove 12s ease infinite;
 
-height:100vh;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
+min-height:100vh;
 
 padding:20px;
+
+color:white;
 
 }
 
@@ -64,56 +60,110 @@ background-position:0% 50%;
 
 }
 
-.login-box{
+.container{
 
-width:100%;
+max-width:1200px;
 
-max-width:400px;
+margin:auto;
+
+}
+
+.header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
 
 background:rgba(255,255,255,0.08);
 
+padding:20px;
+
+border-radius:20px;
+
 backdrop-filter:blur(12px);
 
-padding:35px;
+margin-bottom:30px;
 
-border-radius:25px;
+flex-wrap:wrap;
 
-text-align:center;
+gap:15px;
 
-box-shadow:
-0 10px 30px rgba(0,0,0,0.4);
+}
 
-color:white;
+.logo-box{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
 
 }
 
 .logo{
 
-width:100px;
+width:70px;
+
+}
+
+.header-right{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+.live-box{
+
+font-size:13px;
+
+line-height:1.6;
+
+}
+
+.back-btn{
+
+background:#dc2626;
+
+padding:12px 18px;
+
+border-radius:12px;
+
+text-decoration:none;
+
+color:white;
+
+font-weight:bold;
+
+}
+
+.form-box{
+
+background:rgba(255,255,255,0.08);
+
+padding:30px;
+
+border-radius:25px;
+
+backdrop-filter:blur(12px);
+
+margin-bottom:30px;
+
+}
+
+.form-box h2{
 
 margin-bottom:20px;
 
 }
 
-h1{
-
-margin-bottom:10px;
-
-font-size:30px;
-
-}
-
-.subtitle{
-
-margin-bottom:25px;
-
-color:#e5e7eb;
-
-font-size:14px;
-
-}
-
-input{
+input,
+select{
 
 width:100%;
 
@@ -133,7 +183,7 @@ font-size:16px;
 
 }
 
-button{
+.save-btn{
 
 width:100%;
 
@@ -158,23 +208,208 @@ font-weight:bold;
 
 cursor:pointer;
 
-transition:0.3s;
+}
+
+.staff-list{
+
+display:grid;
+
+gap:20px;
 
 }
 
-button:hover{
+.card{
 
-transform:scale(1.03);
+background:rgba(255,255,255,0.08);
+
+padding:20px;
+
+border-radius:20px;
+
+backdrop-filter:blur(12px);
 
 }
 
-#error{
+.staff-row{
 
-margin-top:15px;
+display:flex;
 
-color:#f87171;
+align-items:center;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+}
+
+.staff-photo{
+
+width:90px;
+
+height:90px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:3px solid white;
+
+}
+
+.staff-details{
+
+flex:1;
+
+}
+
+.staff-details h3{
+
+margin-bottom:10px;
+
+}
+
+.staff-details p{
+
+margin-bottom:6px;
 
 font-size:14px;
+
+color:#e5e7eb;
+
+}
+
+.action-buttons{
+
+display:flex;
+
+gap:10px;
+
+margin-top:10px;
+
+}
+
+.edit-btn,
+.delete-btn{
+
+width:40px;
+
+height:40px;
+
+border:none;
+
+border-radius:50%;
+
+cursor:pointer;
+
+font-size:18px;
+
+color:white;
+
+}
+
+.edit-btn{
+
+background:#2563eb;
+
+}
+
+.delete-btn{
+
+background:#dc2626;
+
+}
+
+.popup{
+
+display:none;
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,0.7);
+
+justify-content:center;
+
+align-items:center;
+
+z-index:9999;
+
+}
+
+.popup-box{
+
+background:#111827;
+
+padding:25px;
+
+border-radius:20px;
+
+width:320px;
+
+text-align:center;
+
+}
+
+.popup-buttons{
+
+display:flex;
+
+gap:10px;
+
+margin-top:20px;
+
+}
+
+.popup-buttons button{
+
+flex:1;
+
+padding:12px;
+
+border:none;
+
+border-radius:10px;
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.confirm-btn{
+
+background:#dc2626;
+
+}
+
+.cancel-btn{
+
+background:#374151;
+
+}
+
+@media(max-width:768px){
+
+.staff-row{
+
+flex-direction:column;
+
+text-align:center;
+
+}
+
+.action-buttons{
+
+justify-content:center;
+
+}
 
 }
 
@@ -184,34 +419,164 @@ font-size:14px;
 
 <body>
 
-<div class="login-box">
+<div class="container">
+
+<div class="header">
+
+<div class="logo-box">
 
 <img src="logo.png"
 class="logo">
 
-<h1>AAQ Web App</h1>
+<div>
 
-<p class="subtitle">
-Secure Staff & Admin Login
+<h2>Staff Management</h2>
+
+<p>
+AAQ ERP System
 </p>
+
+</div>
+
+</div>
+
+<div class="header-right">
+
+<div class="live-box">
+
+<div id="liveDate"></div>
+
+<div id="liveTime"></div>
+
+</div>
+
+<a href="admin.html"
+class="back-btn">
+
+Back
+
+</a>
+
+</div>
+
+</div>
+
+<div class="form-box">
+
+<h2>Add / Edit Staff</h2>
+
+<input type="text"
+id="staffName"
+placeholder="Staff Name">
+
+<input type="tel"
+id="mobile"
+placeholder="Mobile Number">
 
 <input type="email"
 id="email"
-placeholder="Enter Email">
+placeholder="Email Address">
 
 <input type="password"
 id="password"
-placeholder="Enter Password">
+placeholder="Password">
 
-<button onclick="login()">
-Login
+<input type="text"
+id="position"
+placeholder="Position">
+
+<input type="text"
+id="address"
+placeholder="Address">
+
+<input type="text"
+id="aadhaar"
+placeholder="Aadhaar Number">
+
+<input type="text"
+id="staffId"
+placeholder="ID Card Number">
+
+<input type="file"
+id="photo">
+
+<select id="status">
+
+<option>
+Select Status
+</option>
+
+<option>
+Active
+</option>
+
+<option>
+Inactive
+</option>
+
+</select>
+
+<button
+type="button"
+onclick="saveStaff()"
+class="save-btn">
+
+Save Staff
+
 </button>
 
-<p id="error"></p>
+</div>
+
+<div class="staff-list"
+id="staffList">
+
+</div>
+
+</div>
+
+<div class="popup"
+id="deletePopup">
+
+<div class="popup-box">
+
+<h2>
+Delete Staff?
+</h2>
+
+<p style="margin-top:10px;">
+Are you sure?
+</p>
+
+<div class="popup-buttons">
+
+<button
+class="confirm-btn"
+onclick="confirmDelete()">
+
+Confirm
+
+</button>
+
+<button
+class="cancel-btn"
+onclick="closePopup()">
+
+Cancel
+
+</button>
+
+</div>
+
+</div>
 
 </div>
 
 <script type="module">
+
+localStorage.setItem(
+"loggedUser",
+"Admin"
+);
 
 import { initializeApp }
 
@@ -222,7 +587,11 @@ import {
 
 getFirestore,
 collection,
-getDocs
+addDoc,
+getDocs,
+deleteDoc,
+doc,
+updateDoc
 
 }
 
@@ -260,137 +629,331 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-window.login =
+let editId = null;
+
+let deleteId = null;
+
+window.currentPhoto = "";
+
+window.saveStaff =
 async function(){
 
+const staffName =
+document.getElementById("staffName").value;
+
+const mobile =
+document.getElementById("mobile").value;
+
 const email =
-document.getElementById(
-"email"
-).value;
+document.getElementById("email").value;
 
 const password =
-document.getElementById(
-"password"
-).value;
+document.getElementById("password").value;
+
+const position =
+document.getElementById("position").value;
+
+const address =
+document.getElementById("address").value;
+
+const aadhaar =
+document.getElementById("aadhaar").value;
+
+const staffId =
+document.getElementById("staffId").value;
+
+const status =
+document.getElementById("status").value;
+
+const photo =
+document.getElementById("photo").files[0];
+
+let photoURL =
+window.currentPhoto || "";
+
+if(photo){
+
+photoURL =
+URL.createObjectURL(photo);
+
+}
 
 try{
 
-if(
+if(editId){
 
-email ===
-"aaqsolutioninfoteam@gmail.com"
-
-||
-
-email ===
-"admin@aaq.com"
-
-){
-
-localStorage.setItem(
-"loggedUser",
-"Admin"
+await updateDoc(
+doc(db,"staffs",editId),
+{
+staffName,
+mobile,
+email,
+password,
+position,
+address,
+aadhaar,
+staffId,
+status,
+photoURL
+}
 );
 
-window.location.href =
-"admin.html";
+alert("Staff Updated");
 
-return;
+editId = null;
+
+}else{
+
+await addDoc(
+collection(db,"staffs"),
+{
+staffName,
+mobile,
+email,
+password,
+position,
+address,
+aadhaar,
+staffId,
+status,
+photoURL
+}
+);
+
+alert("Staff Added");
 
 }
+
+document.querySelectorAll("input").forEach((input)=>{
+input.value = "";
+});
+
+document.getElementById(
+"status"
+).value = "Select Status";
+
+window.currentPhoto = "";
+
+loadStaff();
+
+}catch(error){
+
+alert(error);
+
+}
+
+}
+
+window.editStaff =
+function(
+id,
+data
+){
+
+document.getElementById(
+"staffName"
+).value = data.staffName;
+
+document.getElementById(
+"mobile"
+).value = data.mobile;
+
+document.getElementById(
+"email"
+).value = data.email;
+
+document.getElementById(
+"password"
+).value = data.password;
+
+document.getElementById(
+"position"
+).value = data.position;
+
+document.getElementById(
+"address"
+).value = data.address;
+
+document.getElementById(
+"aadhaar"
+).value = data.aadhaar;
+
+document.getElementById(
+"staffId"
+).value = data.staffId;
+
+document.getElementById(
+"status"
+).value = data.status;
+
+window.currentPhoto =
+data.photoURL;
+
+editId = id;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+window.deleteStaff =
+function(id){
+
+deleteId = id;
+
+document.getElementById(
+"deletePopup"
+).style.display = "flex";
+
+}
+
+window.closePopup =
+function(){
+
+document.getElementById(
+"deletePopup"
+).style.display = "none";
+
+}
+
+window.confirmDelete =
+async function(){
+
+await deleteDoc(
+doc(db,"staffs",deleteId)
+);
+
+closePopup();
+
+loadStaff();
+
+}
+
+async function loadStaff(){
 
 const querySnapshot =
 await getDocs(
 collection(db,"staffs")
 );
 
-let found = false;
+let html = "";
 
-let foundStaff = null;
+querySnapshot.forEach((docItem)=>{
 
-querySnapshot.forEach((doc)=>{
+const data =
+docItem.data();
 
-const data = doc.data();
+html += `
 
-if(
+<div class="card">
 
-data.email === email
+<div class="staff-row">
 
-&&
+<img
+src="${
+data.photoURL ||
+'https://i.imgur.com/6VBx3io.png'
+}"
+class="staff-photo">
 
-data.password === password
+<div class="staff-details">
 
-){
+<h3>
+${data.staffName}
+</h3>
 
-found = true;
+<p>
+📱 ${data.mobile}
+</p>
 
-foundStaff = data;
+<p>
+📧 ${data.email}
+</p>
 
-}
+<p>
+💼 ${data.position}
+</p>
+
+<p>
+🪪 ${data.staffId}
+</p>
+
+<p>
+📍 ${data.address}
+</p>
+
+<p>
+✅ ${data.status}
+</p>
+
+<div class="action-buttons">
+
+<button
+class="edit-btn"
+onclick='editStaff(
+"${docItem.id}",
+${JSON.stringify(data)}
+)'>
+
+✏️
+
+</button>
+
+<button
+class="delete-btn"
+onclick='deleteStaff(
+"${docItem.id}"
+)'>
+
+🗑️
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+`;
 
 });
 
-if(found){
+document.getElementById(
+"staffList"
+).innerHTML = html;
 
-localStorage.setItem(
+}
 
-"staffName",
+loadStaff();
 
-foundStaff.staffName || "Staff"
+function updateDateTime(){
 
-);
-
-localStorage.setItem(
-
-"staffPhoto",
-
-foundStaff.photoURL || ""
-
-);
-
-localStorage.setItem(
-
-"loggedUser",
-
-foundStaff.staffName || "Staff"
-
-);
-
-localStorage.setItem(
-
-"staffPosition",
-
-foundStaff.position || "Staff Panel"
-
-);
-
-window.location.href =
-
-"staff-dashboard.html";
-
-}else{
+const now = new Date();
 
 document.getElementById(
-"error"
+"liveDate"
 ).innerHTML =
 
-"Invalid Email or Password";
-
-}
-
-}catch(error){
+"📅 " +
+now.toLocaleDateString();
 
 document.getElementById(
-"error"
+"liveTime"
 ).innerHTML =
 
-"Login Failed";
-
-console.log(error);
-
-}
+"🕒 " +
+now.toLocaleTimeString();
 
 }
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
 
 </script>
 

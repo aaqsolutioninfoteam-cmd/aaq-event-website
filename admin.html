@@ -60,6 +60,64 @@ background-position:0% 50%;
 
 }
 
+.top-bar{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:20px;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+}
+
+.time-box{
+
+background:rgba(255,255,255,0.08);
+
+padding:12px 18px;
+
+border-radius:15px;
+
+backdrop-filter:blur(12px);
+
+font-size:13px;
+
+line-height:1.6;
+
+}
+
+.logout-btn{
+
+background:#dc2626;
+
+padding:12px 20px;
+
+border:none;
+
+border-radius:12px;
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+.logout-btn:hover{
+
+transform:scale(1.05);
+
+}
+
 .header{
 
 display:flex;
@@ -70,7 +128,7 @@ align-items:center;
 
 background:rgba(255,255,255,0.08);
 
-padding:18px;
+padding:20px;
 
 border-radius:20px;
 
@@ -96,13 +154,13 @@ gap:15px;
 
 .logo{
 
-width:70px;
+width:75px;
 
 }
 
 .title-box h1{
 
-font-size:26px;
+font-size:28px;
 
 margin-bottom:4px;
 
@@ -110,23 +168,9 @@ margin-bottom:4px;
 
 .title-box p{
 
-font-size:12px;
+font-size:13px;
 
 color:#d1d5db;
-
-}
-
-.right-header{
-
-display:flex;
-
-align-items:center;
-
-gap:15px;
-
-margin-left:auto;
-
-flex-wrap:wrap;
 
 }
 
@@ -136,15 +180,15 @@ display:flex;
 
 align-items:center;
 
-gap:10px;
+gap:12px;
 
 }
 
 .user-photo{
 
-width:55px;
+width:60px;
 
-height:55px;
+height:60px;
 
 border-radius:50%;
 
@@ -152,61 +196,21 @@ border:3px solid white;
 
 object-fit:cover;
 
-background:#111827;
-
 }
 
 .user-details h3{
 
-font-size:16px;
-
-margin-bottom:2px;
-
-}
-
-.user-details p{
-
-font-size:12px;
-
-color:#d1d5db;
+font-size:17px;
 
 margin-bottom:3px;
 
 }
 
-.live-box{
+.user-details p{
 
-font-size:11px;
+font-size:13px;
 
-line-height:1.5;
-
-color:#f3f4f6;
-
-}
-
-.logout-btn{
-
-background:#dc2626;
-
-padding:10px 18px;
-
-border:none;
-
-border-radius:12px;
-
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
-
-transition:0.3s;
-
-}
-
-.logout-btn:hover{
-
-transform:scale(1.05);
+color:#d1d5db;
 
 }
 
@@ -281,6 +285,8 @@ color:white;
 cursor:pointer;
 
 transition:0.3s;
+
+text-decoration:none;
 
 }
 
@@ -358,7 +364,7 @@ linear-gradient(
 
 @media(max-width:768px){
 
-.header{
+.top-bar{
 
 flex-direction:column;
 
@@ -366,11 +372,11 @@ align-items:flex-start;
 
 }
 
-.right-header{
+.header{
 
-width:100%;
+flex-direction:column;
 
-justify-content:space-between;
+align-items:flex-start;
 
 }
 
@@ -387,6 +393,26 @@ grid-template-columns:1fr;
 </head>
 
 <body>
+
+<div class="top-bar">
+
+<div class="time-box">
+
+<div id="liveDate"></div>
+
+<div id="liveTime"></div>
+
+</div>
+
+<button
+onclick="logout()"
+class="logout-btn">
+
+Logout
+
+</button>
+
+</div>
 
 <div class="header">
 
@@ -407,8 +433,6 @@ Professional ERP Management Dashboard
 
 </div>
 
-<div class="right-header">
-
 <div class="user-box">
 
 <img
@@ -425,25 +449,7 @@ Admin
 Administrator
 </p>
 
-<div class="live-box">
-
-<div id="liveDate"></div>
-
-<div id="liveTime"></div>
-
 </div>
-
-</div>
-
-</div>
-
-<button
-onclick="logout()"
-class="logout-btn">
-
-Logout
-
-</button>
 
 </div>
 
@@ -459,15 +465,14 @@ Logout
 Add, edit and manage all staff members.
 </p>
 
-<button
-type="button"
-onclick="window.location.href='staff-management.html'"
+<a
+href="staff-management.html"
 class="btn staff">
 
 Open
-  
-</button>
-  
+
+</a>
+
 </div>
 
 <div class="card">
@@ -478,12 +483,13 @@ Open
 Manage attendance and staff presence.
 </p>
 
-<button
+<a
+href="attendance-management.html"
 class="btn attendance">
 
 Open
 
-</button>
+</a>
 
 </div>
 
@@ -495,12 +501,13 @@ Open
 Manage all events and duty schedules.
 </p>
 
-<button
+<a
+href="events-management.html"
 class="btn events">
 
 Open
 
-</button>
+</a>
 
 </div>
 
@@ -512,12 +519,13 @@ Open
 Track issued and returned ID cards.
 </p>
 
-<button
+<a
+href="id-card-management.html"
 class="btn idcard">
 
 Open
 
-</button>
+</a>
 
 </div>
 
@@ -529,12 +537,13 @@ Open
 Check staff and attendance reports.
 </p>
 
-<button
+<a
+href="reports-management.html"
 class="btn reports">
 
 Open
 
-</button>
+</a>
 
 </div>
 
@@ -546,12 +555,13 @@ Open
 Manage panel settings and controls.
 </p>
 
-<button
+<a
+href="settings.html"
 class="btn settings">
 
 Open
 
-</button>
+</a>
 
 </div>
 
@@ -584,18 +594,6 @@ now.toLocaleTimeString();
 setInterval(updateDateTime,1000);
 
 updateDateTime();
-
-function openStaffManagement(){
-
-window.location.href =
-"staff-management.html";
-
-}
-
-window.location.href =
-"./staff-management.html";
-
-}
 
 function logout(){
 

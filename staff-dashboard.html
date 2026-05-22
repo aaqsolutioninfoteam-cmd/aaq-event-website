@@ -540,7 +540,7 @@ document.getElementById(
 "liveDate"
 ).innerHTML =
 
-"📅 " +
+"🗓️ " +
 
 now.toLocaleDateString();
 
@@ -548,7 +548,7 @@ document.getElementById(
 "liveTime"
 ).innerHTML =
 
-"🕒 " +
+"🕛 " +
 
 now.toLocaleTimeString();
 
@@ -583,19 +583,22 @@ document.getElementById(
 ).innerHTML =
 userPosition;
 
-if(
+document.getElementById(
+"userPhoto"
+).src =
+
 userPhoto &&
 userPhoto !== "undefined" &&
 userPhoto !== "null" &&
 userPhoto !== ""
-){
 
-document.getElementById(
-"userPhoto"
-).src =
-userPhoto;
+?
 
-}
+userPhoto
+
+:
+
+"https://i.imgur.com/6VBx3io.png";
 
 function logout(){
 

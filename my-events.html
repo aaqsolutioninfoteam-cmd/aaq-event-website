@@ -60,7 +60,7 @@ background-position:0% 50%;
 
 .container{
 
-max-width:1200px;
+max-width:1300px;
 
 margin:auto;
 
@@ -103,21 +103,15 @@ color:#111827;
 
 }
 
-.event-list{
-
-display:grid;
-
-gap:22px;
-
-}
-
-.card{
+.event-card{
 
 background:rgba(255,255,255,0.08);
 
 padding:25px;
 
-border-radius:28px;
+border-radius:25px;
+
+margin-bottom:25px;
 
 backdrop-filter:blur(12px);
 
@@ -125,21 +119,67 @@ border:1px solid rgba(255,255,255,0.12);
 
 }
 
-.card h2{
-
-margin-bottom:15px;
+.event-card h2{
 
 color:#facc15;
 
+margin-bottom:15px;
+
 }
 
-.card p{
+.event-card p{
 
 margin-bottom:10px;
 
-line-height:1.7;
+line-height:1.8;
 
-color:#e2e8f0;
+}
+
+.post-box{
+
+background:rgba(255,255,255,0.06);
+
+padding:18px;
+
+border-radius:18px;
+
+margin-top:18px;
+
+border:1px solid rgba(255,255,255,0.08);
+
+}
+
+.post-box h3{
+
+color:#facc15;
+
+margin-bottom:12px;
+
+}
+
+.status{
+
+display:inline-block;
+
+padding:8px 15px;
+
+border-radius:10px;
+
+font-weight:bold;
+
+margin-top:15px;
+
+}
+
+.active{
+
+background:#22c55e;
+
+}
+
+.expired{
+
+background:#ef4444;
 
 }
 
@@ -174,59 +214,11 @@ Back To Dashboard
 
 </div>
 
-<div
-class="event-list"
-id="eventList">
+<div id="eventList"></div>
 
 </div>
 
-</div>
-
-<script type="module">
-
-import { initializeApp }
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-
-getFirestore,
-collection,
-getDocs
-
-}
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-
-apiKey:
-"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
-
-authDomain:
-"aaq-event-erp.firebaseapp.com",
-
-projectId:
-"aaq-event-erp",
-
-storageBucket:
-"aaq-event-erp.firebasestorage.app",
-
-messagingSenderId:
-"985636664002",
-
-appId:
-"1:985636664002:web:4b941d3562609d2058815b"
-
-};
-
-const app =
-initializeApp(firebaseConfig);
-
-const db =
-getFirestore(app);
+<script>
 
 const currentUser =
 JSON.parse(
@@ -236,74 +228,124 @@ localStorage.getItem("currentUser")
 const staffEmail =
 currentUser.email;
 
-async function loadEvents(){
+function loadEvents(){
 
-const querySnapshot =
-await getDocs(
-collection(db,"events")
-);
+const events =
+JSON.parse(
+localStorage.getItem("events")
+) || [];
 
 let html = "";
 
-querySnapshot.forEach((docItem)=>{
+events.forEach((event)=>{
 
-const event =
-docItem.data();
+const today =
+new Date().toISOString().split("T")[0];
+
+const status =
+today > event.endDate
+
+?
+
+"Expired"
+
+:
+
+"Active";
+
+let matchedPosts = "";
+
+event.posts.forEach((post)=>{
 
 if(
-event.assignStaff !== staffEmail
+post.staffEmails
+.toLowerCase()
+.includes(
+staffEmail.toLowerCase()
+)
 ){
 
-return;
+matchedPosts += `
 
-}
+<div class="post-box">
 
-html += `
-
-<div class="card">
-
-<h2>
-${event.eventName}
-</h2>
+<h3>
+💼 ${post.crewPost}
+</h3>
 
 <p>
-📍 Area :
-${event.eventArea}
-</p>
-
-<p>
-🕒 Duty Time :
-${event.eventTime}
-</p>
-
-<p>
-👔 Manager :
-${event.managerName}
+📍 Duty Area :
+${post.dutyArea}
 </p>
 
 <p>
 👨 Coordinator :
-${event.coordinatorName}
+${post.coordinator}
 </p>
 
 <p>
-👥 Team :
-${event.teamMembers}
-</p>
-
-<p>
-🧾 Duty :
-${event.dutyType}
-</p>
-
-<p>
-📝 Details :
-${event.eventDetails}
+👥 Assigned Staff :
+${post.staffEmails}
 </p>
 
 </div>
 
 `;
+
+}
+
+});
+
+if(matchedPosts !== ""){
+
+html += `
+
+<div class="event-card">
+
+<h2>
+🎉 ${event.eventName}
+</h2>
+
+<p>
+📍 Address :
+${event.eventAddress}
+</p>
+
+<p>
+📅 Event Validity :
+${event.startDate}
+To
+${event.endDate}
+</p>
+
+<p>
+👨 Event Coordinator :
+${event.eventCoordinator}
+</p>
+
+<p>
+🛡️ Access Manager :
+${event.accessManager}
+</p>
+
+<p>
+🖥️ Technical Team :
+${event.technicalTeam}
+</p>
+
+${matchedPosts}
+
+<div class="status ${status === "Active" ? "active" : "expired"}">
+
+${status}
+
+</div>
+
+</div>
+
+`;
+
+}
 
 });
 

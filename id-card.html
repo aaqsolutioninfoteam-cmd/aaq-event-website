@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>My ID Card</title>
+<title>My Event ID Card</title>
 
 <style>
 
@@ -68,11 +68,11 @@ background-position:0% 50%;
 
 width:100%;
 
-max-width:380px;
+max-width:390px;
 
 background:rgba(255,255,255,0.08);
 
-border-radius:28px;
+border-radius:30px;
 
 padding:30px;
 
@@ -82,13 +82,62 @@ border:1px solid rgba(255,255,255,0.12);
 
 text-align:center;
 
+position:relative;
+
+overflow:hidden;
+
+box-shadow:
+0 10px 35px rgba(0,0,0,0.35);
+
+}
+
+.top-line{
+
+position:absolute;
+
+top:0;
+left:0;
+
+width:100%;
+
+height:8px;
+
+background:
+linear-gradient(
+135deg,
+#facc15,
+#ca8a04
+);
+
 }
 
 .logo{
 
-width:80px;
+width:85px;
 
 margin-bottom:15px;
+
+}
+
+.title{
+
+font-size:24px;
+
+font-weight:bold;
+
+margin-bottom:5px;
+
+color:#facc15;
+
+}
+
+.sub{
+
+font-size:13px;
+
+margin-bottom:20px;
+
+color:#cbd5e1;
 
 }
 
@@ -108,29 +157,73 @@ margin-bottom:15px;
 
 }
 
-.id-card h2{
+.name{
+
+font-size:24px;
+
+font-weight:bold;
 
 margin-bottom:8px;
+
+}
+
+.position{
+
+font-size:16px;
+
+margin-bottom:15px;
 
 color:#facc15;
 
 }
 
-.id-card p{
+.details{
 
-margin-bottom:8px;
+text-align:left;
 
-line-height:1.7;
+margin-top:20px;
+
+line-height:2;
+
+font-size:15px;
 
 color:#e2e8f0;
 
 }
 
+.details span{
+
+font-weight:bold;
+
+color:white;
+
+}
+
 .qr{
+
+margin-top:20px;
+
+width:100px;
+
+height:100px;
+
+border-radius:12px;
+
+background:white;
+
+padding:5px;
+
+}
+
+.valid{
 
 margin-top:15px;
 
-width:90px;
+font-size:14px;
+
+color:#facc15;
+
+font-weight:bold;
 
 }
 
@@ -140,7 +233,7 @@ display:flex;
 
 gap:12px;
 
-margin-top:18px;
+margin-top:20px;
 
 }
 
@@ -159,6 +252,8 @@ cursor:pointer;
 font-weight:bold;
 
 color:white;
+
+font-size:15px;
 
 }
 
@@ -182,38 +277,122 @@ background:#22c55e;
 
 <div class="id-card">
 
+<div class="top-line"></div>
+
 <img
 src="logo.png"
 class="logo">
+
+<div class="title">
+AAQ EVENT PASS
+</div>
+
+<div class="sub">
+Professional Event Duty Card
+</div>
 
 <img
 id="staffPhoto"
 src="https://i.imgur.com/6VBx3io.png"
 class="staff-photo">
 
-<h2 id="staffName">
-Staff User
-</h2>
+<div
+class="name"
+id="staffName">
 
-<p id="staffPosition">
+Staff Name
+
+</div>
+
+<div
+class="position"
+id="staffPosition">
+
 Position
-</p>
 
-<p id="staffEmail">
-Email
-</p>
+</div>
 
-<p id="staffMobile">
-Mobile
-</p>
+<div class="details">
 
-<p id="staffId">
-ID Card
-</p>
+<div>
 
-<p id="staffAddress">
-Address
-</p>
+<span>
+🪪 ID :
+</span>
+
+<span id="staffId">
+
+AAQ-001
+
+</span>
+
+</div>
+
+<div>
+
+<span>
+📱 Mobile :
+</span>
+
+<span id="staffMobile">
+
+9876543210
+
+</span>
+
+</div>
+
+<div>
+
+<span>
+🎉 Event :
+</span>
+
+<span id="eventName">
+
+Event Name
+
+</span>
+
+</div>
+
+<div>
+
+<span>
+📍 Area :
+</span>
+
+<span id="eventArea">
+
+Main Gate
+
+</span>
+
+</div>
+
+<div>
+
+<span>
+💼 Duty :
+</span>
+
+<span id="dutyType">
+
+Reception
+
+</span>
+
+</div>
+
+</div>
+
+<div
+class="valid"
+id="validityDate">
+
+📅 Valid Till : 25/05/2026
+
+</div>
 
 <img
 id="qrCode"
@@ -240,7 +419,51 @@ Download
 
 </div>
 
-<script>
+<script type="module">
+
+import { initializeApp }
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+
+authDomain:
+"aaq-event-erp.firebaseapp.com",
+
+projectId:
+"aaq-event-erp",
+
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
+
+messagingSenderId:
+"985636664002",
+
+appId:
+"1:985636664002:web:4b941d3562609d2058815b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
 
 const currentUser =
 JSON.parse(
@@ -252,7 +475,7 @@ document.getElementById(
 ).src =
 
 currentUser.photoURL ||
-'https://i.imgur.com/6VBx3io.png';
+"https://i.imgur.com/6VBx3io.png";
 
 document.getElementById(
 "staffName"
@@ -264,39 +487,78 @@ document.getElementById(
 "staffPosition"
 ).innerHTML =
 
-"💼 " + currentUser.position;
-
-document.getElementById(
-"staffEmail"
-).innerHTML =
-
-"📧 " + currentUser.email;
-
-document.getElementById(
-"staffMobile"
-).innerHTML =
-
-"📱 " + currentUser.mobile;
+currentUser.position;
 
 document.getElementById(
 "staffId"
 ).innerHTML =
 
-"🪪 " + currentUser.staffId;
+currentUser.staffId;
 
 document.getElementById(
-"staffAddress"
+"staffMobile"
 ).innerHTML =
 
-"📍 " + currentUser.address;
+currentUser.mobile;
 
 document.getElementById(
 "qrCode"
 ).src =
 
-"https://api.qrserver.com/v1/create-qr-code/?size=100x100&data="
+"https://api.qrserver.com/v1/create-qr-code/?size=120x120&data="
 
-+ currentUser.email;
++
+
+currentUser.email;
+
+async function loadEvent(){
+
+const querySnapshot =
+await getDocs(
+collection(db,"events")
+);
+
+querySnapshot.forEach((docItem)=>{
+
+const event =
+docItem.data();
+
+if(
+event.assignStaff === currentUser.email
+){
+
+document.getElementById(
+"eventName"
+).innerHTML =
+
+event.eventName;
+
+document.getElementById(
+"eventArea"
+).innerHTML =
+
+event.eventArea;
+
+document.getElementById(
+"dutyType"
+).innerHTML =
+
+event.dutyType;
+
+document.getElementById(
+"validityDate"
+).innerHTML =
+
+"📅 Valid Till : " +
+event.eventDate;
+
+}
+
+});
+
+}
+
+loadEvent();
 
 </script>
 

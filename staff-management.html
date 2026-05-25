@@ -1,1107 +1,867 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
+<!DOCTYPE html>  <html lang="en">  <head>  <meta charset="UTF-8">  <meta name="viewport"  
 content="width=device-width, initial-scale=1.0">
 
-<title>AAQ Staff Management</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-
-background:
-linear-gradient(
-135deg,
-#07111f,
-#0f172a,
-#111827,
-#1e293b,
-#c8a44d,
-#0f172a
-);
-
-background-size:400% 400%;
-
-animation:bgMove 15s ease infinite;
-
-min-height:100vh;
-
-padding:20px;
-
-color:white;
-
-}
-
-@keyframes bgMove{
-
-0%{
-background-position:0% 50%;
-}
-
-50%{
-background-position:100% 50%;
-}
-
-100%{
-background-position:0% 50%;
-}
-
-}
-
-.container{
-
-max-width:1200px;
-
-margin:auto;
-
-}
-
-.header{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-background:rgba(15,23,42,0.75);
-
-border:1px solid rgba(212,175,55,0.25);
-
-padding:20px;
-
-border-radius:20px;
-
-backdrop-filter:blur(14px);
-
-margin-bottom:30px;
-
-flex-wrap:wrap;
-
-gap:15px;
-
-}
-
-.logo-box{
-
-display:flex;
-
-align-items:center;
-
-gap:15px;
-
-}
-
-.logo{
-
-width:70px;
-
-}
-
-.header-right{
-
-display:flex;
-
-align-items:center;
-
-gap:15px;
-
-flex-wrap:wrap;
-
-}
-
-.live-box{
-
-font-size:13px;
-
-line-height:1.7;
-
-background:rgba(255,255,255,0.05);
-
-padding:10px 16px;
-
-border-radius:12px;
-
-}
-
-.back-btn{
-
-background:
-linear-gradient(
-135deg,
-#d4af37,
-#b8860b
-);
-
-padding:12px 20px;
-
-border-radius:12px;
-
-text-decoration:none;
-
-color:#111827;
-
-font-weight:bold;
-
-}
-
-.form-box{
-
-background:rgba(15,23,42,0.75);
-
-border:1px solid rgba(212,175,55,0.2);
-
-padding:30px;
-
-border-radius:25px;
-
-backdrop-filter:blur(14px);
-
-margin-bottom:30px;
-
-}
-
-.form-box h2{
-
-margin-bottom:25px;
-
-font-size:28px;
-
-}
-
-input,
-select{
-
-width:100%;
-
-padding:14px;
-
-margin-bottom:18px;
-
-border:none;
-
-border-radius:12px;
-
-background:#0f172a;
-
-border:1px solid rgba(212,175,55,0.15);
-
-color:white;
-
-font-size:16px;
-
-outline:none;
-
-}
-
-.save-btn{
-
-width:100%;
-
-padding:15px;
-
-border:none;
-
-border-radius:15px;
-
-background:
-linear-gradient(
-135deg,
-#d4af37,
-#b8860b
-);
-
-color:#111827;
-
-font-size:18px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-}
-
-.staff-list{
-
-display:grid;
-
-gap:22px;
-
-}
-
-.card{
-
-background:rgba(15,23,42,0.72);
-
-border:1px solid rgba(212,175,55,0.18);
-
-padding:20px;
-
-border-radius:20px;
-
-backdrop-filter:blur(14px);
-
-}
-
-.staff-row{
-
-display:flex;
-
-align-items:center;
-
-gap:20px;
-
-flex-wrap:wrap;
-
-}
-
-.staff-photo{
-
-width:95px;
-
-height:95px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-border:3px solid #d4af37;
-
-background:#111827;
-
-}
-
-.staff-details{
-
-flex:1;
-
-}
-
-.staff-details h3{
-
-margin-bottom:10px;
-
-font-size:24px;
-
-}
-
-.staff-details p{
-
-margin-bottom:7px;
-
-font-size:14px;
-
-color:#e5e7eb;
-
-}
-
-.action-buttons{
-
-display:flex;
-
-gap:10px;
-
-margin-top:10px;
-
-}
-
-.edit-btn,
-.delete-btn{
-
-width:42px;
-
-height:42px;
-
-border:none;
-
-border-radius:50%;
-
-cursor:pointer;
-
-font-size:18px;
-
-color:white;
-
-}
-
-.edit-btn{
-
-background:#2563eb;
-
-}
-
-.delete-btn{
-
-background:#dc2626;
-
-}
-
-.popup{
-
-display:none;
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.75);
-
-justify-content:center;
-
-align-items:center;
-
-z-index:9999;
-
-}
-
-.popup-box{
-
-background:#111827;
-
-padding:25px;
-
-border-radius:20px;
-
-width:320px;
-
-text-align:center;
-
-}
-
-.popup-buttons{
-
-display:flex;
-
-gap:10px;
-
-margin-top:20px;
-
-}
-
-.popup-buttons button{
-
-flex:1;
-
-padding:12px;
-
-border:none;
-
-border-radius:10px;
-
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
-
-}
-
-.confirm-btn{
-
-background:#dc2626;
-
-}
-
-.cancel-btn{
-
-background:#374151;
-
-}
-
-@media(max-width:768px){
-
-.staff-row{
-
-flex-direction:column;
-
-text-align:center;
-
-}
-
-.action-buttons{
-
-justify-content:center;
-
-}
-
-.header{
-
-flex-direction:column;
-
-align-items:flex-start;
-
-}
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="header">
-
-<div class="logo-box">
-
-<img src="logo.png"
+<title>Staff Management</title>  <style>  
+  
+*{  
+margin:0;  
+padding:0;  
+box-sizing:border-box;  
+font-family:Arial,sans-serif;  
+}  
+  
+body{  
+  
+background:  
+linear-gradient(  
+135deg,  
+#000000,  
+#1a1a1a,  
+#3b2a00,  
+#d4af37,  
+#3b2a00,  
+#000000  
+);  
+  
+background-size:400% 400%;  
+  
+animation:bgMove 12s ease infinite;  
+  
+min-height:100vh;  
+  
+padding:20px;  
+  
+color:white;  
+  
+}  
+  
+@keyframes bgMove{  
+  
+0%{  
+background-position:0% 50%;  
+}  
+  
+50%{  
+background-position:100% 50%;  
+}  
+  
+100%{  
+background-position:0% 50%;  
+}  
+  
+}  
+  
+.container{  
+  
+max-width:1200px;  
+  
+margin:auto;  
+  
+}  
+  
+.header{  
+  
+display:flex;  
+  
+justify-content:space-between;  
+  
+align-items:center;  
+  
+background:rgba(255,255,255,0.08);  
+  
+padding:20px;  
+  
+border-radius:20px;  
+  
+backdrop-filter:blur(12px);  
+  
+margin-bottom:30px;  
+  
+flex-wrap:wrap;  
+  
+gap:15px;  
+  
+}  
+  
+.logo-box{  
+  
+display:flex;  
+  
+align-items:center;  
+  
+gap:15px;  
+  
+}  
+  
+.logo{  
+  
+width:70px;  
+  
+}  
+  
+.header-right{  
+  
+display:flex;  
+  
+align-items:center;  
+  
+gap:15px;  
+  
+}  
+  
+.live-box{  
+  
+font-size:13px;  
+  
+line-height:1.6;  
+  
+}  
+  
+.back-btn{  
+  
+background:#dc2626;  
+  
+padding:12px 18px;  
+  
+border-radius:12px;  
+  
+text-decoration:none;  
+  
+color:white;  
+  
+font-weight:bold;  
+  
+}  
+  
+.form-box{  
+  
+background:rgba(255,255,255,0.08);  
+  
+padding:30px;  
+  
+border-radius:25px;  
+  
+backdrop-filter:blur(12px);  
+  
+margin-bottom:30px;  
+  
+}  
+  
+.form-box h2{  
+  
+margin-bottom:20px;  
+  
+}  
+  
+input,  
+select{  
+  
+width:100%;  
+  
+padding:14px;  
+  
+margin-bottom:18px;  
+  
+border:none;  
+  
+border-radius:12px;  
+  
+background:#1f2937;  
+  
+color:white;  
+  
+font-size:16px;  
+  
+}  
+  
+.save-btn{  
+  
+width:100%;  
+  
+padding:15px;  
+  
+border:none;  
+  
+border-radius:15px;  
+  
+background:  
+linear-gradient(  
+135deg,  
+#ca8a04,  
+#a16207  
+);  
+  
+color:white;  
+  
+font-size:18px;  
+  
+font-weight:bold;  
+  
+cursor:pointer;  
+  
+}  
+  
+.staff-list{  
+  
+display:grid;  
+  
+gap:20px;  
+  
+}  
+  
+.card{  
+  
+background:rgba(255,255,255,0.08);  
+  
+padding:20px;  
+  
+border-radius:20px;  
+  
+backdrop-filter:blur(12px);  
+  
+}  
+  
+.staff-row{  
+  
+display:flex;  
+  
+align-items:center;  
+  
+gap:20px;  
+  
+flex-wrap:wrap;  
+  
+}  
+  
+.staff-photo{  
+  
+width:90px;  
+  
+height:90px;  
+  
+border-radius:50%;  
+  
+object-fit:cover;  
+  
+border:3px solid white;  
+  
+}  
+  
+.staff-details{  
+  
+flex:1;  
+  
+}  
+  
+.staff-details h3{  
+  
+margin-bottom:10px;  
+  
+}  
+  
+.staff-details p{  
+  
+margin-bottom:6px;  
+  
+font-size:14px;  
+  
+color:#e5e7eb;  
+  
+}  
+  
+.action-buttons{  
+  
+display:flex;  
+  
+gap:10px;  
+  
+margin-top:10px;  
+  
+}  
+  
+.edit-btn,  
+.delete-btn{  
+  
+width:40px;  
+  
+height:40px;  
+  
+border:none;  
+  
+border-radius:50%;  
+  
+cursor:pointer;  
+  
+font-size:18px;  
+  
+color:white;  
+  
+}  
+  
+.edit-btn{  
+  
+background:#2563eb;  
+  
+}  
+  
+.delete-btn{  
+  
+background:#dc2626;  
+  
+}  
+  
+.popup{  
+  
+display:none;  
+  
+position:fixed;  
+  
+top:0;  
+left:0;  
+  
+width:100%;  
+height:100%;  
+  
+background:rgba(0,0,0,0.7);  
+  
+justify-content:center;  
+  
+align-items:center;  
+  
+z-index:9999;  
+  
+}  
+  
+.popup-box{  
+  
+background:#111827;  
+  
+padding:25px;  
+  
+border-radius:20px;  
+  
+width:320px;  
+  
+text-align:center;  
+  
+}  
+  
+.popup-buttons{  
+  
+display:flex;  
+  
+gap:10px;  
+  
+margin-top:20px;  
+  
+}  
+  
+.popup-buttons button{  
+  
+flex:1;  
+  
+padding:12px;  
+  
+border:none;  
+  
+border-radius:10px;  
+  
+color:white;  
+  
+font-weight:bold;  
+  
+cursor:pointer;  
+  
+}  
+  
+.confirm-btn{  
+  
+background:#dc2626;  
+  
+}  
+  
+.cancel-btn{  
+  
+background:#374151;  
+  
+}  
+  
+@media(max-width:768px){  
+  
+.staff-row{  
+  
+flex-direction:column;  
+  
+text-align:center;  
+  
+}  
+  
+.action-buttons{  
+  
+justify-content:center;  
+  
+}  
+  
+}  
+  
+</style>  </head>  <body>  <div class="container">  <div class="header">  <div class="logo-box">  <img src="logo.png"  
 class="logo">
 
-<div>
-
-<h2>AAQ Staff Management</h2>
-
-<p>
-Professional ERP Management System
-</p>
-
-</div>
-
-</div>
-
-<div class="header-right">
-
-<div class="live-box">
-
-<div id="liveDate"></div>
-
-<div id="liveTime"></div>
-
-</div>
-
-<a href="admin.html"
+<div>  <h2>Staff Management</h2>  <p>  
+AAQ ERP System  
+</p>  </div>  </div>  <div class="header-right">  <div class="live-box">  <div id="liveDate"></div>  <div id="liveTime"></div>  </div>  <a href="admin.html"  
 class="back-btn">
 
-Back To Admin
+Back
 
-</a>
-
-</div>
-
-</div>
-
-<div class="form-box">
-
-<h2>Add / Edit Staff</h2>
-
-<input type="text"
-id="staffName"
+</a>  </div>  </div>  <div class="form-box">  <h2>Add / Edit Staff</h2>  <input type="text"  
+id="staffName"  
 placeholder="Staff Name">
 
-<input type="tel"
-id="mobile"
+<input type="tel"  
+id="mobile"  
 placeholder="Mobile Number">
 
-<input type="email"
-id="email"
+<input type="email"  
+id="email"  
 placeholder="Email Address">
 
-<input type="password"
-id="password"
+<input type="password"  
+id="password"  
 placeholder="Password">
 
-<input type="text"
-id="position"
+<input type="text"  
+id="position"  
 placeholder="Position">
 
-<input type="text"
-id="address"
+<input type="text"  
+id="address"  
 placeholder="Address">
 
-<input type="text"
-id="aadhaar"
+<input type="text"  
+id="aadhaar"  
 placeholder="Aadhaar Number">
 
-<input type="text"
-id="staffId"
+<input type="text"  
+id="staffId"  
 placeholder="ID Card Number">
 
-<input type="file"
+<input type="file"  
 id="photo">
 
-<select id="status">
-
-<option>
-Select Status
-</option>
-
-<option>
-Active
-</option>
-
-<option>
-Inactive
-</option>
-
-</select>
-
-<button
-type="button"
-onclick="saveStaff()"
+<select id="status">  <option>  
+Select Status  
+</option>  <option>  
+Active  
+</option>  <option>  
+Inactive  
+</option>  </select>  <button  
+type="button"  
+onclick="saveStaff()"  
 class="save-btn">
 
 Save Staff
 
-</button>
-
-</div>
-
-<div class="staff-list"
-id="staffList">
-
-</div>
-
-</div>
-
-<div class="popup"
-id="deletePopup">
-
-<div class="popup-box">
-
-<h2>
-Delete Staff?
-</h2>
-
-<p style="margin-top:10px;">
-Are you sure you want to delete this staff?
-</p>
-
-<div class="popup-buttons">
-
-<button
-class="confirm-btn"
+</button>  </div>  <div class="staff-list"  
+id="staffList">  </div>  </div>  <div class="popup"  
+id="deletePopup">  <div class="popup-box">  <h2>  
+Delete Staff?  
+</h2>  <p style="margin-top:10px;">  
+Are you sure?  
+</p>  <div class="popup-buttons">  <button  
+class="confirm-btn"  
 onclick="confirmDelete()">
 
 Confirm
 
-</button>
-
-<button
-class="cancel-btn"
+</button>  <button  
+class="cancel-btn"  
 onclick="closePopup()">
 
 Cancel
 
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<script type="module">
-
-import { initializeApp }
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-
-getFirestore,
-collection,
-addDoc,
-getDocs,
-deleteDoc,
-doc,
-updateDoc
-
-}
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-
-apiKey:
-"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
-
-authDomain:
-"aaq-event-erp.firebaseapp.com",
-
-projectId:
-"aaq-event-erp",
-
-storageBucket:
-"aaq-event-erp.firebasestorage.app",
-
-messagingSenderId:
-"985636664002",
-
-appId:
-"1:985636664002:web:4b941d3562609d2058815b"
-
-};
-
-const app =
-initializeApp(firebaseConfig);
-
-const db =
-getFirestore(app);
-
-let editId = null;
-
-let deleteId = null;
-
-window.currentPhoto = "";
-
-window.saveStaff =
-async function(){
-
-const staffName =
-document.getElementById("staffName").value.trim();
-
-const mobile =
-document.getElementById("mobile").value.trim();
-
-const email =
-document.getElementById("email").value.trim();
-
-const password =
-document.getElementById("password").value.trim();
-
-const position =
-document.getElementById("position").value.trim();
-
-const address =
-document.getElementById("address").value.trim();
-
-const aadhaar =
-document.getElementById("aadhaar").value.trim();
-
-const staffId =
-document.getElementById("staffId").value.trim();
-
-const status =
-document.getElementById("status").value;
-
-const photo =
-document.getElementById("photo").files[0];
-
-let photoURL =
-window.currentPhoto || "";
-
-if(
-!staffName ||
-!mobile ||
-!email ||
-!password
-){
-
-alert("Please Fill Required Fields");
-
-return;
-
-}
-
-try{
-
-if(photo){
-
-const reader = new FileReader();
-
-reader.onload = async function(e){
-
-const img = new Image();
-
-img.src = e.target.result;
-
-img.onload = async function(){
-
-const canvas =
-document.createElement("canvas");
-
-const ctx =
-canvas.getContext("2d");
-
-canvas.width = 300;
-
-canvas.height = 300;
-
-ctx.drawImage(img,0,0,300,300);
-
-photoURL =
-canvas.toDataURL(
-"image/jpeg",
-0.5
-);
-
-await saveOrUpdate(
-staffName,
-mobile,
-email,
-password,
-position,
-address,
-aadhaar,
-staffId,
-status,
-photoURL
-);
-
-};
-reader.readAsDataURL(photo);
-
-}else{
-
-await saveOrUpdate(
-staffName,
-mobile,
-email,
-password,
-position,
-address,
-aadhaar,
-staffId,
-status,
-photoURL
-);
-
-}
-
-}catch(error){
-
-console.log(error);
-
-alert("Save Failed");
-
-}
-
-}
-
-async function saveOrUpdate(
-staffName,
-mobile,
-email,
-password,
-position,
-address,
-aadhaar,
-staffId,
-status,
-photoURL
-){
-
-try{
-
-const staffData = {
-
-staffName,
-mobile,
-email,
-password,
-position,
-address,
-aadhaar,
-staffId,
-status,
-photoURL
-
-};
-
-if(editId){
-
-await updateDoc(
-doc(db,"staffs",editId),
-staffData
-);
-
-alert("Staff Updated");
-
-editId = null;
-
-}else{
-
-await addDoc(
-collection(db,"staffs"),
-staffData
-);
-
-alert("Staff Added");
-
-}
-
-document.getElementById(
-"staffName"
-).value = "";
-
-document.getElementById(
-"mobile"
-).value = "";
-
-document.getElementById(
-"email"
-).value = "";
-
-document.getElementById(
-"password"
-).value = "";
-
-document.getElementById(
-"position"
-).value = "";
-
-document.getElementById(
-"address"
-).value = "";
-
-document.getElementById(
-"aadhaar"
-).value = "";
-
-document.getElementById(
-"staffId"
-).value = "";
-
-document.getElementById(
-"photo"
-).value = "";
-
-document.getElementById(
-"status"
-).value = "Select Status";
-
-window.currentPhoto = "";
-
-loadStaff();
-
-}catch(error){
-
-console.log(error);
-
-alert("Database Save Failed");
-
-}
-
-}
-
-window.editStaff =
-function(id,data){
-
-document.getElementById(
-"staffName"
-).value = data.staffName;
-
-document.getElementById(
-"mobile"
-).value = data.mobile;
-
-document.getElementById(
-"email"
-).value = data.email;
-
-document.getElementById(
-"password"
-).value = data.password;
-
-document.getElementById(
-"position"
-).value = data.position;
-
-document.getElementById(
-"address"
-).value = data.address;
-
-document.getElementById(
-"aadhaar"
-).value = data.aadhaar;
-
-document.getElementById(
-"staffId"
-).value = data.staffId;
-
-document.getElementById(
-"status"
-).value = data.status;
-
-window.currentPhoto =
-data.photoURL || "";
-
-editId = id;
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-window.deleteStaff =
-function(id){
-
-deleteId = id;
-
-document.getElementById(
-"deletePopup"
-).style.display = "flex";
-
-}
-
-window.closePopup =
-function(){
-
-document.getElementById(
-"deletePopup"
-).style.display = "none";
-
-}
-
-window.confirmDelete =
-async function(){
-
-await deleteDoc(
-doc(db,"staffs",deleteId)
-);
-
-closePopup();
-
-loadStaff();
-
-}
-
-async function loadStaff(){
-
-const querySnapshot =
-await getDocs(
-collection(db,"staffs")
-);
-
-let html = "";
-
-querySnapshot.forEach((docItem)=>{
-
-const data =
-docItem.data();
-
-html += `
-
-<div class="card">
-
-<div class="staff-row">
-
-<img
-src="${
-data.photoURL ||
-'https://i.imgur.com/6VBx3io.png'
-}"
-class="staff-photo">
-
-<div class="staff-details">
-
-<h3>
-${data.staffName}
-</h3>
-
-<p>
-📱 ${data.mobile}
-</p>
-
-<p>
-📧 ${data.email}
-</p>
-
-<p>
-💼 ${data.position}
-</p>
-
-<p>
-🪪 ${data.staffId}
-</p>
-
-<p>
-🗺️ ${data.address}
-</p>
-
-<p>
-✅ ${data.status}
-</p>
-
-<div class="action-buttons">
-
-<button
-class="edit-btn"
-onclick='editStaff(
-"${docItem.id}",
-${JSON.stringify(data)}
-)'>
-
-✏️
-
-</button>
-
-<button
-class="delete-btn"
-onclick='deleteStaff(
-"${docItem.id}"
-)'>
-
-🗑️
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-document.getElementById(
-"staffList"
-).innerHTML = html;
-
-}
-
-loadStaff();
-
-function updateDateTime(){
-
-const now = new Date();
-
-document.getElementById(
-"liveDate"
-).innerHTML =
-"📅 " +
-now.toLocaleDateString();
-
-document.getElementById(
-"liveTime"
-).innerHTML =
-"🕒 " +
-now.toLocaleTimeString();
-
-}
-
-setInterval(updateDateTime,1000);
-
-updateDateTime();
-
-</script>
-
-</body>
-
-</html>
+</button>  </div>  </div>  </div>  <script type="module">  
+  
+localStorage.setItem(  
+"loggedUser",  
+"Admin"  
+);  
+  
+import { initializeApp }  
+  
+from  
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";  
+  
+import {  
+  
+getFirestore,  
+collection,  
+addDoc,  
+getDocs,  
+deleteDoc,  
+doc,  
+updateDoc  
+  
+}  
+  
+from  
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";  
+  
+const firebaseConfig = {  
+  
+apiKey:  
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",  
+  
+authDomain:  
+"aaq-event-erp.firebaseapp.com",  
+  
+projectId:  
+"aaq-event-erp",  
+  
+storageBucket:  
+"aaq-event-erp.firebasestorage.app",  
+  
+messagingSenderId:  
+"985636664002",  
+  
+appId:  
+"1:985636664002:web:4b941d3562609d2058815b",  
+  
+measurementId:  
+"G-HHD049KDS8"  
+  
+};  
+  
+const app =  
+initializeApp(firebaseConfig);  
+  
+const db =  
+getFirestore(app);  
+  
+let editId = null;  
+  
+let deleteId = null;  
+  
+window.currentPhoto = "";  
+  
+window.saveStaff =  
+async function(){  
+  
+const staffName =  
+document.getElementById("staffName").value;  
+  
+const mobile =  
+document.getElementById("mobile").value;  
+  
+const email =  
+document.getElementById("email").value;  
+  
+const password =  
+document.getElementById("password").value;  
+  
+const position =  
+document.getElementById("position").value;  
+  
+const address =  
+document.getElementById("address").value;  
+  
+const aadhaar =  
+document.getElementById("aadhaar").value;  
+  
+const staffId =  
+document.getElementById("staffId").value;  
+  
+const status =  
+document.getElementById("status").value;  
+  
+const photo =  
+document.getElementById("photo").files[0];  
+  
+let photoURL =  
+window.currentPhoto || "";  
+  
+if(photo){  
+  
+photoURL =  
+URL.createObjectURL(photo);  
+  
+}  
+  
+try{  
+  
+if(editId){  
+  
+await updateDoc(  
+doc(db,"staffs",editId),  
+{  
+staffName,  
+mobile,  
+email,  
+password,  
+position,  
+address,  
+aadhaar,  
+staffId,  
+status,  
+photoURL  
+}  
+);  
+  
+alert("Staff Updated");  
+  
+editId = null;  
+  
+}else{  
+  
+await addDoc(  
+collection(db,"staffs"),  
+{  
+staffName,  
+mobile,  
+email,  
+password,  
+position,  
+address,  
+aadhaar,  
+staffId,  
+status,  
+photoURL  
+}  
+);  
+  
+alert("Staff Added");  
+  
+}  
+  
+document.querySelectorAll("input").forEach((input)=>{  
+input.value = "";  
+});  
+  
+document.getElementById(  
+"status"  
+).value = "Select Status";  
+  
+window.currentPhoto = "";  
+  
+loadStaff();  
+  
+}catch(error){  
+  
+alert(error);  
+  
+}  
+  
+}  
+  
+window.editStaff =  
+function(  
+id,  
+data  
+){  
+  
+document.getElementById(  
+"staffName"  
+).value = data.staffName;  
+  
+document.getElementById(  
+"mobile"  
+).value = data.mobile;  
+  
+document.getElementById(  
+"email"  
+).value = data.email;  
+  
+document.getElementById(  
+"password"  
+).value = data.password;  
+  
+document.getElementById(  
+"position"  
+).value = data.position;  
+  
+document.getElementById(  
+"address"  
+).value = data.address;  
+  
+document.getElementById(  
+"aadhaar"  
+).value = data.aadhaar;  
+  
+document.getElementById(  
+"staffId"  
+).value = data.staffId;  
+  
+document.getElementById(  
+"status"  
+).value = data.status;  
+  
+window.currentPhoto =  
+data.photoURL;  
+  
+editId = id;  
+  
+window.scrollTo({  
+top:0,  
+behavior:"smooth"  
+});  
+  
+}  
+  
+window.deleteStaff =  
+function(id){  
+  
+deleteId = id;  
+  
+document.getElementById(  
+"deletePopup"  
+).style.display = "flex";  
+  
+}  
+  
+window.closePopup =  
+function(){  
+  
+document.getElementById(  
+"deletePopup"  
+).style.display = "none";  
+  
+}  
+  
+window.confirmDelete =  
+async function(){  
+  
+await deleteDoc(  
+doc(db,"staffs",deleteId)  
+);  
+  
+closePopup();  
+  
+loadStaff();  
+  
+}  
+  
+async function loadStaff(){  
+  
+const querySnapshot =  
+await getDocs(  
+collection(db,"staffs")  
+);  
+  
+let html = "";  
+  
+querySnapshot.forEach((docItem)=>{  
+  
+const data =  
+docItem.data();  
+  
+html += `  
+  
+<div class="card">  
+  
+<div class="staff-row">  
+  
+<img  
+src="${  
+data.photoURL ||  
+'https://i.imgur.com/6VBx3io.png'  
+}"  
+class="staff-photo">  
+  
+<div class="staff-details">  
+  
+<h3>  
+${data.staffName}  
+</h3>  
+  
+<p>  
+📱 ${data.mobile}  
+</p>  
+  
+<p>  
+📧 ${data.email}  
+</p>  
+  
+<p>  
+💼 ${data.position}  
+</p>  
+  
+<p>  
+🪪 ${data.staffId}  
+</p>  
+  
+<p>  
+📍 ${data.address}  
+</p>  
+  
+<p>  
+✅ ${data.status}  
+</p>  
+  
+<div class="action-buttons">  
+  
+<button  
+class="edit-btn"  
+onclick='editStaff(  
+"${docItem.id}",  
+${JSON.stringify(data)}  
+)'>  
+  
+✏️  
+  
+</button>  
+  
+<button  
+class="delete-btn"  
+onclick='deleteStaff(  
+"${docItem.id}"  
+)'>  
+  
+🗑️  
+  
+</button>  
+  
+</div>  
+  
+</div>  
+  
+</div>  
+  
+</div>  
+  
+`;  
+  
+});  
+  
+document.getElementById(  
+"staffList"  
+).innerHTML = html;  
+  
+}  
+  
+loadStaff();  
+  
+function updateDateTime(){  
+  
+const now = new Date();  
+  
+document.getElementById(  
+"liveDate"  
+).innerHTML =  
+  
+"📅 " +  
+now.toLocaleDateString();  
+  
+document.getElementById(  
+"liveTime"  
+).innerHTML =  
+  
+"🕒 " +  
+now.toLocaleTimeString();  
+  
+}  
+  
+setInterval(updateDateTime,1000);  
+  
+updateDateTime();  
+  
+</script>  </body>  </html>

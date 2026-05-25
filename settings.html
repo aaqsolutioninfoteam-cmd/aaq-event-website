@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>AAQ Staff Dashboard</title>
+<title>ERP Settings</title>
 
 <style>
 
@@ -27,8 +27,7 @@ linear-gradient(
 #1e3a8a,
 #0f172a,
 #ca8a04,
-#1e293b,
-#2563eb
+#1e293b
 );
 
 background-size:400% 400%;
@@ -81,78 +80,51 @@ flex-wrap:wrap;
 
 gap:15px;
 
-background:rgba(255,255,255,0.08);
+}
 
-padding:20px;
+.title h1{
 
-border-radius:25px;
+font-size:34px;
 
-backdrop-filter:blur(12px);
+margin-bottom:5px;
 
 }
 
-.profile{
+.title p{
 
-display:flex;
-
-align-items:center;
-
-gap:15px;
+color:#dbeafe;
 
 }
 
-.profile img{
+.back-btn{
 
-width:80px;
+padding:14px 24px;
 
-height:80px;
+border-radius:14px;
 
-border-radius:50%;
+background:
+linear-gradient(
+135deg,
+#facc15,
+#eab308
+);
 
-object-fit:cover;
+text-decoration:none;
 
-border:4px solid #facc15;
+font-weight:bold;
 
-}
-
-.live-box{
-
-line-height:1.8;
-
-}
-
-.notice{
-
-background:rgba(250,204,21,0.12);
-
-padding:20px;
-
-border-radius:22px;
-
-margin-bottom:25px;
-
-backdrop-filter:blur(12px);
-
-border:1px solid rgba(250,204,21,0.25);
+color:#111827;
 
 }
 
-.notice h2{
-
-margin-bottom:12px;
-
-color:#facc15;
-
-}
-
-.dashboard{
+.grid{
 
 display:grid;
 
 grid-template-columns:
-repeat(auto-fit,minmax(230px,1fr));
+repeat(auto-fit,minmax(330px,1fr));
 
-gap:20px;
+gap:25px;
 
 }
 
@@ -166,51 +138,78 @@ border-radius:25px;
 
 backdrop-filter:blur(12px);
 
-text-align:center;
-
-transition:0.3s;
-
 border:1px solid rgba(255,255,255,0.12);
 
-}
-
-.card:hover{
-
-transform:translateY(-5px);
+box-shadow:
+0 10px 30px rgba(0,0,0,0.25);
 
 }
 
 .card h2{
 
-margin-bottom:15px;
+margin-bottom:20px;
+
+font-size:24px;
+
+color:#facc15;
 
 }
 
-.card p{
+.input-group{
 
-margin-bottom:20px;
+margin-bottom:18px;
+
+}
+
+.input-group label{
+
+display:block;
+
+margin-bottom:8px;
 
 color:#e2e8f0;
 
 }
 
-.btn{
+.input-group input,
+.input-group select,
+.input-group textarea{
 
-display:inline-block;
+width:100%;
 
-padding:13px 24px;
+padding:13px;
+
+border:none;
 
 border-radius:12px;
 
-text-decoration:none;
-
-font-weight:bold;
+background:rgba(255,255,255,0.12);
 
 color:white;
 
+font-size:15px;
+
+outline:none;
+
 }
 
-.attendance{
+textarea{
+
+height:110px;
+
+resize:none;
+
+}
+
+.save-btn{
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+border-radius:14px;
 
 background:
 linear-gradient(
@@ -219,118 +218,31 @@ linear-gradient(
 #15803d
 );
 
-}
+color:white;
 
-.profilebtn{
+font-size:17px;
 
-background:
-linear-gradient(
-135deg,
-#2563eb,
-#1d4ed8
-);
-
-}
-
-.events{
-
-background:
-linear-gradient(
-135deg,
-#ca8a04,
-#a16207
-);
-
-}
-
-.reports{
-
-background:
-linear-gradient(
-135deg,
-#7c3aed,
-#5b21b6
-);
-
-}
-
-.idcard{
-
-background:
-linear-gradient(
-135deg,
-#ef4444,
-#b91c1c
-);
-
-}
-
-.popup{
-
-display:none;
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.7);
-
-justify-content:center;
-
-align-items:center;
-
-z-index:9999;
-
-}
-
-.popup-box{
-
-background:#0f172a;
-
-padding:30px;
-
-border-radius:25px;
-
-width:350px;
-
-text-align:center;
-
-border:1px solid rgba(255,255,255,0.15);
-
-position:relative;
-
-}
-
-.close{
-
-position:absolute;
-
-top:12px;
-right:15px;
-
-font-size:24px;
+font-weight:bold;
 
 cursor:pointer;
 
-}
-
-.popup-box h2{
-
-margin-bottom:15px;
-
-color:#facc15;
+margin-top:10px;
 
 }
 
-.popup-box p{
+.preview{
+
+background:rgba(250,204,21,0.12);
+
+padding:18px;
+
+border-radius:16px;
 
 line-height:1.8;
 
-color:#e2e8f0;
+margin-top:15px;
+
+border:1px solid rgba(250,204,21,0.25);
 
 }
 
@@ -344,372 +256,306 @@ color:#e2e8f0;
 
 <div class="header">
 
-<div class="profile">
+<div class="title">
 
-<img
-id="staffPhoto"
-src="https://i.imgur.com/6VBx3io.png">
-
-<div>
-
-<h2 id="staffName">
-Staff User
-</h2>
-
-<p id="staffRole">
-STAFF
-</p>
-
-</div>
-
-</div>
-
-<div class="live-box">
-
-<div id="liveDate"></div>
-
-<div id="liveTime"></div>
-
-</div>
-
-</div>
-
-<div
-class="notice"
-id="dutyNotice">
-
-<h2>
-📢 Duty Notification
-</h2>
+<h1>
+ERP Settings Panel
+</h1>
 
 <p>
-No Duty Notice Available
+Professional Control Settings
 </p>
 
 </div>
 
-<div class="dashboard">
+<a href="admin.html"
+class="back-btn">
 
-<div class="card">
-
-<h2>
-Attendance
-</h2>
-
-<p>
-Mark IN / OUT Attendance
-</p>
-
-<a
-href="attendance.html"
-class="btn attendance">
-
-Open
+Back To Admin
 
 </a>
 
 </div>
 
-<div class="card">
+<div class="grid">
 
-<h2>
-My Profile
-</h2>
-
-<p>
-View Profile Details
-</p>
-
-<a
-href="profile.html"
-class="btn profilebtn">
-
-Open
-
-</a>
-
-</div>
+<!-- DUTY NOTICE -->
 
 <div class="card">
 
 <h2>
-Events
+Duty Notification
 </h2>
 
-<p>
-Check Event Duties
-</p>
+<div class="input-group">
 
-<a
-href="events.html"
-class="btn events">
+<label>
+Duty Date
+</label>
 
-Open
-
-</a>
+<input type="date">
 
 </div>
 
-<div class="card">
+<div class="input-group">
 
-<h2>
-Reports
-</h2>
+<label>
+Duty Start Time
+</label>
 
-<p>
-Attendance Reports
-</p>
-
-<a
-href="reports.html"
-class="btn reports">
-
-Open
-
-</a>
+<input type="time">
 
 </div>
 
-<div class="card">
+<div class="input-group">
 
-<h2>
-ID Card
-</h2>
+<label>
+Duty End Time
+</label>
 
-<p>
-Check ID Card Status
-</p>
-
-<a
-href="id-card.html"
-class="btn idcard">
-
-Open
-
-</a>
+<input type="time">
 
 </div>
 
+<div class="input-group">
+
+<label>
+Duty Message
+</label>
+
+<textarea
+placeholder="Write Duty Message..."></textarea>
+
 </div>
+
+<div class="preview">
+
+📅 25/05/2026
+
+<br><br>
+
+🕒 Duty :
+09:00 AM To 06:00 PM
+
+<br><br>
+
+📢 Staff Duty At Surat Office
+
+</div>
+
+<button class="save-btn">
+
+Save Duty Notice
+
+</button>
 
 </div>
 
 <!-- POPUP -->
 
-<div
-class="popup"
-id="popupBox">
+<div class="card">
 
-<div class="popup-box">
-
-<div
-class="close"
-onclick="closePopup()">
-
-❌
-
-</div>
-
-<h2 id="popupTitle">
-Notification
-</h2>
-
-<p id="popupMessage">
-
-</p>
-
-</div>
-
-</div>
-
-<script type="module">
-
-import { initializeApp }
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-
-getFirestore,
-collection,
-onSnapshot
-
-}
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-
-apiKey:
-"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
-
-authDomain:
-"aaq-event-erp.firebaseapp.com",
-
-projectId:
-"aaq-event-erp",
-
-storageBucket:
-"aaq-event-erp.firebasestorage.app",
-
-messagingSenderId:
-"985636664002",
-
-appId:
-"1:985636664002:web:4b941d3562609d2058815b"
-
-};
-
-const app =
-initializeApp(firebaseConfig);
-
-const db =
-getFirestore(app);
-
-const staffName =
-localStorage.getItem(
-"staffName"
-) || "Staff User";
-
-const staffPhoto =
-localStorage.getItem(
-"staffPhoto"
-);
-
-const staffRole =
-localStorage.getItem(
-"staffRole"
-) || "STAFF";
-
-document.getElementById(
-"staffName"
-).innerHTML =
-staffName;
-
-document.getElementById(
-"staffRole"
-).innerHTML =
-staffRole;
-
-if(staffPhoto){
-
-document.getElementById(
-"staffPhoto"
-).src =
-staffPhoto;
-
-}
-
-function updateDateTime(){
-
-const now = new Date();
-
-document.getElementById(
-"liveDate"
-).innerHTML =
-
-"📅 " +
-now.toLocaleDateString();
-
-document.getElementById(
-"liveTime"
-).innerHTML =
-
-"🕒 " +
-now.toLocaleTimeString();
-
-}
-
-setInterval(updateDateTime,1000);
-
-updateDateTime();
-
-window.closePopup =
-function(){
-
-document.getElementById(
-"popupBox"
-).style.display =
-"none";
-
-}
-
-onSnapshot(
-collection(db,"popupNotice"),
-(snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-const data =
-doc.data();
-
-if(
-data.status === "Enabled"
-){
-
-document.getElementById(
-"popupTitle"
-).innerHTML =
-data.title;
-
-document.getElementById(
-"popupMessage"
-).innerHTML =
-data.message;
-
-document.getElementById(
-"popupBox"
-).style.display =
-"flex";
-
-}
-
-});
-
-});
-
-onSnapshot(
-collection(db,"dutyNotice"),
-(snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-const data =
-doc.data();
-
-document.getElementById(
-"dutyNotice"
-).innerHTML =
-
-`
 <h2>
-📢 Duty Notification
+Popup Notification
 </h2>
 
-<p>
+<div class="input-group">
 
-📅 ${data.date}
+<label>
+Popup Title
+</label>
+
+<input
+type="text"
+placeholder="Important Notice">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Popup Message
+</label>
+
+<textarea
+placeholder="Write Popup Message..."></textarea>
+
+</div>
+
+<div class="input-group">
+
+<label>
+Popup Status
+</label>
+
+<select>
+
+<option>
+Enabled
+</option>
+
+<option>
+Disabled
+</option>
+
+</select>
+
+</div>
+
+<div class="preview">
+
+🔔 Popup Preview
 
 <br><br>
 
-🕒 ${data.start}
- To
- ${data.end}
+📢 Tomorrow Office Meeting
 
 <br><br>
 
-📌 ${data.message}
+❌ Close Button Enabled
 
-</p>
-`;
+</div>
 
-});
+<button class="save-btn">
 
-});
+Save Popup
 
-</script>
+</button>
+
+</div>
+
+<!-- ROLE -->
+
+<div class="card">
+
+<h2>
+Role Change
+</h2>
+
+<div class="input-group">
+
+<label>
+Staff Email
+</label>
+
+<input
+type="email"
+placeholder="staff@email.com">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Select Role
+</label>
+
+<select>
+
+<option>
+STAFF
+</option>
+
+<option>
+MANAGER
+</option>
+
+<option>
+HR
+</option>
+
+<option>
+ADMIN
+</option>
+
+</select>
+
+</div>
+
+<div class="preview">
+
+📧 staff@email.com
+
+<br><br>
+
+🪪 New Role :
+MANAGER
+
+</div>
+
+<button class="save-btn">
+
+Update Role
+
+</button>
+
+</div>
+
+<!-- THEME -->
+
+<div class="card">
+
+<h2>
+Theme Settings
+</h2>
+
+<div class="input-group">
+
+<label>
+Select Theme
+</label>
+
+<select>
+
+<option>
+Blue Gold
+</option>
+
+<option>
+Royal Blue
+</option>
+
+<option>
+Corporate Dark
+</option>
+
+<option>
+Premium Navy
+</option>
+
+</select>
+
+</div>
+
+<div class="preview">
+
+🎨 Premium ERP Theme
+
+<br><br>
+
+✅ Staff Dashboard
+
+<br>
+
+✅ Admin Dashboard
+
+<br>
+
+✅ Popup Theme
+
+</div>
+
+<button class="save-btn">
+
+Apply Theme
+
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 </body>
 

@@ -24,134 +24,51 @@ body{
 background:
 linear-gradient(
 135deg,
+#07111f,
 #0f172a,
 #111827,
 #1e293b,
+#c8a44d,
 #0f172a
 );
 
+background-size:400% 400%;
+
+animation:bgMove 15s ease infinite;
+
 min-height:100vh;
 
-color:white;
-
-display:flex;
-
-}
-
-.sidebar{
-
-width:260px;
-
-background:rgba(255,255,255,0.06);
-
-backdrop-filter:blur(15px);
-
-padding:25px;
-
-border-right:1px solid rgba(255,255,255,0.1);
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-height:100vh;
-
-overflow:auto;
-
-}
-
-.logo-box{
-
-text-align:center;
-
-margin-bottom:30px;
-
-}
-
-.logo{
-
-width:90px;
-
-margin-bottom:10px;
-
-}
-
-.logo-box h2{
-
-font-size:24px;
-
-margin-bottom:5px;
-
-}
-
-.logo-box p{
-
-font-size:13px;
-
-color:#cbd5e1;
-
-}
-
-.menu{
-
-display:flex;
-
-flex-direction:column;
-
-gap:15px;
-
-}
-
-.menu button{
-
-padding:15px;
-
-border:none;
-
-border-radius:14px;
-
-background:rgba(255,255,255,0.08);
+padding:20px;
 
 color:white;
 
-font-size:15px;
+}
 
-font-weight:bold;
+@keyframes bgMove{
 
-cursor:pointer;
+0%{
+background-position:0% 50%;
+}
 
-transition:0.3s;
+50%{
+background-position:100% 50%;
+}
 
-text-align:left;
+100%{
+background-position:0% 50%;
+}
 
 }
 
-.menu button:hover{
+.container{
 
-background:
-linear-gradient(
-135deg,
-#ca8a04,
-#a16207
-);
+max-width:1200px;
 
-transform:translateX(5px);
+margin:auto;
 
 }
 
-.main{
-
-margin-left:260px;
-
-width:100%;
-
-padding:25px;
-
-}
-
-.topbar{
+.header{
 
 display:flex;
 
@@ -159,67 +76,138 @@ justify-content:space-between;
 
 align-items:center;
 
-margin-bottom:25px;
+background:rgba(15,23,42,0.75);
 
-background:rgba(255,255,255,0.06);
+border:1px solid rgba(212,175,55,0.25);
 
-padding:18px 22px;
+padding:20px;
 
-border-radius:18px;
+border-radius:20px;
 
-backdrop-filter:blur(15px);
+backdrop-filter:blur(14px);
+
+margin-bottom:30px;
 
 flex-wrap:wrap;
 
 gap:15px;
 
-}
-
-.time-box{
-
-font-size:14px;
-
-line-height:1.6;
+box-shadow:
+0 8px 30px rgba(0,0,0,0.35);
 
 }
 
-.logout{
+.logo-box{
 
-background:#dc2626;
+display:flex;
 
-padding:12px 20px;
+align-items:center;
 
-border:none;
+gap:15px;
+
+}
+
+.logo{
+
+width:70px;
+
+}
+
+.logo-box h2{
+
+font-size:28px;
+
+margin-bottom:5px;
+
+}
+
+.logo-box p{
+
+color:#e2e8f0;
+
+font-size:13px;
+
+}
+
+.header-right{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+}
+
+.live-box{
+
+font-size:13px;
+
+line-height:1.7;
+
+background:rgba(255,255,255,0.05);
+
+padding:10px 16px;
 
 border-radius:12px;
 
-color:white;
+}
+
+.back-btn{
+
+background:
+linear-gradient(
+135deg,
+#d4af37,
+#b8860b
+);
+
+padding:12px 20px;
+
+border-radius:12px;
+
+text-decoration:none;
+
+color:#111827;
 
 font-weight:bold;
 
-cursor:pointer;
+transition:0.3s;
 
 }
 
-.content-box{
+.back-btn:hover{
 
-background:rgba(255,255,255,0.06);
+transform:scale(1.04);
+
+}
+
+.form-box{
+
+background:rgba(15,23,42,0.75);
+
+border:1px solid rgba(212,175,55,0.2);
 
 padding:30px;
 
 border-radius:25px;
 
-backdrop-filter:blur(15px);
+backdrop-filter:blur(14px);
 
-margin-bottom:25px;
+margin-bottom:30px;
+
+box-shadow:
+0 10px 35px rgba(0,0,0,0.35);
 
 }
 
-.content-box h2{
+.form-box h2{
 
-margin-bottom:20px;
+margin-bottom:25px;
 
-font-size:26px;
+font-size:28px;
 
 }
 
@@ -236,11 +224,22 @@ border:none;
 
 border-radius:12px;
 
-background:#1e293b;
+background:#0f172a;
+
+border:1px solid rgba(212,175,55,0.15);
 
 color:white;
 
-font-size:15px;
+font-size:16px;
+
+outline:none;
+
+}
+
+input:focus,
+select:focus{
+
+border:1px solid #d4af37;
 
 }
 
@@ -252,16 +251,16 @@ padding:15px;
 
 border:none;
 
-border-radius:14px;
+border-radius:15px;
 
 background:
 linear-gradient(
 135deg,
-#ca8a04,
-#a16207
+#d4af37,
+#b8860b
 );
 
-color:white;
+color:#111827;
 
 font-size:18px;
 
@@ -269,25 +268,48 @@ font-weight:bold;
 
 cursor:pointer;
 
+transition:0.3s;
+
+}
+
+.save-btn:hover{
+
+transform:scale(1.02);
+
 }
 
 .staff-list{
 
 display:grid;
 
-gap:20px;
+gap:22px;
 
 }
 
 .card{
 
-background:rgba(255,255,255,0.06);
+background:rgba(15,23,42,0.72);
 
-padding:22px;
+border:1px solid rgba(212,175,55,0.18);
 
-border-radius:22px;
+padding:20px;
 
-backdrop-filter:blur(15px);
+border-radius:20px;
+
+backdrop-filter:blur(14px);
+
+box-shadow:
+0 8px 30px rgba(0,0,0,0.35);
+
+transition:0.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-5px);
+
+border-color:#d4af37;
 
 }
 
@@ -305,15 +327,17 @@ flex-wrap:wrap;
 
 .staff-photo{
 
-width:90px;
+width:95px;
 
-height:90px;
+height:95px;
 
 border-radius:50%;
 
 object-fit:cover;
 
-border:3px solid white;
+border:3px solid #d4af37;
+
+background:#111827;
 
 }
 
@@ -327,7 +351,7 @@ flex:1;
 
 margin-bottom:10px;
 
-font-size:22px;
+font-size:24px;
 
 }
 
@@ -337,7 +361,7 @@ margin-bottom:7px;
 
 font-size:14px;
 
-color:#e2e8f0;
+color:#e5e7eb;
 
 }
 
@@ -368,6 +392,8 @@ font-size:18px;
 
 color:white;
 
+transition:0.3s;
+
 }
 
 .edit-btn{
@@ -379,6 +405,13 @@ background:#2563eb;
 .delete-btn{
 
 background:#dc2626;
+
+}
+
+.edit-btn:hover,
+.delete-btn:hover{
+
+transform:scale(1.08);
 
 }
 
@@ -394,7 +427,7 @@ left:0;
 width:100%;
 height:100%;
 
-background:rgba(0,0,0,0.7);
+background:rgba(0,0,0,0.75);
 
 justify-content:center;
 
@@ -415,6 +448,8 @@ border-radius:20px;
 width:320px;
 
 text-align:center;
+
+border:1px solid rgba(212,175,55,0.2);
 
 }
 
@@ -458,37 +493,27 @@ background:#374151;
 
 }
 
-@media(max-width:900px){
-
-body{
-
-flex-direction:column;
-
-}
-
-.sidebar{
-
-position:relative;
-
-width:100%;
-
-height:auto;
-
-border-right:none;
-
-}
-
-.main{
-
-margin-left:0;
-
-}
+@media(max-width:768px){
 
 .staff-row{
 
 flex-direction:column;
 
 text-align:center;
+
+}
+
+.action-buttons{
+
+justify-content:center;
+
+}
+
+.header{
+
+flex-direction:column;
+
+align-items:flex-start;
 
 }
 
@@ -500,60 +525,30 @@ text-align:center;
 
 <body>
 
-<div class="sidebar">
+<div class="container">
+
+<div class="header">
 
 <div class="logo-box">
 
 <img src="logo.png"
 class="logo">
 
-<h2>AAQ ERP</h2>
+<div>
+
+<h2>AAQ Staff Management</h2>
 
 <p>
-Professional Management Panel
+Professional ERP Management System
 </p>
 
 </div>
 
-<div class="menu">
-
-<button onclick="showSection('dashboard')">
-🏠 Dashboard
-</button>
-
-<button onclick="showSection('staff')">
-👨‍💼 Staff Management
-</button>
-
-<button onclick="showSection('attendance')">
-📅 Attendance
-</button>
-
-<button onclick="showSection('events')">
-🎉 Events
-</button>
-
-<button onclick="showSection('reports')">
-📊 Reports
-</button>
-
-<button onclick="showSection('idcard')">
-🪪 ID Card
-</button>
-
-<button onclick="showSection('settings')">
-⚙️ Settings
-</button>
-
 </div>
 
-</div>
+<div class="header-right">
 
-<div class="main">
-
-<div class="topbar">
-
-<div class="time-box">
+<div class="live-box">
 
 <div id="liveDate"></div>
 
@@ -561,22 +556,20 @@ Professional Management Panel
 
 </div>
 
-<button
-onclick="logout()"
-class="logout">
+<a href="admin.html"
+class="back-btn">
 
-Logout
+Back To Admin
 
-</button>
+</a>
 
 </div>
 
-<div class="content-box"
-id="mainContent">
+</div>
 
-<h2>
-Staff Management
-</h2>
+<div class="form-box">
+
+<h2>Add / Edit Staff</h2>
 
 <input type="text"
 id="staffName"
@@ -630,6 +623,7 @@ Inactive
 </select>
 
 <button
+type="button"
 onclick="saveStaff()"
 class="save-btn">
 
@@ -656,7 +650,7 @@ Delete Staff?
 </h2>
 
 <p style="margin-top:10px;">
-Are you sure?
+Are you sure you want to delete this staff?
 </p>
 
 <div class="popup-buttons">
@@ -775,6 +769,8 @@ document.getElementById("photo").files[0];
 let photoURL =
 window.currentPhoto || "";
 
+try{
+
 if(photo){
 
 const reader = new FileReader();
@@ -783,7 +779,7 @@ reader.onload = async function(e){
 
 photoURL = e.target.result;
 
-await saveStaffData(
+await saveOrUpdate(
 staffName,
 mobile,
 email,
@@ -802,7 +798,7 @@ reader.readAsDataURL(photo);
 
 }else{
 
-await saveStaffData(
+await saveOrUpdate(
 staffName,
 mobile,
 email,
@@ -817,9 +813,17 @@ photoURL
 
 }
 
+}catch(error){
+
+alert(error);
+
+console.log(error);
+
 }
 
-async function saveStaffData(
+}
+
+async function saveOrUpdate(
 staffName,
 mobile,
 email,
@@ -1110,25 +1114,8 @@ setInterval(updateDateTime,1000);
 
 updateDateTime();
 
-function logout(){
-
-localStorage.clear();
-
-window.location.href =
-"login.html";
-
-}
-
-window.logout = logout;
-
-window.showSection = function(name){
-
-alert(name + " Section Coming Soon");
-
-}
-
 </script>
 
 </body>
 
-  </html>
+</html>

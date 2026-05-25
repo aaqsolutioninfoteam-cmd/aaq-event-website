@@ -60,7 +60,7 @@ background-position:0% 50%;
 
 .container{
 
-max-width:1300px;
+max-width:1350px;
 
 margin:auto;
 
@@ -114,6 +114,8 @@ border-radius:28px;
 backdrop-filter:blur(12px);
 
 margin-bottom:25px;
+
+border:1px solid rgba(255,255,255,0.12);
 
 }
 
@@ -221,6 +223,8 @@ border-radius:28px;
 
 backdrop-filter:blur(12px);
 
+border:1px solid rgba(255,255,255,0.12);
+
 }
 
 .card h2{
@@ -236,6 +240,8 @@ color:#facc15;
 margin-bottom:10px;
 
 line-height:1.7;
+
+color:#e2e8f0;
 
 }
 
@@ -403,7 +409,7 @@ Assign Staff Email
 <select id="assignStaff">
 
 <option>
-Select Staff
+Loading Staff...
 </option>
 
 </select>
@@ -469,26 +475,81 @@ id="eventList">
 
 </div>
 
-<script>
+<script type="module">
 
-let editIndex = null;
+import { initializeApp }
 
-function loadStaffEmails(){
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-const staffs =
-JSON.parse(
-localStorage.getItem("staffs")
-) || [];
+import {
+
+getFirestore,
+collection,
+getDocs,
+addDoc,
+deleteDoc,
+doc,
+updateDoc
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+
+authDomain:
+"aaq-event-erp.firebaseapp.com",
+
+projectId:
+"aaq-event-erp",
+
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
+
+messagingSenderId:
+"985636664002",
+
+appId:
+"1:985636664002:web:4b941d3562609d2058815b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+let editId = null;
+
+async function loadStaffEmails(){
+
+const querySnapshot =
+await getDocs(
+collection(db,"staffs")
+);
 
 let options =
 "<option>Select Staff</option>";
 
-staffs.forEach((staff)=>{
+querySnapshot.forEach((docItem)=>{
+
+const staff =
+docItem.data();
 
 options += `
 
-<option>
+<option value="${staff.email}">
+
+${staff.staffName}
+-
 ${staff.email}
+
 </option>
 
 `;
@@ -502,12 +563,8 @@ options;
 
 }
 
-function saveEvent(){
-
-const events =
-JSON.parse(
-localStorage.getItem("events")
-) || [];
+window.saveEvent =
+async function(){
 
 const data = {
 
@@ -540,39 +597,45 @@ document.getElementById("eventDetails").value
 
 };
 
-if(editIndex === null){
+if(editId){
 
-events.push(data);
+await updateDoc(
+doc(db,"events",editId),
+data
+);
+
+alert("Event Updated");
+
+editId = null;
 
 }else{
 
-events[editIndex] = data;
-
-editIndex = null;
-
-}
-
-localStorage.setItem(
-"events",
-JSON.stringify(events)
+await addDoc(
+collection(db,"events"),
+data
 );
 
 alert("Event Saved");
+
+}
 
 loadEvents();
 
 }
 
-function loadEvents(){
+async function loadEvents(){
 
-const events =
-JSON.parse(
-localStorage.getItem("events")
-) || [];
+const querySnapshot =
+await getDocs(
+collection(db,"events")
+);
 
 let html = "";
 
-events.forEach((event,index)=>{
+querySnapshot.forEach((docItem)=>{
+
+const event =
+docItem.data();
 
 html += `
 
@@ -623,7 +686,10 @@ ${event.dutyType}
 
 <button
 class="edit-btn"
-onclick="editEvent(${index})">
+onclick='editEvent(
+"${docItem.id}",
+${JSON.stringify(event)}
+)'>
 
 Edit
 
@@ -631,7 +697,9 @@ Edit
 
 <button
 class="delete-btn"
-onclick="deleteEvent(${index})">
+onclick='deleteEvent(
+"${docItem.id}"
+)'>
 
 Delete
 
@@ -652,15 +720,8 @@ html;
 
 }
 
-function editEvent(index){
-
-const events =
-JSON.parse(
-localStorage.getItem("events")
-) || [];
-
-const event =
-events[index];
+window.editEvent =
+function(id,event){
 
 document.getElementById(
 "eventName"
@@ -707,7 +768,7 @@ document.getElementById(
 ).value =
 event.eventDetails;
 
-editIndex = index;
+editId = id;
 
 window.scrollTo({
 top:0,
@@ -716,18 +777,11 @@ behavior:"smooth"
 
 }
 
-function deleteEvent(index){
+window.deleteEvent =
+async function(id){
 
-const events =
-JSON.parse(
-localStorage.getItem("events")
-) || [];
-
-events.splice(index,1);
-
-localStorage.setItem(
-"events",
-JSON.stringify(events)
+await deleteDoc(
+doc(db,"events",id)
 );
 
 loadEvents();

@@ -673,10 +673,27 @@ window.currentPhoto || "";
 
 if(photo){
 
-photoURL =
-URL.createObjectURL(photo);
+const reader = new FileReader();
+
+reader.onload = async function(e){
+
+photoURL = e.target.result;
+
+saveStaffData(photoURL);
+
+};
+
+reader.readAsDataURL(photo);
+
+return;
+
+}else{
+
+saveStaffData(photoURL);
 
 }
+
+async function saveStaffData(photoURL){
 
 try{
 
@@ -739,6 +756,8 @@ loadStaff();
 }catch(error){
 
 alert(error);
+
+}
 
 }
 

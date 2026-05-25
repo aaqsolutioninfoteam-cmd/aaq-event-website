@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Event Management</title>
+<title>Advanced Event ERP</title>
 
 <style>
 
@@ -60,7 +60,7 @@ background-position:0% 50%;
 
 .container{
 
-max-width:1350px;
+max-width:1400px;
 
 margin:auto;
 
@@ -170,126 +170,124 @@ outline:none;
 
 textarea{
 
-height:120px;
+height:100px;
 
 resize:none;
 
 }
 
+.add-btn,
 .save-btn{
 
-width:100%;
-
-padding:16px;
+padding:14px;
 
 border:none;
 
-border-radius:15px;
-
-background:
-linear-gradient(
-135deg,
-#22c55e,
-#15803d
-);
-
-color:white;
-
-font-size:17px;
+border-radius:14px;
 
 font-weight:bold;
 
 cursor:pointer;
 
-margin-top:15px;
+color:white;
+
+margin-top:10px;
 
 }
 
-.event-list{
+.add-btn{
 
-display:grid;
+background:#2563eb;
 
-gap:22px;
+width:100%;
 
 }
 
-.card{
+.save-btn{
+
+background:#22c55e;
+
+width:100%;
+
+}
+
+.post-box{
+
+background:rgba(255,255,255,0.06);
+
+padding:20px;
+
+border-radius:20px;
+
+margin-top:20px;
+
+border:1px solid rgba(255,255,255,0.08);
+
+}
+
+.staff-list{
+
+margin-top:10px;
+
+}
+
+.staff-item{
+
+padding:10px;
+
+background:rgba(255,255,255,0.08);
+
+border-radius:10px;
+
+margin-bottom:10px;
+
+}
+
+.event-card{
 
 background:rgba(255,255,255,0.08);
 
 padding:25px;
 
-border-radius:28px;
+border-radius:25px;
 
-backdrop-filter:blur(12px);
+margin-top:20px;
 
 border:1px solid rgba(255,255,255,0.12);
 
 }
 
-.card h2{
-
-margin-bottom:15px;
+.event-card h2{
 
 color:#facc15;
 
-}
-
-.card p{
-
-margin-bottom:10px;
-
-line-height:1.7;
-
-color:#e2e8f0;
+margin-bottom:15px;
 
 }
 
-.action-btns{
+.status{
 
-display:flex;
+display:inline-block;
 
-gap:10px;
+padding:8px 15px;
+
+border-radius:10px;
 
 margin-top:15px;
 
-flex-wrap:wrap;
-
-}
-
-.edit-btn{
-
-padding:12px 18px;
-
-border:none;
-
-border-radius:12px;
-
-background:#2563eb;
-
-color:white;
-
-cursor:pointer;
-
 font-weight:bold;
 
 }
 
-.delete-btn{
+.active{
 
-padding:12px 18px;
+background:#22c55e;
 
-border:none;
+}
 
-border-radius:12px;
+.expired{
 
 background:#ef4444;
-
-color:white;
-
-cursor:pointer;
-
-font-weight:bold;
 
 }
 
@@ -306,11 +304,11 @@ font-weight:bold;
 <div>
 
 <h1>
-Event Management
+Advanced Event ERP
 </h1>
 
 <p>
-Professional ERP Event Control
+Multi Staff Event Management
 </p>
 
 </div>
@@ -343,123 +341,90 @@ id="eventName">
 <div class="input-group">
 
 <label>
-Event Area
+Event Address
 </label>
 
 <input
 type="text"
-id="eventArea">
+id="eventAddress">
 
 </div>
 
 <div class="input-group">
 
 <label>
-Duty Time
+Start Date
+</label>
+
+<input
+type="date"
+id="startDate">
+
+</div>
+
+<div class="input-group">
+
+<label>
+End Date
+</label>
+
+<input
+type="date"
+id="endDate">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Event Coordinator
 </label>
 
 <input
 type="text"
-id="eventTime">
+id="eventCoordinator">
 
 </div>
 
 <div class="input-group">
 
 <label>
-Manager Name
+Access Manager
 </label>
 
 <input
 type="text"
-id="managerName">
+id="accessManager">
 
 </div>
 
 <div class="input-group">
 
 <label>
-Coordinator Name
+Technical Team
 </label>
 
 <input
 type="text"
-id="coordinatorName">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Team Members
-</label>
-
-<input
-type="text"
-id="teamMembers">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Assign Staff Email
-</label>
-
-<select id="assignStaff">
-
-<option>
-Loading Staff...
-</option>
-
-</select>
-
-</div>
-
-<div class="input-group">
-
-<label>
-Duty Type
-</label>
-
-<select id="dutyType">
-
-<option>
-Reception
-</option>
-
-<option>
-Security
-</option>
-
-<option>
-Stage Control
-</option>
-
-<option>
-Parking
-</option>
-
-</select>
+id="technicalTeam">
 
 </div>
 
 </div>
 
-<div class="input-group">
-
-<label>
-Event Details
-</label>
-
-<textarea
-id="eventDetails"></textarea>
-
-</div>
+<div id="postContainer"></div>
 
 <button
-onclick="saveEvent()"
-class="save-btn">
+class="add-btn"
+onclick="addPost()">
+
++ Add Event Crew Post
+
+</button>
+
+<button
+class="save-btn"
+onclick="saveEvent()">
 
 Save Event
 
@@ -467,243 +432,244 @@ Save Event
 
 </div>
 
-<div
-class="event-list"
-id="eventList">
+<div id="eventList"></div>
+
+</div>
+
+<script>
+
+let totalPosts = 0;
+
+function addPost(){
+
+totalPosts++;
+
+const html = `
+
+<div class="post-box">
+
+<h3>
+Crew Post ${totalPosts}
+</h3>
+
+<div class="grid">
+
+<div class="input-group">
+
+<label>
+Event Crew Post
+</label>
+
+<input
+type="text"
+class="crewPost">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Duty Area
+</label>
+
+<input
+type="text"
+class="dutyArea">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Coordinator
+</label>
+
+<input
+type="text"
+class="coordinator">
 
 </div>
 
 </div>
 
-<script type="module">
+<div class="staff-list">
 
-import { initializeApp }
+<label>
+Assign Unlimited Staff
+</label>
 
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+<textarea
+class="staffEmails"
+placeholder="Enter Staff Emails Separate By Comma"></textarea>
 
-import {
+</div>
 
-getFirestore,
-collection,
-getDocs,
-addDoc,
-deleteDoc,
-doc,
-updateDoc
-
-}
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-
-apiKey:
-"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
-
-authDomain:
-"aaq-event-erp.firebaseapp.com",
-
-projectId:
-"aaq-event-erp",
-
-storageBucket:
-"aaq-event-erp.firebasestorage.app",
-
-messagingSenderId:
-"985636664002",
-
-appId:
-"1:985636664002:web:4b941d3562609d2058815b"
-
-};
-
-const app =
-initializeApp(firebaseConfig);
-
-const db =
-getFirestore(app);
-
-let editId = null;
-
-async function loadStaffEmails(){
-
-const querySnapshot =
-await getDocs(
-collection(db,"staffs")
-);
-
-let options =
-"<option>Select Staff</option>";
-
-querySnapshot.forEach((docItem)=>{
-
-const staff =
-docItem.data();
-
-options += `
-
-<option value="${staff.email}">
-
-${staff.staffName}
--
-${staff.email}
-
-</option>
+</div>
 
 `;
 
-});
-
 document.getElementById(
-"assignStaff"
-).innerHTML =
-options;
+"postContainer"
+).innerHTML += html;
 
 }
 
-window.saveEvent =
-async function(){
+function saveEvent(){
 
-const data = {
+const posts = [];
+
+document.querySelectorAll(
+".post-box"
+).forEach((post)=>{
+
+posts.push({
+
+crewPost:
+post.querySelector(".crewPost").value,
+
+dutyArea:
+post.querySelector(".dutyArea").value,
+
+coordinator:
+post.querySelector(".coordinator").value,
+
+staffEmails:
+post.querySelector(".staffEmails").value
+
+});
+
+});
+
+const events =
+JSON.parse(
+localStorage.getItem("events")
+) || [];
+
+events.push({
 
 eventName:
 document.getElementById("eventName").value,
 
-eventArea:
-document.getElementById("eventArea").value,
+eventAddress:
+document.getElementById("eventAddress").value,
 
-eventTime:
-document.getElementById("eventTime").value,
+startDate:
+document.getElementById("startDate").value,
 
-managerName:
-document.getElementById("managerName").value,
+endDate:
+document.getElementById("endDate").value,
 
-coordinatorName:
-document.getElementById("coordinatorName").value,
+eventCoordinator:
+document.getElementById("eventCoordinator").value,
 
-teamMembers:
-document.getElementById("teamMembers").value,
+accessManager:
+document.getElementById("accessManager").value,
 
-assignStaff:
-document.getElementById("assignStaff").value,
+technicalTeam:
+document.getElementById("technicalTeam").value,
 
-dutyType:
-document.getElementById("dutyType").value,
+posts
 
-eventDetails:
-document.getElementById("eventDetails").value
+});
 
-};
-
-if(editId){
-
-await updateDoc(
-doc(db,"events",editId),
-data
-);
-
-alert("Event Updated");
-
-editId = null;
-
-}else{
-
-await addDoc(
-collection(db,"events"),
-data
+localStorage.setItem(
+"events",
+JSON.stringify(events)
 );
 
 alert("Event Saved");
-
-}
 
 loadEvents();
 
 }
 
-async function loadEvents(){
+function loadEvents(){
 
-const querySnapshot =
-await getDocs(
-collection(db,"events")
-);
+const events =
+JSON.parse(
+localStorage.getItem("events")
+) || [];
 
 let html = "";
 
-querySnapshot.forEach((docItem)=>{
+events.forEach((event)=>{
 
-const event =
-docItem.data();
+const today =
+new Date().toISOString().split("T")[0];
+
+const status =
+today > event.endDate
+
+?
+
+"Expired"
+
+:
+
+"Active";
 
 html += `
 
-<div class="card">
+<div class="event-card">
 
 <h2>
 ${event.eventName}
 </h2>
 
 <p>
-📍 ${event.eventArea}
+📍 ${event.eventAddress}
 </p>
 
 <p>
-🕒 ${event.eventTime}
-</p>
-
-<p>
-👔 Manager :
-${event.managerName}
+📅 ${event.startDate}
+To
+${event.endDate}
 </p>
 
 <p>
 👨 Coordinator :
-${event.coordinatorName}
+${event.eventCoordinator}
 </p>
 
 <p>
-👥 Team :
-${event.teamMembers}
+🛡️ Access Manager :
+${event.accessManager}
 </p>
 
 <p>
-📧 Staff :
-${event.assignStaff}
+🖥️ Technical Team :
+${event.technicalTeam}
+</p>
+
+<hr style="margin:15px 0;">
+
+${event.posts.map(post=>`
+
+<div class="staff-item">
+
+<p>
+💼 ${post.crewPost}
 </p>
 
 <p>
-🧾 Duty :
-${event.dutyType}
+📍 ${post.dutyArea}
 </p>
 
 <p>
-📝 ${event.eventDetails}
+👨 ${post.coordinator}
 </p>
 
-<div class="action-btns">
+<p>
+👥 ${post.staffEmails}
+</p>
 
-<button
-class="edit-btn"
-onclick='editEvent(
-"${docItem.id}",
-${JSON.stringify(event)}
-)'>
+</div>
 
-Edit
+`).join("")}
 
-</button>
+<div class="status ${status === "Active" ? "active" : "expired"}">
 
-<button
-class="delete-btn"
-onclick='deleteEvent(
-"${docItem.id}"
-)'>
-
-Delete
-
-</button>
+${status}
 
 </div>
 
@@ -720,75 +686,7 @@ html;
 
 }
 
-window.editEvent =
-function(id,event){
-
-document.getElementById(
-"eventName"
-).value =
-event.eventName;
-
-document.getElementById(
-"eventArea"
-).value =
-event.eventArea;
-
-document.getElementById(
-"eventTime"
-).value =
-event.eventTime;
-
-document.getElementById(
-"managerName"
-).value =
-event.managerName;
-
-document.getElementById(
-"coordinatorName"
-).value =
-event.coordinatorName;
-
-document.getElementById(
-"teamMembers"
-).value =
-event.teamMembers;
-
-document.getElementById(
-"assignStaff"
-).value =
-event.assignStaff;
-
-document.getElementById(
-"dutyType"
-).value =
-event.dutyType;
-
-document.getElementById(
-"eventDetails"
-).value =
-event.eventDetails;
-
-editId = id;
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-window.deleteEvent =
-async function(id){
-
-await deleteDoc(
-doc(db,"events",id)
-);
-
-loadEvents();
-
-}
-
-loadStaffEmails();
+addPost();
 
 loadEvents();
 

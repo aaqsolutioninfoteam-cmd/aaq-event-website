@@ -752,37 +752,57 @@ emails
 
 });
 
-const events =
-JSON.parse(
-localStorage.getItem("events")
-) || [];
-
 const eventData = {
 
 eventName:
-document.getElementById("eventName").value,
+document.getElementById(
+"eventName"
+).value,
 
 eventAddress:
-document.getElementById("eventAddress").value,
+document.getElementById(
+"eventAddress"
+).value,
 
 startDate:
-document.getElementById("startDate").value,
+document.getElementById(
+"startDate"
+).value,
 
 endDate:
-document.getElementById("endDate").value,
+document.getElementById(
+"endDate"
+).value,
 
 eventCoordinator:
-document.getElementById("eventCoordinator").value,
+document.getElementById(
+"eventCoordinator"
+).value,
 
 accessManager:
-document.getElementById("accessManager").value,
+document.getElementById(
+"accessManager"
+).value,
 
 technicalTeam:
-document.getElementById("technicalTeam").value,
+document.getElementById(
+"technicalTeam"
+).value,
 
 posts
 
 };
+
+let events =
+JSON.parse(
+localStorage.getItem("events")
+);
+
+if(!events){
+
+events = [];
+
+}
 
 if(editIndex === null){
 
@@ -805,6 +825,34 @@ JSON.stringify(events)
 alert(
 "Event Saved Successfully"
 );
+
+document.getElementById(
+"eventName"
+).value = "";
+
+document.getElementById(
+"eventAddress"
+).value = "";
+
+document.getElementById(
+"startDate"
+).value = "";
+
+document.getElementById(
+"endDate"
+).value = "";
+
+document.getElementById(
+"eventCoordinator"
+).value = "";
+
+document.getElementById(
+"accessManager"
+).value = "";
+
+document.getElementById(
+"technicalTeam"
+).value = "";
 
 document.getElementById(
 "postContainer"
@@ -870,8 +918,6 @@ event.posts.forEach((post)=>{
 
 addPost();
 
-setTimeout(()=>{
-
 const boxes =
 document.querySelectorAll(
 ".post-box"
@@ -925,8 +971,6 @@ Remove
 `;
 
 });
-
-},300);
 
 });
 

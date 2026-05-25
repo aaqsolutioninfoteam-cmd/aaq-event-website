@@ -1,1 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Staff Attendance</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+135deg,
+#f8fafc,
+#e2e8f0,
+#fef9c3,
+#ffffff
+);
+
+min-height:100vh;
+
+padding:20px;
+
+color:#111827;
+
+}
+
+.container{
+
+max-width:700px;
+
+margin:auto;
+
+}
+
+.card{
+
+background:white;
+
+padding:30px;
+
+border-radius:25px;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.08);
+
+text-align:center;
+
+}
+
+.staff-photo{
+
+width:120px;
+
+height:120px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:4px solid #facc15;
+
+margin-bottom:20px;
+
+}
+
+h1{
+
+margin-bottom:10px;
+
+}
+
+p{
+
+margin-bottom:10px;
+
+color:#475569;
+
+}
+
+.btn{
+
+margin-top:20px;
+
+padding:15px 30px;
+
+border:none;
+
+border-radius:15px;
+
+background:
+linear-gradient(
+135deg,
+#22c55e,
+#16a34a
+);
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.live{
+
+margin-top:15px;
+
+font-size:14px;
+
+}
+
+.success{
+
+margin-top:20px;
+
+color:#16a34a;
+
+font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<img
+id="staffPhoto"
+src="https://i.imgur.com/6VBx3io.png"
+class="staff-photo">
+
+<h1 id="staffName">
+Staff User
+</h1>
+
+<p id="staffPosition">
+Staff Panel
+</p>
+
+<div class="live">
+
+<div id="liveDate"></div>
+
+<div id="liveTime"></div>
+
+</div>
+
+<button
+onclick="markAttendance()"
+class="btn">
+
+Mark Attendance
+
+</button>
+
+<div
+id="success"
+class="success">
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+
+authDomain:
+"aaq-event-erp.firebaseapp.com",
+
+projectId:
+"aaq-event-erp",
+
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
+
+messagingSenderId:
+"985636664002",
+
+appId:
+"1:985636664002:web:4b941d3562609d2058815b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+const staffName =
+localStorage.getItem(
+"staffName"
+) || "Staff User";
+
+const staffPhoto =
+localStorage.getItem(
+"staffPhoto"
+);
+
+const staffPosition =
+localStorage.getItem(
+"staffPosition"
+) || "Staff Panel";
+
+document.getElementById(
+"staffName"
+).innerHTML =
+staffName;
+
+document.getElementById(
+"staffPosition"
+).innerHTML =
+staffPosition;
+
+if(staffPhoto){
+
+document.getElementById(
+"staffPhoto"
+).src =
+staffPhoto;
+
+}
+
+function updateDateTime(){
+
+const now = new Date();
+
+document.getElementById(
+"liveDate"
+).innerHTML =
+"📅 " +
+now.toLocaleDateString();
+
+document.getElementById(
+"liveTime"
+).innerHTML =
+"🕒 " +
+now.toLocaleTimeString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+window.markAttendance =
+async function(){
+
+const now = new Date();
+
+await addDoc(
+collection(db,"attendance"),
+{
+
+staffName:
+staffName,
+
+staffPhoto:
+staffPhoto || "",
+
+staffPosition:
+staffPosition,
+
+date:
+now.toLocaleDateString(),
+
+time:
+now.toLocaleTimeString(),
+
+status:
+"Present"
+
+}
+);
+
+document.getElementById(
+"success"
+).innerHTML =
+
+"✅ Attendance Marked Successfully";
+
+}
+
+</script>
+
+</body>
+
+</html>

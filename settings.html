@@ -24,11 +24,11 @@ body{
 background:
 linear-gradient(
 135deg,
-#0f172a,
 #1e3a8a,
-#1e293b,
+#0f172a,
 #ca8a04,
-#0f172a
+#1e293b,
+#2563eb
 );
 
 background-size:400% 400%;
@@ -61,7 +61,7 @@ background-position:0% 50%;
 
 .container{
 
-max-width:1200px;
+max-width:1300px;
 
 margin:auto;
 
@@ -85,7 +85,7 @@ gap:15px;
 
 .title-box h1{
 
-font-size:34px;
+font-size:35px;
 
 margin-bottom:5px;
 
@@ -93,7 +93,7 @@ margin-bottom:5px;
 
 .title-box p{
 
-color:#e2e8f0;
+color:#dbeafe;
 
 }
 
@@ -123,7 +123,7 @@ color:#111827;
 display:grid;
 
 grid-template-columns:
-repeat(auto-fit,minmax(320px,1fr));
+repeat(auto-fit,minmax(340px,1fr));
 
 gap:25px;
 
@@ -135,14 +135,14 @@ background:rgba(255,255,255,0.08);
 
 padding:25px;
 
-border-radius:25px;
+border-radius:28px;
 
 backdrop-filter:blur(12px);
 
 border:1px solid rgba(255,255,255,0.15);
 
 box-shadow:
-0 10px 30px rgba(0,0,0,0.2);
+0 10px 35px rgba(0,0,0,0.25);
 
 }
 
@@ -175,7 +175,8 @@ color:#e2e8f0;
 }
 
 .input-group input,
-.input-group select{
+.input-group select,
+.input-group textarea{
 
 width:100%;
 
@@ -195,7 +196,16 @@ outline:none;
 
 }
 
-.input-group input::placeholder{
+.input-group textarea{
+
+height:120px;
+
+resize:none;
+
+}
+
+.input-group input::placeholder,
+textarea::placeholder{
 
 color:#cbd5e1;
 
@@ -230,51 +240,47 @@ margin-top:10px;
 
 }
 
-.notice-box{
+.notice-preview{
 
-background:rgba(250,204,21,0.15);
+background:rgba(250,204,21,0.12);
 
 padding:18px;
 
 border-radius:16px;
 
-line-height:1.8;
-
 margin-top:15px;
+
+line-height:1.8;
 
 border:1px solid rgba(250,204,21,0.3);
 
 }
 
-.multi-admin{
-
-display:flex;
-
-flex-direction:column;
-
-gap:10px;
-
-margin-top:10px;
-
-}
-
-.role{
+.role-box{
 
 padding:12px;
 
 border-radius:12px;
 
-background:rgba(255,255,255,0.1);
+background:rgba(255,255,255,0.08);
+
+margin-bottom:10px;
 
 }
 
-@media(max-width:768px){
+.live-status{
 
-.grid{
+background:rgba(34,197,94,0.15);
 
-grid-template-columns:1fr;
+padding:15px;
 
-}
+border-radius:15px;
+
+margin-top:15px;
+
+line-height:1.8;
+
+border:1px solid rgba(34,197,94,0.25);
 
 }
 
@@ -295,7 +301,7 @@ ERP Settings Panel
 </h1>
 
 <p>
-Professional Company Management Settings
+Professional Live Control System
 </p>
 
 </div>
@@ -311,75 +317,181 @@ Back To Admin
 
 <div class="grid">
 
-<!-- COMPANY SETTINGS -->
+<!-- LIVE NOTIFICATION -->
 
 <div class="card">
 
 <h2>
-Company Settings
+Live Notification
 </h2>
 
 <div class="input-group">
 
 <label>
-Company Name
+Notification Title
 </label>
 
 <input
 type="text"
-placeholder="AAQ Event ERP">
+placeholder="Important Notice">
 
 </div>
 
 <div class="input-group">
 
 <label>
-Company Email
+Notification Message
 </label>
 
-<input
-type="email"
-placeholder="company@email.com">
+<textarea
+placeholder="Write random message for staff..."></textarea>
 
 </div>
 
 <div class="input-group">
 
 <label>
-Company Mobile
+Show Notification
 </label>
 
-<input
-type="text"
-placeholder="+91 XXXXX XXXXX">
+<select>
+
+<option>
+Enabled
+</option>
+
+<option>
+Disabled
+</option>
+
+</select>
 
 </div>
 
 <div class="input-group">
 
 <label>
-Upload Logo
+Notification Time
 </label>
 
 <input
-type="file">
+type="time">
+
+</div>
+
+<div class="notice-preview">
+
+🔔 Preview Notice
+
+<br><br>
+
+📢 Tomorrow Office Meeting
+
+<br><br>
+
+🕒 Time :
+10:00 AM
+
+<br><br>
+
+📌 All Staff Must Attend Meeting
 
 </div>
 
 <button class="save-btn">
 
-Save Company Settings
+Publish Notification
 
 </button>
 
 </div>
 
-<!-- ATTENDANCE SETTINGS -->
+<!-- ROLE MANAGEMENT -->
 
 <div class="card">
 
 <h2>
-Attendance Settings
+Role Management
+</h2>
+
+<div class="input-group">
+
+<label>
+Staff Email
+</label>
+
+<input
+type="email"
+placeholder="staff@email.com">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Select New Role
+</label>
+
+<select>
+
+<option>
+STAFF
+</option>
+
+<option>
+MANAGER
+</option>
+
+<option>
+HR
+</option>
+
+<option>
+SUB ADMIN
+</option>
+
+<option>
+ADMIN
+</option>
+
+<option>
+SUPER ADMIN
+</option>
+
+</select>
+
+</div>
+
+<div class="notice-preview">
+
+📧 staff@email.com
+
+<br><br>
+
+🪪 Current Role :
+STAFF
+
+<br><br>
+
+✅ New Role :
+MANAGER
+
+</div>
+
+<button class="save-btn">
+
+Update Role
+
+</button>
+
+</div>
+
+<!-- ATTENDANCE RULES -->
+
+<div class="card">
+
+<h2>
+Attendance Rules
 </h2>
 
 <div class="input-group">
@@ -430,6 +542,20 @@ value="8">
 
 </div>
 
+<div class="live-status">
+
+✅ Auto Working Hours
+
+<br>
+
+✅ Auto Attendance Count
+
+<br>
+
+✅ Live Staff Monitoring
+
+</div>
+
 <button class="save-btn">
 
 Save Attendance Rules
@@ -438,137 +564,87 @@ Save Attendance Rules
 
 </div>
 
-<!-- STAFF DUTY NOTICE -->
+<!-- THEME SETTINGS -->
 
 <div class="card">
 
 <h2>
-Staff Duty Notice
+Theme Settings
 </h2>
 
 <div class="input-group">
 
 <label>
-Duty Date
-</label>
-
-<input
-type="date">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Duty Start Time
-</label>
-
-<input
-type="time">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Duty End Time
-</label>
-
-<input
-type="time">
-
-</div>
-
-<div class="notice-box">
-
-📅 25/05/2026
-
-<br><br>
-
-🕒 Duty Time :
-09:00 AM To 06:00 PM
-
-<br><br>
-
-✅ This notice will show on Staff Dashboard
-
-</div>
-
-<button class="save-btn">
-
-Publish Duty Notice
-
-</button>
-
-</div>
-
-<!-- SALARY SETTINGS -->
-
-<div class="card">
-
-<h2>
-Salary Rules
-</h2>
-
-<div class="input-group">
-
-<label>
-Monthly Salary
-</label>
-
-<input
-type="number"
-placeholder="25000">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Per Day Salary
-</label>
-
-<input
-type="number"
-placeholder="800">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Overtime Per Hour
-</label>
-
-<input
-type="number"
-placeholder="100">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Half Day Rule
+ERP Theme
 </label>
 
 <select>
 
 <option>
-Enabled
+Blue Gold Premium
 </option>
 
 <option>
-Disabled
+Corporate Dark
+</option>
+
+<option>
+Navy Glass
+</option>
+
+<option>
+Royal Gold
 </option>
 
 </select>
 
 </div>
 
+<div class="input-group">
+
+<label>
+Dashboard Style
+</label>
+
+<select>
+
+<option>
+Premium Glass
+</option>
+
+<option>
+Modern Card
+</option>
+
+<option>
+Corporate UI
+</option>
+
+</select>
+
+</div>
+
+<div class="notice-preview">
+
+🎨 Live Theme System
+
+<br><br>
+
+✅ Staff Dashboard Theme
+
+<br>
+
+✅ Admin Dashboard Theme
+
+<br>
+
+✅ Popup Theme
+
+</div>
+
 <button class="save-btn">
 
-Save Salary Rules
+Apply Theme
 
 </button>
 
@@ -579,34 +655,30 @@ Save Salary Rules
 <div class="card">
 
 <h2>
-Multi Admin Roles
+Multi Admin Access
 </h2>
 
-<div class="multi-admin">
+<div class="role-box">
 
-<div class="role">
-
-👑 Super Admin
+👑 SUPER ADMIN
 
 </div>
 
-<div class="role">
+<div class="role-box">
 
-🛡️ Admin
-
-</div>
-
-<div class="role">
-
-📋 Manager
+🛡️ ADMIN
 
 </div>
 
-<div class="role">
+<div class="role-box">
 
-👨‍💼 Sub Admin
+📋 MANAGER
 
 </div>
+
+<div class="role-box">
+
+👨‍💼 SUB ADMIN
 
 </div>
 
@@ -614,35 +686,58 @@ Multi Admin Roles
 style="margin-top:20px;">
 
 <label>
-Add New Admin
+Create New Admin
 </label>
 
 <input
-type="text"
-placeholder="Enter Admin Name">
+type="email"
+placeholder="admin@email.com">
 
 </div>
 
 <button class="save-btn">
 
-Create Admin Role
+Create Access
 
 </button>
 
 </div>
 
-<!-- SYSTEM SETTINGS -->
+<!-- STAFF POPUP SETTINGS -->
 
 <div class="card">
 
 <h2>
-System Rules
+Staff Popup Notice
 </h2>
 
 <div class="input-group">
 
 <label>
-Auto Attendance Approval
+Popup Title
+</label>
+
+<input
+type="text"
+placeholder="Important Update">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Popup Message
+</label>
+
+<textarea
+placeholder="Write popup message..."></textarea>
+
+</div>
+
+<div class="input-group">
+
+<label>
+Popup Close Button
 </label>
 
 <select>
@@ -659,65 +754,23 @@ Disabled
 
 </div>
 
-<div class="input-group">
+<div class="notice-preview">
 
-<label>
-Attendance Lock Time
-</label>
+🔔 Popup Preview
 
-<input
-type="time"
-value="23:00">
+<br><br>
 
-</div>
+📢 New Event Duty Assigned
 
-<div class="input-group">
+<br><br>
 
-<label>
-Theme Style
-</label>
-
-<select>
-
-<option>
-Professional Blue Gold
-</option>
-
-<option>
-Corporate Dark
-</option>
-
-<option>
-Light Glass
-</option>
-
-</select>
-
-</div>
-
-<div class="input-group">
-
-<label>
-System Status
-</label>
-
-<select>
-
-<option>
-Running
-</option>
-
-<option>
-Maintenance
-</option>
-
-</select>
+❌ Close Button Enabled
 
 </div>
 
 <button class="save-btn">
 
-Save System Rules
+Publish Popup
 
 </button>
 

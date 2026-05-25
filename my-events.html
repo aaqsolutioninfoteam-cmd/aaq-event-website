@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>My Event Duties</title>
+<title>My Events</title>
 
 <style>
 
@@ -121,8 +121,6 @@ border-radius:28px;
 
 backdrop-filter:blur(12px);
 
-border:1px solid rgba(255,255,255,0.12);
-
 }
 
 .card h2{
@@ -139,24 +137,6 @@ margin-bottom:10px;
 
 line-height:1.7;
 
-color:#e2e8f0;
-
-}
-
-.status{
-
-display:inline-block;
-
-padding:8px 15px;
-
-border-radius:10px;
-
-background:#22c55e;
-
-font-weight:bold;
-
-margin-top:10px;
-
 }
 
 </style>
@@ -172,11 +152,11 @@ margin-top:10px;
 <div>
 
 <h1>
-My Event Duties
+My Events
 </h1>
 
 <p>
-Assigned Event Management Duties
+Assigned Event Duties
 </p>
 
 </div>
@@ -200,10 +180,10 @@ id="eventList">
 
 <script>
 
-const staffName =
+const staffEmail =
 localStorage.getItem(
-"staffName"
-) || "Staff User";
+"staffEmail"
+);
 
 function loadEvents(){
 
@@ -217,7 +197,7 @@ let html = "";
 events.forEach((event)=>{
 
 if(
-event.assignStaff !== staffName
+event.assignStaff !== staffEmail
 ){
 
 return;
@@ -266,12 +246,6 @@ ${event.dutyType}
 📝 Details :
 ${event.eventDetails}
 </p>
-
-<div class="status">
-
-${event.eventStatus}
-
-</div>
 
 </div>
 

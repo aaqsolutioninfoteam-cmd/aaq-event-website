@@ -133,6 +133,30 @@ font-size:16px;
 
 }
 
+.password-box{
+
+position:relative;
+
+}
+
+.show-btn{
+
+position:absolute;
+
+right:15px;
+
+top:15px;
+
+cursor:pointer;
+
+font-size:14px;
+
+color:#facc15;
+
+font-weight:bold;
+
+}
+
 button{
 
 width:100%;
@@ -168,6 +192,18 @@ transform:scale(1.03);
 
 }
 
+.forgot{
+
+margin-top:15px;
+
+font-size:14px;
+
+color:#facc15;
+
+cursor:pointer;
+
+}
+
 #error{
 
 margin-top:15px;
@@ -195,17 +231,41 @@ class="logo">
 Secure Staff & Admin Login
 </p>
 
-<input type="email"
+<input
+type="email"
 id="email"
 placeholder="Enter Email">
 
-<input type="password"
+<div class="password-box">
+
+<input
+type="password"
 id="password"
 placeholder="Enter Password">
 
+<span
+class="show-btn"
+onclick="togglePassword()">
+
+Show
+
+</span>
+
+</div>
+
 <button onclick="login()">
+
 Login
+
 </button>
+
+<div
+class="forgot"
+onclick="forgotPassword()">
+
+Forgot Password?
+
+</div>
 
 <p id="error"></p>
 
@@ -260,6 +320,60 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
+window.togglePassword =
+function(){
+
+const passwordInput =
+document.getElementById(
+"password"
+);
+
+if(
+passwordInput.type === "password"
+){
+
+passwordInput.type = "text";
+
+document.querySelector(
+".show-btn"
+).innerHTML = "Hide";
+
+}else{
+
+passwordInput.type = "password";
+
+document.querySelector(
+".show-btn"
+).innerHTML = "Show";
+
+}
+
+}
+
+window.forgotPassword =
+function(){
+
+const email =
+document.getElementById(
+"email"
+).value;
+
+if(!email){
+
+alert(
+"Please Enter Your Email First"
+);
+
+return;
+
+}
+
+alert(
+"Password Reset Request Sent For : " + email
+);
+
+}
+
 window.login =
 async function(){
 
@@ -290,6 +404,16 @@ email ===
 localStorage.setItem(
 "loggedUser",
 "Admin"
+);
+
+localStorage.setItem(
+"currentUser",
+JSON.stringify({
+email:
+email,
+role:
+"ADMIN"
+})
 );
 
 window.location.href =
@@ -353,6 +477,14 @@ localStorage.setItem(
 "loggedUser",
 
 foundStaff.staffName || "Staff"
+
+);
+
+localStorage.setItem(
+
+"currentUser",
+
+JSON.stringify(foundStaff)
 
 );
 

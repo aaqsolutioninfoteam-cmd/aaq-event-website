@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Advanced Event ERP</title>
+<title>AAQ Event ERP</title>
 
 <style>
 
@@ -24,10 +24,10 @@ body{
 background:
 linear-gradient(
 135deg,
-#1e3a8a,
 #0f172a,
+#1e3a8a,
 #ca8a04,
-#1e293b
+#111827
 );
 
 background-size:400% 400%;
@@ -151,7 +151,7 @@ color:#e2e8f0;
 
 width:100%;
 
-padding:13px;
+padding:14px;
 
 border:none;
 
@@ -164,6 +164,12 @@ color:white;
 font-size:15px;
 
 outline:none;
+
+}
+
+.input-group input::placeholder{
+
+color:#cbd5e1;
 
 }
 
@@ -223,6 +229,16 @@ border:1px solid rgba(255,255,255,0.08);
 
 }
 
+.post-title{
+
+margin-bottom:15px;
+
+color:#facc15;
+
+font-size:20px;
+
+}
+
 .staff-item{
 
 padding:12px;
@@ -233,23 +249,31 @@ border-radius:10px;
 
 margin-top:10px;
 
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:10px;
+
 }
 
-.staff-item button{
+.remove-btn{
 
-float:right;
-
-background:red;
+background:#ef4444;
 
 border:none;
 
-color:white;
-
-padding:5px 10px;
+padding:8px 12px;
 
 border-radius:8px;
 
+color:white;
+
 cursor:pointer;
+
+font-size:13px;
 
 }
 
@@ -272,6 +296,14 @@ border:1px solid rgba(255,255,255,0.12);
 color:#facc15;
 
 margin-bottom:15px;
+
+}
+
+.event-card p{
+
+margin-bottom:8px;
+
+line-height:1.7;
 
 }
 
@@ -324,7 +356,7 @@ margin-top:15px;
 <div>
 
 <h1>
-Advanced Event ERP
+AAQ Event ERP
 </h1>
 
 <p>
@@ -336,7 +368,7 @@ Professional Multi Staff Event Management
 <a href="admin.html"
 class="back-btn">
 
-Back To Admin
+Back
 
 </a>
 
@@ -354,7 +386,8 @@ Event Name
 
 <input
 type="text"
-id="eventName">
+id="eventName"
+placeholder="Enter Event Name">
 
 </div>
 
@@ -366,7 +399,8 @@ Event Address
 
 <input
 type="text"
-id="eventAddress">
+id="eventAddress"
+placeholder="Enter Event Address">
 
 </div>
 
@@ -467,7 +501,10 @@ import {
 
 getFirestore,
 collection,
-getDocs
+getDocs,
+addDoc,
+updateDoc,
+doc
 
 }
 
@@ -502,9 +539,9 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-let totalPosts = 0;
+let currentEditId = null;
 
-let editIndex = null;
+let totalPosts = 0;
 
 async function loadStaffOptions(select){
 
@@ -514,12 +551,12 @@ collection(db,"staffs")
 );
 
 let options =
-"<option>Select Staff</option>";
+"<option value=''>Select Staff</option>";
 
-querySnapshot.forEach((doc)=>{
+querySnapshot.forEach((docItem)=>{
 
 const staff =
-doc.data();
+docItem.data();
 
 options += `
 
@@ -553,16 +590,18 @@ div.className =
 
 div.innerHTML = `
 
-<h3>
+<h2 class="post-title">
+
 Crew Post ${totalPosts}
-</h3>
+
+</h2>
 
 <div class="grid">
 
 <div class="input-group">
 
 <label>
-Event Crew Post
+Crew Post
 </label>
 
 <input
@@ -574,7 +613,7 @@ class="crewPost">
 <div class="input-group">
 
 <label>
-Staff Duty Area
+Duty Area
 </label>
 
 <input
@@ -642,11 +681,7 @@ postBox.querySelector(".staffSelect");
 const email =
 select.value;
 
-if(
-!email
-||
-email === "Select Staff"
-){
+if(!email){
 
 return;
 
@@ -657,7 +692,7 @@ postBox.querySelector(
 ".selectedStaffList"
 );
 
-const alreadyAdded =
+const exists =
 Array.from(
 list.querySelectorAll(".staff-email")
 ).some(
@@ -672,10 +707,10 @@ email.trim()
 
 );
 
-if(alreadyAdded){
+if(exists){
 
 alert(
-"Staff Already Added"
+"Already Added"
 );
 
 return;
@@ -693,7 +728,7 @@ ${email}
 </span>
 
 <button
-type="button"
+class="remove-btn"
 onclick="removeStaff(this)">
 
 Remove
@@ -714,7 +749,7 @@ button.parentElement.remove();
 }
 
 window.saveEvent =
-function(){
+async function(){
 
 const posts = [];
 
@@ -755,76 +790,51 @@ emails
 const eventData = {
 
 eventName:
-document.getElementById(
-"eventName"
-).value,
+document.getElementById("eventName").value,
 
 eventAddress:
-document.getElementById(
-"eventAddress"
-).value,
+document.getElementById("eventAddress").value,
 
 startDate:
-document.getElementById(
-"startDate"
-).value,
+document.getElementById("startDate").value,
 
 endDate:
-document.getElementById(
-"endDate"
-).value,
+document.getElementById("endDate").value,
 
 eventCoordinator:
-document.getElementById(
-"eventCoordinator"
-).value,
+document.getElementById("eventCoordinator").value,
 
 accessManager:
-document.getElementById(
-"accessManager"
-).value,
+document.getElementById("accessManager").value,
 
 technicalTeam:
-document.getElementById(
-"technicalTeam"
-).value,
+document.getElementById("technicalTeam").value,
 
 posts
 
 };
 
-let events =
-JSON.parse(
-localStorage.getItem("events")
+if(currentEditId){
+
+await updateDoc(
+doc(db,"events",currentEditId),
+eventData
 );
 
-if(!events){
+alert("Event Updated");
 
-events = [];
-
-}
-
-if(editIndex === null){
-
-events.push(eventData);
+currentEditId = null;
 
 }else{
 
-events[editIndex] =
-eventData;
+await addDoc(
+collection(db,"events"),
+eventData
+);
 
-editIndex = null;
+alert("Event Saved");
 
 }
-
-localStorage.setItem(
-"events",
-JSON.stringify(events)
-);
-
-alert(
-"Event Saved Successfully"
-);
 
 document.getElementById(
 "eventName"
@@ -865,15 +875,22 @@ loadEvents();
 }
 
 window.editEvent =
-function(index){
+async function(eventId){
 
-const events =
-JSON.parse(
-localStorage.getItem("events")
-) || [];
+currentEditId =
+eventId;
+
+const querySnapshot =
+await getDocs(
+collection(db,"events")
+);
+
+querySnapshot.forEach((docItem)=>{
+
+if(docItem.id === eventId){
 
 const event =
-events[index];
+docItem.data();
 
 document.getElementById(
 "eventName"
@@ -918,13 +935,13 @@ event.posts.forEach((post)=>{
 
 addPost();
 
-const boxes =
+const posts =
 document.querySelectorAll(
 ".post-box"
 );
 
 const currentPost =
-boxes[boxes.length - 1];
+posts[posts.length - 1];
 
 currentPost.querySelector(
 ".crewPost"
@@ -959,7 +976,7 @@ ${email}
 </span>
 
 <button
-type="button"
+class="remove-btn"
 onclick="removeStaff(this)">
 
 Remove
@@ -974,8 +991,6 @@ Remove
 
 });
 
-editIndex = index;
-
 window.scrollTo({
 
 top:0,
@@ -985,17 +1000,27 @@ behavior:"smooth"
 
 }
 
-window.loadEvents =
-function(){
+});
 
-const events =
-JSON.parse(
-localStorage.getItem("events")
-) || [];
+}
+
+window.loadEvents =
+async function(){
+
+const querySnapshot =
+await getDocs(
+collection(db,"events")
+);
 
 let html = "";
 
-events.forEach((event,index)=>{
+querySnapshot.forEach((docItem)=>{
+
+const event =
+docItem.data();
+
+const eventId =
+docItem.id;
 
 const today =
 new Date()
@@ -1049,6 +1074,8 @@ ${event.posts.map(post=>`
 
 <div class="staff-item">
 
+<div>
+
 <p>
 💼 ${post.crewPost}
 </p>
@@ -1067,12 +1094,11 @@ ${event.posts.map(post=>`
 
 </div>
 
+</div>
+
 `).join("")}
 
-<div class="status
-${status === "Active"
-? "active"
-: "expired"}">
+<div class="status ${status === "Active" ? "active" : "expired"}">
 
 ${status}
 
@@ -1082,7 +1108,7 @@ ${status}
 
 <button
 class="edit-btn"
-onclick="editEvent(${index})">
+onclick="editEvent('${eventId}')">
 
 Edit Event
 

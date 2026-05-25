@@ -1,1 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>My Event Duties</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+135deg,
+#1e3a8a,
+#0f172a,
+#ca8a04,
+#1e293b
+);
+
+background-size:400% 400%;
+
+animation:bgMove 15s ease infinite;
+
+min-height:100vh;
+
+padding:20px;
+
+color:white;
+
+}
+
+@keyframes bgMove{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+.container{
+
+max-width:1200px;
+
+margin:auto;
+
+}
+
+.header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:25px;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+}
+
+.back-btn{
+
+padding:14px 24px;
+
+border-radius:14px;
+
+background:
+linear-gradient(
+135deg,
+#facc15,
+#eab308
+);
+
+text-decoration:none;
+
+font-weight:bold;
+
+color:#111827;
+
+}
+
+.event-list{
+
+display:grid;
+
+gap:22px;
+
+}
+
+.card{
+
+background:rgba(255,255,255,0.08);
+
+padding:25px;
+
+border-radius:28px;
+
+backdrop-filter:blur(12px);
+
+border:1px solid rgba(255,255,255,0.12);
+
+}
+
+.card h2{
+
+margin-bottom:15px;
+
+color:#facc15;
+
+}
+
+.card p{
+
+margin-bottom:10px;
+
+line-height:1.7;
+
+color:#e2e8f0;
+
+}
+
+.status{
+
+display:inline-block;
+
+padding:8px 15px;
+
+border-radius:10px;
+
+background:#22c55e;
+
+font-weight:bold;
+
+margin-top:10px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div>
+
+<h1>
+My Event Duties
+</h1>
+
+<p>
+Assigned Event Management Duties
+</p>
+
+</div>
+
+<a href="staff-dashboard.html"
+class="back-btn">
+
+Back To Dashboard
+
+</a>
+
+</div>
+
+<div
+class="event-list"
+id="eventList">
+
+</div>
+
+</div>
+
+<script>
+
+const staffName =
+localStorage.getItem(
+"staffName"
+) || "Staff User";
+
+function loadEvents(){
+
+const events =
+JSON.parse(
+localStorage.getItem("events")
+) || [];
+
+let html = "";
+
+events.forEach((event)=>{
+
+if(
+event.assignStaff !== staffName
+){
+
+return;
+
+}
+
+html += `
+
+<div class="card">
+
+<h2>
+${event.eventName}
+</h2>
+
+<p>
+📍 Area :
+${event.eventArea}
+</p>
+
+<p>
+🕒 Duty Time :
+${event.eventTime}
+</p>
+
+<p>
+👔 Manager :
+${event.managerName}
+</p>
+
+<p>
+👨 Coordinator :
+${event.coordinatorName}
+</p>
+
+<p>
+👥 Team :
+${event.teamMembers}
+</p>
+
+<p>
+🧾 Duty :
+${event.dutyType}
+</p>
+
+<p>
+📝 Details :
+${event.eventDetails}
+</p>
+
+<div class="status">
+
+${event.eventStatus}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"eventList"
+).innerHTML =
+html;
+
+}
+
+loadEvents();
+
+</script>
+
+</body>
+
+</html>

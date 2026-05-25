@@ -1,1 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ID Card Management</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+135deg,
+#1e3a8a,
+#0f172a,
+#ca8a04,
+#1e293b
+);
+
+background-size:400% 400%;
+
+animation:bgMove 15s ease infinite;
+
+min-height:100vh;
+
+padding:20px;
+
+color:white;
+
+}
+
+@keyframes bgMove{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+.container{
+
+max-width:1300px;
+
+margin:auto;
+
+}
+
+.header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:25px;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+}
+
+.back-btn{
+
+padding:14px 24px;
+
+border-radius:14px;
+
+background:
+linear-gradient(
+135deg,
+#facc15,
+#eab308
+);
+
+text-decoration:none;
+
+font-weight:bold;
+
+color:#111827;
+
+}
+
+.card-box{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(340px,1fr));
+
+gap:25px;
+
+}
+
+.id-card{
+
+background:rgba(255,255,255,0.08);
+
+border-radius:28px;
+
+padding:25px;
+
+backdrop-filter:blur(12px);
+
+border:1px solid rgba(255,255,255,0.12);
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.logo{
+
+width:80px;
+
+margin-bottom:15px;
+
+}
+
+.staff-photo{
+
+width:110px;
+
+height:110px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:4px solid #facc15;
+
+margin-bottom:15px;
+
+}
+
+.id-card h2{
+
+margin-bottom:8px;
+
+color:#facc15;
+
+}
+
+.id-card p{
+
+margin-bottom:8px;
+
+line-height:1.7;
+
+color:#e2e8f0;
+
+}
+
+.qr{
+
+margin-top:15px;
+
+width:90px;
+
+}
+
+.btns{
+
+display:flex;
+
+gap:12px;
+
+margin-top:18px;
+
+flex-wrap:wrap;
+
+}
+
+.btn{
+
+flex:1;
+
+padding:13px;
+
+border:none;
+
+border-radius:14px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+color:white;
+
+}
+
+.print{
+
+background:#2563eb;
+
+}
+
+.download{
+
+background:#22c55e;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div>
+
+<h1>
+ID Card Management
+</h1>
+
+<p>
+Professional ERP ID Card System
+</p>
+
+</div>
+
+<a href="admin.html"
+class="back-btn">
+
+Back To Admin
+
+</a>
+
+</div>
+
+<div
+class="card-box"
+id="cardBox">
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+
+authDomain:
+"aaq-event-erp.firebaseapp.com",
+
+projectId:
+"aaq-event-erp",
+
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
+
+messagingSenderId:
+"985636664002",
+
+appId:
+"1:985636664002:web:4b941d3562609d2058815b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+async function loadCards(){
+
+const querySnapshot =
+await getDocs(
+collection(db,"staffs")
+);
+
+let html = "";
+
+querySnapshot.forEach((doc)=>{
+
+const staff =
+doc.data();
+
+html += `
+
+<div class="id-card">
+
+<img
+src="logo.png"
+class="logo">
+
+<center>
+
+<img
+src="${
+staff.photoURL ||
+'https://i.imgur.com/6VBx3io.png'
+}"
+class="staff-photo">
+
+<h2>
+${staff.staffName}
+</h2>
+
+<p>
+💼 ${staff.position}
+</p>
+
+<p>
+📧 ${staff.email}
+</p>
+
+<p>
+📱 ${staff.mobile}
+</p>
+
+<p>
+🪪 ${staff.staffId}
+</p>
+
+<p>
+📍 ${staff.address}
+</p>
+
+<img
+src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${staff.email}"
+class="qr">
+
+<div class="btns">
+
+<button
+class="btn print"
+onclick="window.print()">
+
+Print
+
+</button>
+
+<button
+class="btn download">
+
+Download
+
+</button>
+
+</div>
+
+</center>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"cardBox"
+).innerHTML =
+html;
+
+}
+
+loadCards();
+
+</script>
+
+</body>
+
+</html>

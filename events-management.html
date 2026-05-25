@@ -1,6 +1,3 @@
-<!-- ========================= -->
-<!-- FINAL WORKING EVENT ERP -->
-<!-- ========================= -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,6 +66,12 @@ background-position:0% 50%;
 max-width:1400px;
 
 margin:auto;
+
+}
+
+h1{
+
+margin-bottom:20px;
 
 }
 
@@ -366,8 +369,7 @@ let currentEditId = null;
 
 let totalPosts = 0;
 
-window.addPost =
-async function(){
+async function addPost(){
 
 totalPosts++;
 
@@ -455,8 +457,7 @@ options;
 
 }
 
-window.addStaff =
-function(button){
+function addStaff(button){
 
 const postBox =
 button.closest(".post-box");
@@ -468,6 +469,10 @@ const email =
 select.value;
 
 if(!email){
+
+alert(
+"Please Select Staff"
+);
 
 return;
 
@@ -496,7 +501,7 @@ email.trim()
 if(exists){
 
 alert(
-"Already Added"
+"Staff Already Added"
 );
 
 return;
@@ -527,15 +532,13 @@ Remove
 
 }
 
-window.removeStaff =
-function(button){
+function removeStaff(button){
 
 button.parentElement.remove();
 
 }
 
-window.saveEvent =
-async function(){
+async function saveEvent(){
 
 const posts = [];
 
@@ -576,25 +579,39 @@ emails
 const eventData = {
 
 eventName:
-document.getElementById("eventName").value,
+document.getElementById(
+"eventName"
+).value,
 
 eventAddress:
-document.getElementById("eventAddress").value,
+document.getElementById(
+"eventAddress"
+).value,
 
 startDate:
-document.getElementById("startDate").value,
+document.getElementById(
+"startDate"
+).value,
 
 endDate:
-document.getElementById("endDate").value,
+document.getElementById(
+"endDate"
+).value,
 
 eventCoordinator:
-document.getElementById("eventCoordinator").value,
+document.getElementById(
+"eventCoordinator"
+).value,
 
 accessManager:
-document.getElementById("accessManager").value,
+document.getElementById(
+"accessManager"
+).value,
 
 technicalTeam:
-document.getElementById("technicalTeam").value,
+document.getElementById(
+"technicalTeam"
+).value,
 
 posts
 
@@ -605,12 +622,19 @@ try{
 if(currentEditId){
 
 await updateDoc(
-doc(db,"events",currentEditId),
+
+doc(
+db,
+"events",
+currentEditId
+),
+
 eventData
+
 );
 
 alert(
-"Event Updated"
+"Event Updated Successfully"
 );
 
 }else{
@@ -621,7 +645,7 @@ eventData
 );
 
 alert(
-"Event Saved"
+"Event Saved Successfully"
 );
 
 }
@@ -629,27 +653,54 @@ alert(
 currentEditId = null;
 
 document.getElementById(
+"eventName"
+).value = "";
+
+document.getElementById(
+"eventAddress"
+).value = "";
+
+document.getElementById(
+"startDate"
+).value = "";
+
+document.getElementById(
+"endDate"
+).value = "";
+
+document.getElementById(
+"eventCoordinator"
+).value = "";
+
+document.getElementById(
+"accessManager"
+).value = "";
+
+document.getElementById(
+"technicalTeam"
+).value = "";
+
+document.getElementById(
 "postContainer"
 ).innerHTML = "";
 
-addPost();
+await addPost();
 
-loadEvents();
+await loadEvents();
 
 }catch(error){
 
 console.log(error);
 
 alert(
-"Save Failed"
+error.message
 );
 
 }
 
 }
 
-window.editEvent =
-async function(id){
+async function editEvent(id){
 
 currentEditId = id;
 
@@ -700,14 +751,77 @@ document.getElementById(
 ).value =
 event.technicalTeam;
 
+document.getElementById(
+"postContainer"
+).innerHTML = "";
+
+event.posts.forEach(async(post)=>{
+
+await addPost();
+
+const boxes =
+document.querySelectorAll(
+".post-box"
+);
+
+const currentPost =
+boxes[boxes.length - 1];
+
+currentPost.querySelector(
+".crewPost"
+).value =
+post.crewPost;
+
+currentPost.querySelector(
+".dutyArea"
+).value =
+post.dutyArea;
+
+currentPost.querySelector(
+".coordinator"
+).value =
+post.coordinator;
+
+const list =
+currentPost.querySelector(
+".selectedStaffList"
+);
+
+post.staffEmails.forEach((email)=>{
+
+list.innerHTML += `
+
+<div class="staff-item">
+
+<span class="staff-email">
+
+${email}
+
+</span>
+
+<button
+class="remove-btn"
+onclick="removeStaff(this)">
+
+Remove
+
+</button>
+
+</div>
+
+`;
+
+});
+
+});
+
 }
 
 });
 
 }
 
-window.loadEvents =
-async function(){
+async function loadEvents(){
 
 const querySnapshot =
 await getDocs(
@@ -807,7 +921,7 @@ ${status}
 
 </div>
 
-<br>
+<br><br>
 
 <button
 class="edit-btn"
@@ -830,10 +944,7 @@ html;
 
 }
 
-addPost();
-
-loadEvents();
-  window.addPost = addPost;
+window.addPost = addPost;
 
 window.addStaff = addStaff;
 
@@ -844,6 +955,10 @@ window.saveEvent = saveEvent;
 window.editEvent = editEvent;
 
 window.loadEvents = loadEvents;
+
+addPost();
+
+loadEvents();
 
 </script>
 

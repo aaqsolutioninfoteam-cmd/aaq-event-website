@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>ERP Settings Panel</title>
+<title>Live ERP Settings</title>
 
 <style>
 
@@ -61,7 +61,7 @@ background-position:0% 50%;
 
 .container{
 
-max-width:1300px;
+max-width:1200px;
 
 margin:auto;
 
@@ -85,7 +85,7 @@ gap:15px;
 
 .title-box h1{
 
-font-size:35px;
+font-size:34px;
 
 margin-bottom:5px;
 
@@ -196,18 +196,11 @@ outline:none;
 
 }
 
-.input-group textarea{
+textarea{
 
 height:120px;
 
 resize:none;
-
-}
-
-.input-group input::placeholder,
-textarea::placeholder{
-
-color:#cbd5e1;
 
 }
 
@@ -240,7 +233,7 @@ margin-top:10px;
 
 }
 
-.notice-preview{
+.preview{
 
 background:rgba(250,204,21,0.12);
 
@@ -248,39 +241,11 @@ padding:18px;
 
 border-radius:16px;
 
-margin-top:15px;
-
 line-height:1.8;
+
+margin-top:15px;
 
 border:1px solid rgba(250,204,21,0.3);
-
-}
-
-.role-box{
-
-padding:12px;
-
-border-radius:12px;
-
-background:rgba(255,255,255,0.08);
-
-margin-bottom:10px;
-
-}
-
-.live-status{
-
-background:rgba(34,197,94,0.15);
-
-padding:15px;
-
-border-radius:15px;
-
-margin-top:15px;
-
-line-height:1.8;
-
-border:1px solid rgba(34,197,94,0.25);
 
 }
 
@@ -297,11 +262,11 @@ border:1px solid rgba(34,197,94,0.25);
 <div class="title-box">
 
 <h1>
-ERP Settings Panel
+ERP Live Settings
 </h1>
 
 <p>
-Professional Live Control System
+Realtime Dashboard Control System
 </p>
 
 </div>
@@ -317,22 +282,104 @@ Back To Admin
 
 <div class="grid">
 
-<!-- LIVE NOTIFICATION -->
+<!-- DUTY NOTICE -->
 
 <div class="card">
 
 <h2>
-Live Notification
+Duty Notification
 </h2>
 
 <div class="input-group">
 
 <label>
-Notification Title
+Duty Date
+</label>
+
+<input
+type="date"
+id="dutyDate">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Duty Start Time
+</label>
+
+<input
+type="time"
+id="dutyStart">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Duty End Time
+</label>
+
+<input
+type="time"
+id="dutyEnd">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Duty Message
+</label>
+
+<textarea
+id="dutyMessage"
+placeholder="Write duty message..."></textarea>
+
+</div>
+
+<div class="preview">
+
+📅 Duty Notice Preview
+
+<br><br>
+
+🕒 Time :
+09:00 AM To 06:00 PM
+
+<br><br>
+
+📢 Staff Duty Notification
+
+</div>
+
+<button
+onclick="saveDutyNotice()"
+class="save-btn">
+
+Save Duty Notice
+
+</button>
+
+</div>
+
+<!-- POPUP NOTICE -->
+
+<div class="card">
+
+<h2>
+Popup Notification
+</h2>
+
+<div class="input-group">
+
+<label>
+Popup Title
 </label>
 
 <input
 type="text"
+id="popupTitle"
 placeholder="Important Notice">
 
 </div>
@@ -340,21 +387,22 @@ placeholder="Important Notice">
 <div class="input-group">
 
 <label>
-Notification Message
+Popup Message
 </label>
 
 <textarea
-placeholder="Write random message for staff..."></textarea>
+id="popupMessage"
+placeholder="Write popup message..."></textarea>
 
 </div>
 
 <div class="input-group">
 
 <label>
-Show Notification
+Popup Status
 </label>
 
-<select>
+<select id="popupStatus">
 
 <option>
 Enabled
@@ -368,50 +416,22 @@ Disabled
 
 </div>
 
-<div class="input-group">
+<button
+onclick="savePopup()"
+class="save-btn">
 
-<label>
-Notification Time
-</label>
-
-<input
-type="time">
-
-</div>
-
-<div class="notice-preview">
-
-🔔 Preview Notice
-
-<br><br>
-
-📢 Tomorrow Office Meeting
-
-<br><br>
-
-🕒 Time :
-10:00 AM
-
-<br><br>
-
-📌 All Staff Must Attend Meeting
-
-</div>
-
-<button class="save-btn">
-
-Publish Notification
+Save Popup
 
 </button>
 
 </div>
 
-<!-- ROLE MANAGEMENT -->
+<!-- ROLE CHANGE -->
 
 <div class="card">
 
 <h2>
-Role Management
+Role Change
 </h2>
 
 <div class="input-group">
@@ -422,6 +442,7 @@ Staff Email
 
 <input
 type="email"
+id="roleEmail"
 placeholder="staff@email.com">
 
 </div>
@@ -429,10 +450,10 @@ placeholder="staff@email.com">
 <div class="input-group">
 
 <label>
-Select New Role
+Select Role
 </label>
 
-<select>
+<select id="roleType">
 
 <option>
 STAFF
@@ -447,38 +468,16 @@ HR
 </option>
 
 <option>
-SUB ADMIN
-</option>
-
-<option>
 ADMIN
-</option>
-
-<option>
-SUPER ADMIN
 </option>
 
 </select>
 
 </div>
 
-<div class="notice-preview">
-
-📧 staff@email.com
-
-<br><br>
-
-🪪 Current Role :
-STAFF
-
-<br><br>
-
-✅ New Role :
-MANAGER
-
-</div>
-
-<button class="save-btn">
+<button
+onclick="saveRole()"
+class="save-btn">
 
 Update Role
 
@@ -486,85 +485,7 @@ Update Role
 
 </div>
 
-<!-- ATTENDANCE RULES -->
-
-<div class="card">
-
-<h2>
-Attendance Rules
-</h2>
-
-<div class="input-group">
-
-<label>
-Office IN Time
-</label>
-
-<input
-type="time"
-value="09:00">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Office OUT Time
-</label>
-
-<input
-type="time"
-value="18:00">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Late After
-</label>
-
-<input
-type="time"
-value="09:15">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Minimum Duty Hours
-</label>
-
-<input
-type="number"
-value="8">
-
-</div>
-
-<div class="live-status">
-
-✅ Auto Working Hours
-
-<br>
-
-✅ Auto Attendance Count
-
-<br>
-
-✅ Live Staff Monitoring
-
-</div>
-
-<button class="save-btn">
-
-Save Attendance Rules
-
-</button>
-
-</div>
-
-<!-- THEME SETTINGS -->
+<!-- THEME -->
 
 <div class="card">
 
@@ -575,74 +496,34 @@ Theme Settings
 <div class="input-group">
 
 <label>
-ERP Theme
+Select Theme
 </label>
 
-<select>
+<select id="themeSelect">
 
 <option>
-Blue Gold Premium
+Blue Gold
+</option>
+
+<option>
+Royal Blue
+</option>
+
+<option>
+Navy Premium
 </option>
 
 <option>
 Corporate Dark
 </option>
 
-<option>
-Navy Glass
-</option>
-
-<option>
-Royal Gold
-</option>
-
 </select>
 
 </div>
 
-<div class="input-group">
-
-<label>
-Dashboard Style
-</label>
-
-<select>
-
-<option>
-Premium Glass
-</option>
-
-<option>
-Modern Card
-</option>
-
-<option>
-Corporate UI
-</option>
-
-</select>
-
-</div>
-
-<div class="notice-preview">
-
-🎨 Live Theme System
-
-<br><br>
-
-✅ Staff Dashboard Theme
-
-<br>
-
-✅ Admin Dashboard Theme
-
-<br>
-
-✅ Popup Theme
-
-</div>
-
-<button class="save-btn">
+<button
+onclick="saveTheme()"
+class="save-btn">
 
 Apply Theme
 
@@ -650,135 +531,163 @@ Apply Theme
 
 </div>
 
-<!-- MULTI ADMIN -->
-
-<div class="card">
-
-<h2>
-Multi Admin Access
-</h2>
-
-<div class="role-box">
-
-👑 SUPER ADMIN
-
-</div>
-
-<div class="role-box">
-
-🛡️ ADMIN
-
-</div>
-
-<div class="role-box">
-
-📋 MANAGER
-
-</div>
-
-<div class="role-box">
-
-👨‍💼 SUB ADMIN
-
-</div>
-
-<div class="input-group"
-style="margin-top:20px;">
-
-<label>
-Create New Admin
-</label>
-
-<input
-type="email"
-placeholder="admin@email.com">
-
-</div>
-
-<button class="save-btn">
-
-Create Access
-
-</button>
-
-</div>
-
-<!-- STAFF POPUP SETTINGS -->
-
-<div class="card">
-
-<h2>
-Staff Popup Notice
-</h2>
-
-<div class="input-group">
-
-<label>
-Popup Title
-</label>
-
-<input
-type="text"
-placeholder="Important Update">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Popup Message
-</label>
-
-<textarea
-placeholder="Write popup message..."></textarea>
-
-</div>
-
-<div class="input-group">
-
-<label>
-Popup Close Button
-</label>
-
-<select>
-
-<option>
-Enabled
-</option>
-
-<option>
-Disabled
-</option>
-
-</select>
-
-</div>
-
-<div class="notice-preview">
-
-🔔 Popup Preview
-
-<br><br>
-
-📢 New Event Duty Assigned
-
-<br><br>
-
-❌ Close Button Enabled
-
-</div>
-
-<button class="save-btn">
-
-Publish Popup
-
-</button>
-
 </div>
 
 </div>
 
-</div>
+<script type="module">
+
+import { initializeApp }
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+addDoc
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+
+authDomain:
+"aaq-event-erp.firebaseapp.com",
+
+projectId:
+"aaq-event-erp",
+
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
+
+messagingSenderId:
+"985636664002",
+
+appId:
+"1:985636664002:web:4b941d3562609d2058815b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+window.saveDutyNotice =
+async function(){
+
+await addDoc(
+collection(db,"dutyNotice"),
+{
+
+date:
+document.getElementById(
+"dutyDate"
+).value,
+
+start:
+document.getElementById(
+"dutyStart"
+).value,
+
+end:
+document.getElementById(
+"dutyEnd"
+).value,
+
+message:
+document.getElementById(
+"dutyMessage"
+).value
+
+}
+);
+
+alert("Duty Notice Saved");
+
+}
+
+window.savePopup =
+async function(){
+
+await addDoc(
+collection(db,"popupNotice"),
+{
+
+title:
+document.getElementById(
+"popupTitle"
+).value,
+
+message:
+document.getElementById(
+"popupMessage"
+).value,
+
+status:
+document.getElementById(
+"popupStatus"
+).value
+
+}
+);
+
+alert("Popup Saved");
+
+}
+
+window.saveRole =
+async function(){
+
+await addDoc(
+collection(db,"roles"),
+{
+
+email:
+document.getElementById(
+"roleEmail"
+).value,
+
+role:
+document.getElementById(
+"roleType"
+).value
+
+}
+);
+
+alert("Role Updated");
+
+}
+
+window.saveTheme =
+async function(){
+
+await addDoc(
+collection(db,"themeSettings"),
+{
+
+theme:
+document.getElementById(
+"themeSelect"
+).value
+
+}
+);
+
+alert("Theme Applied");
+
+}
+
+</script>
 
 </body>
 

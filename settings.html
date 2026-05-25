@@ -1,1 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ERP Settings Panel</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#1e3a8a,
+#1e293b,
+#ca8a04,
+#0f172a
+);
+
+background-size:400% 400%;
+
+animation:bgMove 15s ease infinite;
+
+min-height:100vh;
+
+padding:20px;
+
+color:white;
+
+}
+
+@keyframes bgMove{
+
+0%{
+background-position:0% 50%;
+}
+
+50%{
+background-position:100% 50%;
+}
+
+100%{
+background-position:0% 50%;
+}
+
+}
+
+.container{
+
+max-width:1200px;
+
+margin:auto;
+
+}
+
+.header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:25px;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+}
+
+.title-box h1{
+
+font-size:34px;
+
+margin-bottom:5px;
+
+}
+
+.title-box p{
+
+color:#e2e8f0;
+
+}
+
+.back-btn{
+
+padding:14px 24px;
+
+border-radius:14px;
+
+background:
+linear-gradient(
+135deg,
+#facc15,
+#eab308
+);
+
+text-decoration:none;
+
+font-weight:bold;
+
+color:#111827;
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(320px,1fr));
+
+gap:25px;
+
+}
+
+.card{
+
+background:rgba(255,255,255,0.08);
+
+padding:25px;
+
+border-radius:25px;
+
+backdrop-filter:blur(12px);
+
+border:1px solid rgba(255,255,255,0.15);
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.2);
+
+}
+
+.card h2{
+
+margin-bottom:20px;
+
+font-size:24px;
+
+color:#facc15;
+
+}
+
+.input-group{
+
+margin-bottom:18px;
+
+}
+
+.input-group label{
+
+display:block;
+
+margin-bottom:8px;
+
+font-size:15px;
+
+color:#e2e8f0;
+
+}
+
+.input-group input,
+.input-group select{
+
+width:100%;
+
+padding:13px;
+
+border:none;
+
+border-radius:12px;
+
+background:rgba(255,255,255,0.12);
+
+color:white;
+
+font-size:15px;
+
+outline:none;
+
+}
+
+.input-group input::placeholder{
+
+color:#cbd5e1;
+
+}
+
+.save-btn{
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+border-radius:14px;
+
+background:
+linear-gradient(
+135deg,
+#22c55e,
+#15803d
+);
+
+color:white;
+
+font-size:17px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+margin-top:10px;
+
+}
+
+.notice-box{
+
+background:rgba(250,204,21,0.15);
+
+padding:18px;
+
+border-radius:16px;
+
+line-height:1.8;
+
+margin-top:15px;
+
+border:1px solid rgba(250,204,21,0.3);
+
+}
+
+.multi-admin{
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+margin-top:10px;
+
+}
+
+.role{
+
+padding:12px;
+
+border-radius:12px;
+
+background:rgba(255,255,255,0.1);
+
+}
+
+@media(max-width:768px){
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div class="title-box">
+
+<h1>
+ERP Settings Panel
+</h1>
+
+<p>
+Professional Company Management Settings
+</p>
+
+</div>
+
+<a href="admin.html"
+class="back-btn">
+
+Back To Admin
+
+</a>
+
+</div>
+
+<div class="grid">
+
+<!-- COMPANY SETTINGS -->
+
+<div class="card">
+
+<h2>
+Company Settings
+</h2>
+
+<div class="input-group">
+
+<label>
+Company Name
+</label>
+
+<input
+type="text"
+placeholder="AAQ Event ERP">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Company Email
+</label>
+
+<input
+type="email"
+placeholder="company@email.com">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Company Mobile
+</label>
+
+<input
+type="text"
+placeholder="+91 XXXXX XXXXX">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Upload Logo
+</label>
+
+<input
+type="file">
+
+</div>
+
+<button class="save-btn">
+
+Save Company Settings
+
+</button>
+
+</div>
+
+<!-- ATTENDANCE SETTINGS -->
+
+<div class="card">
+
+<h2>
+Attendance Settings
+</h2>
+
+<div class="input-group">
+
+<label>
+Office IN Time
+</label>
+
+<input
+type="time"
+value="09:00">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Office OUT Time
+</label>
+
+<input
+type="time"
+value="18:00">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Late After
+</label>
+
+<input
+type="time"
+value="09:15">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Minimum Duty Hours
+</label>
+
+<input
+type="number"
+value="8">
+
+</div>
+
+<button class="save-btn">
+
+Save Attendance Rules
+
+</button>
+
+</div>
+
+<!-- STAFF DUTY NOTICE -->
+
+<div class="card">
+
+<h2>
+Staff Duty Notice
+</h2>
+
+<div class="input-group">
+
+<label>
+Duty Date
+</label>
+
+<input
+type="date">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Duty Start Time
+</label>
+
+<input
+type="time">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Duty End Time
+</label>
+
+<input
+type="time">
+
+</div>
+
+<div class="notice-box">
+
+📅 25/05/2026
+
+<br><br>
+
+🕒 Duty Time :
+09:00 AM To 06:00 PM
+
+<br><br>
+
+✅ This notice will show on Staff Dashboard
+
+</div>
+
+<button class="save-btn">
+
+Publish Duty Notice
+
+</button>
+
+</div>
+
+<!-- SALARY SETTINGS -->
+
+<div class="card">
+
+<h2>
+Salary Rules
+</h2>
+
+<div class="input-group">
+
+<label>
+Monthly Salary
+</label>
+
+<input
+type="number"
+placeholder="25000">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Per Day Salary
+</label>
+
+<input
+type="number"
+placeholder="800">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Overtime Per Hour
+</label>
+
+<input
+type="number"
+placeholder="100">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Half Day Rule
+</label>
+
+<select>
+
+<option>
+Enabled
+</option>
+
+<option>
+Disabled
+</option>
+
+</select>
+
+</div>
+
+<button class="save-btn">
+
+Save Salary Rules
+
+</button>
+
+</div>
+
+<!-- MULTI ADMIN -->
+
+<div class="card">
+
+<h2>
+Multi Admin Roles
+</h2>
+
+<div class="multi-admin">
+
+<div class="role">
+
+👑 Super Admin
+
+</div>
+
+<div class="role">
+
+🛡️ Admin
+
+</div>
+
+<div class="role">
+
+📋 Manager
+
+</div>
+
+<div class="role">
+
+👨‍💼 Sub Admin
+
+</div>
+
+</div>
+
+<div class="input-group"
+style="margin-top:20px;">
+
+<label>
+Add New Admin
+</label>
+
+<input
+type="text"
+placeholder="Enter Admin Name">
+
+</div>
+
+<button class="save-btn">
+
+Create Admin Role
+
+</button>
+
+</div>
+
+<!-- SYSTEM SETTINGS -->
+
+<div class="card">
+
+<h2>
+System Rules
+</h2>
+
+<div class="input-group">
+
+<label>
+Auto Attendance Approval
+</label>
+
+<select>
+
+<option>
+Enabled
+</option>
+
+<option>
+Disabled
+</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>
+Attendance Lock Time
+</label>
+
+<input
+type="time"
+value="23:00">
+
+</div>
+
+<div class="input-group">
+
+<label>
+Theme Style
+</label>
+
+<select>
+
+<option>
+Professional Blue Gold
+</option>
+
+<option>
+Corporate Dark
+</option>
+
+<option>
+Light Glass
+</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+
+<label>
+System Status
+</label>
+
+<select>
+
+<option>
+Running
+</option>
+
+<option>
+Maintenance
+</option>
+
+</select>
+
+</div>
+
+<button class="save-btn">
+
+Save System Rules
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

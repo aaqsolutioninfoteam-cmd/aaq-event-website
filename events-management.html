@@ -60,7 +60,7 @@ background-position:0% 50%;
 
 .container{
 
-max-width:1350px;
+max-width:1300px;
 
 margin:auto;
 
@@ -114,16 +114,6 @@ border-radius:28px;
 backdrop-filter:blur(12px);
 
 margin-bottom:25px;
-
-border:1px solid rgba(255,255,255,0.12);
-
-}
-
-.form-box h2{
-
-margin-bottom:20px;
-
-color:#facc15;
 
 }
 
@@ -231,8 +221,6 @@ border-radius:28px;
 
 backdrop-filter:blur(12px);
 
-border:1px solid rgba(255,255,255,0.12);
-
 }
 
 .card h2{
@@ -249,23 +237,53 @@ margin-bottom:10px;
 
 line-height:1.7;
 
-color:#e2e8f0;
+}
+
+.action-btns{
+
+display:flex;
+
+gap:10px;
+
+margin-top:15px;
+
+flex-wrap:wrap;
 
 }
 
-.status{
+.edit-btn{
 
-display:inline-block;
+padding:12px 18px;
 
-padding:8px 15px;
+border:none;
 
-border-radius:10px;
+border-radius:12px;
 
-background:#22c55e;
+background:#2563eb;
+
+color:white;
+
+cursor:pointer;
 
 font-weight:bold;
 
-margin-top:10px;
+}
+
+.delete-btn{
+
+padding:12px 18px;
+
+border:none;
+
+border-radius:12px;
+
+background:#ef4444;
+
+color:white;
+
+cursor:pointer;
+
+font-weight:bold;
 
 }
 
@@ -302,10 +320,6 @@ Back To Admin
 
 <div class="form-box">
 
-<h2>
-Create Event Duty
-</h2>
-
 <div class="grid">
 
 <div class="input-group">
@@ -316,8 +330,7 @@ Event Name
 
 <input
 type="text"
-id="eventName"
-placeholder="Surat Ijtema">
+id="eventName">
 
 </div>
 
@@ -329,8 +342,7 @@ Event Area
 
 <input
 type="text"
-id="eventArea"
-placeholder="Main Gate">
+id="eventArea">
 
 </div>
 
@@ -342,8 +354,7 @@ Duty Time
 
 <input
 type="text"
-id="eventTime"
-placeholder="09:00 AM To 06:00 PM">
+id="eventTime">
 
 </div>
 
@@ -355,8 +366,7 @@ Manager Name
 
 <input
 type="text"
-id="managerName"
-placeholder="Arman Bhai">
+id="managerName">
 
 </div>
 
@@ -368,8 +378,7 @@ Coordinator Name
 
 <input
 type="text"
-id="coordinatorName"
-placeholder="Salman Bhai">
+id="coordinatorName">
 
 </div>
 
@@ -381,21 +390,23 @@ Team Members
 
 <input
 type="text"
-id="teamMembers"
-placeholder="Faizan, Imran, Sohail">
+id="teamMembers">
 
 </div>
 
 <div class="input-group">
 
 <label>
-Assign Staff
+Assign Staff Email
 </label>
 
-<input
-type="text"
-id="assignStaff"
-placeholder="Staff Name">
+<select id="assignStaff">
+
+<option>
+Select Staff
+</option>
+
+</select>
 
 </div>
 
@@ -423,34 +434,6 @@ Stage Control
 Parking
 </option>
 
-<option>
-Entry Gate
-</option>
-
-</select>
-
-</div>
-
-<div class="input-group">
-
-<label>
-Event Status
-</label>
-
-<select id="eventStatus">
-
-<option>
-Active
-</option>
-
-<option>
-Pending
-</option>
-
-<option>
-Completed
-</option>
-
 </select>
 
 </div>
@@ -464,8 +447,7 @@ Event Details
 </label>
 
 <textarea
-id="eventDetails"
-placeholder="Write Event Details..."></textarea>
+id="eventDetails"></textarea>
 
 </div>
 
@@ -473,7 +455,7 @@ placeholder="Write Event Details..."></textarea>
 onclick="saveEvent()"
 class="save-btn">
 
-Save Event Duty
+Save Event
 
 </button>
 
@@ -489,6 +471,37 @@ id="eventList">
 
 <script>
 
+let editIndex = null;
+
+function loadStaffEmails(){
+
+const staffs =
+JSON.parse(
+localStorage.getItem("staffs")
+) || [];
+
+let options =
+"<option>Select Staff</option>";
+
+staffs.forEach((staff)=>{
+
+options += `
+
+<option>
+${staff.email}
+</option>
+
+`;
+
+});
+
+document.getElementById(
+"assignStaff"
+).innerHTML =
+options;
+
+}
+
 function saveEvent(){
 
 const events =
@@ -496,7 +509,7 @@ JSON.parse(
 localStorage.getItem("events")
 ) || [];
 
-events.push({
+const data = {
 
 eventName:
 document.getElementById("eventName").value,
@@ -522,20 +535,29 @@ document.getElementById("assignStaff").value,
 dutyType:
 document.getElementById("dutyType").value,
 
-eventStatus:
-document.getElementById("eventStatus").value,
-
 eventDetails:
 document.getElementById("eventDetails").value
 
-});
+};
+
+if(editIndex === null){
+
+events.push(data);
+
+}else{
+
+events[editIndex] = data;
+
+editIndex = null;
+
+}
 
 localStorage.setItem(
 "events",
 JSON.stringify(events)
 );
 
-alert("Event Duty Saved");
+alert("Event Saved");
 
 loadEvents();
 
@@ -550,7 +572,7 @@ localStorage.getItem("events")
 
 let html = "";
 
-events.forEach((event)=>{
+events.forEach((event,index)=>{
 
 html += `
 
@@ -561,13 +583,11 @@ ${event.eventName}
 </h2>
 
 <p>
-📍 Area :
-${event.eventArea}
+📍 ${event.eventArea}
 </p>
 
 <p>
-🕒 Duty Time :
-${event.eventTime}
+🕒 ${event.eventTime}
 </p>
 
 <p>
@@ -586,23 +606,36 @@ ${event.teamMembers}
 </p>
 
 <p>
+📧 Staff :
+${event.assignStaff}
+</p>
+
+<p>
 🧾 Duty :
 ${event.dutyType}
 </p>
 
 <p>
-👤 Staff :
-${event.assignStaff}
+📝 ${event.eventDetails}
 </p>
 
-<p>
-📝 Details :
-${event.eventDetails}
-</p>
+<div class="action-btns">
 
-<div class="status">
+<button
+class="edit-btn"
+onclick="editEvent(${index})">
 
-${event.eventStatus}
+Edit
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteEvent(${index})">
+
+Delete
+
+</button>
 
 </div>
 
@@ -619,10 +652,94 @@ html;
 
 }
 
+function editEvent(index){
+
+const events =
+JSON.parse(
+localStorage.getItem("events")
+) || [];
+
+const event =
+events[index];
+
+document.getElementById(
+"eventName"
+).value =
+event.eventName;
+
+document.getElementById(
+"eventArea"
+).value =
+event.eventArea;
+
+document.getElementById(
+"eventTime"
+).value =
+event.eventTime;
+
+document.getElementById(
+"managerName"
+).value =
+event.managerName;
+
+document.getElementById(
+"coordinatorName"
+).value =
+event.coordinatorName;
+
+document.getElementById(
+"teamMembers"
+).value =
+event.teamMembers;
+
+document.getElementById(
+"assignStaff"
+).value =
+event.assignStaff;
+
+document.getElementById(
+"dutyType"
+).value =
+event.dutyType;
+
+document.getElementById(
+"eventDetails"
+).value =
+event.eventDetails;
+
+editIndex = index;
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+function deleteEvent(index){
+
+const events =
+JSON.parse(
+localStorage.getItem("events")
+) || [];
+
+events.splice(index,1);
+
+localStorage.setItem(
+"events",
+JSON.stringify(events)
+);
+
+loadEvents();
+
+}
+
+loadStaffEmails();
+
 loadEvents();
 
 </script>
 
 </body>
 
-  </html>
+</html>

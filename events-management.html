@@ -755,7 +755,7 @@ document.getElementById(
 "postContainer"
 ).innerHTML = "";
 
-event.posts.forEach(async(post)=>{
+${(event.posts || []).map(post=>`{
 
 await addPost();
 

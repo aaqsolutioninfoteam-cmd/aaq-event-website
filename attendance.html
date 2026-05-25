@@ -25,8 +25,8 @@ background:
 linear-gradient(
 135deg,
 #f8fafc,
-#e2e8f0,
-#fef9c3,
+#dbeafe,
+#fef3c7,
 #ffffff
 );
 
@@ -34,13 +34,13 @@ min-height:100vh;
 
 padding:20px;
 
-color:#111827;
+color:#0f172a;
 
 }
 
 .container{
 
-max-width:700px;
+max-width:750px;
 
 margin:auto;
 
@@ -50,28 +50,30 @@ margin:auto;
 
 background:white;
 
-padding:30px;
+padding:35px;
 
-border-radius:25px;
+border-radius:30px;
 
 box-shadow:
-0 10px 30px rgba(0,0,0,0.08);
+0 10px 35px rgba(0,0,0,0.08);
 
 text-align:center;
+
+border:1px solid rgba(212,175,55,0.2);
 
 }
 
 .staff-photo{
 
-width:120px;
+width:130px;
 
-height:120px;
+height:130px;
 
 border-radius:50%;
 
 object-fit:cover;
 
-border:4px solid #facc15;
+border:5px solid #facc15;
 
 margin-bottom:20px;
 
@@ -79,21 +81,78 @@ margin-bottom:20px;
 
 h1{
 
+font-size:32px;
+
 margin-bottom:10px;
 
 }
 
-p{
+.role{
 
-margin-bottom:10px;
+color:#64748b;
 
-color:#475569;
+margin-bottom:20px;
 
 }
 
-.btn{
+.live{
 
-margin-top:20px;
+background:#f8fafc;
+
+padding:15px;
+
+border-radius:15px;
+
+margin-bottom:25px;
+
+font-size:15px;
+
+line-height:1.8;
+
+}
+
+.status-box{
+
+background:#ecfeff;
+
+padding:20px;
+
+border-radius:20px;
+
+margin-bottom:25px;
+
+}
+
+.status-box h2{
+
+margin-bottom:15px;
+
+font-size:24px;
+
+}
+
+.status-box p{
+
+margin-bottom:10px;
+
+font-size:16px;
+
+}
+
+.btn-group{
+
+display:flex;
+
+gap:15px;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+}
+
+.in-btn,
+.out-btn{
 
 padding:15px 30px;
 
@@ -101,28 +160,35 @@ border:none;
 
 border-radius:15px;
 
-background:
-linear-gradient(
-135deg,
-#22c55e,
-#16a34a
-);
-
-color:white;
-
 font-size:18px;
 
 font-weight:bold;
 
 cursor:pointer;
 
+color:white;
+
 }
 
-.live{
+.in-btn{
 
-margin-top:15px;
+background:
+linear-gradient(
+135deg,
+#22c55e,
+#15803d
+);
 
-font-size:14px;
+}
+
+.out-btn{
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#b91c1c
+);
 
 }
 
@@ -130,9 +196,11 @@ font-size:14px;
 
 margin-top:20px;
 
-color:#16a34a;
+font-size:18px;
 
 font-weight:bold;
+
+color:#16a34a;
 
 }
 
@@ -155,8 +223,12 @@ class="staff-photo">
 Staff User
 </h1>
 
-<p id="staffPosition">
+<p
+id="staffPosition"
+class="role">
+
 Staff Panel
+
 </p>
 
 <div class="live">
@@ -167,13 +239,53 @@ Staff Panel
 
 </div>
 
-<button
-onclick="markAttendance()"
-class="btn">
+<div class="status-box">
 
-Mark Attendance
+<h2>
+Today's Duty
+</h2>
+
+<p id="inTime">
+IN Time :
+--
+</p>
+
+<p id="outTime">
+OUT Time :
+--
+</p>
+
+<p id="totalHours">
+Total Duty :
+--
+</p>
+
+<p id="workStatus">
+Status :
+Not Started
+</p>
+
+</div>
+
+<div class="btn-group">
+
+<button
+onclick="markIn()"
+class="in-btn">
+
+IN
 
 </button>
+
+<button
+onclick="markOut()"
+class="out-btn">
+
+OUT
+
+</button>
+
+</div>
 
 <div
 id="success"
@@ -196,7 +308,12 @@ import {
 
 getFirestore,
 collection,
-addDoc
+addDoc,
+getDocs,
+query,
+where,
+updateDoc,
+doc
 
 }
 
@@ -287,7 +404,7 @@ setInterval(updateDateTime,1000);
 
 updateDateTime();
 
-window.markAttendance =
+window.markIn =
 async function(){
 
 const now = new Date();
@@ -296,32 +413,117 @@ await addDoc(
 collection(db,"attendance"),
 {
 
-staffName:
 staffName,
-
-staffPhoto:
-staffPhoto || "",
-
-staffPosition:
+staffPhoto,
 staffPosition,
 
 date:
 now.toLocaleDateString(),
 
-time:
+inTime:
 now.toLocaleTimeString(),
 
-status:
-"Present"
+outTime:"",
+totalHours:"",
+
+status:"Working"
 
 }
 );
 
 document.getElementById(
+"inTime"
+).innerHTML =
+"IN Time : " +
+now.toLocaleTimeString();
+
+document.getElementById(
+"workStatus"
+).innerHTML =
+"Status : Working";
+
+document.getElementById(
 "success"
 ).innerHTML =
+"✅ IN Attendance Marked";
 
-"✅ Attendance Marked Successfully";
+}
+
+window.markOut =
+async function(){
+
+const today =
+new Date().toLocaleDateString();
+
+const q =
+query(
+collection(db,"attendance"),
+where("staffName","==",staffName),
+where("date","==",today)
+);
+
+const querySnapshot =
+await getDocs(q);
+
+querySnapshot.forEach(async(item)=>{
+
+const data =
+item.data();
+
+const outTime =
+new Date();
+
+const inDate =
+new Date(
+today + " " + data.inTime
+);
+
+const diff =
+(outTime - inDate)
+/ 1000 / 60 / 60;
+
+const total =
+diff.toFixed(1) + " Hours";
+
+await updateDoc(
+doc(db,"attendance",item.id),
+{
+
+outTime:
+outTime.toLocaleTimeString(),
+
+totalHours:
+total,
+
+status:
+"Completed"
+
+}
+);
+
+document.getElementById(
+"outTime"
+).innerHTML =
+"OUT Time : " +
+outTime.toLocaleTimeString();
+
+document.getElementById(
+"totalHours"
+).innerHTML =
+"Total Duty : " +
+total;
+
+document.getElementById(
+"workStatus"
+).innerHTML =
+"Status : Duty Completed";
+
+document.getElementById(
+"success"
+).innerHTML =
+"✅ OUT Attendance Marked";
+
+});
 
 }
 

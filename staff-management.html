@@ -679,20 +679,18 @@ reader.onload = async function(e){
 
 photoURL = e.target.result;
 
-saveStaffData(photoURL);
+await saveStaffData(photoURL);
 
 };
 
 reader.readAsDataURL(photo);
 
-return;
-
 }else{
 
-saveStaffData(photoURL);
+await saveStaffData(photoURL);
 
-}
-
+  }
+  
 async function saveStaffData(photoURL){
 
 try{

@@ -54,11 +54,17 @@ gap:15px;
 
 }
 
+.header h1{
+
+font-size:32px;
+
+}
+
 .back-btn{
 
-padding:12px 20px;
+padding:12px 22px;
 
-border-radius:12px;
+border-radius:14px;
 
 text-decoration:none;
 
@@ -96,6 +102,26 @@ flex-wrap:wrap;
 
 }
 
+.filter-box{
+
+display:flex;
+
+flex-direction:column;
+
+gap:8px;
+
+}
+
+.filter-title{
+
+font-size:16px;
+
+font-weight:bold;
+
+color:#334155;
+
+}
+
 .filter input{
 
 padding:12px;
@@ -105,6 +131,10 @@ border-radius:12px;
 border:1px solid #cbd5e1;
 
 font-size:16px;
+
+background:white;
+
+color:#0f172a;
 
 }
 
@@ -127,7 +157,7 @@ gap:20px;
 
 flex-wrap:wrap;
 
-align-items:center;
+align-items:flex-start;
 
 }
 
@@ -151,6 +181,12 @@ flex:1;
 
 }
 
+.details h2{
+
+margin-bottom:15px;
+
+}
+
 .details input,
 .details select{
 
@@ -158,11 +194,57 @@ width:100%;
 
 padding:12px;
 
-margin-bottom:10px;
+margin-bottom:12px;
 
-border-radius:10px;
+border-radius:12px;
 
 border:1px solid #cbd5e1;
+
+font-size:15px;
+
+background:#f8fafc;
+
+color:#0f172a;
+
+}
+
+.live-hours{
+
+background:#ecfeff;
+
+padding:12px;
+
+border-radius:12px;
+
+margin-bottom:12px;
+
+font-weight:bold;
+
+color:#0f766e;
+
+}
+
+.status-approved{
+
+background:#dcfce7;
+
+color:#166534;
+
+}
+
+.status-pending{
+
+background:#fef3c7;
+
+color:#92400e;
+
+}
+
+.status-rejected{
+
+background:#fee2e2;
+
+color:#991b1b;
 
 }
 
@@ -187,6 +269,8 @@ font-weight:bold;
 
 cursor:pointer;
 
+margin-right:10px;
+
 }
 
 .delete-btn{
@@ -209,8 +293,6 @@ color:white;
 font-weight:bold;
 
 cursor:pointer;
-
-margin-top:10px;
 
 }
 
@@ -237,16 +319,36 @@ Back
 
 <div class="filter">
 
+<div class="filter-box">
+
+<div class="filter-title">
+
+Filter Attendance By Date
+
+</div>
+
 <input
 type="date"
 id="filterDate"
 onchange="loadAttendance()">
 
+</div>
+
+<div class="filter-box">
+
+<div class="filter-title">
+
+Search Staff
+
+</div>
+
 <input
 type="text"
 id="searchStaff"
-placeholder="Search Staff"
+placeholder="Enter Staff Name"
 onkeyup="loadAttendance()">
+
+</div>
 
 </div>
 
@@ -303,6 +405,40 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
+function calculateHours(inTime,outTime){
+
+if(!inTime || !outTime){
+
+return "Working...";
+
+}
+
+const today =
+new Date();
+
+const inDate =
+new Date(
+today.toDateString() +
+" " +
+inTime
+);
+
+const outDate =
+new Date(
+today.toDateString() +
+" " +
+outTime
+);
+
+const diff =
+(outDate - inDate)
+/1000/60/60;
+
+return diff.toFixed(2) +
+" Hours";
+
+}
+
 window.loadAttendance =
 async function(){
 
@@ -356,6 +492,29 @@ return;
 
 }
 
+let statusClass =
+"status-pending";
+
+if(data.status === "Approved"){
+
+statusClass =
+"status-approved";
+
+}
+
+if(data.status === "Rejected"){
+
+statusClass =
+"status-rejected";
+
+}
+
+const liveHours =
+calculateHours(
+data.inTime,
+data.outTime
+);
+
 html += `
 
 <div class="card">
@@ -379,17 +538,26 @@ value="${data.date}">
 
 <input
 id="in-${docItem.id}"
-value="${data.inTime || ''}">
+value="${data.inTime || ''}"
+oninput="autoCalculate('${docItem.id}')">
 
 <input
 id="out-${docItem.id}"
-value="${data.outTime || ''}">
+value="${data.outTime || ''}"
+oninput="autoCalculate('${docItem.id}')">
 
-<input
-id="total-${docItem.id}"
-value="${data.totalHours || ''}">
+<div
+id="live-${docItem.id}"
+class="live-hours">
 
-<select id="status-${docItem.id}">
+⏱️ Total :
+${liveHours}
+
+</div>
+
+<select
+id="status-${docItem.id}"
+class="${statusClass}">
 
 <option ${
 data.status==="Pending"?"selected":""
@@ -442,8 +610,52 @@ html;
 
 }
 
+window.autoCalculate =
+function(id){
+
+const inTime =
+document.getElementById(
+`in-${id}`
+).value;
+
+const outTime =
+document.getElementById(
+`out-${id}`
+).value;
+
+const total =
+calculateHours(
+inTime,
+outTime
+);
+
+document.getElementById(
+`live-${id}`
+).innerHTML =
+
+"⏱️ Total : " +
+total;
+
+}
+
 window.saveAttendance =
 async function(id){
+
+const inTime =
+document.getElementById(
+`in-${id}`
+).value;
+
+const outTime =
+document.getElementById(
+`out-${id}`
+).value;
+
+const totalHours =
+calculateHours(
+inTime,
+outTime
+);
 
 await updateDoc(
 doc(db,"attendance",id),
@@ -455,19 +667,13 @@ document.getElementById(
 ).value,
 
 inTime:
-document.getElementById(
-`in-${id}`
-).value,
+inTime,
 
 outTime:
-document.getElementById(
-`out-${id}`
-).value,
+outTime,
 
 totalHours:
-document.getElementById(
-`total-${id}`
-).value,
+totalHours,
 
 status:
 document.getElementById(
@@ -478,6 +684,8 @@ document.getElementById(
 );
 
 alert("Attendance Updated");
+
+loadAttendance();
 
 }
 

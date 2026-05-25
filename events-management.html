@@ -1,3 +1,7 @@
+<!-- ========================= -->
+<!-- FINAL WORKING EVENT ERP -->
+<!-- ========================= -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +12,9 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>AAQ Event ERP</title>
+<title>
+AAQ Event ERP
+</title>
 
 <style>
 
@@ -66,56 +72,17 @@ margin:auto;
 
 }
 
-.header{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-bottom:25px;
-
-flex-wrap:wrap;
-
-gap:15px;
-
-}
-
-.back-btn{
-
-padding:14px 24px;
-
-border-radius:14px;
-
-background:
-linear-gradient(
-135deg,
-#facc15,
-#eab308
-);
-
-text-decoration:none;
-
-font-weight:bold;
-
-color:#111827;
-
-}
-
 .form-box{
 
 background:rgba(255,255,255,0.08);
 
 padding:30px;
 
-border-radius:28px;
+border-radius:25px;
 
-backdrop-filter:blur(12px);
+backdrop-filter:blur(10px);
 
 margin-bottom:25px;
-
-border:1px solid rgba(255,255,255,0.12);
 
 }
 
@@ -124,30 +91,14 @@ border:1px solid rgba(255,255,255,0.12);
 display:grid;
 
 grid-template-columns:
-repeat(auto-fit,minmax(300px,1fr));
+repeat(auto-fit,minmax(250px,1fr));
 
-gap:18px;
-
-}
-
-.input-group{
-
-margin-bottom:18px;
+gap:15px;
 
 }
 
-.input-group label{
-
-display:block;
-
-margin-bottom:8px;
-
-color:#e2e8f0;
-
-}
-
-.input-group input,
-.input-group select{
+input,
+select{
 
 width:100%;
 
@@ -161,33 +112,21 @@ background:rgba(255,255,255,0.12);
 
 color:white;
 
-font-size:15px;
-
-outline:none;
+margin-top:10px;
 
 }
 
-.input-group input::placeholder{
-
-color:#cbd5e1;
-
-}
-
-.add-btn,
-.save-btn,
-.edit-btn{
+button{
 
 padding:14px;
 
 border:none;
 
-border-radius:14px;
-
-font-weight:bold;
+border-radius:12px;
 
 cursor:pointer;
 
-color:white;
+font-weight:bold;
 
 margin-top:10px;
 
@@ -197,6 +136,8 @@ margin-top:10px;
 
 background:#2563eb;
 
+color:white;
+
 width:100%;
 
 }
@@ -205,6 +146,8 @@ width:100%;
 
 background:#22c55e;
 
+color:white;
+
 width:100%;
 
 }
@@ -212,6 +155,18 @@ width:100%;
 .edit-btn{
 
 background:#f59e0b;
+
+color:white;
+
+}
+
+.remove-btn{
+
+background:#ef4444;
+
+color:white;
+
+padding:6px 12px;
 
 }
 
@@ -225,29 +180,9 @@ border-radius:20px;
 
 margin-top:20px;
 
-border:1px solid rgba(255,255,255,0.08);
-
-}
-
-.post-title{
-
-margin-bottom:15px;
-
-color:#facc15;
-
-font-size:20px;
-
 }
 
 .staff-item{
-
-padding:12px;
-
-background:rgba(255,255,255,0.08);
-
-border-radius:10px;
-
-margin-top:10px;
 
 display:flex;
 
@@ -255,25 +190,13 @@ justify-content:space-between;
 
 align-items:center;
 
-gap:10px;
+background:rgba(255,255,255,0.08);
 
-}
+padding:10px;
 
-.remove-btn{
+border-radius:10px;
 
-background:#ef4444;
-
-border:none;
-
-padding:8px 12px;
-
-border-radius:8px;
-
-color:white;
-
-cursor:pointer;
-
-font-size:13px;
+margin-top:10px;
 
 }
 
@@ -283,39 +206,21 @@ background:rgba(255,255,255,0.08);
 
 padding:25px;
 
-border-radius:25px;
+border-radius:20px;
 
 margin-top:20px;
-
-border:1px solid rgba(255,255,255,0.12);
-
-}
-
-.event-card h2{
-
-color:#facc15;
-
-margin-bottom:15px;
-
-}
-
-.event-card p{
-
-margin-bottom:8px;
-
-line-height:1.7;
 
 }
 
 .status{
 
-display:inline-block;
-
 padding:8px 15px;
 
 border-radius:10px;
 
-margin-top:15px;
+display:inline-block;
+
+margin-top:10px;
 
 font-weight:bold;
 
@@ -333,16 +238,6 @@ background:#ef4444;
 
 }
 
-.action-btns{
-
-display:flex;
-
-gap:10px;
-
-margin-top:15px;
-
-}
-
 </style>
 
 </head>
@@ -351,118 +246,46 @@ margin-top:15px;
 
 <div class="container">
 
-<div class="header">
-
-<div>
-
 <h1>
 AAQ Event ERP
 </h1>
-
-<p>
-Professional Multi Staff Event Management
-</p>
-
-</div>
-
-<a href="admin.html"
-class="back-btn">
-
-Back
-
-</a>
-
-</div>
 
 <div class="form-box">
 
 <div class="grid">
 
-<div class="input-group">
-
-<label>
-Event Name
-</label>
-
 <input
 type="text"
 id="eventName"
-placeholder="Enter Event Name">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Event Address
-</label>
+placeholder="Event Name">
 
 <input
 type="text"
 id="eventAddress"
-placeholder="Enter Event Address">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Start Date
-</label>
+placeholder="Event Address">
 
 <input
 type="date"
 id="startDate">
 
-</div>
-
-<div class="input-group">
-
-<label>
-End Date
-</label>
-
 <input
 type="date"
 id="endDate">
 
-</div>
-
-<div class="input-group">
-
-<label>
-Event Coordinator
-</label>
+<input
+type="text"
+id="eventCoordinator"
+placeholder="Event Coordinator">
 
 <input
 type="text"
-id="eventCoordinator">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Access Manager
-</label>
+id="accessManager"
+placeholder="Access Manager">
 
 <input
 type="text"
-id="accessManager">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Technical Team
-</label>
-
-<input
-type="text"
-id="technicalTeam">
-
-</div>
+id="technicalTeam"
+placeholder="Technical Team">
 
 </div>
 
@@ -543,7 +366,62 @@ let currentEditId = null;
 
 let totalPosts = 0;
 
-async function loadStaffOptions(select){
+window.addPost =
+async function(){
+
+totalPosts++;
+
+const div =
+document.createElement("div");
+
+div.className =
+"post-box";
+
+div.innerHTML = `
+
+<h2>
+Crew Post ${totalPosts}
+</h2>
+
+<div class="grid">
+
+<input
+type="text"
+class="crewPost"
+placeholder="Crew Post">
+
+<input
+type="text"
+class="dutyArea"
+placeholder="Duty Area">
+
+<input
+type="text"
+class="coordinator"
+placeholder="Coordinator">
+
+<select class="staffSelect"></select>
+
+</div>
+
+<button
+class="add-btn"
+onclick="addStaff(this)">
+
+Add Staff
+
+</button>
+
+<div class="selectedStaffList"></div>
+
+`;
+
+document.getElementById(
+"postContainer"
+).appendChild(div);
+
+const select =
+div.querySelector(".staffSelect");
 
 const querySnapshot =
 await getDocs(
@@ -574,98 +452,6 @@ ${staff.email}
 
 select.innerHTML =
 options;
-
-}
-
-window.addPost =
-function(){
-
-totalPosts++;
-
-const div =
-document.createElement("div");
-
-div.className =
-"post-box";
-
-div.innerHTML = `
-
-<h2 class="post-title">
-
-Crew Post ${totalPosts}
-
-</h2>
-
-<div class="grid">
-
-<div class="input-group">
-
-<label>
-Crew Post
-</label>
-
-<input
-type="text"
-class="crewPost">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Duty Area
-</label>
-
-<input
-type="text"
-class="dutyArea">
-
-</div>
-
-<div class="input-group">
-
-<label>
-Post Coordinator
-</label>
-
-<input
-type="text"
-class="coordinator">
-
-</div>
-
-</div>
-
-<div class="input-group">
-
-<label>
-Assign Staff
-</label>
-
-<select class="staffSelect"></select>
-
-</div>
-
-<button
-type="button"
-class="add-btn"
-onclick="addStaff(this)">
-
-+ Add Staff
-
-</button>
-
-<div class="selectedStaffList"></div>
-
-`;
-
-document.getElementById(
-"postContainer"
-).appendChild(div);
-
-loadStaffOptions(
-div.querySelector(".staffSelect")
-);
 
 }
 
@@ -814,6 +600,8 @@ posts
 
 };
 
+try{
+
 if(currentEditId){
 
 await updateDoc(
@@ -821,9 +609,9 @@ doc(db,"events",currentEditId),
 eventData
 );
 
-alert("Event Updated");
-
-currentEditId = null;
+alert(
+"Event Updated"
+);
 
 }else{
 
@@ -832,37 +620,13 @@ collection(db,"events"),
 eventData
 );
 
-alert("Event Saved");
+alert(
+"Event Saved"
+);
 
 }
 
-document.getElementById(
-"eventName"
-).value = "";
-
-document.getElementById(
-"eventAddress"
-).value = "";
-
-document.getElementById(
-"startDate"
-).value = "";
-
-document.getElementById(
-"endDate"
-).value = "";
-
-document.getElementById(
-"eventCoordinator"
-).value = "";
-
-document.getElementById(
-"accessManager"
-).value = "";
-
-document.getElementById(
-"technicalTeam"
-).value = "";
+currentEditId = null;
 
 document.getElementById(
 "postContainer"
@@ -872,13 +636,22 @@ addPost();
 
 loadEvents();
 
+}catch(error){
+
+console.log(error);
+
+alert(
+"Save Failed"
+);
+
+}
+
 }
 
 window.editEvent =
-async function(eventId){
+async function(id){
 
-currentEditId =
-eventId;
+currentEditId = id;
 
 const querySnapshot =
 await getDocs(
@@ -887,7 +660,7 @@ collection(db,"events")
 
 querySnapshot.forEach((docItem)=>{
 
-if(docItem.id === eventId){
+if(docItem.id === id){
 
 const event =
 docItem.data();
@@ -927,77 +700,6 @@ document.getElementById(
 ).value =
 event.technicalTeam;
 
-document.getElementById(
-"postContainer"
-).innerHTML = "";
-
-event.posts.forEach((post)=>{
-
-addPost();
-
-const posts =
-document.querySelectorAll(
-".post-box"
-);
-
-const currentPost =
-posts[posts.length - 1];
-
-currentPost.querySelector(
-".crewPost"
-).value =
-post.crewPost;
-
-currentPost.querySelector(
-".dutyArea"
-).value =
-post.dutyArea;
-
-currentPost.querySelector(
-".coordinator"
-).value =
-post.coordinator;
-
-const list =
-currentPost.querySelector(
-".selectedStaffList"
-);
-
-post.staffEmails.forEach((email)=>{
-
-list.innerHTML += `
-
-<div class="staff-item">
-
-<span class="staff-email">
-
-${email}
-
-</span>
-
-<button
-class="remove-btn"
-onclick="removeStaff(this)">
-
-Remove
-
-</button>
-
-</div>
-
-`;
-
-});
-
-});
-
-window.scrollTo({
-
-top:0,
-behavior:"smooth"
-
-});
-
 }
 
 });
@@ -1019,7 +721,7 @@ querySnapshot.forEach((docItem)=>{
 const event =
 docItem.data();
 
-const eventId =
+const id =
 docItem.id;
 
 const today =
@@ -1068,8 +770,6 @@ ${event.endDate}
 🖥️ ${event.technicalTeam}
 </p>
 
-<hr style="margin:15px 0;">
-
 ${event.posts.map(post=>`
 
 <div class="staff-item">
@@ -1098,23 +798,24 @@ ${event.posts.map(post=>`
 
 `).join("")}
 
-<div class="status ${status === "Active" ? "active" : "expired"}">
+<div class="status
+${status === "Active"
+? "active"
+: "expired"}">
 
 ${status}
 
 </div>
 
-<div class="action-btns">
+<br>
 
 <button
 class="edit-btn"
-onclick="editEvent('${eventId}')">
+onclick="editEvent('${id}')">
 
 Edit Event
 
 </button>
-
-</div>
 
 </div>
 

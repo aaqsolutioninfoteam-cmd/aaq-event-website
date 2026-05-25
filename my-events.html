@@ -240,7 +240,9 @@ let html = "";
 events.forEach((event)=>{
 
 const today =
-new Date().toISOString().split("T")[0];
+new Date()
+.toISOString()
+.split("T")[0];
 
 const status =
 today > event.endDate
@@ -258,11 +260,23 @@ let matchedPosts = "";
 event.posts.forEach((post)=>{
 
 if(
-post.staffEmails
+
+post.staffEmails.some(
+
+email =>
+
+email
 .toLowerCase()
-.includes(
-staffEmail.toLowerCase()
+.trim()
+
+===
+
+staffEmail
+.toLowerCase()
+.trim()
+
 )
+
 ){
 
 matchedPosts += `
@@ -285,7 +299,7 @@ ${post.coordinator}
 
 <p>
 👥 Assigned Staff :
-${post.staffEmails}
+${post.staffEmails.join(", ")}
 </p>
 
 </div>
@@ -307,7 +321,7 @@ html += `
 </h2>
 
 <p>
-📍 Address :
+📍 Event Address :
 ${event.eventAddress}
 </p>
 
@@ -335,7 +349,10 @@ ${event.technicalTeam}
 
 ${matchedPosts}
 
-<div class="status ${status === "Active" ? "active" : "expired"}">
+<div class="status
+${status === "Active"
+? "active"
+: "expired"}">
 
 ${status}
 

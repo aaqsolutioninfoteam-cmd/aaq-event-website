@@ -25,8 +25,8 @@ background:
 linear-gradient(
 135deg,
 #f8fafc,
-#dbeafe,
-#fef3c7,
+#e0f2fe,
+#fef9c3,
 #ffffff
 );
 
@@ -46,7 +46,7 @@ justify-content:space-between;
 
 align-items:center;
 
-margin-bottom:30px;
+margin-bottom:25px;
 
 flex-wrap:wrap;
 
@@ -54,17 +54,13 @@ gap:15px;
 
 }
 
-.header h1{
-
-font-size:32px;
-
-}
-
 .back-btn{
 
-padding:12px 22px;
+padding:12px 20px;
 
-border-radius:14px;
+border-radius:12px;
+
+text-decoration:none;
 
 background:
 linear-gradient(
@@ -73,15 +69,13 @@ linear-gradient(
 #eab308
 );
 
-text-decoration:none;
+color:#111827;
 
 font-weight:bold;
 
-color:#111827;
-
 }
 
-.filter-box{
+.filter{
 
 background:white;
 
@@ -89,14 +83,20 @@ padding:20px;
 
 border-radius:20px;
 
+box-shadow:
+0 10px 30px rgba(0,0,0,0.08);
+
 margin-bottom:25px;
 
-box-shadow:
-0 10px 25px rgba(0,0,0,0.08);
+display:flex;
+
+gap:15px;
+
+flex-wrap:wrap;
 
 }
 
-.filter-box input{
+.filter input{
 
 padding:12px;
 
@@ -105,14 +105,6 @@ border-radius:12px;
 border:1px solid #cbd5e1;
 
 font-size:16px;
-
-}
-
-.attendance-list{
-
-display:grid;
-
-gap:20px;
 
 }
 
@@ -125,23 +117,25 @@ padding:20px;
 border-radius:25px;
 
 box-shadow:
-0 10px 25px rgba(0,0,0,0.08);
+0 10px 30px rgba(0,0,0,0.08);
+
+margin-bottom:20px;
 
 display:flex;
-
-align-items:center;
 
 gap:20px;
 
 flex-wrap:wrap;
 
+align-items:center;
+
 }
 
 .photo{
 
-width:90px;
+width:100px;
 
-height:90px;
+height:100px;
 
 border-radius:50%;
 
@@ -157,33 +151,66 @@ flex:1;
 
 }
 
-.details h3{
+.details input,
+.details select{
+
+width:100%;
+
+padding:12px;
 
 margin-bottom:10px;
 
-font-size:24px;
+border-radius:10px;
+
+border:1px solid #cbd5e1;
 
 }
 
-.details p{
+.save-btn{
 
-margin-bottom:7px;
+padding:12px 20px;
 
-color:#475569;
-
-}
-
-.status{
-
-padding:10px 18px;
+border:none;
 
 border-radius:12px;
+
+background:
+linear-gradient(
+135deg,
+#22c55e,
+#15803d
+);
 
 color:white;
 
 font-weight:bold;
 
-background:#22c55e;
+cursor:pointer;
+
+}
+
+.delete-btn{
+
+padding:12px 20px;
+
+border:none;
+
+border-radius:12px;
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#b91c1c
+);
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+margin-top:10px;
 
 }
 
@@ -208,18 +235,22 @@ Back
 
 </div>
 
-<div class="filter-box">
+<div class="filter">
 
 <input
 type="date"
 id="filterDate"
 onchange="loadAttendance()">
 
+<input
+type="text"
+id="searchStaff"
+placeholder="Search Staff"
+onkeyup="loadAttendance()">
+
 </div>
 
-<div
-id="attendanceList"
-class="attendance-list">
+<div id="attendanceList">
 
 </div>
 
@@ -234,7 +265,10 @@ import {
 
 getFirestore,
 collection,
-getDocs
+getDocs,
+updateDoc,
+deleteDoc,
+doc
 
 }
 
@@ -277,17 +311,36 @@ await getDocs(
 collection(db,"attendance")
 );
 
-let html = "";
-
 const selectedDate =
 document.getElementById(
 "filterDate"
 ).value;
 
+const search =
+document.getElementById(
+"searchStaff"
+).value.toLowerCase();
+
+let html = "";
+
 querySnapshot.forEach((docItem)=>{
 
 const data =
 docItem.data();
+
+if(search){
+
+if(
+!data.staffName
+.toLowerCase()
+.includes(search)
+){
+
+return;
+
+}
+
+}
 
 if(selectedDate){
 
@@ -316,38 +369,63 @@ class="photo">
 
 <div class="details">
 
-<h3>
+<h2>
 ${data.staffName}
-</h3>
+</h2>
 
-<p>
-💼 ${data.staffPosition}
-</p>
+<input
+id="date-${docItem.id}"
+value="${data.date}">
 
-<p>
-📅 ${data.date}
-</p>
+<input
+id="in-${docItem.id}"
+value="${data.inTime || ''}">
 
-<p>
-🟢 IN :
-${data.inTime || '--'}
-</p>
+<input
+id="out-${docItem.id}"
+value="${data.outTime || ''}">
 
-<p>
-🔴 OUT :
-${data.outTime || '--'}
-</p>
+<input
+id="total-${docItem.id}"
+value="${data.totalHours || ''}">
 
-<p>
-⏱️ TOTAL :
-${data.totalHours || '--'}
-</p>
+<select id="status-${docItem.id}">
 
-</div>
+<option ${
+data.status==="Pending"?"selected":""
+}>
+Pending
+</option>
 
-<div class="status">
+<option ${
+data.status==="Approved"?"selected":""
+}>
+Approved
+</option>
 
-${data.status}
+<option ${
+data.status==="Rejected"?"selected":""
+}>
+Rejected
+</option>
+
+</select>
+
+<button
+onclick="saveAttendance('${docItem.id}')"
+class="save-btn">
+
+Save Changes
+
+</button>
+
+<button
+onclick="deleteAttendance('${docItem.id}')"
+class="delete-btn">
+
+Delete
+
+</button>
 
 </div>
 
@@ -359,7 +437,58 @@ ${data.status}
 
 document.getElementById(
 "attendanceList"
-).innerHTML = html;
+).innerHTML =
+html;
+
+}
+
+window.saveAttendance =
+async function(id){
+
+await updateDoc(
+doc(db,"attendance",id),
+{
+
+date:
+document.getElementById(
+`date-${id}`
+).value,
+
+inTime:
+document.getElementById(
+`in-${id}`
+).value,
+
+outTime:
+document.getElementById(
+`out-${id}`
+).value,
+
+totalHours:
+document.getElementById(
+`total-${id}`
+).value,
+
+status:
+document.getElementById(
+`status-${id}`
+).value
+
+}
+);
+
+alert("Attendance Updated");
+
+}
+
+window.deleteAttendance =
+async function(id){
+
+await deleteDoc(
+doc(db,"attendance",id)
+);
+
+loadAttendance();
 
 }
 

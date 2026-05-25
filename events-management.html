@@ -225,13 +225,31 @@ border:1px solid rgba(255,255,255,0.08);
 
 .staff-item{
 
-padding:10px;
+padding:12px;
 
 background:rgba(255,255,255,0.08);
 
 border-radius:10px;
 
 margin-top:10px;
+
+}
+
+.staff-item button{
+
+float:right;
+
+background:red;
+
+border:none;
+
+color:white;
+
+padding:5px 10px;
+
+border-radius:8px;
+
+cursor:pointer;
 
 }
 
@@ -624,7 +642,11 @@ postBox.querySelector(".staffSelect");
 const email =
 select.value;
 
-if(!email){
+if(
+!email
+||
+email === "Select Staff"
+){
 
 return;
 
@@ -635,15 +657,59 @@ postBox.querySelector(
 ".selectedStaffList"
 );
 
+const alreadyAdded =
+Array.from(
+list.querySelectorAll(".staff-email")
+).some(
+
+item =>
+
+item.innerText.trim()
+
+===
+
+email.trim()
+
+);
+
+if(alreadyAdded){
+
+alert(
+"Staff Already Added"
+);
+
+return;
+
+}
+
 list.innerHTML += `
 
 <div class="staff-item">
 
+<span class="staff-email">
+
 ${email}
+
+</span>
+
+<button
+type="button"
+onclick="removeStaff(this)">
+
+Remove
+
+</button>
 
 </div>
 
 `;
+
+}
+
+window.removeStaff =
+function(button){
+
+button.parentElement.remove();
 
 }
 
@@ -659,11 +725,11 @@ document.querySelectorAll(
 const emails = [];
 
 post.querySelectorAll(
-".staff-item"
+".staff-email"
 ).forEach((item)=>{
 
 emails.push(
-item.innerText
+item.innerText.trim()
 );
 
 });
@@ -736,7 +802,15 @@ localStorage.setItem(
 JSON.stringify(events)
 );
 
-alert("Event Saved");
+alert(
+"Event Saved Successfully"
+);
+
+document.getElementById(
+"postContainer"
+).innerHTML = "";
+
+addPost();
 
 loadEvents();
 
@@ -787,6 +861,74 @@ document.getElementById(
 "technicalTeam"
 ).value =
 event.technicalTeam;
+
+document.getElementById(
+"postContainer"
+).innerHTML = "";
+
+event.posts.forEach((post)=>{
+
+addPost();
+
+setTimeout(()=>{
+
+const boxes =
+document.querySelectorAll(
+".post-box"
+);
+
+const currentPost =
+boxes[boxes.length - 1];
+
+currentPost.querySelector(
+".crewPost"
+).value =
+post.crewPost;
+
+currentPost.querySelector(
+".dutyArea"
+).value =
+post.dutyArea;
+
+currentPost.querySelector(
+".coordinator"
+).value =
+post.coordinator;
+
+const list =
+currentPost.querySelector(
+".selectedStaffList"
+);
+
+post.staffEmails.forEach((email)=>{
+
+list.innerHTML += `
+
+<div class="staff-item">
+
+<span class="staff-email">
+
+${email}
+
+</span>
+
+<button
+type="button"
+onclick="removeStaff(this)">
+
+Remove
+
+</button>
+
+</div>
+
+`;
+
+});
+
+},300);
+
+});
 
 editIndex = index;
 

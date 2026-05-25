@@ -573,11 +573,6 @@ Cancel
 
 <script type="module">
 
-localStorage.setItem(
-"loggedUser",
-"Admin"
-);
-
 import { initializeApp }
 
 from
@@ -689,8 +684,8 @@ reader.readAsDataURL(photo);
 
 await saveStaffData(photoURL);
 
-  }
-  
+}
+
 async function saveStaffData(photoURL){
 
 try{
@@ -755,6 +750,8 @@ loadStaff();
 
 alert(error);
 
+console.log(error);
+
 }
 
 }
@@ -804,7 +801,7 @@ document.getElementById(
 ).value = data.status;
 
 window.currentPhoto =
-data.photoURL;
+data.photoURL || "";
 
 editId = id;
 

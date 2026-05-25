@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Staff Management</title>
+<title>AAQ Staff Management</title>
 
 <style>
 
@@ -24,51 +24,134 @@ body{
 background:
 linear-gradient(
 135deg,
-#000000,
-#1a1a1a,
-#3b2a00,
-#d4af37,
-#3b2a00,
-#000000
+#0f172a,
+#111827,
+#1e293b,
+#0f172a
 );
-
-background-size:400% 400%;
-
-animation:bgMove 12s ease infinite;
 
 min-height:100vh;
 
-padding:20px;
+color:white;
+
+display:flex;
+
+}
+
+.sidebar{
+
+width:260px;
+
+background:rgba(255,255,255,0.06);
+
+backdrop-filter:blur(15px);
+
+padding:25px;
+
+border-right:1px solid rgba(255,255,255,0.1);
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+height:100vh;
+
+overflow:auto;
+
+}
+
+.logo-box{
+
+text-align:center;
+
+margin-bottom:30px;
+
+}
+
+.logo{
+
+width:90px;
+
+margin-bottom:10px;
+
+}
+
+.logo-box h2{
+
+font-size:24px;
+
+margin-bottom:5px;
+
+}
+
+.logo-box p{
+
+font-size:13px;
+
+color:#cbd5e1;
+
+}
+
+.menu{
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+}
+
+.menu button{
+
+padding:15px;
+
+border:none;
+
+border-radius:14px;
+
+background:rgba(255,255,255,0.08);
 
 color:white;
 
-}
+font-size:15px;
 
-@keyframes bgMove{
+font-weight:bold;
 
-0%{
-background-position:0% 50%;
-}
+cursor:pointer;
 
-50%{
-background-position:100% 50%;
-}
+transition:0.3s;
 
-100%{
-background-position:0% 50%;
-}
+text-align:left;
 
 }
 
-.container{
+.menu button:hover{
 
-max-width:1200px;
+background:
+linear-gradient(
+135deg,
+#ca8a04,
+#a16207
+);
 
-margin:auto;
+transform:translateX(5px);
 
 }
 
-.header{
+.main{
+
+margin-left:260px;
+
+width:100%;
+
+padding:25px;
+
+}
+
+.topbar{
 
 display:flex;
 
@@ -76,15 +159,15 @@ justify-content:space-between;
 
 align-items:center;
 
-background:rgba(255,255,255,0.08);
+margin-bottom:25px;
 
-padding:20px;
+background:rgba(255,255,255,0.06);
 
-border-radius:20px;
+padding:18px 22px;
 
-backdrop-filter:blur(12px);
+border-radius:18px;
 
-margin-bottom:30px;
+backdrop-filter:blur(15px);
 
 flex-wrap:wrap;
 
@@ -92,73 +175,51 @@ gap:15px;
 
 }
 
-.logo-box{
+.time-box{
 
-display:flex;
-
-align-items:center;
-
-gap:15px;
-
-}
-
-.logo{
-
-width:70px;
-
-}
-
-.header-right{
-
-display:flex;
-
-align-items:center;
-
-gap:15px;
-
-}
-
-.live-box{
-
-font-size:13px;
+font-size:14px;
 
 line-height:1.6;
 
 }
 
-.back-btn{
+.logout{
 
 background:#dc2626;
 
-padding:12px 18px;
+padding:12px 20px;
+
+border:none;
 
 border-radius:12px;
-
-text-decoration:none;
 
 color:white;
 
 font-weight:bold;
 
+cursor:pointer;
+
 }
 
-.form-box{
+.content-box{
 
-background:rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.06);
 
 padding:30px;
 
 border-radius:25px;
 
-backdrop-filter:blur(12px);
+backdrop-filter:blur(15px);
 
-margin-bottom:30px;
+margin-bottom:25px;
 
 }
 
-.form-box h2{
+.content-box h2{
 
 margin-bottom:20px;
+
+font-size:26px;
 
 }
 
@@ -175,11 +236,11 @@ border:none;
 
 border-radius:12px;
 
-background:#1f2937;
+background:#1e293b;
 
 color:white;
 
-font-size:16px;
+font-size:15px;
 
 }
 
@@ -191,7 +252,7 @@ padding:15px;
 
 border:none;
 
-border-radius:15px;
+border-radius:14px;
 
 background:
 linear-gradient(
@@ -220,13 +281,13 @@ gap:20px;
 
 .card{
 
-background:rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.06);
 
-padding:20px;
+padding:22px;
 
-border-radius:20px;
+border-radius:22px;
 
-backdrop-filter:blur(12px);
+backdrop-filter:blur(15px);
 
 }
 
@@ -266,15 +327,17 @@ flex:1;
 
 margin-bottom:10px;
 
+font-size:22px;
+
 }
 
 .staff-details p{
 
-margin-bottom:6px;
+margin-bottom:7px;
 
 font-size:14px;
 
-color:#e5e7eb;
+color:#e2e8f0;
 
 }
 
@@ -291,9 +354,9 @@ margin-top:10px;
 .edit-btn,
 .delete-btn{
 
-width:40px;
+width:42px;
 
-height:40px;
+height:42px;
 
 border:none;
 
@@ -395,19 +458,37 @@ background:#374151;
 
 }
 
-@media(max-width:768px){
+@media(max-width:900px){
+
+body{
+
+flex-direction:column;
+
+}
+
+.sidebar{
+
+position:relative;
+
+width:100%;
+
+height:auto;
+
+border-right:none;
+
+}
+
+.main{
+
+margin-left:0;
+
+}
 
 .staff-row{
 
 flex-direction:column;
 
 text-align:center;
-
-}
-
-.action-buttons{
-
-justify-content:center;
 
 }
 
@@ -419,30 +500,60 @@ justify-content:center;
 
 <body>
 
-<div class="container">
-
-<div class="header">
+<div class="sidebar">
 
 <div class="logo-box">
 
 <img src="logo.png"
 class="logo">
 
-<div>
-
-<h2>Staff Management</h2>
+<h2>AAQ ERP</h2>
 
 <p>
-AAQ ERP System
+Professional Management Panel
 </p>
 
 </div>
 
+<div class="menu">
+
+<button onclick="showSection('dashboard')">
+🏠 Dashboard
+</button>
+
+<button onclick="showSection('staff')">
+👨‍💼 Staff Management
+</button>
+
+<button onclick="showSection('attendance')">
+📅 Attendance
+</button>
+
+<button onclick="showSection('events')">
+🎉 Events
+</button>
+
+<button onclick="showSection('reports')">
+📊 Reports
+</button>
+
+<button onclick="showSection('idcard')">
+🪪 ID Card
+</button>
+
+<button onclick="showSection('settings')">
+⚙️ Settings
+</button>
+
 </div>
 
-<div class="header-right">
+</div>
 
-<div class="live-box">
+<div class="main">
+
+<div class="topbar">
+
+<div class="time-box">
 
 <div id="liveDate"></div>
 
@@ -450,20 +561,22 @@ AAQ ERP System
 
 </div>
 
-<a href="admin.html"
-class="back-btn">
+<button
+onclick="logout()"
+class="logout">
 
-Back
+Logout
 
-</a>
+</button>
 
 </div>
 
-</div>
+<div class="content-box"
+id="mainContent">
 
-<div class="form-box">
-
-<h2>Add / Edit Staff</h2>
+<h2>
+Staff Management
+</h2>
 
 <input type="text"
 id="staffName"
@@ -517,7 +630,6 @@ Inactive
 </select>
 
 <button
-type="button"
 onclick="saveStaff()"
 class="save-btn">
 
@@ -611,10 +723,7 @@ messagingSenderId:
 "985636664002",
 
 appId:
-"1:985636664002:web:4b941d3562609d2058815b",
-
-measurementId:
-"G-HHD049KDS8"
+"1:985636664002:web:4b941d3562609d2058815b"
 
 };
 
@@ -674,7 +783,18 @@ reader.onload = async function(e){
 
 photoURL = e.target.result;
 
-await saveStaffData(photoURL);
+await saveStaffData(
+staffName,
+mobile,
+email,
+password,
+position,
+address,
+aadhaar,
+staffId,
+status,
+photoURL
+);
 
 };
 
@@ -682,11 +802,35 @@ reader.readAsDataURL(photo);
 
 }else{
 
-await saveStaffData(photoURL);
+await saveStaffData(
+staffName,
+mobile,
+email,
+password,
+position,
+address,
+aadhaar,
+staffId,
+status,
+photoURL
+);
 
 }
 
-async function saveStaffData(photoURL){
+}
+
+async function saveStaffData(
+staffName,
+mobile,
+email,
+password,
+position,
+address,
+aadhaar,
+staffId,
+status,
+photoURL
+){
 
 try{
 
@@ -742,6 +886,10 @@ document.getElementById(
 "status"
 ).value = "Select Status";
 
+document.getElementById(
+"photo"
+).value = "";
+
 window.currentPhoto = "";
 
 loadStaff();
@@ -756,13 +904,8 @@ console.log(error);
 
 }
 
-}
-
 window.editStaff =
-function(
-id,
-data
-){
+function(id,data){
 
 document.getElementById(
 "staffName"
@@ -952,14 +1095,12 @@ const now = new Date();
 document.getElementById(
 "liveDate"
 ).innerHTML =
-
 "📅 " +
 now.toLocaleDateString();
 
 document.getElementById(
 "liveTime"
 ).innerHTML =
-
 "🕒 " +
 now.toLocaleTimeString();
 
@@ -969,8 +1110,25 @@ setInterval(updateDateTime,1000);
 
 updateDateTime();
 
+function logout(){
+
+localStorage.clear();
+
+window.location.href =
+"login.html";
+
+}
+
+window.logout = logout;
+
+window.showSection = function(name){
+
+alert(name + " Section Coming Soon");
+
+}
+
 </script>
 
 </body>
 
-</html>
+  </html>

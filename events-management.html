@@ -147,7 +147,6 @@ color:#e2e8f0;
 }
 
 .input-group input,
-.input-group textarea,
 .input-group select{
 
 width:100%;
@@ -168,16 +167,9 @@ outline:none;
 
 }
 
-textarea{
-
-height:100px;
-
-resize:none;
-
-}
-
 .add-btn,
-.save-btn{
+.save-btn,
+.edit-btn{
 
 padding:14px;
 
@@ -211,6 +203,12 @@ width:100%;
 
 }
 
+.edit-btn{
+
+background:#f59e0b;
+
+}
+
 .post-box{
 
 background:rgba(255,255,255,0.06);
@@ -225,12 +223,6 @@ border:1px solid rgba(255,255,255,0.08);
 
 }
 
-.staff-list{
-
-margin-top:10px;
-
-}
-
 .staff-item{
 
 padding:10px;
@@ -239,7 +231,7 @@ background:rgba(255,255,255,0.08);
 
 border-radius:10px;
 
-margin-bottom:10px;
+margin-top:10px;
 
 }
 
@@ -291,6 +283,16 @@ background:#ef4444;
 
 }
 
+.action-btns{
+
+display:flex;
+
+gap:10px;
+
+margin-top:15px;
+
+}
+
 </style>
 
 </head>
@@ -308,7 +310,7 @@ Advanced Event ERP
 </h1>
 
 <p>
-Multi Staff Event Management
+Professional Multi Staff Event Management
 </p>
 
 </div>
@@ -436,17 +438,102 @@ Save Event
 
 </div>
 
-<script>
+<script type="module">
+
+import { initializeApp }
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+
+authDomain:
+"aaq-event-erp.firebaseapp.com",
+
+projectId:
+"aaq-event-erp",
+
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
+
+messagingSenderId:
+"985636664002",
+
+appId:
+"1:985636664002:web:4b941d3562609d2058815b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
 
 let totalPosts = 0;
 
-function addPost(){
+let editIndex = null;
+
+async function loadStaffOptions(select){
+
+const querySnapshot =
+await getDocs(
+collection(db,"staffs")
+);
+
+let options =
+"<option>Select Staff</option>";
+
+querySnapshot.forEach((doc)=>{
+
+const staff =
+doc.data();
+
+options += `
+
+<option value="${staff.email}">
+
+${staff.staffName}
+-
+${staff.email}
+
+</option>
+
+`;
+
+});
+
+select.innerHTML =
+options;
+
+}
+
+window.addPost =
+function(){
 
 totalPosts++;
 
-const html = `
+const div =
+document.createElement("div");
 
-<div class="post-box">
+div.className =
+"post-box";
+
+div.innerHTML = `
 
 <h3>
 Crew Post ${totalPosts}
@@ -469,7 +556,7 @@ class="crewPost">
 <div class="input-group">
 
 <label>
-Duty Area
+Staff Duty Area
 </label>
 
 <input
@@ -481,7 +568,7 @@ class="dutyArea">
 <div class="input-group">
 
 <label>
-Coordinator
+Post Coordinator
 </label>
 
 <input
@@ -492,35 +579,94 @@ class="coordinator">
 
 </div>
 
-<div class="staff-list">
+<div class="input-group">
 
 <label>
-Assign Unlimited Staff
+Assign Staff
 </label>
 
-<textarea
-class="staffEmails"
-placeholder="Enter Staff Emails Separate By Comma"></textarea>
+<select class="staffSelect"></select>
 
 </div>
 
-</div>
+<button
+type="button"
+class="add-btn"
+onclick="addStaff(this)">
+
++ Add Staff
+
+</button>
+
+<div class="selectedStaffList"></div>
 
 `;
 
 document.getElementById(
 "postContainer"
-).innerHTML += html;
+).appendChild(div);
+
+loadStaffOptions(
+div.querySelector(".staffSelect")
+);
 
 }
 
-function saveEvent(){
+window.addStaff =
+function(button){
+
+const postBox =
+button.closest(".post-box");
+
+const select =
+postBox.querySelector(".staffSelect");
+
+const email =
+select.value;
+
+if(!email){
+
+return;
+
+}
+
+const list =
+postBox.querySelector(
+".selectedStaffList"
+);
+
+list.innerHTML += `
+
+<div class="staff-item">
+
+${email}
+
+</div>
+
+`;
+
+}
+
+window.saveEvent =
+function(){
 
 const posts = [];
 
 document.querySelectorAll(
 ".post-box"
 ).forEach((post)=>{
+
+const emails = [];
+
+post.querySelectorAll(
+".staff-item"
+).forEach((item)=>{
+
+emails.push(
+item.innerText
+);
+
+});
 
 posts.push({
 
@@ -534,7 +680,7 @@ coordinator:
 post.querySelector(".coordinator").value,
 
 staffEmails:
-post.querySelector(".staffEmails").value
+emails
 
 });
 
@@ -545,7 +691,7 @@ JSON.parse(
 localStorage.getItem("events")
 ) || [];
 
-events.push({
+const eventData = {
 
 eventName:
 document.getElementById("eventName").value,
@@ -570,7 +716,20 @@ document.getElementById("technicalTeam").value,
 
 posts
 
-});
+};
+
+if(editIndex === null){
+
+events.push(eventData);
+
+}else{
+
+events[editIndex] =
+eventData;
+
+editIndex = null;
+
+}
 
 localStorage.setItem(
 "events",
@@ -583,7 +742,65 @@ loadEvents();
 
 }
 
-function loadEvents(){
+window.editEvent =
+function(index){
+
+const events =
+JSON.parse(
+localStorage.getItem("events")
+) || [];
+
+const event =
+events[index];
+
+document.getElementById(
+"eventName"
+).value =
+event.eventName;
+
+document.getElementById(
+"eventAddress"
+).value =
+event.eventAddress;
+
+document.getElementById(
+"startDate"
+).value =
+event.startDate;
+
+document.getElementById(
+"endDate"
+).value =
+event.endDate;
+
+document.getElementById(
+"eventCoordinator"
+).value =
+event.eventCoordinator;
+
+document.getElementById(
+"accessManager"
+).value =
+event.accessManager;
+
+document.getElementById(
+"technicalTeam"
+).value =
+event.technicalTeam;
+
+editIndex = index;
+
+window.scrollTo({
+
+top:0,
+behavior:"smooth"
+
+});
+
+}
+
+window.loadEvents =
+function(){
 
 const events =
 JSON.parse(
@@ -592,10 +809,12 @@ localStorage.getItem("events")
 
 let html = "";
 
-events.forEach((event)=>{
+events.forEach((event,index)=>{
 
 const today =
-new Date().toISOString().split("T")[0];
+new Date()
+.toISOString()
+.split("T")[0];
 
 const status =
 today > event.endDate
@@ -627,18 +846,15 @@ ${event.endDate}
 </p>
 
 <p>
-👨 Coordinator :
-${event.eventCoordinator}
+👨 ${event.eventCoordinator}
 </p>
 
 <p>
-🛡️ Access Manager :
-${event.accessManager}
+🛡️ ${event.accessManager}
 </p>
 
 <p>
-🖥️ Technical Team :
-${event.technicalTeam}
+🖥️ ${event.technicalTeam}
 </p>
 
 <hr style="margin:15px 0;">
@@ -660,16 +876,31 @@ ${event.posts.map(post=>`
 </p>
 
 <p>
-👥 ${post.staffEmails}
+👥 ${post.staffEmails.join(", ")}
 </p>
 
 </div>
 
 `).join("")}
 
-<div class="status ${status === "Active" ? "active" : "expired"}">
+<div class="status
+${status === "Active"
+? "active"
+: "expired"}">
 
 ${status}
+
+</div>
+
+<div class="action-btns">
+
+<button
+class="edit-btn"
+onclick="editEvent(${index})">
+
+Edit Event
+
+</button>
 
 </div>
 

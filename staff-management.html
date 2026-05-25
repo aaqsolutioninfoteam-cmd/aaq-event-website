@@ -92,9 +92,6 @@ flex-wrap:wrap;
 
 gap:15px;
 
-box-shadow:
-0 8px 30px rgba(0,0,0,0.35);
-
 }
 
 .logo-box{
@@ -110,22 +107,6 @@ gap:15px;
 .logo{
 
 width:70px;
-
-}
-
-.logo-box h2{
-
-font-size:28px;
-
-margin-bottom:5px;
-
-}
-
-.logo-box p{
-
-color:#e2e8f0;
-
-font-size:13px;
 
 }
 
@@ -174,14 +155,6 @@ color:#111827;
 
 font-weight:bold;
 
-transition:0.3s;
-
-}
-
-.back-btn:hover{
-
-transform:scale(1.04);
-
 }
 
 .form-box{
@@ -197,9 +170,6 @@ border-radius:25px;
 backdrop-filter:blur(14px);
 
 margin-bottom:30px;
-
-box-shadow:
-0 10px 35px rgba(0,0,0,0.35);
 
 }
 
@@ -236,13 +206,6 @@ outline:none;
 
 }
 
-input:focus,
-select:focus{
-
-border:1px solid #d4af37;
-
-}
-
 .save-btn{
 
 width:100%;
@@ -268,14 +231,6 @@ font-weight:bold;
 
 cursor:pointer;
 
-transition:0.3s;
-
-}
-
-.save-btn:hover{
-
-transform:scale(1.02);
-
 }
 
 .staff-list{
@@ -297,19 +252,6 @@ padding:20px;
 border-radius:20px;
 
 backdrop-filter:blur(14px);
-
-box-shadow:
-0 8px 30px rgba(0,0,0,0.35);
-
-transition:0.3s;
-
-}
-
-.card:hover{
-
-transform:translateY(-5px);
-
-border-color:#d4af37;
 
 }
 
@@ -392,8 +334,6 @@ font-size:18px;
 
 color:white;
 
-transition:0.3s;
-
 }
 
 .edit-btn{
@@ -405,13 +345,6 @@ background:#2563eb;
 .delete-btn{
 
 background:#dc2626;
-
-}
-
-.edit-btn:hover,
-.delete-btn:hover{
-
-transform:scale(1.08);
 
 }
 
@@ -448,8 +381,6 @@ border-radius:20px;
 width:320px;
 
 text-align:center;
-
-border:1px solid rgba(212,175,55,0.2);
 
 }
 
@@ -737,28 +668,28 @@ window.saveStaff =
 async function(){
 
 const staffName =
-document.getElementById("staffName").value;
+document.getElementById("staffName").value.trim();
 
 const mobile =
-document.getElementById("mobile").value;
+document.getElementById("mobile").value.trim();
 
 const email =
-document.getElementById("email").value;
+document.getElementById("email").value.trim();
 
 const password =
-document.getElementById("password").value;
+document.getElementById("password").value.trim();
 
 const position =
-document.getElementById("position").value;
+document.getElementById("position").value.trim();
 
 const address =
-document.getElementById("address").value;
+document.getElementById("address").value.trim();
 
 const aadhaar =
-document.getElementById("aadhaar").value;
+document.getElementById("aadhaar").value.trim();
 
 const staffId =
-document.getElementById("staffId").value;
+document.getElementById("staffId").value.trim();
 
 const status =
 document.getElementById("status").value;
@@ -768,6 +699,19 @@ document.getElementById("photo").files[0];
 
 let photoURL =
 window.currentPhoto || "";
+
+if(
+!staffName ||
+!mobile ||
+!email ||
+!password
+){
+
+alert("Please Fill Required Fields");
+
+return;
+
+}
 
 try{
 
@@ -815,9 +759,9 @@ photoURL
 
 }catch(error){
 
-alert(error);
-
 console.log(error);
+
+alert("Save Failed");
 
 }
 
@@ -838,11 +782,8 @@ photoURL
 
 try{
 
-if(editId){
+const staffData = {
 
-await updateDoc(
-doc(db,"staffs",editId),
-{
 staffName,
 mobile,
 email,
@@ -853,7 +794,14 @@ aadhaar,
 staffId,
 status,
 photoURL
-}
+
+};
+
+if(editId){
+
+await updateDoc(
+doc(db,"staffs",editId),
+staffData
 );
 
 alert("Staff Updated");
@@ -864,35 +812,52 @@ editId = null;
 
 await addDoc(
 collection(db,"staffs"),
-{
-staffName,
-mobile,
-email,
-password,
-position,
-address,
-aadhaar,
-staffId,
-status,
-photoURL
-}
+staffData
 );
 
 alert("Staff Added");
 
 }
 
-document.querySelectorAll("input").forEach((input)=>{
-input.value = "";
-});
+document.getElementById(
+"staffName"
+).value = "";
 
 document.getElementById(
-"status"
-).value = "Select Status";
+"mobile"
+).value = "";
+
+document.getElementById(
+"email"
+).value = "";
+
+document.getElementById(
+"password"
+).value = "";
+
+document.getElementById(
+"position"
+).value = "";
+
+document.getElementById(
+"address"
+).value = "";
+
+document.getElementById(
+"aadhaar"
+).value = "";
+
+document.getElementById(
+"staffId"
+).value = "";
 
 document.getElementById(
 "photo"
 ).value = "";
+
+document.getElementById(
+"status"
+).value = "Select Status";
 
 window.currentPhoto = "";
 
@@ -900,9 +865,9 @@ loadStaff();
 
 }catch(error){
 
-alert(error);
-
 console.log(error);
+
+alert("Database Save Failed");
 
 }
 
@@ -1042,7 +1007,7 @@ ${data.staffName}
 </p>
 
 <p>
-📍 ${data.address}
+🗺️ ${data.address}
 </p>
 
 <p>

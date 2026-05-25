@@ -40,7 +40,7 @@ color:#0f172a;
 
 .container{
 
-max-width:900px;
+max-width:950px;
 
 margin:auto;
 
@@ -97,7 +97,9 @@ background:#f8fafc;
 
 border-radius:15px;
 
-line-height:1.8;
+line-height:1.9;
+
+font-size:16px;
 
 }
 
@@ -169,9 +171,15 @@ box-shadow:
 
 }
 
-.filter{
+.filter-title{
 
-margin-bottom:20px;
+margin-bottom:10px;
+
+font-size:18px;
+
+color:#334155;
+
+font-weight:bold;
 
 }
 
@@ -184,6 +192,14 @@ border-radius:12px;
 border:1px solid #cbd5e1;
 
 font-size:16px;
+
+background:white;
+
+color:#0f172a;
+
+width:250px;
+
+margin-bottom:20px;
 
 }
 
@@ -273,7 +289,9 @@ Staff Panel
 
 <div id="liveDate"></div>
 
-<div id="liveTime"></div>
+<div id="workingHours">
+⏱️ Working Time : 0 Hours
+</div>
 
 </div>
 
@@ -301,9 +319,11 @@ OUT Attendance
 
 <div class="history">
 
-<h2 style="margin-bottom:20px;">
-My Attendance
-</h2>
+<h3 class="filter-title">
+
+Filter Attendance By Date
+
+</h3>
 
 <div class="filter">
 
@@ -407,27 +427,18 @@ staffPhoto;
 
 }
 
-function updateDateTime(){
-
-const now = new Date();
+function updateDate(){
 
 document.getElementById(
 "liveDate"
 ).innerHTML =
-"📅 " +
-now.toLocaleDateString();
 
-document.getElementById(
-"liveTime"
-).innerHTML =
-"🕒 " +
-now.toLocaleTimeString();
+"📅 " +
+new Date().toLocaleDateString();
 
 }
 
-setInterval(updateDateTime,1000);
-
-updateDateTime();
+updateDate();
 
 window.markIn =
 async function(){
@@ -439,14 +450,28 @@ const q =
 query(
 collection(db,"attendance"),
 where("staffName","==",staffName),
-where("date","==",today),
-where("status","==","Working")
+where("date","==",today)
 );
 
 const check =
 await getDocs(q);
 
-if(!check.empty){
+let alreadyIn = false;
+
+check.forEach((docItem)=>{
+
+const data =
+docItem.data();
+
+if(!data.outTime){
+
+alreadyIn = true;
+
+}
+
+});
+
+if(alreadyIn){
 
 alert("OUT Attendance Pending");
 
@@ -529,10 +554,10 @@ today + " " + data.inTime
 
 const diff =
 (outDate - inDate)
-/ 1000 / 60 / 60;
+/1000/60/60;
 
 const total =
-diff.toFixed(1) + " Hours";
+diff.toFixed(2) + " Hours";
 
 await updateDoc(
 doc(db,"attendance",item.id),
@@ -635,7 +660,7 @@ ${data.outTime || '--'}
 
 <p>
 ⏱️ Total :
-${data.totalHours || '--'}
+${data.totalHours || 'Working...'}
 </p>
 
 <div class="status ${statusClass}">
@@ -656,6 +681,57 @@ document.getElementById(
 html;
 
 }
+
+setInterval(async()=>{
+
+const today =
+new Date().toLocaleDateString();
+
+const q =
+query(
+collection(db,"attendance"),
+where("staffName","==",staffName),
+where("date","==",today)
+);
+
+const querySnapshot =
+await getDocs(q);
+
+querySnapshot.forEach((docItem)=>{
+
+const data =
+docItem.data();
+
+if(!data.outTime){
+
+const now =
+new Date();
+
+const inDate =
+new Date(
+today + " " + data.inTime
+);
+
+const diff =
+(now - inDate)
+/1000/60/60;
+
+const total =
+diff.toFixed(2);
+
+document.getElementById(
+"workingHours"
+).innerHTML =
+
+"⏱️ Working Time : " +
+total +
+" Hours";
+
+}
+
+});
+
+},60000);
 
 loadAttendance();
 

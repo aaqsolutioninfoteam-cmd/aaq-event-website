@@ -721,7 +721,29 @@ const reader = new FileReader();
 
 reader.onload = async function(e){
 
-photoURL = e.target.result;
+const img = new Image();
+
+img.src = e.target.result;
+
+img.onload = async function(){
+
+const canvas =
+document.createElement("canvas");
+
+const ctx =
+canvas.getContext("2d");
+
+canvas.width = 300;
+
+canvas.height = 300;
+
+ctx.drawImage(img,0,0,300,300);
+
+photoURL =
+canvas.toDataURL(
+"image/jpeg",
+0.5
+);
 
 await saveOrUpdate(
 staffName,
@@ -737,7 +759,6 @@ photoURL
 );
 
 };
-
 reader.readAsDataURL(photo);
 
 }else{

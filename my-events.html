@@ -121,6 +121,8 @@ border-radius:28px;
 
 backdrop-filter:blur(12px);
 
+border:1px solid rgba(255,255,255,0.12);
+
 }
 
 .card h2{
@@ -136,6 +138,8 @@ color:#facc15;
 margin-bottom:10px;
 
 line-height:1.7;
+
+color:#e2e8f0;
 
 }
 
@@ -178,23 +182,73 @@ id="eventList">
 
 </div>
 
-<script>
+<script type="module">
 
-const staffEmail =
-localStorage.getItem(
-"staffEmail"
+import { initializeApp }
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+
+authDomain:
+"aaq-event-erp.firebaseapp.com",
+
+projectId:
+"aaq-event-erp",
+
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
+
+messagingSenderId:
+"985636664002",
+
+appId:
+"1:985636664002:web:4b941d3562609d2058815b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+const currentUser =
+JSON.parse(
+localStorage.getItem("currentUser")
 );
 
-function loadEvents(){
+const staffEmail =
+currentUser.email;
 
-const events =
-JSON.parse(
-localStorage.getItem("events")
-) || [];
+async function loadEvents(){
+
+const querySnapshot =
+await getDocs(
+collection(db,"events")
+);
 
 let html = "";
 
-events.forEach((event)=>{
+querySnapshot.forEach((docItem)=>{
+
+const event =
+docItem.data();
 
 if(
 event.assignStaff !== staffEmail

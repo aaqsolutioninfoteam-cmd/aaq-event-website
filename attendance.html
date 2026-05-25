@@ -25,8 +25,8 @@ background:
 linear-gradient(
 135deg,
 #f8fafc,
-#dbeafe,
-#fef3c7,
+#e0f2fe,
+#fef9c3,
 #ffffff
 );
 
@@ -40,34 +40,44 @@ color:#0f172a;
 
 .container{
 
-max-width:750px;
+max-width:900px;
 
 margin:auto;
 
 }
 
-.card{
+.top-card{
 
 background:white;
 
-padding:35px;
+padding:30px;
 
 border-radius:30px;
 
 box-shadow:
-0 10px 35px rgba(0,0,0,0.08);
+0 10px 30px rgba(0,0,0,0.08);
 
-text-align:center;
-
-border:1px solid rgba(212,175,55,0.2);
+margin-bottom:25px;
 
 }
 
-.staff-photo{
+.profile{
 
-width:130px;
+display:flex;
 
-height:130px;
+align-items:center;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+}
+
+.profile img{
+
+width:120px;
+
+height:120px;
 
 border-radius:50%;
 
@@ -75,77 +85,29 @@ object-fit:cover;
 
 border:5px solid #facc15;
 
-margin-bottom:20px;
-
-}
-
-h1{
-
-font-size:32px;
-
-margin-bottom:10px;
-
-}
-
-.role{
-
-color:#64748b;
-
-margin-bottom:20px;
-
 }
 
 .live{
 
-background:#f8fafc;
+margin-top:20px;
 
 padding:15px;
 
+background:#f8fafc;
+
 border-radius:15px;
-
-margin-bottom:25px;
-
-font-size:15px;
 
 line-height:1.8;
 
 }
 
-.status-box{
-
-background:#ecfeff;
-
-padding:20px;
-
-border-radius:20px;
-
-margin-bottom:25px;
-
-}
-
-.status-box h2{
-
-margin-bottom:15px;
-
-font-size:24px;
-
-}
-
-.status-box p{
-
-margin-bottom:10px;
-
-font-size:16px;
-
-}
-
-.btn-group{
+.btns{
 
 display:flex;
 
 gap:15px;
 
-justify-content:center;
+margin-top:25px;
 
 flex-wrap:wrap;
 
@@ -154,7 +116,9 @@ flex-wrap:wrap;
 .in-btn,
 .out-btn{
 
-padding:15px 30px;
+flex:1;
+
+padding:16px;
 
 border:none;
 
@@ -192,15 +156,86 @@ linear-gradient(
 
 }
 
-.success{
+.history{
 
-margin-top:20px;
+background:white;
 
-font-size:18px;
+padding:25px;
+
+border-radius:25px;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.08);
+
+}
+
+.filter{
+
+margin-bottom:20px;
+
+}
+
+.filter input{
+
+padding:12px;
+
+border-radius:12px;
+
+border:1px solid #cbd5e1;
+
+font-size:16px;
+
+}
+
+.card{
+
+background:#f8fafc;
+
+padding:20px;
+
+border-radius:20px;
+
+margin-bottom:15px;
+
+border-left:6px solid #facc15;
+
+}
+
+.status{
+
+padding:8px 15px;
+
+border-radius:10px;
+
+display:inline-block;
 
 font-weight:bold;
 
-color:#16a34a;
+margin-top:10px;
+
+}
+
+.pending{
+
+background:#fef3c7;
+
+color:#92400e;
+
+}
+
+.approved{
+
+background:#dcfce7;
+
+color:#166534;
+
+}
+
+.rejected{
+
+background:#fee2e2;
+
+color:#991b1b;
 
 }
 
@@ -212,24 +247,27 @@ color:#16a34a;
 
 <div class="container">
 
-<div class="card">
+<div class="top-card">
+
+<div class="profile">
 
 <img
 id="staffPhoto"
-src="https://i.imgur.com/6VBx3io.png"
-class="staff-photo">
+src="https://i.imgur.com/6VBx3io.png">
+
+<div>
 
 <h1 id="staffName">
 Staff User
 </h1>
 
-<p
-id="staffPosition"
-class="role">
-
+<p id="staffPosition">
 Staff Panel
-
 </p>
+
+</div>
+
+</div>
 
 <div class="live">
 
@@ -239,41 +277,13 @@ Staff Panel
 
 </div>
 
-<div class="status-box">
-
-<h2>
-Today's Duty
-</h2>
-
-<p id="inTime">
-IN Time :
---
-</p>
-
-<p id="outTime">
-OUT Time :
---
-</p>
-
-<p id="totalHours">
-Total Duty :
---
-</p>
-
-<p id="workStatus">
-Status :
-Not Started
-</p>
-
-</div>
-
-<div class="btn-group">
+<div class="btns">
 
 <button
 onclick="markIn()"
 class="in-btn">
 
-IN
+IN Attendance
 
 </button>
 
@@ -281,15 +291,30 @@ IN
 onclick="markOut()"
 class="out-btn">
 
-OUT
+OUT Attendance
 
 </button>
 
 </div>
 
-<div
-id="success"
-class="success">
+</div>
+
+<div class="history">
+
+<h2 style="margin-bottom:20px;">
+My Attendance
+</h2>
+
+<div class="filter">
+
+<input
+type="date"
+id="filterDate"
+onchange="loadAttendance()">
+
+</div>
+
+<div id="attendanceList">
 
 </div>
 
@@ -407,6 +432,28 @@ updateDateTime();
 window.markIn =
 async function(){
 
+const today =
+new Date().toLocaleDateString();
+
+const q =
+query(
+collection(db,"attendance"),
+where("staffName","==",staffName),
+where("date","==",today),
+where("status","==","Working")
+);
+
+const check =
+await getDocs(q);
+
+if(!check.empty){
+
+alert("OUT Attendance Pending");
+
+return;
+
+}
+
 const now = new Date();
 
 await addDoc(
@@ -418,7 +465,7 @@ staffPhoto,
 staffPosition,
 
 date:
-now.toLocaleDateString(),
+today,
 
 inTime:
 now.toLocaleTimeString(),
@@ -426,26 +473,14 @@ now.toLocaleTimeString(),
 outTime:"",
 totalHours:"",
 
-status:"Working"
+status:"Pending"
 
 }
 );
 
-document.getElementById(
-"inTime"
-).innerHTML =
-"IN Time : " +
-now.toLocaleTimeString();
+alert("IN Attendance Marked");
 
-document.getElementById(
-"workStatus"
-).innerHTML =
-"Status : Working";
-
-document.getElementById(
-"success"
-).innerHTML =
-"✅ IN Attendance Marked";
+loadAttendance();
 
 }
 
@@ -465,12 +500,26 @@ where("date","==",today)
 const querySnapshot =
 await getDocs(q);
 
+if(querySnapshot.empty){
+
+alert("IN Attendance Required");
+
+return;
+
+}
+
 querySnapshot.forEach(async(item)=>{
 
 const data =
 item.data();
 
-const outTime =
+if(data.outTime){
+
+return;
+
+}
+
+const outDate =
 new Date();
 
 const inDate =
@@ -479,7 +528,7 @@ today + " " + data.inTime
 );
 
 const diff =
-(outTime - inDate)
+(outDate - inDate)
 / 1000 / 60 / 60;
 
 const total =
@@ -490,42 +539,125 @@ doc(db,"attendance",item.id),
 {
 
 outTime:
-outTime.toLocaleTimeString(),
+outDate.toLocaleTimeString(),
 
 totalHours:
 total,
 
 status:
-"Completed"
+"Pending"
 
 }
 );
 
-document.getElementById(
-"outTime"
-).innerHTML =
-"OUT Time : " +
-outTime.toLocaleTimeString();
+alert("OUT Attendance Marked");
 
-document.getElementById(
-"totalHours"
-).innerHTML =
-"Total Duty : " +
-total;
-
-document.getElementById(
-"workStatus"
-).innerHTML =
-"Status : Duty Completed";
-
-document.getElementById(
-"success"
-).innerHTML =
-"✅ OUT Attendance Marked";
+loadAttendance();
 
 });
 
 }
+
+window.loadAttendance =
+async function(){
+
+const querySnapshot =
+await getDocs(
+collection(db,"attendance")
+);
+
+const selectedDate =
+document.getElementById(
+"filterDate"
+).value;
+
+let html = "";
+
+querySnapshot.forEach((docItem)=>{
+
+const data =
+docItem.data();
+
+if(data.staffName !== staffName){
+
+return;
+
+}
+
+if(selectedDate){
+
+const formatted =
+new Date(selectedDate)
+.toLocaleDateString();
+
+if(data.date !== formatted){
+
+return;
+
+}
+
+}
+
+let statusClass =
+"pending";
+
+if(data.status === "Approved"){
+
+statusClass =
+"approved";
+
+}
+
+if(data.status === "Rejected"){
+
+statusClass =
+"rejected";
+
+}
+
+html += `
+
+<div class="card">
+
+<h3>
+📅 ${data.date}
+</h3>
+
+<p>
+🟢 IN :
+${data.inTime || '--'}
+</p>
+
+<p>
+🔴 OUT :
+${data.outTime || '--'}
+</p>
+
+<p>
+⏱️ Total :
+${data.totalHours || '--'}
+</p>
+
+<div class="status ${statusClass}">
+
+${data.status}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"attendanceList"
+).innerHTML =
+html;
+
+}
+
+loadAttendance();
 
 </script>
 

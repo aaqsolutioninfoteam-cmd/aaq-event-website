@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -709,7 +708,7 @@ await getDocs(
 collection(db,"events")
 );
 
-querySnapshot.forEach((docItem)=>{
+querySnapshot.forEach(async(docItem)=>{
 
 if(docItem.id === id){
 
@@ -719,43 +718,46 @@ docItem.data();
 document.getElementById(
 "eventName"
 ).value =
-event.eventName;
+event.eventName || "";
 
 document.getElementById(
 "eventAddress"
 ).value =
-event.eventAddress;
+event.eventAddress || "";
 
 document.getElementById(
 "startDate"
 ).value =
-event.startDate;
+event.startDate || "";
 
 document.getElementById(
 "endDate"
 ).value =
-event.endDate;
+event.endDate || "";
 
 document.getElementById(
 "eventCoordinator"
 ).value =
-event.eventCoordinator;
+event.eventCoordinator || "";
 
 document.getElementById(
 "accessManager"
 ).value =
-event.accessManager;
+event.accessManager || "";
 
 document.getElementById(
 "technicalTeam"
 ).value =
-event.technicalTeam;
+event.technicalTeam || "";
 
 document.getElementById(
 "postContainer"
 ).innerHTML = "";
 
-${(event.posts || []).map(post=>`{
+const posts =
+event.posts || [];
+
+for(const post of posts){
 
 await addPost();
 
@@ -770,24 +772,24 @@ boxes[boxes.length - 1];
 currentPost.querySelector(
 ".crewPost"
 ).value =
-post.crewPost;
+post.crewPost || "";
 
 currentPost.querySelector(
 ".dutyArea"
 ).value =
-post.dutyArea;
+post.dutyArea || "";
 
 currentPost.querySelector(
 ".coordinator"
 ).value =
-post.coordinator;
+post.coordinator || "";
 
 const list =
 currentPost.querySelector(
 ".selectedStaffList"
 );
 
-post.staffEmails.forEach((email)=>{
+(post.staffEmails || []).forEach((email)=>{
 
 list.innerHTML += `
 
@@ -813,7 +815,7 @@ Remove
 
 });
 
-});
+}
 
 }
 
@@ -859,29 +861,29 @@ html += `
 <div class="event-card">
 
 <h2>
-${event.eventName}
+${event.eventName || ""}
 </h2>
 
 <p>
-📍 ${event.eventAddress}
+📍 ${event.eventAddress || ""}
 </p>
 
 <p>
-📅 ${event.startDate}
+📅 ${event.startDate || ""}
 To
-${event.endDate}
+${event.endDate || ""}
 </p>
 
 <p>
-👨 ${event.eventCoordinator}
+👨 ${event.eventCoordinator || ""}
 </p>
 
 <p>
-🛡️ ${event.accessManager}
+🛡️ ${event.accessManager || ""}
 </p>
 
 <p>
-🖥️ ${event.technicalTeam}
+🖥️ ${event.technicalTeam || ""}
 </p>
 
 ${(event.posts || []).map(post=>`
@@ -891,19 +893,19 @@ ${(event.posts || []).map(post=>`
 <div>
 
 <p>
-💼 ${post.crewPost}
+💼 ${post.crewPost || ""}
 </p>
 
 <p>
-📍 ${post.dutyArea}
+📍 ${post.dutyArea || ""}
 </p>
 
 <p>
-👨 ${post.coordinator}
+👨 ${post.coordinator || ""}
 </p>
 
 <p>
-👥 ${post.staffEmails.join(", ")}
+👥 ${(post.staffEmails || []).join(", ")}
 </p>
 
 </div>

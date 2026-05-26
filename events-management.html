@@ -926,8 +926,8 @@ ${status}
 <br><br>
 
 <button
-class="edit-btn"
-onclick="editEvent('${id}')">
+class="edit-btn edit-event-btn"
+data-id="${id}">
 
 Edit Event
 
@@ -961,6 +961,24 @@ window.loadEvents = loadEvents;
 addPost();
 
 loadEvents();
+
+  setTimeout(()=>{
+
+document
+.querySelectorAll(".edit-event-btn")
+.forEach((btn)=>{
+
+btn.addEventListener("click",()=>{
+
+editEvent(
+btn.dataset.id
+);
+
+});
+
+});
+
+},500);
 
 </script>
 

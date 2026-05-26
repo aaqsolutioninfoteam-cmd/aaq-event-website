@@ -8,7 +8,9 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>ID Card Management</title>
+<title>
+ID Card Management
+</title>
 
 <style>
 
@@ -218,9 +220,47 @@ background:#2563eb;
 
 }
 
-.download{
+.save{
 
 background:#22c55e;
+
+}
+
+input{
+
+width:100%;
+
+padding:12px;
+
+border:none;
+
+border-radius:12px;
+
+background:rgba(255,255,255,0.1);
+
+color:white;
+
+margin-top:10px;
+
+}
+
+.event-box{
+
+margin-top:15px;
+
+padding:15px;
+
+border-radius:15px;
+
+background:rgba(255,255,255,0.06);
+
+}
+
+.event-box h3{
+
+margin-bottom:12px;
+
+color:#facc15;
 
 }
 
@@ -274,7 +314,9 @@ import {
 
 getFirestore,
 collection,
-getDocs
+getDocs,
+updateDoc,
+doc
 
 }
 
@@ -311,27 +353,27 @@ getFirestore(app);
 
 async function loadCards(){
 
-const querySnapshot =
+const staffSnapshot =
 await getDocs(
 collection(db,"staffs")
 );
 
 let html = "";
 
-querySnapshot.forEach((doc)=>{
+staffSnapshot.forEach((docItem)=>{
 
 const staff =
-doc.data();
+docItem.data();
 
 html += `
 
 <div class="id-card">
 
+<center>
+
 <img
 src="logo.png"
 class="logo">
-
-<center>
 
 <img
 src="${
@@ -341,53 +383,68 @@ staff.photoURL ||
 class="staff-photo">
 
 <h2>
-${staff.staffName}
+${staff.staffName || ""}
 </h2>
 
 <p>
-💼 ${staff.position}
+💼 ${staff.position || ""}
 </p>
+
+</center>
+
+<div class="event-box">
+
+<h3>
+ID Card Details
+</h3>
 
 <p>
-📧 ${staff.email}
+🪪 ID Card Number
 </p>
+
+<input
+type="text"
+class="idCardNumber"
+value="${staff.idCardNumber || ''}">
 
 <p>
-📱 ${staff.mobile}
+📅 Issue Date & Time
 </p>
+
+<input
+type="datetime-local"
+class="issueDate"
+value="${staff.issueDate || ''}">
 
 <p>
-🪪 ${staff.staffId}
+⏳ Return Date & Time
 </p>
 
-<p>
-📍 ${staff.address}
-</p>
-
-<img
-src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${staff.email}"
-class="qr">
+<input
+type="datetime-local"
+class="returnDate"
+value="${staff.returnDate || ''}">
 
 <div class="btns">
 
 <button
-class="btn print"
-onclick="window.print()">
+class="btn save"
+data-id="${docItem.id}">
+
+Save ID Card
+
+</button>
+
+<button
+class="btn print">
 
 Print
 
 </button>
 
-<button
-class="btn download">
-
-Download
-
-</button>
-
 </div>
 
-</center>
+</div>
 
 </div>
 
@@ -399,6 +456,70 @@ document.getElementById(
 "cardBox"
 ).innerHTML =
 html;
+
+document
+.querySelectorAll(".save")
+.forEach((btn)=>{
+
+btn.addEventListener("click",async()=>{
+
+const card =
+btn.closest(".id-card");
+
+const id =
+btn.dataset.id;
+
+const idCardNumber =
+card.querySelector(".idCardNumber").value;
+
+const issueDate =
+card.querySelector(".issueDate").value;
+
+const returnDate =
+card.querySelector(".returnDate").value;
+
+try{
+
+await updateDoc(
+doc(db,"staffs",id),
+{
+
+idCardNumber,
+issueDate,
+returnDate
+
+}
+);
+
+alert(
+"ID Card Updated Successfully"
+);
+
+}catch(error){
+
+console.log(error);
+
+alert(
+error.message
+);
+
+}
+
+});
+
+});
+
+document
+.querySelectorAll(".print")
+.forEach((btn)=>{
+
+btn.addEventListener("click",()=>{
+
+window.print();
+
+});
+
+});
 
 }
 

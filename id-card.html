@@ -8,7 +8,9 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>My Event ID Card</title>
+<title>
+My Event ID Card
+</title>
 
 <style>
 
@@ -359,10 +361,38 @@ Event Name
 <div>
 
 <span>
-📍 Area :
+📍 Event Address :
 </span>
 
-<span id="eventArea">
+<span id="eventAddress">
+
+Ahmedabad
+
+</span>
+
+</div>
+
+<div>
+
+<span>
+💼 Crew Post :
+</span>
+
+<span id="crewPost">
+
+Reception
+
+</span>
+
+</div>
+
+<div>
+
+<span>
+📌 Duty Area :
+</span>
+
+<span id="dutyArea">
 
 Main Gate
 
@@ -373,12 +403,12 @@ Main Gate
 <div>
 
 <span>
-💼 Duty :
+👨 Coordinator :
 </span>
 
-<span id="dutyType">
+<span id="coordinator">
 
-Reception
+Coordinator
 
 </span>
 
@@ -409,7 +439,8 @@ Print
 </button>
 
 <button
-class="btn download">
+class="btn download"
+onclick="downloadCard()">
 
 Download
 
@@ -474,32 +505,32 @@ document.getElementById(
 "staffPhoto"
 ).src =
 
-currentUser.photoURL ||
+currentUser?.photoURL ||
 "https://i.imgur.com/6VBx3io.png";
 
 document.getElementById(
 "staffName"
 ).innerHTML =
 
-currentUser.staffName;
+currentUser?.staffName || "Staff";
 
 document.getElementById(
 "staffPosition"
 ).innerHTML =
 
-currentUser.position;
+currentUser?.position || "Staff";
 
 document.getElementById(
 "staffId"
 ).innerHTML =
 
-currentUser.staffId;
+currentUser?.staffId || "AAQ-001";
 
 document.getElementById(
 "staffMobile"
 ).innerHTML =
 
-currentUser.mobile;
+currentUser?.mobile || "0000000000";
 
 document.getElementById(
 "qrCode"
@@ -509,7 +540,7 @@ document.getElementById(
 
 +
 
-currentUser.email;
+(currentUser?.email || "");
 
 async function loadEvent(){
 
@@ -523,40 +554,80 @@ querySnapshot.forEach((docItem)=>{
 const event =
 docItem.data();
 
-if(
-event.assignStaff === currentUser.email
-){
+(event.posts || []).forEach((post)=>{
+
+const matched =
+(post.staffEmails || []).some(
+
+email =>
+
+email
+.toLowerCase()
+.trim()
+
+===
+
+(currentUser?.email || "")
+.toLowerCase()
+.trim()
+
+);
+
+if(matched){
 
 document.getElementById(
 "eventName"
 ).innerHTML =
 
-event.eventName;
+event.eventName || "";
 
 document.getElementById(
-"eventArea"
+"eventAddress"
 ).innerHTML =
 
-event.eventArea;
+event.eventAddress || "";
 
 document.getElementById(
-"dutyType"
+"crewPost"
 ).innerHTML =
 
-event.dutyType;
+post.crewPost || "";
+
+document.getElementById(
+"dutyArea"
+).innerHTML =
+
+post.dutyArea || "";
+
+document.getElementById(
+"coordinator"
+).innerHTML =
+
+post.coordinator || "";
 
 document.getElementById(
 "validityDate"
 ).innerHTML =
 
 "📅 Valid Till : " +
-event.eventDate;
+(event.endDate || "");
 
 }
 
 });
 
+});
+
 }
+
+function downloadCard(){
+
+window.print();
+
+}
+
+window.downloadCard =
+downloadCard;
 
 loadEvent();
 

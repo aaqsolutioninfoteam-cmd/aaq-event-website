@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -65,12 +64,6 @@ background-position:0% 50%;
 max-width:1400px;
 
 margin:auto;
-
-}
-
-h1{
-
-margin-bottom:20px;
 
 }
 
@@ -168,7 +161,7 @@ background:#ef4444;
 
 color:white;
 
-padding:6px 12px;
+padding:5px 10px;
 
 }
 
@@ -211,32 +204,6 @@ padding:25px;
 border-radius:20px;
 
 margin-top:20px;
-
-}
-
-.status{
-
-padding:8px 15px;
-
-border-radius:10px;
-
-display:inline-block;
-
-margin-top:10px;
-
-font-weight:bold;
-
-}
-
-.active{
-
-background:#22c55e;
-
-}
-
-.expired{
-
-background:#ef4444;
 
 }
 
@@ -295,7 +262,7 @@ placeholder="Technical Team">
 
 <button
 class="add-btn"
-id="mainAddPostBtn">
+id="addPostBtn">
 
 + Add Event Crew Post
 
@@ -318,23 +285,17 @@ Save Event
 <script type="module">
 
 import { initializeApp }
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-
 getFirestore,
 collection,
 getDocs,
 addDoc,
 updateDoc,
 doc
-
 }
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 
@@ -386,33 +347,28 @@ docItem.data();
 options += `
 
 <option value="${staff.email}">
-
-${staff.staffName}
--
-${staff.email}
-
+${staff.staffName} - ${staff.email}
 </option>
 
 `;
 
 });
 
-select.innerHTML =
-options;
+select.innerHTML = options;
 
 }
 
-async function addPost(data = null){
+async function createPost(postData = null){
 
 totalPosts++;
 
-const div =
+const postBox =
 document.createElement("div");
 
-div.className =
+postBox.className =
 "post-box";
 
-div.innerHTML = `
+postBox.innerHTML = `
 
 <h2>
 Crew Post ${totalPosts}
@@ -439,104 +395,75 @@ placeholder="Coordinator">
 
 </div>
 
-<button
-class="add-btn addStaffBtn">
-
+<button class="add-btn">
 Add Staff
-
 </button>
 
 <div class="selectedStaffList"></div>
 
 `;
 
-document.getElementById(
-"postContainer"
-).appendChild(div);
+document
+.getElementById("postContainer")
+.appendChild(postBox);
 
 const select =
-div.querySelector(".staffSelect");
+postBox.querySelector(".staffSelect");
 
 await loadStaffOptions(select);
 
-if(data){
+if(postData){
 
-div.querySelector(".crewPost").value =
-data.crewPost || "";
+postBox.querySelector(".crewPost").value =
+postData.crewPost || "";
 
-div.querySelector(".dutyArea").value =
-data.dutyArea || "";
+postBox.querySelector(".dutyArea").value =
+postData.dutyArea || "";
 
-div.querySelector(".coordinator").value =
-data.coordinator || "";
+postBox.querySelector(".coordinator").value =
+postData.coordinator || "";
 
 const list =
-div.querySelector(".selectedStaffList");
+postBox.querySelector(".selectedStaffList");
 
-(data.staffEmails || []).forEach((email)=>{
+(postData.staffEmails || []).forEach((email)=>{
 
-const item =
-document.createElement("div");
-
-item.className =
-"staff-item";
-
-item.innerHTML = `
-
-<span class="staff-email">
-
-${email}
-
-</span>
-
-<button class="remove-btn">
-Remove
-</button>
-
-`;
-
-item.querySelector(".remove-btn")
-.addEventListener("click",()=>{
-
-item.remove();
-
-});
-
-list.appendChild(item);
+addStaffItem(list,email);
 
 });
 
 }
 
-div.querySelector(".addStaffBtn")
+postBox
+.querySelector(".add-btn")
 .addEventListener("click",()=>{
 
-const email =
-select.value;
+const email = select.value;
 
 if(!email){
 
-alert("Please Select Staff");
+alert("Select Staff");
 
 return;
 
 }
 
 const list =
-div.querySelector(".selectedStaffList");
+postBox.querySelector(".selectedStaffList");
 
-const exists =
+const already =
 Array.from(
 list.querySelectorAll(".staff-email")
 ).some(
 
 item =>
 
-item.innerText.trim() === email.trim()
+item.innerText.trim() ===
+email.trim()
 
 );
 
-if(exists){
+if(already){
 
 alert("Already Added");
 
@@ -544,18 +471,24 @@ return;
 
 }
 
-const item =
+addStaffItem(list,email);
+
+});
+
+}
+
+function addStaffItem(list,email){
+
+const div =
 document.createElement("div");
 
-item.className =
+div.className =
 "staff-item";
 
-item.innerHTML = `
+div.innerHTML = `
 
 <span class="staff-email">
-
 ${email}
-
 </span>
 
 <button class="remove-btn">
@@ -564,16 +497,15 @@ Remove
 
 `;
 
-item.querySelector(".remove-btn")
+div
+.querySelector(".remove-btn")
 .addEventListener("click",()=>{
 
-item.remove();
+div.remove();
 
 });
 
-list.appendChild(item);
-
-});
+list.appendChild(div);
 
 }
 
@@ -581,12 +513,14 @@ async function saveEvent(){
 
 const posts = [];
 
-document.querySelectorAll(".post-box")
+document
+.querySelectorAll(".post-box")
 .forEach((post)=>{
 
 const emails = [];
 
-post.querySelectorAll(".staff-email")
+post
+.querySelectorAll(".staff-email")
 .forEach((item)=>{
 
 emails.push(
@@ -662,6 +596,22 @@ alert("Event Saved");
 
 }
 
+resetForm();
+
+await loadEvents();
+
+}catch(error){
+
+console.log(error);
+
+alert(error.message);
+
+}
+
+}
+
+function resetForm(){
+
 currentEditId = null;
 
 document.getElementById("eventName").value = "";
@@ -680,17 +630,9 @@ document.getElementById("technicalTeam").value = "";
 
 document.getElementById("postContainer").innerHTML = "";
 
-await addPost();
+totalPosts = 0;
 
-await loadEvents();
-
-}catch(error){
-
-console.log(error);
-
-alert(error.message);
-
-}
+createPost();
 
 }
 
@@ -699,7 +641,9 @@ async function editEvent(id){
 currentEditId = id;
 
 const querySnapshot =
-await getDocs(collection(db,"events"));
+await getDocs(
+collection(db,"events")
+);
 
 querySnapshot.forEach(async(docItem)=>{
 
@@ -731,9 +675,11 @@ event.technicalTeam || "";
 
 document.getElementById("postContainer").innerHTML = "";
 
+totalPosts = 0;
+
 for(const post of (event.posts || [])){
 
-await addPost(post);
+await createPost(post);
 
 }
 
@@ -753,7 +699,9 @@ behavior:"smooth"
 async function loadEvents(){
 
 const querySnapshot =
-await getDocs(collection(db,"events"));
+await getDocs(
+collection(db,"events")
+);
 
 let html = "";
 
@@ -764,18 +712,6 @@ docItem.data();
 
 const id =
 docItem.id;
-
-const today =
-new Date()
-.toISOString()
-.split("T")[0];
-
-const status =
-today > event.endDate
-?
-"Expired"
-:
-"Active";
 
 html += `
 
@@ -793,18 +729,6 @@ ${event.eventName || ""}
 📅 ${event.startDate || ""}
 To
 ${event.endDate || ""}
-</p>
-
-<p>
-👨 ${event.eventCoordinator || ""}
-</p>
-
-<p>
-🛡️ ${event.accessManager || ""}
-</p>
-
-<p>
-🖥️ ${event.technicalTeam || ""}
 </p>
 
 ${(event.posts || []).map(post=>`
@@ -835,16 +759,7 @@ ${(event.posts || []).map(post=>`
 
 `).join("")}
 
-<div class="status
-${status === "Active"
-? "active"
-: "expired"}">
-
-${status}
-
-</div>
-
-<br><br>
+<br>
 
 <button
 class="edit-btn"
@@ -860,10 +775,9 @@ Edit Event
 
 });
 
-document.getElementById(
-"eventList"
-).innerHTML =
-html;
+document
+.getElementById("eventList")
+.innerHTML = html;
 
 document
 .querySelectorAll(".edit-btn")
@@ -880,10 +794,10 @@ editEvent(btn.dataset.id);
 }
 
 document
-.getElementById("mainAddPostBtn")
+.getElementById("addPostBtn")
 .addEventListener("click",()=>{
 
-addPost();
+createPost();
 
 });
 
@@ -895,12 +809,11 @@ saveEvent();
 
 });
 
-addPost();
+createPost();
 
 loadEvents();
 
 </script>
 
 </body>
-
 </html>

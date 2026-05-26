@@ -9,7 +9,7 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>
-AAQ Event ERP
+AAQ Admin Event Management
 </title>
 
 <style>
@@ -249,7 +249,7 @@ background:#ef4444;
 <div class="container">
 
 <h1>
-AAQ Event ERP
+AAQ Admin Event Management
 </h1>
 
 <div class="form-box">
@@ -295,7 +295,7 @@ placeholder="Technical Team">
 
 <button
 class="add-btn"
-onclick="addPost()">
+id="mainAddPostBtn">
 
 + Add Event Crew Post
 
@@ -303,7 +303,7 @@ onclick="addPost()">
 
 <button
 class="save-btn"
-onclick="saveEvent()">
+id="saveEventBtn">
 
 Save Event
 
@@ -368,7 +368,41 @@ let currentEditId = null;
 
 let totalPosts = 0;
 
-async function addPost(){
+async function loadStaffOptions(select){
+
+const querySnapshot =
+await getDocs(
+collection(db,"staffs")
+);
+
+let options =
+"<option value=''>Select Staff</option>";
+
+querySnapshot.forEach((docItem)=>{
+
+const staff =
+docItem.data();
+
+options += `
+
+<option value="${staff.email}">
+
+${staff.staffName}
+-
+${staff.email}
+
+</option>
+
+`;
+
+});
+
+select.innerHTML =
+options;
+
+}
+
+async function addPost(data = null){
 
 totalPosts++;
 
@@ -406,8 +440,7 @@ placeholder="Coordinator">
 </div>
 
 <button
-class="add-btn"
-onclick="addStaff(this)">
+class="add-btn addStaffBtn">
 
 Add Staff
 
@@ -424,63 +457,73 @@ document.getElementById(
 const select =
 div.querySelector(".staffSelect");
 
-const querySnapshot =
-await getDocs(
-collection(db,"staffs")
-);
+await loadStaffOptions(select);
 
-let options =
-"<option value=''>Select Staff</option>";
+if(data){
 
-querySnapshot.forEach((docItem)=>{
+div.querySelector(".crewPost").value =
+data.crewPost || "";
 
-const staff =
-docItem.data();
+div.querySelector(".dutyArea").value =
+data.dutyArea || "";
 
-options += `
+div.querySelector(".coordinator").value =
+data.coordinator || "";
 
-<option value="${staff.email}">
+const list =
+div.querySelector(".selectedStaffList");
 
-${staff.staffName}
--
-${staff.email}
+(data.staffEmails || []).forEach((email)=>{
 
-</option>
+const item =
+document.createElement("div");
+
+item.className =
+"staff-item";
+
+item.innerHTML = `
+
+<span class="staff-email">
+
+${email}
+
+</span>
+
+<button class="remove-btn">
+Remove
+</button>
 
 `;
 
+item.querySelector(".remove-btn")
+.addEventListener("click",()=>{
+
+item.remove();
+
 });
 
-select.innerHTML =
-options;
+list.appendChild(item);
+
+});
 
 }
 
-function addStaff(button){
-
-const postBox =
-button.closest(".post-box");
-
-const select =
-postBox.querySelector(".staffSelect");
+div.querySelector(".addStaffBtn")
+.addEventListener("click",()=>{
 
 const email =
 select.value;
 
 if(!email){
 
-alert(
-"Please Select Staff"
-);
+alert("Please Select Staff");
 
 return;
 
 }
 
 const list =
-postBox.querySelector(
-".selectedStaffList"
-);
+div.querySelector(".selectedStaffList");
 
 const exists =
 Array.from(
@@ -489,27 +532,25 @@ list.querySelectorAll(".staff-email")
 
 item =>
 
-item.innerText.trim()
-
-===
-
-email.trim()
+item.innerText.trim() === email.trim()
 
 );
 
 if(exists){
 
-alert(
-"Staff Already Added"
-);
+alert("Already Added");
 
 return;
 
 }
 
-list.innerHTML += `
+const item =
+document.createElement("div");
 
-<div class="staff-item">
+item.className =
+"staff-item";
+
+item.innerHTML = `
 
 <span class="staff-email">
 
@@ -517,23 +558,22 @@ ${email}
 
 </span>
 
-<button
-class="remove-btn"
-onclick="removeStaff(this)">
-
+<button class="remove-btn">
 Remove
-
 </button>
-
-</div>
 
 `;
 
-}
+item.querySelector(".remove-btn")
+.addEventListener("click",()=>{
 
-function removeStaff(button){
+item.remove();
 
-button.parentElement.remove();
+});
+
+list.appendChild(item);
+
+});
 
 }
 
@@ -541,15 +581,13 @@ async function saveEvent(){
 
 const posts = [];
 
-document.querySelectorAll(
-".post-box"
-).forEach((post)=>{
+document.querySelectorAll(".post-box")
+.forEach((post)=>{
 
 const emails = [];
 
-post.querySelectorAll(
-".staff-email"
-).forEach((item)=>{
+post.querySelectorAll(".staff-email")
+.forEach((item)=>{
 
 emails.push(
 item.innerText.trim()
@@ -578,39 +616,25 @@ emails
 const eventData = {
 
 eventName:
-document.getElementById(
-"eventName"
-).value,
+document.getElementById("eventName").value,
 
 eventAddress:
-document.getElementById(
-"eventAddress"
-).value,
+document.getElementById("eventAddress").value,
 
 startDate:
-document.getElementById(
-"startDate"
-).value,
+document.getElementById("startDate").value,
 
 endDate:
-document.getElementById(
-"endDate"
-).value,
+document.getElementById("endDate").value,
 
 eventCoordinator:
-document.getElementById(
-"eventCoordinator"
-).value,
+document.getElementById("eventCoordinator").value,
 
 accessManager:
-document.getElementById(
-"accessManager"
-).value,
+document.getElementById("accessManager").value,
 
 technicalTeam:
-document.getElementById(
-"technicalTeam"
-).value,
+document.getElementById("technicalTeam").value,
 
 posts
 
@@ -621,20 +645,11 @@ try{
 if(currentEditId){
 
 await updateDoc(
-
-doc(
-db,
-"events",
-currentEditId
-),
-
+doc(db,"events",currentEditId),
 eventData
-
 );
 
-alert(
-"Event Updated Successfully"
-);
+alert("Event Updated");
 
 }else{
 
@@ -643,45 +658,27 @@ collection(db,"events"),
 eventData
 );
 
-alert(
-"Event Saved Successfully"
-);
+alert("Event Saved");
 
 }
 
 currentEditId = null;
 
-document.getElementById(
-"eventName"
-).value = "";
+document.getElementById("eventName").value = "";
 
-document.getElementById(
-"eventAddress"
-).value = "";
+document.getElementById("eventAddress").value = "";
 
-document.getElementById(
-"startDate"
-).value = "";
+document.getElementById("startDate").value = "";
 
-document.getElementById(
-"endDate"
-).value = "";
+document.getElementById("endDate").value = "";
 
-document.getElementById(
-"eventCoordinator"
-).value = "";
+document.getElementById("eventCoordinator").value = "";
 
-document.getElementById(
-"accessManager"
-).value = "";
+document.getElementById("accessManager").value = "";
 
-document.getElementById(
-"technicalTeam"
-).value = "";
+document.getElementById("technicalTeam").value = "";
 
-document.getElementById(
-"postContainer"
-).innerHTML = "";
+document.getElementById("postContainer").innerHTML = "";
 
 await addPost();
 
@@ -691,9 +688,7 @@ await loadEvents();
 
 console.log(error);
 
-alert(
-error.message
-);
+alert(error.message);
 
 }
 
@@ -704,9 +699,7 @@ async function editEvent(id){
 currentEditId = id;
 
 const querySnapshot =
-await getDocs(
-collection(db,"events")
-);
+await getDocs(collection(db,"events"));
 
 querySnapshot.forEach(async(docItem)=>{
 
@@ -715,107 +708,41 @@ if(docItem.id === id){
 const event =
 docItem.data();
 
-document.getElementById(
-"eventName"
-).value =
+document.getElementById("eventName").value =
 event.eventName || "";
 
-document.getElementById(
-"eventAddress"
-).value =
+document.getElementById("eventAddress").value =
 event.eventAddress || "";
 
-document.getElementById(
-"startDate"
-).value =
+document.getElementById("startDate").value =
 event.startDate || "";
 
-document.getElementById(
-"endDate"
-).value =
+document.getElementById("endDate").value =
 event.endDate || "";
 
-document.getElementById(
-"eventCoordinator"
-).value =
+document.getElementById("eventCoordinator").value =
 event.eventCoordinator || "";
 
-document.getElementById(
-"accessManager"
-).value =
+document.getElementById("accessManager").value =
 event.accessManager || "";
 
-document.getElementById(
-"technicalTeam"
-).value =
+document.getElementById("technicalTeam").value =
 event.technicalTeam || "";
 
-document.getElementById(
-"postContainer"
-).innerHTML = "";
+document.getElementById("postContainer").innerHTML = "";
 
-const posts =
-event.posts || [];
+for(const post of (event.posts || [])){
 
-for(const post of posts){
-
-await addPost();
-
-const boxes =
-document.querySelectorAll(
-".post-box"
-);
-
-const currentPost =
-boxes[boxes.length - 1];
-
-currentPost.querySelector(
-".crewPost"
-).value =
-post.crewPost || "";
-
-currentPost.querySelector(
-".dutyArea"
-).value =
-post.dutyArea || "";
-
-currentPost.querySelector(
-".coordinator"
-).value =
-post.coordinator || "";
-
-const list =
-currentPost.querySelector(
-".selectedStaffList"
-);
-
-(post.staffEmails || []).forEach((email)=>{
-
-list.innerHTML += `
-
-<div class="staff-item">
-
-<span class="staff-email">
-
-${email}
-
-</span>
-
-<button
-class="remove-btn"
-onclick="removeStaff(this)">
-
-Remove
-
-</button>
-
-</div>
-
-`;
-
-});
+await addPost(post);
 
 }
+
+window.scrollTo({
+
+top:0,
+behavior:"smooth"
+
+});
 
 }
 
@@ -826,9 +753,7 @@ Remove
 async function loadEvents(){
 
 const querySnapshot =
-await getDocs(
-collection(db,"events")
-);
+await getDocs(collection(db,"events"));
 
 let html = "";
 
@@ -847,13 +772,9 @@ new Date()
 
 const status =
 today > event.endDate
-
 ?
-
 "Expired"
-
 :
-
 "Active";
 
 html += `
@@ -926,7 +847,7 @@ ${status}
 <br><br>
 
 <button
-class="edit-btn edit-event-btn"
+class="edit-btn"
 data-id="${id}">
 
 Edit Event
@@ -944,41 +865,39 @@ document.getElementById(
 ).innerHTML =
 html;
 
-}
-
-window.addPost = addPost;
-
-window.addStaff = addStaff;
-
-window.removeStaff = removeStaff;
-
-window.saveEvent = saveEvent;
-
-window.editEvent = editEvent;
-
-window.loadEvents = loadEvents;
-
-addPost();
-
-loadEvents();
-
-  setTimeout(()=>{
-
 document
-.querySelectorAll(".edit-event-btn")
+.querySelectorAll(".edit-btn")
 .forEach((btn)=>{
 
 btn.addEventListener("click",()=>{
 
-editEvent(
-btn.dataset.id
-);
+editEvent(btn.dataset.id);
 
 });
 
 });
 
-},500);
+}
+
+document
+.getElementById("mainAddPostBtn")
+.addEventListener("click",()=>{
+
+addPost();
+
+});
+
+document
+.getElementById("saveEventBtn")
+.addEventListener("click",()=>{
+
+saveEvent();
+
+});
+
+addPost();
+
+loadEvents();
 
 </script>
 

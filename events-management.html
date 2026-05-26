@@ -884,7 +884,7 @@ ${event.endDate}
 🖥️ ${event.technicalTeam}
 </p>
 
-${event.posts.map(post=>`
+${(event.posts || []).map(post=>`
 
 <div class="staff-item">
 

@@ -8,7 +8,9 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>My Events</title>
+<title>
+My Events
+</title>
 
 <style>
 
@@ -183,6 +185,18 @@ background:#ef4444;
 
 }
 
+.no-event{
+
+text-align:center;
+
+padding:40px;
+
+background:rgba(255,255,255,0.08);
+
+border-radius:20px;
+
+}
+
 </style>
 
 </head>
@@ -218,7 +232,51 @@ Back To Dashboard
 
 </div>
 
-<script>
+<script type="module">
+
+import { initializeApp }
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+collection,
+getDocs
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+
+authDomain:
+"aaq-event-erp.firebaseapp.com",
+
+projectId:
+"aaq-event-erp",
+
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
+
+messagingSenderId:
+"985636664002",
+
+appId:
+"1:985636664002:web:4b941d3562609d2058815b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
 
 const currentUser =
 JSON.parse(
@@ -226,18 +284,23 @@ localStorage.getItem("currentUser")
 );
 
 const staffEmail =
-currentUser.email;
+(currentUser?.email || "")
+.toLowerCase()
+.trim();
 
-function loadEvents(){
+async function loadEvents(){
 
-const events =
-JSON.parse(
-localStorage.getItem("events")
-) || [];
+const querySnapshot =
+await getDocs(
+collection(db,"events")
+);
 
 let html = "";
 
-events.forEach((event)=>{
+querySnapshot.forEach((docItem)=>{
+
+const event =
+docItem.data();
 
 const today =
 new Date()
@@ -245,7 +308,7 @@ new Date()
 .split("T")[0];
 
 const status =
-today > event.endDate
+today > (event.endDate || "")
 
 ?
 
@@ -257,11 +320,10 @@ today > event.endDate
 
 let matchedPosts = "";
 
-event.posts.forEach((post)=>{
+(event.posts || []).forEach((post)=>{
 
-if(
-
-post.staffEmails.some(
+const matched =
+(post.staffEmails || []).some(
 
 email =>
 
@@ -272,34 +334,32 @@ email
 ===
 
 staffEmail
-.toLowerCase()
-.trim()
 
-)
+);
 
-){
+if(matched){
 
 matchedPosts += `
 
 <div class="post-box">
 
 <h3>
-💼 ${post.crewPost}
+💼 ${post.crewPost || ""}
 </h3>
 
 <p>
 📍 Duty Area :
-${post.dutyArea}
+${post.dutyArea || ""}
 </p>
 
 <p>
 👨 Coordinator :
-${post.coordinator}
+${post.coordinator || ""}
 </p>
 
 <p>
 👥 Assigned Staff :
-${post.staffEmails.join(", ")}
+${(post.staffEmails || []).join(", ")}
 </p>
 
 </div>
@@ -317,34 +377,34 @@ html += `
 <div class="event-card">
 
 <h2>
-🎉 ${event.eventName}
+🎉 ${event.eventName || ""}
 </h2>
 
 <p>
 📍 Event Address :
-${event.eventAddress}
+${event.eventAddress || ""}
 </p>
 
 <p>
 📅 Event Validity :
-${event.startDate}
+${event.startDate || ""}
 To
-${event.endDate}
+${event.endDate || ""}
 </p>
 
 <p>
 👨 Event Coordinator :
-${event.eventCoordinator}
+${event.eventCoordinator || ""}
 </p>
 
 <p>
 🛡️ Access Manager :
-${event.accessManager}
+${event.accessManager || ""}
 </p>
 
 <p>
 🖥️ Technical Team :
-${event.technicalTeam}
+${event.technicalTeam || ""}
 </p>
 
 ${matchedPosts}
@@ -365,6 +425,26 @@ ${status}
 }
 
 });
+
+if(html === ""){
+
+html = `
+
+<div class="no-event">
+
+<h2>
+No Events Assigned
+</h2>
+
+<p>
+Currently no event duties available
+</p>
+
+</div>
+
+`;
+
+}
 
 document.getElementById(
 "eventList"

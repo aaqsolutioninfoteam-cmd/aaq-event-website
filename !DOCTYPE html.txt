@@ -142,6 +142,40 @@ font-size:14px;
 color:#d1d5db;
 }
 
+.career{
+background:linear-gradient(135deg,#7c3aed,#5b21b6);
+}
+
+.logo{
+width:120px;
+margin-bottom:15px;
+}
+
+.about-box{
+margin-top:20px;
+padding:20px;
+background:rgba(255,255,255,0.06);
+border-radius:20px;
+text-align:left;
+}
+
+.leader-box{
+margin-top:20px;
+padding:20px;
+background:rgba(255,255,255,0.06);
+border-radius:20px;
+text-align:center;
+}
+
+.leader-photo{
+width:120px;
+height:120px;
+border-radius:50%;
+object-fit:cover;
+border:4px solid #facc15;
+margin-bottom:10px;
+}
+
 </style>
 </head>
 
@@ -172,6 +206,52 @@ onclick="openPopup('bookingPopup')">
 Book Event
 </button>
 
+<button class="btn career"
+onclick="openPopup('careerPopup')">
+💼 Career
+</button>
+
+<div class="about-box">
+
+<h2>
+About Us
+</h2>
+
+<p>
+A.A.Q Solutions & Outsourcing provides professional Event Management, Technical Support, Volunteer Management, Manpower Solutions and Corporate Event Services across India.
+</p>
+<div class="leader-box">
+
+<img
+src="ceo.png"
+class="leader-photo">
+
+<h2>
+CEO Name
+</h2>
+
+<p>
+Chief Executive Officer
+</p>
+
+</div>
+<div class="leader-box">
+
+<img
+src="md.png"
+class="leader-photo">
+
+<h2>
+Managing Director Name
+</h2>
+
+<p>
+Managing Director
+</p>
+
+</div>
+
+</div>
 <a class="btn contact"
 href="https://wa.me/917600263704"
 target="_blank">
@@ -343,6 +423,103 @@ placeholder="Event Details">
 class="btn submit-btn">
 Submit
 </button>
+
+<!-- CAREER POPUP -->
+
+<div class="popup" id="careerPopup">
+
+<div class="popup-content">
+
+<span class="close"
+onclick="closePopup('careerPopup')">
+
+&times;
+
+</span>
+
+<h2>
+Career Application
+</h2>
+
+<form action="https://formspree.io/f/YOUR_FORM_ID"
+method="POST">
+
+<input
+type="text"
+name="name"
+placeholder="Full Name"
+required>
+
+<input
+type="tel"
+name="mobile"
+placeholder="Mobile Number"
+required>
+
+<input
+type="email"
+name="email"
+placeholder="Email Address"
+required>
+
+<input
+type="text"
+name="city"
+placeholder="City"
+required>
+
+<select
+name="position"
+required>
+
+<option value="">
+Select Position
+</option>
+
+<option>
+Event Coordinator
+</option>
+
+<option>
+Event Crew
+</option>
+
+<option>
+Access Manager
+</option>
+
+<option>
+Technical Team
+</option>
+
+<option>
+Volunteer
+</option>
+
+<option>
+Office Staff
+</option>
+
+</select>
+
+<textarea
+name="experience"
+placeholder="Experience / Skills">
+</textarea>
+
+<button
+type="submit"
+class="btn submit-btn">
+
+Apply Now
+
+</button>
+
+</form>
+
+</div>
+
+</div>
 
 </form>
 

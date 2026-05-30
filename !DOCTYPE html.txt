@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A.A.Q Solutions & Outsourcing</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+A.A.Q Solutions & Outsourcing
+</title>
 
 <style>
 
@@ -15,201 +22,387 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#0f172a,#1e3a8a,#111827);
+
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#1e3a8a,
+#111827
+);
+
 min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
+
 padding:20px;
+
 color:white;
+
 }
 
 .container{
+
 width:100%;
-max-width:450px;
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
+
+max-width:550px;
+
+margin:auto;
+
+background:
+rgba(255,255,255,0.08);
+
+backdrop-filter:
+blur(12px);
+
 padding:30px;
+
 border-radius:25px;
+
 text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
 
+box-shadow:
+0 10px 30px
+rgba(0,0,0,0.4);
 
-h1{
-font-size:28px;
-margin-bottom:10px;
-}
-
-.subtitle{
-color:#d1d5db;
-margin-bottom:30px;
-}
-
-.btn{
-display:block;
-width:100%;
-padding:15px;
-margin-bottom:15px;
-border:none;
-border-radius:15px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-transition:0.3s;
-color:white;
-text-decoration:none;
-}
-
-.btn:hover{
-transform:scale(1.03);
-}
-
-.feedback{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-}
-
-.complaint{
-background:linear-gradient(135deg,#dc2626,#991b1b);
-}
-
-.booking{
-background:linear-gradient(135deg,#ca8a04,#a16207);
-}
-
-.contact{
-background:linear-gradient(135deg,#16a34a,#166534);
-}
-
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:999;
-}
-
-.popup-content{
-background:#111827;
-padding:25px;
-border-radius:20px;
-width:90%;
-max-width:400px;
-position:relative;
-}
-
-.popup-content h2{
-margin-bottom:20px;
-}
-
-.close{
-position:absolute;
-right:15px;
-top:10px;
-font-size:28px;
-cursor:pointer;
-}
-
-input,textarea,select{
-width:100%;
-padding:12px;
-margin-bottom:15px;
-border:none;
-border-radius:10px;
-background:#1f2937;
-color:white;
-}
-
-textarea{
-height:100px;
-resize:none;
-}
-
-.submit-btn{
-background:#f59e0b;
-color:black;
-font-weight:bold;
-}
-
-.footer{
-margin-top:20px;
-font-size:14px;
-color:#d1d5db;
-}
-
-.career{
-background:linear-gradient(135deg,#7c3aed,#5b21b6);
 }
 
 .logo{
-width:120px;
+
+width:130px;
+
 margin-bottom:15px;
+
+}
+
+h1{
+
+font-size:30px;
+
+margin-bottom:10px;
+
+color:#facc15;
+
+}
+
+.subtitle{
+
+color:#d1d5db;
+
+margin-bottom:25px;
+
+}
+
+.btn{
+
+display:block;
+
+width:100%;
+
+padding:16px;
+
+margin-bottom:15px;
+
+border:none;
+
+border-radius:15px;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:0.3s;
+
+color:white;
+
+text-decoration:none;
+
+}
+
+.btn:hover{
+
+transform:scale(1.03);
+
+}
+
+.feedback{
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#1d4ed8
+);
+
+}
+
+.complaint{
+
+background:
+linear-gradient(
+135deg,
+#dc2626,
+#991b1b
+);
+
+}
+
+.booking{
+
+background:
+linear-gradient(
+135deg,
+#ca8a04,
+#a16207
+);
+
+}
+
+.career{
+
+background:
+linear-gradient(
+135deg,
+#7c3aed,
+#5b21b6
+);
+
+}
+
+.contact{
+
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#166534
+);
+
 }
 
 .about-box{
+
 margin-top:20px;
+
 padding:20px;
-background:rgba(255,255,255,0.06);
+
+background:
+rgba(255,255,255,0.06);
+
 border-radius:20px;
+
 text-align:left;
+
+}
+
+.about-box h2{
+
+margin-bottom:10px;
+
+color:#facc15;
+
 }
 
 .leader-box{
+
 margin-top:20px;
+
 padding:20px;
-background:rgba(255,255,255,0.06);
+
+background:
+rgba(255,255,255,0.06);
+
 border-radius:20px;
+
 text-align:center;
+
 }
 
 .leader-photo{
+
 width:120px;
+
 height:120px;
+
 border-radius:50%;
+
 object-fit:cover;
+
 border:4px solid #facc15;
+
 margin-bottom:10px;
+
+}
+
+.footer{
+
+margin-top:20px;
+
+font-size:14px;
+
+color:#d1d5db;
+
+}
+
+.popup{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:
+rgba(0,0,0,0.8);
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:999;
+
+}
+
+.popup-content{
+
+background:#111827;
+
+padding:25px;
+
+border-radius:20px;
+
+width:90%;
+
+max-width:420px;
+
+position:relative;
+
+}
+
+.popup-content h2{
+
+margin-bottom:20px;
+
+color:#facc15;
+
+}
+
+.close{
+
+position:absolute;
+
+right:15px;
+
+top:10px;
+
+font-size:28px;
+
+cursor:pointer;
+
+}
+
+input,
+textarea,
+select{
+
+width:100%;
+
+padding:12px;
+
+margin-bottom:15px;
+
+border:none;
+
+border-radius:10px;
+
+background:#1f2937;
+
+color:white;
+
+}
+
+textarea{
+
+height:100px;
+
+resize:none;
+
+}
+
+.submit-btn{
+
+background:#f59e0b;
+
+color:black;
+
+font-weight:bold;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<img src="logo.png" class="logo" alt="AAQ Logo">
+<img
+src="logo.png"
+class="logo">
 
-<h1>A.A.Q Solutions & Outsourcing</h1>
+<h1>
+A.A.Q Solutions & Outsourcing
+</h1>
 
 <p class="subtitle">
 Professional Event Management Services
 </p>
 
-<button class="btn feedback"
+<button
+class="btn feedback"
 onclick="openPopup('feedbackPopup')">
+
 Feedback
+
 </button>
 
-<button class="btn complaint"
+<button
+class="btn complaint"
 onclick="openPopup('complaintPopup')">
+
 Complaint
+
 </button>
 
-<button class="btn booking"
+<button
+class="btn booking"
 onclick="openPopup('bookingPopup')">
+
 Book Event
+
 </button>
 
-<button class="btn career"
+<button
+class="btn career"
 onclick="openPopup('careerPopup')">
+
 💼 Career
+
 </button>
+
+<a
+class="btn contact"
+href="https://wa.me/917600263704"
+target="_blank">
+
+Contact Us
+
+</a>
 
 <div class="about-box">
 
@@ -218,8 +411,11 @@ About Us
 </h2>
 
 <p>
-A.A.Q Solutions & Outsourcing provides professional Event Management, Technical Support, Volunteer Management, Manpower Solutions and Corporate Event Services across Gujarat.
+A.A.Q Solutions & Outsourcing provides professional Event Management, Technical Support, Volunteer Management, Manpower Solutions and Corporate Event Services across Gujarat and India.
 </p>
+
+</div>
+
 <div class="leader-box">
 
 <img
@@ -235,6 +431,7 @@ Chief Executive Officer
 </p>
 
 </div>
+
 <div class="leader-box">
 
 <img
@@ -251,52 +448,60 @@ Managing Director
 
 </div>
 
-</div>
-<a class="btn contact"
-href="https://wa.me/917600263704"
-target="_blank">
-Contact Us
-</a>
-
 <div class="footer">
-📞 +91 7600263704<br>
+
+📞 +91 7600263704
+<br>
+
 📧 aaqsolutioninfoteam@gmail.com
+
 </div>
 
 </div>
 
 <!-- FEEDBACK POPUP -->
 
-<div class="popup" id="feedbackPopup">
+<div class="popup"
+id="feedbackPopup">
 
 <div class="popup-content">
 
-<span class="close"
+<span
+class="close"
 onclick="closePopup('feedbackPopup')">
+
 &times;
+
 </span>
 
-<h2>Client Feedback</h2>
+<h2>
+Client Feedback
+</h2>
 
 <form action="https://formspree.io/f/YOUR_FORM_ID"
 method="POST">
 
-<input type="text"
+<input
+type="text"
 name="name"
 placeholder="Full Name"
 required>
 
-<input type="tel"
+<input
+type="tel"
 name="mobile"
 placeholder="Mobile Number"
 required>
 
-<input type="email"
+<input
+type="email"
 name="email"
 placeholder="Email Address"
 required>
 
-<select name="rating" required>
+<select
+name="rating"
+required>
 
 <option value="">
 Select Rating
@@ -310,97 +515,127 @@ Select Rating
 
 </select>
 
-<textarea name="message"
+<textarea
+name="message"
 placeholder="Your Feedback">
 </textarea>
 
-<button type="submit"
+<button
+type="submit"
 class="btn submit-btn">
+
 Submit
+
 </button>
 
 </form>
 
 </div>
+
 </div>
 
 <!-- COMPLAINT POPUP -->
 
-<div class="popup" id="complaintPopup">
+<div class="popup"
+id="complaintPopup">
 
 <div class="popup-content">
 
-<span class="close"
+<span
+class="close"
 onclick="closePopup('complaintPopup')">
+
 &times;
+
 </span>
 
-<h2>Complaint Support</h2>
+<h2>
+Complaint Support
+</h2>
 
 <form action="https://formspree.io/f/YOUR_FORM_ID"
 method="POST">
 
-<input type="text"
+<input
+type="text"
 name="name"
 placeholder="Full Name"
 required>
 
-<input type="tel"
+<input
+type="tel"
 name="mobile"
 placeholder="Mobile Number"
 required>
 
-<input type="email"
+<input
+type="email"
 name="email"
 placeholder="Email Address"
 required>
 
-<textarea name="message"
+<textarea
+name="message"
 placeholder="Complaint Details">
 </textarea>
 
-<button type="submit"
+<button
+type="submit"
 class="btn submit-btn">
+
 Submit
+
 </button>
 
 </form>
 
 </div>
+
 </div>
 
-<!-- BOOKING POPUP -->
+<!-- BOOK EVENT POPUP -->
 
-<div class="popup" id="bookingPopup">
+<div class="popup"
+id="bookingPopup">
 
 <div class="popup-content">
 
-<span class="close"
+<span
+class="close"
 onclick="closePopup('bookingPopup')">
+
 &times;
+
 </span>
 
-<h2>Book Event</h2>
+<h2>
+Book Event
+</h2>
 
 <form action="https://formspree.io/f/YOUR_FORM_ID"
 method="POST">
 
-<input type="text"
+<input
+type="text"
 name="name"
 placeholder="Full Name"
 required>
 
-<input type="tel"
+<input
+type="tel"
 name="mobile"
 placeholder="Mobile Number"
 required>
 
-<input type="email"
+<input
+type="email"
 name="email"
 placeholder="Email Address"
 required>
 
-<select name="eventtype" required>
+<select
+name="eventtype"
+required>
 
 <option value="">
 Select Event Type
@@ -415,22 +650,34 @@ Select Event Type
 
 </select>
 
-<textarea name="message"
+<textarea
+name="message"
 placeholder="Event Details">
 </textarea>
 
-<button type="submit"
+<button
+type="submit"
 class="btn submit-btn">
+
 Submit
+
 </button>
+
+</form>
+
+</div>
+
+</div>
 
 <!-- CAREER POPUP -->
 
-<div class="popup" id="careerPopup">
+<div class="popup"
+id="careerPopup">
 
 <div class="popup-content">
 
-<span class="close"
+<span
+class="close"
 onclick="closePopup('careerPopup')">
 
 &times;
@@ -476,29 +723,12 @@ required>
 Select Position
 </option>
 
-<option>
-Event Coordinator
-</option>
-
-<option>
-Event Crew
-</option>
-
-<option>
-Access Manager
-</option>
-
-<option>
-Technical Team
-</option>
-
-<option>
-Volunteer
-</option>
-
-<option>
-Office Staff
-</option>
+<option>Event Coordinator</option>
+<option>Event Crew</option>
+<option>Access Manager</option>
+<option>Technical Team</option>
+<option>Volunteer</option>
+<option>Office Staff</option>
 
 </select>
 
@@ -521,22 +751,36 @@ Apply Now
 
 </div>
 
-</form>
-
-</div>
-</div>
-
 <script>
 
 function openPopup(id){
-document.getElementById(id).style.display='flex';
+
+document.getElementById(id).style.display = "flex";
+
 }
 
 function closePopup(id){
-document.getElementById(id).style.display='none';
+
+document.getElementById(id).style.display = "none";
+
 }
+
+window.onclick = function(event){
+
+document.querySelectorAll(".popup").forEach(function(popup){
+
+if(event.target === popup){
+
+popup.style.display = "none";
+
+}
+
+});
+
+};
 
 </script>
 
 </body>
+
 </html>

@@ -37,9 +37,13 @@ background:
 linear-gradient(
 135deg,
 #0f172a,
-#111827,
-#1e293b
+#1e1b4b,
+#111827
 );
+
+color:white;
+
+}
 
 background-size:400% 400%;
 
@@ -139,13 +143,13 @@ margin-bottom:35px;
 
 display:inline-block;
 
-padding:16px 32px;
+padding:16px 34px;
 
-margin:8px;
+margin:10px;
 
 border:none;
 
-border-radius:18px;
+border-radius:50px;
 
 font-size:18px;
 
@@ -153,14 +157,25 @@ font-weight:700;
 
 cursor:pointer;
 
-transition:all .35s ease;
+color:white;
 
 text-decoration:none;
 
-color:white;
+transition:all .35s ease;
 
 box-shadow:
-0 10px 25px rgba(0,0,0,.30);
+0 8px 25px rgba(0,0,0,.35);
+
+}
+
+.btn:hover{
+
+transform:
+translateY(-5px)
+scale(1.05);
+
+box-shadow:
+0 15px 35px rgba(0,0,0,.45);
 
 }
 
@@ -176,69 +191,51 @@ box-shadow:
 }
 
 .booking{
-
-background:
-linear-gradient(
+background:linear-gradient(
 135deg,
-#f59e0b,
-#b45309
+#ff8a00,
+#ffb300
 );
-
 }
 
 .feedback{
-
-background:
-linear-gradient(
-02deg,
-#2563eb,
-#1d4ed8
+background:linear-gradient(
+135deg,
+#9333ea,
+#c084fc
 );
-
 }
 
 .complaint{
-
-background:
-linear-gradient(
+background:linear-gradient(
 135deg,
-#dc2626,
-#991b1b
+#ec4899,
+#f472b6
 );
-
-}
-
-.career{
-
-background:
-linear-gradient(
-135deg,
-#7c3aed,
-#5b21b6
-);
-
-}
-
-.webapp{
-
-background:
-linear-gradient(
-135deg,
-#06b6d4,
-#0284c7
-);
-
 }
 
 .contact{
-
-background:
-linear-gradient(
+background:linear-gradient(
 135deg,
-#16a34a,
-#166534
+#22c55e,
+#4ade80
 );
+}
 
+.webapp{
+background:linear-gradient(
+135deg,
+#7c3aed,
+#a855f7
+);
+}
+
+.career{
+background:linear-gradient(
+135deg,
+#f97316,
+#fb923c
+);
 }
 
 section{
@@ -257,27 +254,31 @@ border-radius:0;
 
 .section-title{
 
-font-size:36px;
+font-size:38px;
 
-margin-bottom:25px;
+font-weight:700;
+
+color:#ffffff;
 
 text-align:center;
 
-color:#facc15;
+margin-bottom:25px;
 
 }
 
 .card{
 
-background:#111827;
+background:
+rgba(255,255,255,0.05);
 
-padding:25px;
+border:
+1px solid rgba(255,255,255,0.08);
 
-border-radius:20px;
+backdrop-filter:blur(15px);
 
-border:1px solid #374151;
+border-radius:25px;
 
-box-shadow:0 10px 25px rgba(0,0,0,.25);
+padding:30px;
 
 }
 

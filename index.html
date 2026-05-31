@@ -1,45 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta property="og:site_name"
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<meta property="og:site_name"
 content="A.A.Q Solutions & Outsourcing">
 
 <link rel="icon"
 type="image/png"
 href="logo.png">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A.A.Q Solutions & Outsourcing</title>
+
+<title>
+A.A.Q Solutions & Outsourcing
+</title>
 
 <style>
 
 *{
+
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:'Poppins',sans-serif;
 scroll-behavior:smooth;
+
 }
 
 body{
 
 background:
-linear-gradient(135deg,
-#000000,
-#1a1a1a,
-#3b2a00,
+linear-gradient(
+135deg,
+#020617,
+#0f172a,
+#1e293b,
 #d4af37,
-#3b2a00,
-#000000);
+#0f172a
+);
 
 background-size:400% 400%;
-animation:goldBg 12s ease infinite;
+
+animation:bgAnimation 15s ease infinite;
 
 color:white;
 
+overflow-x:hidden;
+
 }
 
-@keyframes goldBg{
+@keyframes bgAnimation{
 
 0%{
 background-position:0% 50%;
@@ -56,184 +70,395 @@ background-position:0% 50%;
 }
 
 .container{
+
 width:100%;
+
 max-width:1200px;
+
 margin:auto;
-padding:20px;
+
+padding:25px;
+
 }
 
 header{
+
 text-align:center;
-padding:50px 20px;
+
+padding:70px 20px;
+
+background:
+rgba(255,255,255,0.05);
+
+backdrop-filter:blur(20px);
+
+border-radius:30px;
+
+border:1px solid
+rgba(255,255,255,0.10);
+
+box-shadow:
+0 20px 50px rgba(0,0,0,0.40);
+
 }
 
 .logo{
-width:140px;
+
+width:150px;
+
 margin-bottom:20px;
-filter:drop-shadow(0 0 20px rgba(255,255,255,0.25));
+
+filter:
+drop-shadow(
+0 0 20px rgba(255,255,255,.25)
+);
+
 }
 
 h1{
-font-size:42px;
+
+font-size:48px;
+
+font-weight:700;
+
 margin-bottom:10px;
+
+color:#ffffff;
+
 }
 
 .subtitle{
-font-size:18px;
-color:#f3f4f6;
-margin-bottom:30px;
+
+font-size:20px;
+
+color:#f8fafc;
+
+margin-bottom:35px;
+
 }
 
 .btn{
+
 display:inline-block;
-padding:15px 30px;
-margin:10px;
+
+padding:16px 32px;
+
+margin:8px;
+
 border:none;
-border-radius:15px;
+
+border-radius:18px;
+
 font-size:18px;
-font-weight:bold;
+
+font-weight:700;
+
 cursor:pointer;
-transition:0.3s;
+
+transition:all .35s ease;
+
 text-decoration:none;
+
 color:white;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.30);
+
 }
 
 .btn:hover{
-transform:scale(1.05);
+
+transform:
+translateY(-5px)
+scale(1.03);
+
+box-shadow:
+0 18px 35px rgba(0,0,0,.45);
+
 }
 
 .booking{
-background:linear-gradient(135deg,#ca8a04,#a16207);
+
+background:
+linear-gradient(
+135deg,
+#f59e0b,
+#b45309
+);
+
 }
 
 .feedback{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
+
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#1d4ed8
+);
+
 }
 
 .complaint{
-background:linear-gradient(135deg,#dc2626,#991b1b);
+
+background:
+linear-gradient(
+135deg,
+#dc2626,
+#991b1b
+);
+
+}
+
+.career{
+
+background:
+linear-gradient(
+135deg,
+#7c3aed,
+#5b21b6
+);
+
+}
+
+.webapp{
+
+background:
+linear-gradient(
+135deg,
+#06b6d4,
+#0284c7
+);
+
 }
 
 .contact{
-background:linear-gradient(135deg,#16a34a,#166534);
+
+background:
+linear-gradient(
+135deg,
+#16a34a,
+#166534
+);
+
 }
 
 section{
+
 margin-top:60px;
-padding:30px;
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
-border-radius:25px;
+
+padding:35px;
+
+background:
+rgba(255,255,255,0.07);
+
+backdrop-filter:blur(18px);
+
+border-radius:30px;
+
+border:1px solid
+rgba(255,255,255,.08);
+
 }
 
 .section-title{
-font-size:32px;
-margin-bottom:25px;
-text-align:center;
-}
 
-.services{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+font-size:36px;
+
+margin-bottom:25px;
+
+text-align:center;
+
+color:#facc15;
+
 }
 
 .card{
-background:rgba(255,255,255,0.07);
+
+background:
+rgba(255,255,255,.08);
+
 padding:25px;
-border-radius:20px;
-text-align:center;
-transition:0.3s;
+
+border-radius:25px;
+
+transition:.3s;
+
 }
 
 .card:hover{
-transform:translateY(-5px);
+
+transform:
+translateY(-8px);
+
+}
+
+.services{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:25px;
+
+}
+
+.leadership{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+
+gap:25px;
+
+}
+
+.leader-photo{
+
+width:140px;
+
+height:140px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:5px solid #facc15;
+
+margin-bottom:15px;
+
 }
 
 .gallery{
+
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+
 gap:20px;
+
 }
 
 .gallery img{
+
 width:100%;
-border-radius:20px;
-height:220px;
+
+height:250px;
+
 object-fit:cover;
+
+border-radius:20px;
+
+transition:.3s;
+
+}
+
+.gallery img:hover{
+
+transform:scale(1.03);
+
 }
 
 .popup{
+
 position:fixed;
+
 top:0;
 left:0;
+
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.7);
+
+background:
+rgba(0,0,0,.8);
+
 display:none;
+
 justify-content:center;
+
 align-items:center;
+
 z-index:999;
+
 padding:15px;
+
 }
 
 .popup-content{
+
 background:#111827;
+
 padding:25px;
-border-radius:20px;
+
+border-radius:25px;
+
 width:100%;
-max-width:420px;
+
+max-width:450px;
+
 position:relative;
+
 }
 
 .close{
+
 position:absolute;
+
 right:15px;
+
 top:10px;
+
 font-size:30px;
+
 cursor:pointer;
+
 }
 
-input,textarea,select{
+input,
+textarea,
+select{
+
 width:100%;
-padding:12px;
-margin-bottom:15px;
-border:none;
-border-radius:10px;
-background:#1f2937;
-color:white;
-}
 
-textarea{
-height:100px;
-resize:none;
+padding:14px;
+
+margin-bottom:15px;
+
+border:none;
+
+border-radius:12px;
+
+background:#1f2937;
+
+color:white;
+
 }
 
 .submit-btn{
+
 background:#f59e0b;
+
 color:black;
+
 font-weight:bold;
+
 }
 
 footer{
+
 text-align:center;
-padding:40px 20px;
-margin-top:50px;
-}
 
-@media(max-width:768px){
+padding:50px 20px;
 
-h1{
-font-size:30px;
-}
-
-.section-title{
-font-size:26px;
-}
+margin-top:60px;
 
 }
 
 </style>
+
 </head>
 
 <body>
@@ -242,37 +467,69 @@ font-size:26px;
 
 <header>
 
-<img src="logo.png" class="logo" alt="AAQ Logo">
+<img
+src="logo.png"
+class="logo"
+alt="AAQ Logo">
 
-<h1>A.A.Q Solutions & Outsourcing</h1>
+<h1>
+A.A.Q Solutions & Outsourcing
+</h1>
 
 <p class="subtitle">
-Professional Event Management & Staffing Services
+
+Professional Event Management &
+Staffing Services
+
 </p>
 
-<button class="btn booking"
+<button
+class="btn booking"
 onclick="openPopup('bookingPopup')">
-Book Event
+
+📅 Book Event
+
 </button>
 
-<button class="btn feedback"
+<button
+class="btn feedback"
 onclick="openPopup('feedbackPopup')">
-Feedback
+
+⭐ Feedback
+
 </button>
 
-<button class="btn complaint"
+<button
+class="btn complaint"
 onclick="openPopup('complaintPopup')">
-Complaint
+
+⚠ Complaint
+
 </button>
 
-<a class="btn contact"
+<button
+class="btn career"
+onclick="openPopup('careerPopup')">
+
+💼 Career
+
+</button>
+
+<a
+class="btn webapp"
+href="login.html">
+
+🌐 Web App
+
+</a>
+
+<a
+class="btn contact"
 href="https://wa.me/917600263704"
 target="_blank">
-Contact Us
-</a>
-  <a class="btn booking"
-href="login.html">
-Web App
+
+📞 Contact Us
+
 </a>
 
 </header>
@@ -283,10 +540,22 @@ Web App
 About Us
 </h2>
 
-<p style="text-align:center;font-size:18px;line-height:1.8;">
-A.A.Q Solutions & Outsourcing provides professional event management,
-staffing, live streaming, corporate event support,
-religious program management and VIP event solutions across Gujarat.
+<p style="
+text-align:center;
+font-size:18px;
+line-height:1.9;
+">
+
+A.A.Q Solutions & Outsourcing provides
+professional Event Management,
+Volunteer Management,
+Corporate Events,
+Live Streaming,
+VIP Management,
+Staffing Solutions
+and Outsourcing Services
+across India.
+
 </p>
 
 </section>
@@ -294,39 +563,83 @@ religious program management and VIP event solutions across Gujarat.
 <section>
 
 <h2 class="section-title">
+
 Our Services
+
 </h2>
 
 <div class="services">
 
 <div class="card">
-<h3>Event Management</h3>
-<p>Professional event handling solutions.</p>
+
+<h3>
+Event Management
+</h3>
+
+<p>
+Professional event handling solutions.
+</p>
+
 </div>
 
 <div class="card">
-<h3>Corporate Events</h3>
-<p>Premium corporate event services.</p>
+
+<h3>
+Corporate Events
+</h3>
+
+<p>
+Premium corporate event services.
+</p>
+
 </div>
 
 <div class="card">
-<h3>Religious Programs</h3>
-<p>Islamic & social program management.</p>
+
+<h3>
+Live Streaming
+</h3>
+
+<p>
+Professional streaming setup.
+</p>
+
 </div>
 
 <div class="card">
-<h3>Live Streaming</h3>
-<p>Professional streaming setup.</p>
+
+<h3>
+Event Staffing
+</h3>
+
+<p>
+Professional crew support.
+</p>
+
 </div>
 
 <div class="card">
-<h3>Event Staffing</h3>
-<p>Professional crew & volunteer support.</p>
+
+<h3>
+Volunteer Management
+</h3>
+
+<p>
+Volunteer handling services.
+</p>
+
 </div>
 
 <div class="card">
-<h3>VIP Management</h3>
-<p>Luxury guest & VIP support services.</p>
+
+<h3>
+VIP Management
+</h3>
+
+<p>
+Luxury guest support services.
+</p>
+
 </div>
 
 </div>
@@ -336,16 +649,78 @@ Our Services
 <section>
 
 <h2 class="section-title">
+
+Leadership Team
+
+</h2>
+
+<div class="leadership">
+
+<div class="card">
+
+<img
+src="ceo.png"
+class="leader-photo">
+
+<h3>
+
+CEO NAME
+
+</h3>
+
+<p>
+
+Chief Executive Officer
+
+</p>
+
+</div>
+
+<div class="card">
+
+<img
+src="md.png"
+class="leader-photo">
+
+<h3>
+
+Managing Director
+
+</h3>
+
+<p>
+
+Operations & Strategy
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+  <section>
+
+<h2 class="section-title">
+
 Gallery
+
 </h2>
 
 <div class="gallery">
 
-<img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop">
+<img
+src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop">
 
-<img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop">
+<img
+src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop">
 
-<img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=1200&auto=format&fit=crop">
+<img
+src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=1200&auto=format&fit=crop">
+
+<img
+src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1200&auto=format&fit=crop">
 
 </div>
 
@@ -353,7 +728,18 @@ Gallery
 
 <footer>
 
-<h2>Contact Us</h2>
+<h2>
+A.A.Q Solutions & Outsourcing
+</h2>
+
+<br>
+
+<p>
+Professional Event Management &
+Staffing Services
+</p>
+
+<br>
 
 <p>
 📞 +91 7600263704
@@ -363,47 +749,72 @@ Gallery
 📧 aaqsolutioninfoteam@gmail.com
 </p>
 
+<br>
+
+<p>
+© 2026 All Rights Reserved
+</p>
+
 </footer>
 
 </div>
 
 <!-- FEEDBACK POPUP -->
 
-<div class="popup" id="feedbackPopup">
+<div
+class="popup"
+id="feedbackPopup">
 
-<div class="popup-content">
+<div
+class="popup-content">
 
-<span class="close"
+<span
+class="close"
 onclick="closePopup('feedbackPopup')">
+
 &times;
+
 </span>
 
-<h2>Client Feedback</h2>
+<h2>
+Client Feedback
+</h2>
 
-<form action="https://api.web3forms.com/submit" method="POST">
+<form
+action="https://api.web3forms.com/submit"
+method="POST">
 
-<input type="hidden" name="access_key"
+<input
+type="hidden"
+name="access_key"
 value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
 
-<input type="hidden" name="subject"
+<input
+type="hidden"
+name="subject"
 value="New Feedback Received">
 
-<input type="text"
+<input
+type="text"
 name="name"
 placeholder="Full Name"
 required>
 
-<input type="tel"
+<input
+type="tel"
 name="mobile"
 placeholder="Mobile Number"
 required>
 
-<input type="email"
+<input
+type="email"
 name="email"
 placeholder="Email Address"
 required>
 
-<select name="rating" required>
+<select
+name="rating"
+required>
 
 <option value="">
 Select Rating
@@ -417,107 +828,153 @@ Select Rating
 
 </select>
 
-<textarea name="message"
+<textarea
+name="message"
 placeholder="Your Feedback">
 </textarea>
 
-<button type="submit"
+<button
+type="submit"
 class="btn submit-btn">
-Submit
+
+Submit Feedback
+
 </button>
 
 </form>
 
 </div>
+
 </div>
 
 <!-- COMPLAINT POPUP -->
 
-<div class="popup" id="complaintPopup">
+<div
+class="popup"
+id="complaintPopup">
 
-<div class="popup-content">
+<div
+class="popup-content">
 
-<span class="close"
+<span
+class="close"
 onclick="closePopup('complaintPopup')">
+
 &times;
+
 </span>
 
-<h2>Complaint Support</h2>
+<h2>
+Complaint Support
+</h2>
 
-<form action="https://api.web3forms.com/submit" method="POST">
+<form
+action="https://api.web3forms.com/submit"
+method="POST">
 
-<input type="hidden" name="access_key"
+<input
+type="hidden"
+name="access_key"
 value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
 
-<input type="hidden" name="subject"
+<input
+type="hidden"
+name="subject"
 value="New Complaint Received">
 
-<input type="text"
+<input
+type="text"
 name="name"
 placeholder="Full Name"
 required>
 
-<input type="tel"
+<input
+type="tel"
 name="mobile"
 placeholder="Mobile Number"
 required>
 
-<input type="email"
+<input
+type="email"
 name="email"
 placeholder="Email Address"
 required>
 
-<textarea name="message"
+<textarea
+name="message"
 placeholder="Complaint Details">
 </textarea>
 
-<button type="submit"
+<button
+type="submit"
 class="btn submit-btn">
-Submit
+
+Submit Complaint
+
 </button>
 
 </form>
 
 </div>
+
 </div>
 
-<!-- BOOKING POPUP -->
+  <!-- BOOK EVENT POPUP -->
 
-<div class="popup" id="bookingPopup">
+<div
+class="popup"
+id="bookingPopup">
 
-<div class="popup-content">
+<div
+class="popup-content">
 
-<span class="close"
+<span
+class="close"
 onclick="closePopup('bookingPopup')">
+
 &times;
+
 </span>
 
-<h2>Book Event</h2>
+<h2>
+Book Event
+</h2>
 
-<form action="https://api.web3forms.com/submit" method="POST">
+<form
+action="https://api.web3forms.com/submit"
+method="POST">
 
-<input type="hidden" name="access_key"
+<input
+type="hidden"
+name="access_key"
 value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
 
-<input type="hidden" name="subject"
+<input
+type="hidden"
+name="subject"
 value="New Event Booking">
 
-<input type="text"
+<input
+type="text"
 name="name"
 placeholder="Full Name"
 required>
 
-<input type="tel"
+<input
+type="tel"
 name="mobile"
 placeholder="Mobile Number"
 required>
 
-<input type="email"
+<input
+type="email"
 name="email"
 placeholder="Email Address"
 required>
 
-<select name="eventtype" required>
+<select
+name="eventtype"
+required>
 
 <option value="">
 Select Event Type
@@ -532,29 +989,147 @@ Select Event Type
 
 </select>
 
-<textarea name="message"
+<textarea
+name="message"
 placeholder="Event Details">
 </textarea>
 
-<button type="submit"
+<button
+type="submit"
 class="btn submit-btn">
-Submit
+
+Book Now
+
 </button>
 
 </form>
 
 </div>
+
+</div>
+
+<!-- CAREER POPUP -->
+
+<div
+class="popup"
+id="careerPopup">
+
+<div
+class="popup-content">
+
+<span
+class="close"
+onclick="closePopup('careerPopup')">
+
+&times;
+
+</span>
+
+<h2>
+Career Application
+</h2>
+
+<form
+action="https://api.web3forms.com/submit"
+method="POST">
+
+<input
+type="hidden"
+name="access_key"
+value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
+
+<input
+type="hidden"
+name="subject"
+value="New Career Application">
+
+<input
+type="text"
+name="name"
+placeholder="Full Name"
+required>
+
+<input
+type="tel"
+name="mobile"
+placeholder="Mobile Number"
+required>
+
+<input
+type="email"
+name="email"
+placeholder="Email Address"
+required>
+
+<input
+type="text"
+name="city"
+placeholder="City"
+required>
+
+<select
+name="position"
+required>
+
+<option value="">
+Select Position
+</option>
+
+<option>Event Coordinator</option>
+<option>Event Crew</option>
+<option>Access Manager</option>
+<option>Technical Team</option>
+<option>Volunteer</option>
+<option>Office Staff</option>
+
+</select>
+
+<textarea
+name="experience"
+placeholder="Experience / Skills">
+</textarea>
+
+<button
+type="submit"
+class="btn submit-btn">
+
+Apply Now
+
+</button>
+
+</form>
+
+</div>
+
 </div>
 
 <script>
 
 function openPopup(id){
+
 document.getElementById(id).style.display = "flex";
+
 }
 
 function closePopup(id){
+
 document.getElementById(id).style.display = "none";
+
 }
+
+window.onclick = function(event){
+
+document.querySelectorAll(".popup").forEach(function(popup){
+
+if(event.target === popup){
+
+popup.style.display = "none";
+
+}
+
+});
+
+};
 
 const forms = document.querySelectorAll("form");
 
@@ -562,27 +1137,42 @@ forms.forEach(form => {
 
 form.addEventListener("submit", function(){
 
-const nameInput = form.querySelector('input[name="name"]');
+const nameInput =
+form.querySelector('input[name="name"]');
 
-const subjectInput = form.querySelector('input[name="subject"]');
+const subjectInput =
+form.querySelector('input[name="subject"]');
 
 if(nameInput && subjectInput){
 
 const name = nameInput.value;
 
 if(subjectInput.value.includes("Feedback")){
+
 subjectInput.value =
 "New Feedback Received From " + name;
+
 }
 
 if(subjectInput.value.includes("Complaint")){
+
 subjectInput.value =
 "New Complaint Received From " + name;
+
 }
 
 if(subjectInput.value.includes("Booking")){
+
 subjectInput.value =
 "New Event Booking From " + name;
+
+}
+
+if(subjectInput.value.includes("Career")){
+
+subjectInput.value =
+"New Career Application From " + name;
+
 }
 
 }
@@ -594,4 +1184,5 @@ subjectInput.value =
 </script>
 
 </body>
+
 </html>

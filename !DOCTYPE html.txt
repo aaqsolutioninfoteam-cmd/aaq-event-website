@@ -363,6 +363,3 @@ document.getElementById(id).style.display='none';
 
 </body>
 </html>
-
-
-Ye Code hai 

@@ -556,6 +556,84 @@ Apply Theme
 </div>
 
 </div>
+  <script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+doc,
+setDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+
+authDomain:"aaq-event-erp.firebaseapp.com",
+
+projectId:"aaq-event-erp",
+
+storageBucket:"aaq-event-erp.firebasestorage.app",
+
+messagingSenderId:"985636664002",
+
+appId:"1:985636664002:web:4b941d3562609d2058815b"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+window.saveDutyNotice =
+async function(){
+
+await setDoc(
+
+doc(
+db,
+"erpSettings",
+"dutyNotice"
+),
+
+{
+
+date:
+document.getElementById(
+"dutyDate"
+).value,
+
+startTime:
+document.getElementById(
+"startTime"
+).value,
+
+endTime:
+document.getElementById(
+"endTime"
+).value,
+
+message:
+document.getElementById(
+"dutyMessage"
+).value
+
+}
+
+);
+
+alert(
+"Duty Notice Published Successfully"
+);
+
+}
+
+  </script>
 
 </body>
 

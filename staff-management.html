@@ -580,12 +580,36 @@ document.getElementById("photo").files[0];
 let photoURL =  
 window.currentPhoto || "";  
   
-if(photo){  
-  
-photoURL =  
-URL.createObjectURL(photo);  
-  
-}  
+if(photo){
+
+const formData = new FormData();
+
+formData.append(
+"file",
+photo
+);
+
+formData.append(
+"upload_preset",
+"aaqstaff"
+);
+
+const response =
+await fetch(
+"https://api.cloudinary.com/v1_1/dcwxyosh8/image/upload",
+{
+method:"POST",
+body:formData
+}
+);
+
+const result =
+await response.json();
+
+photoURL =
+result.secure_url;
+
+} 
   
 try{  
   

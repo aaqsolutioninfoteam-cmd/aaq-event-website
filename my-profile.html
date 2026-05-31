@@ -1,1 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+My Profile | AAQ ERP
+</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#1e1b4b,
+#111827
+);
+
+min-height:100vh;
+
+padding:20px;
+
+color:white;
+
+}
+
+.container{
+
+max-width:1000px;
+
+margin:auto;
+
+}
+
+.header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:20px;
+
+background:
+rgba(255,255,255,0.08);
+
+border-radius:20px;
+
+backdrop-filter:blur(12px);
+
+margin-bottom:25px;
+
+}
+
+.logo-box{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+}
+
+.logo{
+
+width:70px;
+
+}
+
+.back-btn{
+
+background:
+linear-gradient(
+135deg,
+#dc2626,
+#991b1b
+);
+
+padding:12px 20px;
+
+border-radius:12px;
+
+color:white;
+
+text-decoration:none;
+
+font-weight:bold;
+
+}
+
+.profile-card{
+
+background:
+rgba(255,255,255,0.08);
+
+padding:30px;
+
+border-radius:25px;
+
+backdrop-filter:blur(12px);
+
+text-align:center;
+
+margin-bottom:25px;
+
+}
+
+.profile-photo{
+
+width:150px;
+
+height:150px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:5px solid #22c55e;
+
+margin-bottom:15px;
+
+}
+
+.profile-card h2{
+
+font-size:28px;
+
+margin-bottom:8px;
+
+}
+
+.profile-card p{
+
+color:#d1d5db;
+
+}
+
+.info-box{
+
+background:
+rgba(255,255,255,0.08);
+
+padding:25px;
+
+border-radius:25px;
+
+backdrop-filter:blur(12px);
+
+margin-bottom:25px;
+
+}
+
+.section-title{
+
+font-size:24px;
+
+margin-bottom:20px;
+
+color:#facc15;
+
+}
+
+.info-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:15px;
+
+}
+
+.info-item{
+
+background:
+rgba(255,255,255,0.05);
+
+padding:15px;
+
+border-radius:15px;
+
+}
+
+.info-item label{
+
+display:block;
+
+font-size:13px;
+
+color:#9ca3af;
+
+margin-bottom:5px;
+
+}
+
+.info-item span{
+
+font-size:16px;
+
+font-weight:bold;
+
+}
+
+input,
+textarea{
+
+width:100%;
+
+padding:14px;
+
+margin-bottom:15px;
+
+border:none;
+
+border-radius:12px;
+
+background:#1f2937;
+
+color:white;
+
+font-size:15px;
+
+}
+
+textarea{
+
+height:120px;
+
+resize:none;
+
+}
+
+.save-btn{
+
+width:100%;
+
+padding:15px;
+
+border:none;
+
+border-radius:15px;
+
+background:
+linear-gradient(
+135deg,
+#22c55e,
+#15803d
+);
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.save-btn:hover{
+
+opacity:.9;
+
+}
+
+@media(max-width:768px){
+
+.header{
+
+flex-direction:column;
+
+gap:15px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div class="logo-box">
+
+<img
+src="logo.png"
+class="logo">
+
+<div>
+
+<h2>
+My Profile
+</h2>
+
+<p>
+AAQ ERP Staff Portal
+</p>
+
+</div>
+
+</div>
+
+<a
+href="staff-dashboard.html"
+class="back-btn">
+
+← Back
+
+</a>
+
+</div>
+
+<div class="profile-card">
+
+<img
+id="profilePhoto"
+src=""
+class="profile-photo">
+
+<h2 id="profileName">
+
+Loading...
+
+</h2>
+
+<p id="profilePosition">
+
+Loading...
+
+</p>
+
+</div>
+<div class="info-box">
+
+<h3 class="section-title">
+
+Staff Information
+
+</h3>
+
+<div class="info-grid">
+
+<div class="info-item">
+
+<label>
+Staff Name
+</label>
+
+<span id="staffName">
+
+Loading...
+
+</span>
+
+</div>
+
+<div class="info-item">
+
+<label>
+Mobile Number
+</label>
+
+<span id="staffMobile">
+
+Loading...
+
+</span>
+
+</div>
+
+<div class="info-item">
+
+<label>
+Email Address
+</label>
+
+<span id="staffEmail">
+
+Loading...
+
+</span>
+
+</div>
+
+<div class="info-item">
+
+<label>
+Position
+</label>
+
+<span id="staffPosition">
+
+Loading...
+
+</span>
+
+</div>
+
+<div class="info-item">
+
+<label>
+Address
+</label>
+
+<span id="staffAddress">
+
+Loading...
+
+</span>
+
+</div>
+
+<div class="info-item">
+
+<label>
+Aadhaar Number
+</label>
+
+<span id="staffAadhaar">
+
+Loading...
+
+</span>
+
+</div>
+
+<div class="info-item">
+
+<label>
+Staff ID
+</label>
+
+<span id="staffIdCard">
+
+Loading...
+
+</span>
+
+</div>
+
+<div class="info-item">
+
+<label>
+Status
+</label>
+
+<span id="staffStatus">
+
+Loading...
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="info-box">
+
+<h3 class="section-title">
+
+Additional Profile Details
+
+</h3>
+
+<input
+type="date"
+id="dob"
+placeholder="Date Of Birth">
+
+<input
+type="text"
+id="bloodGroup"
+placeholder="Blood Group">
+
+<input
+type="text"
+id="emergencyContact"
+placeholder="Emergency Contact Number">
+
+<input
+type="text"
+id="fatherName"
+placeholder="Father Name">
+
+<input
+type="text"
+id="education"
+placeholder="Education">
+
+<input
+type="text"
+id="skills"
+placeholder="Skills">
+
+<input
+type="text"
+id="experience"
+placeholder="Experience">
+
+<textarea
+id="aboutMe"
+placeholder="About Me">
+</textarea>
+
+<button
+class="save-btn"
+onclick="saveProfile()">
+
+Save Profile
+
+</button>
+
+</div>
+<script type="module">
+
+import { initializeApp }
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+getFirestore,
+doc,
+setDoc,
+getDoc
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+
+authDomain:
+"aaq-event-erp.firebaseapp.com",
+
+projectId:
+"aaq-event-erp",
+
+storageBucket:
+"aaq-event-erp.firebasestorage.app",
+
+messagingSenderId:
+"985636664002",
+
+appId:
+"1:985636664002:web:4b941d3562609d2058815b",
+
+measurementId:
+"G-HHD049KDS8"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+const currentUser =
+
+JSON.parse(
+
+localStorage.getItem(
+"currentUser"
+)
+
+);
+
+if(!currentUser){
+
+window.location.href =
+"login.html";
+
+}
+
+document.getElementById(
+"profilePhoto"
+).src =
+
+currentUser.photoURL ||
+
+"https://i.imgur.com/6VBx3io.png";
+
+document.getElementById(
+"profileName"
+).innerHTML =
+
+currentUser.staffName ||
+
+"Staff User";
+
+document.getElementById(
+"profilePosition"
+).innerHTML =
+
+currentUser.position ||
+
+"Staff";
+
+document.getElementById(
+"staffName"
+).innerHTML =
+
+currentUser.staffName || "-";
+
+document.getElementById(
+"staffMobile"
+).innerHTML =
+
+currentUser.mobile || "-";
+
+document.getElementById(
+"staffEmail"
+).innerHTML =
+
+currentUser.email || "-";
+
+document.getElementById(
+"staffPosition"
+).innerHTML =
+
+currentUser.position || "-";
+
+document.getElementById(
+"staffAddress"
+).innerHTML =
+
+currentUser.address || "-";
+
+document.getElementById(
+"staffAadhaar"
+).innerHTML =
+
+currentUser.aadhaar || "-";
+
+document.getElementById(
+"staffIdCard"
+).innerHTML =
+
+currentUser.staffId || "-";
+
+document.getElementById(
+"staffStatus"
+).innerHTML =
+
+currentUser.status || "-";
+
+async function loadProfile(){
+
+try{
+
+const profileRef =
+
+doc(
+db,
+"staffProfiles",
+currentUser.email
+);
+
+const profileSnap =
+
+await getDoc(
+profileRef
+);
+
+if(profileSnap.exists()){
+
+const data =
+profileSnap.data();
+
+document.getElementById(
+"dob"
+).value =
+data.dob || "";
+
+document.getElementById(
+"bloodGroup"
+).value =
+data.bloodGroup || "";
+
+document.getElementById(
+"emergencyContact"
+).value =
+data.emergencyContact || "";
+
+document.getElementById(
+"fatherName"
+).value =
+data.fatherName || "";
+
+document.getElementById(
+"education"
+).value =
+data.education || "";
+
+document.getElementById(
+"skills"
+).value =
+data.skills || "";
+
+document.getElementById(
+"experience"
+).value =
+data.experience || "";
+
+document.getElementById(
+"aboutMe"
+).value =
+data.aboutMe || "";
+
+}
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+loadProfile();
+
+  window.saveProfile =
+async function(){
+
+try{
+
+const profileData = {
+
+dob:
+document.getElementById(
+"dob"
+).value,
+
+bloodGroup:
+document.getElementById(
+"bloodGroup"
+).value,
+
+emergencyContact:
+document.getElementById(
+"emergencyContact"
+).value,
+
+fatherName:
+document.getElementById(
+"fatherName"
+).value,
+
+education:
+document.getElementById(
+"education"
+).value,
+
+skills:
+document.getElementById(
+"skills"
+).value,
+
+experience:
+document.getElementById(
+"experience"
+).value,
+
+aboutMe:
+document.getElementById(
+"aboutMe"
+).value,
+
+staffName:
+currentUser.staffName,
+
+email:
+currentUser.email,
+
+photoURL:
+currentUser.photoURL
+
+};
+
+await setDoc(
+
+doc(
+db,
+"staffProfiles",
+currentUser.email
+),
+
+profileData
+
+);
+
+alert(
+"Profile Saved Successfully"
+);
+
+}catch(error){
+
+console.log(error);
+
+alert(
+"Profile Save Failed"
+);
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>

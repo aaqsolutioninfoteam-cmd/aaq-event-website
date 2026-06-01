@@ -9,7 +9,7 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>
-AAQ Smart Attendance
+Staff Attendance 
 </title>
 
 <style>
@@ -26,43 +26,36 @@ body{
 background:
 linear-gradient(
 135deg,
-#0f172a,
-#1e293b,
-#111827
+#f8fafc,
+#e0f2fe,
+#fef9c3,
+#ffffff
 );
-
-min-height:100vh;
 
 padding:20px;
 
-color:white;
+color:#0f172a;
 
 }
 
 .container{
 
-max-width:1100px;
+max-width:1200px;
 
 margin:auto;
 
 }
 
-.top-card{
+.staff-header{
 
-background:
-rgba(255,255,255,.08);
+background:white;
 
-backdrop-filter:blur(12px);
+padding:20px;
 
-padding:25px;
+border-radius:20px;
 
-border-radius:25px;
-
-margin-bottom:20px;
-
-}
-
-.profile{
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
 
 display:flex;
 
@@ -70,190 +63,69 @@ align-items:center;
 
 gap:20px;
 
+margin-bottom:20px;
+
 flex-wrap:wrap;
 
 }
 
-.profile img{
+.staff-photo{
 
-width:120px;
+width:90px;
 
-height:120px;
+height:90px;
 
 border-radius:50%;
 
 object-fit:cover;
 
-border:4px solid #22c55e;
+border:4px solid #facc15;
 
 }
 
-.live{
+.summary-grid{
 
-margin-top:20px;
+display:grid;
 
-padding:15px;
-
-background:
-rgba(255,255,255,.05);
-
-border-radius:15px;
-
-line-height:1.8;
-
-}
-
-.camera-card{
-
-background:
-rgba(255,255,255,.08);
-
-backdrop-filter:blur(12px);
-
-padding:25px;
-
-border-radius:25px;
-
-margin-bottom:20px;
-
-text-align:center;
-
-}
-
-video{
-
-width:100%;
-
-max-width:450px;
-
-border-radius:20px;
-
-border:3px solid #22c55e;
-
-}
-
-canvas{
-
-display:none;
-
-}
-
-.status-box{
-
-margin-top:15px;
-
-padding:15px;
-
-border-radius:15px;
-
-background:#1f2937;
-
-font-weight:bold;
-
-}
-
-.btns{
-
-display:flex;
+grid-template-columns:
+repeat(auto-fit,minmax(180px,1fr));
 
 gap:15px;
 
-margin-top:20px;
-
-flex-wrap:wrap;
+margin-bottom:20px;
 
 }
 
-.face-in{
+.summary-card{
 
-flex:1;
+background:white;
 
-padding:16px;
+padding:20px;
 
-border:none;
+border-radius:20px;
 
-border-radius:15px;
+text-align:center;
 
-background:
-linear-gradient(
-135deg,
-#22c55e,
-#15803d
-);
-
-color:white;
-
-font-size:18px;
-
-font-weight:bold;
-
-cursor:pointer;
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
 
 }
 
-.face-out{
+.summary-card h1{
 
-flex:1;
+font-size:28px;
 
-padding:16px;
-
-border:none;
-
-border-radius:15px;
-
-background:
-linear-gradient(
-135deg,
-#ef4444,
-#b91c1c
-);
-
-color:white;
-
-font-size:18px;
-
-font-weight:bold;
-
-cursor:pointer;
+margin-top:10px;
 
 }
 
-.history{
+.attendance-list{
 
-background:
-rgba(255,255,255,.08);
+display:flex;
 
-padding:25px;
+flex-direction:column;
 
-border-radius:25px;
-
-backdrop-filter:blur(12px);
-
-}
-
-.card{
-
-background:
-rgba(255,255,255,.05);
-
-padding:18px;
-
-border-radius:18px;
-
-margin-bottom:12px;
-
-}
-
-.location-box{
-
-margin-top:15px;
-
-padding:15px;
-
-background:
-rgba(255,255,255,.05);
-
-border-radius:15px;
+gap:15px;
 
 }
 
@@ -265,48 +137,239 @@ border-radius:15px;
 
 <div class="container">
 
-<div class="top-card">
-
-<div class="profile">
+<div class="staff-header">
 
 <img
 id="staffPhoto"
+class="staff-photo"
 src="https://i.imgur.com/6VBx3io.png">
 
 <div>
 
-<h1 id="staffName">
-Staff User
-</h1>
+<h2 id="staffName">
+
+Staff Name
+
+</h2>
 
 <p id="staffPosition">
-Staff Panel
+
+Staff Position
+
+</p>
+
+<p id="currentDate">
+
+Date
+
+</p>
+
+<p id="currentTime">
+
+Time
+
 </p>
 
 </div>
 
 </div>
 
-<div class="live">
+<div class="summary-grid">
 
-<div id="liveDate"></div>
+<div class="summary-card">
 
-<div id="workingHours">
+<h3>
+Total Attendance
+</h3>
 
-⏱ Working Time :
-0 Hours
+<h1 id="totalAttendance">
+0
+</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+Approved
+</h3>
+
+<h1 id="approvedCount">
+0
+</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+Pending
+</h3>
+
+<h1 id="pendingCount">
+0
+</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+Rejected
+</h3>
+
+<h1 id="rejectedCount">
+0
+</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+Total Hours
+</h3>
+
+<h1 id="totalHours">
+0
+</h1>
 
 </div>
 
 </div>
 
-</div>
+  <style>
+
+.camera-card{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
+
+margin-bottom:20px;
+
+text-align:center;
+
+}
+
+#video{
+
+width:100%;
+
+max-width:350px;
+
+border-radius:20px;
+
+border:4px solid #facc15;
+
+}
+
+.live-hours{
+
+margin-top:15px;
+
+padding:15px;
+
+background:#f8fafc;
+
+border-radius:15px;
+
+font-size:18px;
+
+font-weight:bold;
+
+}
+
+.button-grid{
+
+display:flex;
+
+gap:15px;
+
+margin-top:20px;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+}
+
+.face-in-btn{
+
+padding:14px 25px;
+
+border:none;
+
+border-radius:14px;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+background:
+linear-gradient(
+135deg,
+#22c55e,
+#15803d
+);
+
+color:white;
+
+}
+
+.face-out-btn{
+
+padding:14px 25px;
+
+border:none;
+
+border-radius:14px;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#b91c1c
+);
+
+color:white;
+
+}
+
+.status-box{
+
+margin-top:15px;
+
+padding:12px;
+
+border-radius:12px;
+
+background:#f8fafc;
+
+font-weight:bold;
+
+}
+
+</style>
 
 <div class="camera-card">
 
 <h2>
 
-📷 Face Attendance Verification
+📷 Face Attendance
 
 </h2>
 
@@ -316,43 +379,46 @@ Staff Panel
 id="video"
 autoplay
 playsinline>
+
 </video>
 
 <canvas
-id="canvas">
+id="canvas"
+style="display:none;">
+
 </canvas>
 
 <div
 id="statusBox"
 class="status-box">
 
-Waiting For Face Verification...
+Ready For Attendance
 
 </div>
 
 <div
-id="locationBox"
-class="location-box">
+id="workingHours"
+class="live-hours">
 
-📍 Location Not Captured
+⏱ Working Time : 0 Hours
 
 </div>
 
-<div class="btns">
+<div class="button-grid">
 
 <button
-onclick="faceCheckIn()"
-class="face-in">
+class="face-in-btn"
+onclick="faceCheckIn()">
 
-✅ FACE IN
+🟢 FACE IN
 
 </button>
 
 <button
-onclick="faceCheckOut()"
-class="face-out">
+class="face-out-btn"
+onclick="faceCheckOut()">
 
-🚪 FACE OUT
+🔴 FACE OUT
 
 </button>
 
@@ -360,24 +426,13 @@ class="face-out">
 
 </div>
 
-<div class="history">
-
-<h2>
-
-Attendance History
-
-</h2>
-
-<br>
-
-<div id="attendanceList">
+<div
+id="attendanceList"
+class="attendance-list">
 
 </div>
 
-</div>
-
-</div>
-<script type="module">
+  <script type="module">
 
 import { initializeApp }
 
@@ -428,30 +483,23 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-const currentUser =
-
-JSON.parse(
-
-localStorage.getItem(
-"currentUser"
-)
-
-);
-
 const staffName =
 
-currentUser?.staffName ||
-"Staff User";
+localStorage.getItem(
+"staffName"
+) || "Staff User";
 
 const staffPhoto =
 
-currentUser?.photoURL ||
-"https://i.imgur.com/6VBx3io.png";
+localStorage.getItem(
+"staffPhoto"
+);
 
 const staffPosition =
 
-currentUser?.position ||
-"Staff";
+localStorage.getItem(
+"staffPosition"
+) || "Staff";
 
 document.getElementById(
 "staffName"
@@ -463,42 +511,47 @@ document.getElementById(
 ).innerHTML =
 staffPosition;
 
+if(staffPhoto){
+
 document.getElementById(
 "staffPhoto"
 ).src =
 staffPhoto;
 
+}
+
+function updateDateTime(){
+
 document.getElementById(
-"liveDate"
+"currentDate"
 ).innerHTML =
 
 "📅 " +
-
 new Date()
 .toLocaleDateString();
 
+document.getElementById(
+"currentTime"
+).innerHTML =
+
+"🕒 " +
+new Date()
+.toLocaleTimeString();
+
+}
+
+updateDateTime();
+
+setInterval(
+updateDateTime,
+1000
+);
+
 const video =
+
 document.getElementById(
 "video"
 );
-
-const canvas =
-document.getElementById(
-"canvas"
-);
-
-const statusBox =
-document.getElementById(
-"statusBox"
-);
-
-const locationBox =
-document.getElementById(
-"locationBox"
-);
-
-let currentLat = "";
-let currentLng = "";
 
 navigator.mediaDevices
 .getUserMedia({
@@ -509,18 +562,15 @@ video:true
 video.srcObject =
 stream;
 
-})
-.catch(()=>{
-
-statusBox.innerHTML =
-
-"❌ Camera Permission Denied";
-
 });
 
-function getLocation(){
+let currentLat = "";
+let currentLng = "";
 
-return new Promise((resolve)=>{
+async function getLocation(){
+
+return new Promise(
+(resolve)=>{
 
 navigator.geolocation
 .getCurrentPosition(
@@ -528,34 +578,18 @@ navigator.geolocation
 (position)=>{
 
 currentLat =
-
 position.coords.latitude;
 
 currentLng =
-
 position.coords.longitude;
 
-locationBox.innerHTML =
-
-"📍 Lat : " +
-
-currentLat +
-
-"<br>Lng : " +
-
-currentLng;
-
-resolve(true);
+resolve();
 
 },
 
 ()=>{
 
-locationBox.innerHTML =
-
-"❌ Location Not Available";
-
-resolve(false);
+resolve();
 
 }
 
@@ -567,9 +601,11 @@ resolve(false);
 
 function capturePhoto(){
 
-const ctx =
+const canvas =
 
-canvas.getContext("2d");
+document.getElementById(
+"canvas"
+);
 
 canvas.width =
 video.videoWidth;
@@ -577,29 +613,36 @@ video.videoWidth;
 canvas.height =
 video.videoHeight;
 
-ctx.drawImage(
+const ctx =
+canvas.getContext(
+"2d"
+);
 
+ctx.drawImage(
 video,
 0,
-0,
-canvas.width,
-canvas.height
-
+0
 );
 
 return canvas
 .toDataURL(
-"image/jpeg"
+"image/png"
 );
 
 }
 
-  window.faceCheckIn =
+const statusBox =
+
+document.getElementById(
+"statusBox"
+);
+
+    window.faceCheckIn =
 async function(){
 
 statusBox.innerHTML =
 
-"📷 Capturing Face...";
+"📷 Verifying Face...";
 
 await getLocation();
 
@@ -610,57 +653,28 @@ const today =
 new Date()
 .toLocaleDateString();
 
-const q =
-query(
-collection(db,"attendance"),
-where("staffName","==",staffName),
-where("date","==",today)
-);
-
-const check =
-await getDocs(q);
-
-let alreadyIn = false;
-
-check.forEach((docItem)=>{
-
-const data =
-docItem.data();
-
-if(!data.outTime){
-
-alreadyIn = true;
-
-}
-
-});
-
-if(alreadyIn){
-
-alert(
-"OUT Attendance Pending"
-);
-
-return;
-
-}
-
-const now =
-new Date();
-
 await addDoc(
-collection(db,"attendance"),
+collection(
+db,
+"attendance"
+),
 {
 
+staffName:
 staffName,
-staffPhoto,
-staffPosition,
+
+staffPhoto:
+staffPhoto || "",
+
+staffPosition:
+staffPosition || "",
 
 date:
 today,
 
 inTime:
-now.toLocaleTimeString(),
+new Date()
+.toLocaleTimeString(),
 
 outTime:"",
 
@@ -671,11 +685,17 @@ status:"Pending",
 inPhoto:
 photoData,
 
+outPhoto:"",
+
 inLat:
 currentLat,
 
 inLng:
-currentLng
+currentLng,
+
+outLat:"",
+
+outLng:""
 
 }
 );
@@ -684,109 +704,11 @@ statusBox.innerHTML =
 
 "✅ FACE IN SUCCESSFUL";
 
-alert(
-"Face IN Attendance Marked"
-);
-
 loadAttendance();
-
-};
-
-window.loadAttendance =
-async function(){
-
-const querySnapshot =
-await getDocs(
-collection(db,"attendance")
-);
-
-let html = "";
-
-querySnapshot.forEach((docItem)=>{
-
-const data =
-docItem.data();
-
-if(
-data.staffName !== staffName
-){
-
-return;
 
 }
 
-html += `
-
-<div class="card">
-
-<h3>
-
-📅 ${data.date}
-
-</h3>
-
-<br>
-
-<p>
-
-🟢 IN :
-${data.inTime || '--'}
-
-</p>
-
-<p>
-
-🔴 OUT :
-${data.outTime || '--'}
-
-</p>
-
-<p>
-
-📍 IN Location :
-
-${data.inLat || '--'}
-
-,
-${data.inLng || '--'}
-
-</p>
-
-<p>
-
-⏱ Total :
-
-${data.totalHours || 'Working...'}
-
-</p>
-
-<br>
-
-<img
-src="${data.inPhoto || ''}"
-style="
-width:120px;
-height:120px;
-object-fit:cover;
-border-radius:15px;
-">
-
-</div>
-
-`;
-
-});
-
-document.getElementById(
-"attendanceList"
-).innerHTML =
-html;
-
-};
-
-loadAttendance();
-
-  window.faceCheckOut =
+window.faceCheckOut =
 async function(){
 
 statusBox.innerHTML =
@@ -812,16 +734,6 @@ where("date","==",today)
 const querySnapshot =
 await getDocs(q);
 
-if(querySnapshot.empty){
-
-alert(
-"IN Attendance Required"
-);
-
-return;
-
-}
-
 querySnapshot.forEach(
 async(item)=>{
 
@@ -829,9 +741,7 @@ const data =
 item.data();
 
 if(data.outTime){
-
 return;
-
 }
 
 const outDate =
@@ -839,16 +749,14 @@ new Date();
 
 const inDate =
 new Date(
-today + " " + data.inTime
+today +
+" " +
+data.inTime
 );
 
 const diff =
 (outDate - inDate)
 /1000/60/60;
-
-const total =
-diff.toFixed(2) +
-" Hours";
 
 await updateDoc(
 doc(
@@ -859,13 +767,13 @@ item.id
 {
 
 outTime:
-outDate.toLocaleTimeString(),
+outDate
+.toLocaleTimeString(),
 
 totalHours:
-total,
-
-status:
-"Pending",
+diff.toFixed(2)
++
+" Hours",
 
 outPhoto:
 photoData,
@@ -879,19 +787,139 @@ currentLng
 }
 );
 
+});
+
 statusBox.innerHTML =
 
 "✅ FACE OUT SUCCESSFUL";
 
-alert(
-"Face OUT Attendance Marked"
+loadAttendance();
+
+}
+
+window.loadAttendance =
+async function(){
+
+const querySnapshot =
+await getDocs(
+collection(
+db,
+"attendance"
+)
 );
 
-loadAttendance();
+let totalAttendance = 0;
+let approved = 0;
+let pending = 0;
+let rejected = 0;
+let totalHours = 0;
+
+let html = "";
+
+querySnapshot.forEach(
+(docItem)=>{
+
+const data =
+docItem.data();
+
+if(
+data.staffName !==
+staffName
+){
+return;
+}
+
+totalAttendance++;
+
+if(
+data.status ===
+"Approved"
+){
+approved++;
+}
+else if(
+data.status ===
+"Rejected"
+){
+rejected++;
+}
+else{
+pending++;
+}
+
+totalHours +=
+Number(
+String(
+data.totalHours || 0
+).replace(
+" Hours",
+""
+)
+);
+
+html += `
+
+<div class="summary-card">
+
+<h3>
+📅 ${data.date}
+</h3>
+
+<p>
+🟢 IN :
+${data.inTime || '--'}
+</p>
+
+<p>
+🔴 OUT :
+${data.outTime || '--'}
+</p>
+
+<p>
+⏱ ${data.totalHours || 'Working...'}
+</p>
+
+<p>
+📊 ${data.status || 'Pending'}
+</p>
+
+</div>
+
+`;
 
 });
 
-};
+document.getElementById(
+"attendanceList"
+).innerHTML =
+html;
+
+document.getElementById(
+"totalAttendance"
+).innerHTML =
+totalAttendance;
+
+document.getElementById(
+"approvedCount"
+).innerHTML =
+approved;
+
+document.getElementById(
+"pendingCount"
+).innerHTML =
+pending;
+
+document.getElementById(
+"rejectedCount"
+).innerHTML =
+rejected;
+
+document.getElementById(
+"totalHours"
+).innerHTML =
+totalHours.toFixed(2);
+
+}
 
 setInterval(
 async()=>{
@@ -923,7 +951,9 @@ new Date();
 
 const inDate =
 new Date(
-today + " " + data.inTime
+today +
+" " +
+data.inTime
 );
 
 const diff =
@@ -946,9 +976,10 @@ diff.toFixed(2) +
 
 },60000);
 
+loadAttendance();
+
 </script>
 
 </body>
 
 </html>
-  

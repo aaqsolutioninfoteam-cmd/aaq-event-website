@@ -633,17 +633,212 @@ color:white;
 }
 
 </style>
-
-    window.loadAttendance =
-async function(){
-
-console.log(
-"Load Attendance"
+const querySnapshot =
+await getDocs(
+collection(db,"attendance")
 );
 
-};
+let html = "";
+
+let totalAttendance = 0;
+let approved = 0;
+let pending = 0;
+let rejected = 0;
+let totalHours = 0;
+
+querySnapshot.forEach((docItem)=>{
+
+const data =
+docItem.data();
+
+totalAttendance++;
+
+if(data.status==="Approved"){
+approved++;
+}
+else if(data.status==="Rejected"){
+rejected++;
+}
+else{
+pending++;
+}
+
+totalHours += Number(
+String(data.totalHours || "0")
+.replace(" Hours","")
+);
+
+html += `
+
+<div class="attendance-card">
+
+<div class="staff-top">
+
+<img
+src="${data.staffPhoto || 'https://i.imgur.com/6VBx3io.png'}"
+class="staff-photo">
+
+<div>
+
+<h3>${data.staffName}</h3>
+
+<p>${data.staffPosition || '-'}</p>
+
+<p>📅 ${data.date}</p>
+
+</div>
+
+</div>
+
+<p>🟢 IN : ${data.inTime || '--'}</p>
+
+<p>🔴 OUT : ${data.outTime || '--'}</p>
+
+<p>⏱ ${data.totalHours || 'Working...'}</p>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"attendanceList"
+).innerHTML = html;
+
+document.getElementById(
+"totalAttendance"
+).innerHTML = totalAttendance;
+
+document.getElementById(
+"approvedCount"
+).innerHTML = approved;
+
+document.getElementById(
+"pendingCount"
+).innerHTML = pending;
+
+document.getElementById(
+"rejectedCount"
+).innerHTML = rejected;
+
+document.getElementById(
+"totalHours"
+).innerHTML =
+totalHours.toFixed(2);
+
+    html += `
+
+<div class="photo-grid">
+
+<div>
+
+<p>📷 IN Photo</p>
+
+<img
+src="${data.inPhoto || ''}"
+class="evidence-photo">
+
+</div>
+
+<div>
+
+<p>📷 OUT Photo</p>
+
+<img
+src="${data.outPhoto || ''}"
+class="evidence-photo">
+
+</div>
+
+</div>
+
+<p>
+
+📍 IN Location :
+
+${data.inLat || '-'},
+${data.inLng || '-'}
+
+</p>
+
+<p>
+
+📍 OUT Location :
+
+${data.outLat || '-'},
+${data.outLng || '-'}
+
+</p>
+
+<br>
+
+<button
+onclick="approveAttendance('${docItem.id}')"
+class="action-btn approve-btn">
+
+Approve
+
+</button>
+
+<button
+onclick="rejectAttendance('${docItem.id}')"
+class="action-btn reject-btn">
+
+Reject
+
+</button>
+
+<button
+onclick="deleteAttendance('${docItem.id}')"
+class="action-btn delete-btn">
+
+Delete
+
+</button>
+
+`;
+    window.approveAttendance =
+async function(id){
+
+await updateDoc(
+doc(db,"attendance",id),
+{
+status:"Approved"
+}
+);
 
 loadAttendance();
+
+}
+
+window.rejectAttendance =
+async function(id){
+
+await updateDoc(
+doc(db,"attendance",id),
+{
+status:"Rejected"
+}
+);
+
+loadAttendance();
+
+}
+
+window.deleteAttendance =
+async function(id){
+
+await deleteDoc(
+doc(db,"attendance",id)
+);
+
+loadAttendance();
+
+}
+
+loadAttendance();
+    
 
 </script>
 

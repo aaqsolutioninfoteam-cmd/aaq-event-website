@@ -8,7 +8,9 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Attendance Management</title>
+<title>
+Attendance Management V3
+</title>
 
 <style>
 
@@ -38,6 +40,14 @@ color:#0f172a;
 
 }
 
+.container{
+
+max-width:1400px;
+
+margin:auto;
+
+}
+
 .header{
 
 display:flex;
@@ -46,27 +56,31 @@ justify-content:space-between;
 
 align-items:center;
 
-margin-bottom:25px;
-
 flex-wrap:wrap;
 
 gap:15px;
 
+margin-bottom:25px;
+
 }
 
-.header h1{
+.page-title{
 
 font-size:32px;
+
+font-weight:bold;
 
 }
 
 .back-btn{
 
-padding:12px 22px;
+padding:12px 20px;
 
 border-radius:14px;
 
 text-decoration:none;
+
+font-weight:bold;
 
 background:
 linear-gradient(
@@ -77,11 +91,22 @@ linear-gradient(
 
 color:#111827;
 
-font-weight:bold;
+}
+
+.summary-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(180px,1fr));
+
+gap:15px;
+
+margin-bottom:25px;
 
 }
 
-.filter{
+.summary-card{
 
 background:white;
 
@@ -90,7 +115,127 @@ padding:20px;
 border-radius:20px;
 
 box-shadow:
-0 10px 30px rgba(0,0,0,0.08);
+0 10px 25px rgba(0,0,0,.08);
+
+text-align:center;
+
+}
+
+.summary-card h3{
+
+font-size:15px;
+
+margin-bottom:10px;
+
+}
+
+.summary-card h1{
+
+font-size:28px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<div class="page-title">
+
+Attendance Management
+
+</div>
+
+<a
+href="admin.html"
+class="back-btn">
+
+← Back
+
+</a>
+
+</div>
+
+<div class="summary-grid">
+
+<div class="summary-card">
+
+<h3>
+Total Attendance
+</h3>
+
+<h1 id="totalAttendance">
+0
+</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+Approved
+</h3>
+
+<h1 id="approvedCount">
+0
+</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+Pending
+</h3>
+
+<h1 id="pendingCount">
+0
+</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+Rejected
+</h3>
+
+<h1 id="rejectedCount">
+0
+</h1>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+Total Hours
+</h3>
+
+<h1 id="totalHours">
+0
+</h1>
+
+</div>
+
+</div>
+  <style>
+
+.filter-section{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
 
 margin-bottom:25px;
 
@@ -99,6 +244,8 @@ display:flex;
 gap:15px;
 
 flex-wrap:wrap;
+
+align-items:end;
 
 }
 
@@ -112,17 +259,16 @@ gap:8px;
 
 }
 
-.filter-title{
-
-font-size:16px;
+.filter-box label{
 
 font-weight:bold;
 
-color:#334155;
+font-size:14px;
 
 }
 
-.filter input{
+.filter-box input,
+.filter-box select{
 
 padding:12px;
 
@@ -130,125 +276,11 @@ border-radius:12px;
 
 border:1px solid #cbd5e1;
 
-font-size:16px;
-
-background:white;
-
-color:#0f172a;
+min-width:180px;
 
 }
 
-.card{
-
-background:white;
-
-padding:20px;
-
-border-radius:25px;
-
-box-shadow:
-0 10px 30px rgba(0,0,0,0.08);
-
-margin-bottom:20px;
-
-display:flex;
-
-gap:20px;
-
-flex-wrap:wrap;
-
-align-items:flex-start;
-
-}
-
-.photo{
-
-width:100px;
-
-height:100px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-border:4px solid #facc15;
-
-}
-
-.details{
-
-flex:1;
-
-}
-
-.details h2{
-
-margin-bottom:15px;
-
-}
-
-.details input,
-.details select{
-
-width:100%;
-
-padding:12px;
-
-margin-bottom:12px;
-
-border-radius:12px;
-
-border:1px solid #cbd5e1;
-
-font-size:15px;
-
-background:#f8fafc;
-
-color:#0f172a;
-
-}
-
-.live-hours{
-
-background:#ecfeff;
-
-padding:12px;
-
-border-radius:12px;
-
-margin-bottom:12px;
-
-font-weight:bold;
-
-color:#0f766e;
-
-}
-
-.status-approved{
-
-background:#dcfce7;
-
-color:#166534;
-
-}
-
-.status-pending{
-
-background:#fef3c7;
-
-color:#92400e;
-
-}
-
-.status-rejected{
-
-background:#fee2e2;
-
-color:#991b1b;
-
-}
-
-.save-btn{
+.green-btn{
 
 padding:12px 20px;
 
@@ -269,94 +301,141 @@ font-weight:bold;
 
 cursor:pointer;
 
-margin-right:10px;
+}
+
+.attendance-list{
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
 
 }
 
-.delete-btn{
+.hidden{
 
-padding:12px 20px;
-
-border:none;
-
-border-radius:12px;
-
-background:
-linear-gradient(
-135deg,
-#ef4444,
-#b91c1c
-);
-
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
+display:none;
 
 }
 
 </style>
 
-</head>
-
-<body>
-
-<div class="header">
-
-<h1>
-Attendance Management
-</h1>
-
-<a href="admin.html"
-class="back-btn">
-
-Back
-
-</a>
-
-</div>
-
-<div class="filter">
+<div class="filter-section">
 
 <div class="filter-box">
 
-<div class="filter-title">
-
-Filter Attendance By Date
-
-</div>
+<label>
+Date Filter
+</label>
 
 <input
 type="date"
-id="filterDate"
-onchange="loadAttendance()">
+id="filterDate">
 
 </div>
 
 <div class="filter-box">
 
-<div class="filter-title">
+<label>
+Month Filter
+</label>
 
-Search Staff
+<input
+type="month"
+id="filterMonth">
 
 </div>
+
+<div class="filter-box">
+
+<label>
+Employee
+</label>
+
+<select
+id="employeeFilter">
+
+<option value="">
+All Employees
+</option>
+
+</select>
+
+</div>
+
+<div class="filter-box">
+
+<label>
+Status
+</label>
+
+<select
+id="statusFilter">
+
+<option value="">
+All Status
+</option>
+
+<option value="Pending">
+Pending
+</option>
+
+<option value="Approved">
+Approved
+</option>
+
+<option value="Rejected">
+Rejected
+</option>
+
+</select>
+
+</div>
+
+<div class="filter-box">
+
+<label>
+Search Staff
+</label>
 
 <input
 type="text"
-id="searchStaff"
-placeholder="Enter Staff Name"
-onkeyup="loadAttendance()">
+id="searchStaff">
 
 </div>
 
+<button
+class="green-btn"
+onclick="loadAttendance()">
+
+Apply Filter
+
+</button>
+
+<button
+class="green-btn"
+onclick="openBackDateForm()">
+
++ Back Date
+
+</button>
+
 </div>
 
-<div id="attendanceList">
+<div
+id="backDateForm"
+class="hidden">
 
 </div>
 
-<script type="module">
+<div
+id="attendanceList"
+class="attendance-list">
+
+</div>
+
+  <script type="module">
 
 import { initializeApp }
 
@@ -370,6 +449,7 @@ collection,
 getDocs,
 updateDoc,
 deleteDoc,
+addDoc,
 doc
 
 }
@@ -405,11 +485,17 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-function calculateHours(inTime,outTime){
+function calculateHours(
+inTime,
+outTime
+){
 
-if(!inTime || !outTime){
+if(
+!inTime ||
+!outTime
+){
 
-return "Working...";
+return 0;
 
 }
 
@@ -418,287 +504,144 @@ new Date();
 
 const inDate =
 new Date(
-today.toDateString() +
-" " +
+today.toDateString()
++
+" "
++
 inTime
 );
 
 const outDate =
 new Date(
-today.toDateString() +
-" " +
+today.toDateString()
++
+" "
++
 outTime
 );
 
-const diff =
+return (
 (outDate - inDate)
-/1000/60/60;
-
-return diff.toFixed(2) +
-" Hours";
+/1000/60/60
+).toFixed(2);
 
 }
 
-window.loadAttendance =
+    <style>
+
+.attendance-card{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.staff-top{
+
+display:flex;
+
+gap:15px;
+
+align-items:center;
+
+margin-bottom:15px;
+
+}
+
+.staff-photo{
+
+width:80px;
+
+height:80px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:4px solid #facc15;
+
+}
+
+.photo-grid{
+
+display:flex;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+margin-top:15px;
+
+}
+
+.evidence-photo{
+
+width:120px;
+
+height:120px;
+
+border-radius:12px;
+
+object-fit:cover;
+
+}
+
+.action-btn{
+
+padding:10px 16px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+margin-right:8px;
+
+}
+
+.approve-btn{
+
+background:#22c55e;
+
+color:white;
+
+}
+
+.reject-btn{
+
+background:#ef4444;
+
+color:white;
+
+}
+
+.delete-btn{
+
+background:#64748b;
+
+color:white;
+
+}
+
+</style>
+
+    window.loadAttendance =
 async function(){
 
-const querySnapshot =
-await getDocs(
-collection(db,"attendance")
+console.log(
+"Load Attendance"
 );
 
-const selectedDate =
-document.getElementById(
-"filterDate"
-).value;
-
-const search =
-document.getElementById(
-"searchStaff"
-).value.toLowerCase();
-
-let html = "";
-
-querySnapshot.forEach((docItem)=>{
-
-const data =
-docItem.data();
-
-if(search){
-
-if(
-!data.staffName
-.toLowerCase()
-.includes(search)
-){
-
-return;
-
-}
-
-}
-
-if(selectedDate){
-
-const formatted =
-new Date(selectedDate)
-.toLocaleDateString();
-
-if(data.date !== formatted){
-
-return;
-
-}
-
-}
-
-let statusClass =
-"status-pending";
-
-if(data.status === "Approved"){
-
-statusClass =
-"status-approved";
-
-}
-
-if(data.status === "Rejected"){
-
-statusClass =
-"status-rejected";
-
-}
-
-const liveHours =
-calculateHours(
-data.inTime,
-data.outTime
-);
-
-html += `
-
-<div class="card">
-
-<img
-src="${
-data.staffPhoto ||
-'https://i.imgur.com/6VBx3io.png'
-}"
-class="photo">
-
-<div class="details">
-
-<h2>
-${data.staffName}
-</h2>
-
-<input
-id="date-${docItem.id}"
-value="${data.date}">
-
-<input
-id="in-${docItem.id}"
-value="${data.inTime || ''}"
-oninput="autoCalculate('${docItem.id}')">
-
-<input
-id="out-${docItem.id}"
-value="${data.outTime || ''}"
-oninput="autoCalculate('${docItem.id}')">
-
-<div
-id="live-${docItem.id}"
-class="live-hours">
-
-⏱️ Total :
-${liveHours}
-
-</div>
-
-<select
-id="status-${docItem.id}"
-class="${statusClass}">
-
-<option ${
-data.status==="Pending"?"selected":""
-}>
-Pending
-</option>
-
-<option ${
-data.status==="Approved"?"selected":""
-}>
-Approved
-</option>
-
-<option ${
-data.status==="Rejected"?"selected":""
-}>
-Rejected
-</option>
-
-</select>
-
-<button
-onclick="saveAttendance('${docItem.id}')"
-class="save-btn">
-
-Save Changes
-
-</button>
-
-<button
-onclick="deleteAttendance('${docItem.id}')"
-class="delete-btn">
-
-Delete
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-document.getElementById(
-"attendanceList"
-).innerHTML =
-html;
-
-}
-
-window.autoCalculate =
-function(id){
-
-const inTime =
-document.getElementById(
-`in-${id}`
-).value;
-
-const outTime =
-document.getElementById(
-`out-${id}`
-).value;
-
-const total =
-calculateHours(
-inTime,
-outTime
-);
-
-document.getElementById(
-`live-${id}`
-).innerHTML =
-
-"⏱️ Total : " +
-total;
-
-}
-
-window.saveAttendance =
-async function(id){
-
-const inTime =
-document.getElementById(
-`in-${id}`
-).value;
-
-const outTime =
-document.getElementById(
-`out-${id}`
-).value;
-
-const totalHours =
-calculateHours(
-inTime,
-outTime
-);
-
-await updateDoc(
-doc(db,"attendance",id),
-{
-
-date:
-document.getElementById(
-`date-${id}`
-).value,
-
-inTime:
-inTime,
-
-outTime:
-outTime,
-
-totalHours:
-totalHours,
-
-status:
-document.getElementById(
-`status-${id}`
-).value
-
-}
-);
-
-alert("Attendance Updated");
-
-loadAttendance();
-
-}
-
-window.deleteAttendance =
-async function(id){
-
-await deleteDoc(
-doc(db,"attendance",id)
-);
-
-loadAttendance();
-
-}
+};
 
 loadAttendance();
 

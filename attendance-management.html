@@ -2,10 +2,15 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Attendance Management</title>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Staff Attendance V4
+</title>
 
 <style>
 
@@ -17,70 +22,118 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:linear-gradient(
+
+background:
+linear-gradient(
 135deg,
 #f8fafc,
 #e0f2fe,
 #fef9c3,
 #ffffff
 );
-min-height:100vh;
+
 padding:20px;
+
 color:#0f172a;
+
 }
 
 .container{
-max-width:1400px;
+
+max-width:1200px;
+
 margin:auto;
+
 }
 
-.header{
+.staff-header{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
+
 display:flex;
-justify-content:space-between;
+
 align-items:center;
-margin-bottom:25px;
+
+gap:20px;
+
 flex-wrap:wrap;
-gap:15px;
+
+margin-bottom:20px;
+
 }
 
-.page-title{
-font-size:32px;
-font-weight:bold;
-}
+.staff-photo{
 
-.back-btn{
-padding:12px 20px;
-border-radius:14px;
-text-decoration:none;
-font-weight:bold;
-background:linear-gradient(
-135deg,
-#facc15,
-#eab308
-);
-color:#111827;
+width:90px;
+
+height:90px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:4px solid #facc15;
+
 }
 
 .summary-grid{
+
 display:grid;
+
 grid-template-columns:
 repeat(auto-fit,minmax(180px,1fr));
+
 gap:15px;
-margin-bottom:25px;
+
+margin-bottom:20px;
+
 }
 
 .summary-card{
+
 background:white;
+
 padding:20px;
+
 border-radius:20px;
+
+text-align:center;
+
 box-shadow:
 0 10px 25px rgba(0,0,0,.08);
-text-align:center;
+
 }
 
 .summary-card h1{
+
 font-size:28px;
+
 margin-top:10px;
+
+}
+
+.camera-card{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
+
+margin-bottom:20px;
+
+text-align:center;
+
 }
 
 </style>
@@ -91,18 +144,32 @@ margin-top:10px;
 
 <div class="container">
 
-<div class="header">
+<div class="staff-header">
 
-<div class="page-title">
-Attendance Management V3
+<img
+id="staffPhoto"
+class="staff-photo"
+src="https://i.imgur.com/6VBx3io.png">
+
+<div>
+
+<h2 id="staffName">
+Staff Name
+</h2>
+
+<p id="staffPosition">
+Staff Position
+</p>
+
+<p id="currentDate">
+Date
+</p>
+
+<p id="currentTime">
+Time
+</p>
+
 </div>
-
-<a href="admin.html"
-class="back-btn">
-
-← Back
-
-</a>
 
 </div>
 
@@ -122,7 +189,6 @@ class="back-btn">
 <h3>Pending</h3>
 <h1 id="pendingCount">0</h1>
 </div>
-  
 
 <div class="summary-card">
 <h3>Rejected</h3>
@@ -135,62 +201,77 @@ class="back-btn">
 </div>
 
 </div>
+<style>
 
-  <style>
+#video{
 
-.filter-section{
+width:100%;
 
-background:white;
-
-padding:20px;
+max-width:350px;
 
 border-radius:20px;
 
-box-shadow:
-0 10px 25px rgba(0,0,0,.08);
-
-margin-bottom:25px;
-
-display:flex;
-
-gap:15px;
-
-flex-wrap:wrap;
-
-align-items:end;
+border:4px solid #facc15;
 
 }
 
-.filter-box{
+.live-hours{
 
-display:flex;
+margin-top:15px;
 
-flex-direction:column;
+padding:15px;
 
-gap:8px;
+background:#f8fafc;
+
+border-radius:15px;
+
+font-size:18px;
+
+font-weight:bold;
 
 }
 
-.filter-box input,
-.filter-box select{
+.status-box{
+
+margin-top:15px;
 
 padding:12px;
 
 border-radius:12px;
 
-border:1px solid #cbd5e1;
+background:#f8fafc;
 
-min-width:180px;
+font-weight:bold;
 
 }
 
-.green-btn{
+.button-grid{
 
-padding:12px 20px;
+display:flex;
+
+gap:15px;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+margin-top:20px;
+
+}
+
+.face-in-btn{
+
+padding:14px 25px;
 
 border:none;
 
-border-radius:12px;
+border-radius:14px;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
 
 background:
 linear-gradient(
@@ -201,132 +282,128 @@ linear-gradient(
 
 color:white;
 
+}
+
+.face-out-btn{
+
+padding:14px 25px;
+
+border:none;
+
+border-radius:14px;
+
+font-size:16px;
+
 font-weight:bold;
 
 cursor:pointer;
 
+background:
+linear-gradient(
+135deg,
+#ef4444,
+#b91c1c
+);
+
+color:white;
+
 }
 
-.attendance-list{
+.attendance-history{
 
-display:flex;
+background:white;
 
-flex-direction:column;
+padding:20px;
 
-gap:15px;
+border-radius:20px;
 
-}
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
 
-.hidden{
-display:none;
+margin-top:20px;
+
 }
 
 </style>
 
-<div class="filter-section">
+<div class="camera-card">
 
-<div class="filter-box">
+<h2>
 
-<label>Date Filter</label>
+📷 Face Attendance
 
-<input
-type="date"
-id="filterDate">
+</h2>
 
-</div>
+<br>
 
-<div class="filter-box">
+<video
+id="video"
+autoplay
+playsinline>
 
-<label>Month Filter</label>
+</video>
 
-<input
-type="month"
-id="filterMonth">
+<canvas
+id="canvas"
+style="display:none;">
 
-</div>
+</canvas>
 
-<div class="filter-box">
+<div
+id="statusBox"
+class="status-box">
 
-<label>Employee</label>
-
-<select
-id="employeeFilter">
-
-<option value="">
-All Employees
-</option>
-
-</select>
+Ready For Attendance
 
 </div>
 
-<div class="filter-box">
+<div
+id="workingHours"
+class="live-hours">
 
-<label>Status</label>
-
-<select
-id="statusFilter">
-
-<option value="">
-All Status
-</option>
-
-<option value="Pending">
-Pending
-</option>
-
-<option value="Approved">
-Approved
-</option>
-
-<option value="Rejected">
-Rejected
-</option>
-
-</select>
+⏱ Working Time : 0 Hours
 
 </div>
 
-<div class="filter-box">
-
-<label>Search Staff</label>
-
-<input
-type="text"
-id="searchStaff">
-
-</div>
+<div class="button-grid">
 
 <button
-class="green-btn"
-id="applyFilterBtn">
+class="face-in-btn"
+onclick="faceCheckIn()">
 
-Apply Filter
+🟢 FACE IN
 
 </button>
 
 <button
-class="green-btn"
-id="backDateBtn">
+class="face-out-btn"
+onclick="faceCheckOut()">
 
-+ Back Date
+🔴 FACE OUT
 
 </button>
 
 </div>
 
+</div>
+
+<div class="attendance-history">
+
+<h2>
+
+📋 Attendance History
+
+</h2>
+
+<br>
+
 <div
-id="backDateForm"
-class="hidden">
+id="attendanceList">
 
 </div>
 
-<div
-id="attendanceList"
-class="attendance-list">
-
 </div>
-<script type="module">
+  <script type="module">
 
 import { initializeApp }
 
@@ -337,10 +414,11 @@ import {
 
 getFirestore,
 collection,
-getDocs,
-updateDoc,
-deleteDoc,
 addDoc,
+getDocs,
+query,
+where,
+updateDoc,
 doc
 
 }
@@ -376,78 +454,367 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-function calculateHours(
-inTime,
-outTime
-){
+const staffName =
+localStorage.getItem(
+"staffName"
+) || "Staff User";
 
-if(
-!inTime ||
-!outTime
-){
+const staffPhoto =
+localStorage.getItem(
+"staffPhoto"
+);
 
-return 0;
+const staffPosition =
+localStorage.getItem(
+"staffPosition"
+) || "Staff";
+
+document.getElementById(
+"staffName"
+).innerHTML =
+staffName;
+
+document.getElementById(
+"staffPosition"
+).innerHTML =
+staffPosition;
+
+if(staffPhoto){
+
+document.getElementById(
+"staffPhoto"
+).src =
+staffPhoto;
 
 }
 
+function updateDateTime(){
+
+document.getElementById(
+"currentDate"
+).innerHTML =
+
+"📅 " +
+new Date()
+.toLocaleDateString();
+
+document.getElementById(
+"currentTime"
+).innerHTML =
+
+"🕒 " +
+new Date()
+.toLocaleTimeString();
+
+}
+
+updateDateTime();
+
+setInterval(
+updateDateTime,
+1000
+);
+
+const video =
+document.getElementById(
+"video"
+);
+
+navigator.mediaDevices
+.getUserMedia({
+video:true
+})
+.then(stream=>{
+
+video.srcObject =
+stream;
+
+});
+
+let currentLat = "";
+let currentLng = "";
+
+async function getLocation(){
+
+return new Promise(
+(resolve)=>{
+
+navigator.geolocation
+.getCurrentPosition(
+
+(position)=>{
+
+currentLat =
+position.coords.latitude;
+
+currentLng =
+position.coords.longitude;
+
+resolve();
+
+},
+
+(error)=>{
+
+console.log(error);
+
+resolve();
+
+}
+
+);
+
+});
+
+}
+
+function capturePhoto(){
+
+const canvas =
+document.getElementById(
+"canvas"
+);
+
+canvas.width =
+video.videoWidth;
+
+canvas.height =
+video.videoHeight;
+
+const ctx =
+canvas.getContext(
+"2d"
+);
+
+ctx.drawImage(
+video,
+0,
+0
+);
+
+return canvas.toDataURL(
+"image/png"
+);
+
+}
+
+const statusBox =
+document.getElementById(
+"statusBox"
+);
+
+    window.faceCheckIn =
+async function(){
+
+statusBox.innerHTML =
+"📷 Verifying Face...";
+
 const today =
+new Date()
+.toLocaleDateString();
+
+const checkQuery =
+query(
+collection(db,"attendance"),
+where("staffName","==",staffName),
+where("date","==",today)
+);
+
+const checkDocs =
+await getDocs(checkQuery);
+
+if(!checkDocs.empty){
+
+alert(
+"Today's Attendance Already Marked"
+);
+
+return;
+
+}
+
+await getLocation();
+
+const photoData =
+capturePhoto();
+
+await addDoc(
+collection(
+db,
+"attendance"
+),
+{
+
+staffName:
+staffName,
+
+staffPhoto:
+staffPhoto || "",
+
+staffPosition:
+staffPosition || "",
+
+date:
+today,
+
+inTime:
+new Date()
+.toLocaleTimeString(),
+
+outTime:"",
+
+totalHours:"",
+
+status:"Pending",
+
+inPhoto:
+photoData,
+
+outPhoto:"",
+
+inLat:
+currentLat,
+
+inLng:
+currentLng,
+
+outLat:"",
+
+outLng:""
+
+}
+);
+
+statusBox.innerHTML =
+"✅ FACE IN SUCCESSFUL";
+
+alert(
+"Attendance Marked Successfully"
+);
+
+loadAttendance();
+
+};
+
+window.faceCheckOut =
+async function(){
+
+statusBox.innerHTML =
+"📷 Verifying Face...";
+
+await getLocation();
+
+const photoData =
+capturePhoto();
+
+const today =
+new Date()
+.toLocaleDateString();
+
+const q =
+query(
+collection(db,"attendance"),
+where("staffName","==",staffName),
+where("date","==",today)
+);
+
+const querySnapshot =
+await getDocs(q);
+
+if(querySnapshot.empty){
+
+alert(
+"Please FACE IN First"
+);
+
+return;
+
+}
+
+querySnapshot.forEach(
+async(item)=>{
+
+const data =
+item.data();
+
+if(data.outTime){
+
+return;
+
+}
+
+const outDate =
 new Date();
 
 const inDate =
 new Date(
-today.toDateString()
-+
-" "
-+
-inTime
+today +
+" " +
+data.inTime
 );
 
-const outDate =
-new Date(
-today.toDateString()
-+
-" "
-+
-outTime
-);
-
-return (
+const diff =
 (outDate - inDate)
-/1000/60/60
-).toFixed(2);
+/1000/60/60;
+
+await updateDoc(
+doc(
+db,
+"attendance",
+item.id
+),
+{
+
+outTime:
+outDate
+.toLocaleTimeString(),
+
+totalHours:
+diff.toFixed(2)
++
+" Hours",
+
+outPhoto:
+photoData,
+
+outLat:
+currentLat,
+
+outLng:
+currentLng
 
 }
-
-window.openBackDateForm =
-function(){
-
-const form =
-document.getElementById(
-"backDateForm"
 );
 
-form.classList.toggle(
-"hidden"
+});
+
+statusBox.innerHTML =
+"✅ FACE OUT SUCCESSFUL";
+
+alert(
+"Attendance Closed Successfully"
 );
+
+loadAttendance();
 
 };
 
-async function loadEmployeeFilter(){
+setInterval(
+async()=>{
+
+const today =
+new Date()
+.toLocaleDateString();
+
+const q =
+query(
+collection(db,"attendance"),
+where("staffName","==",staffName),
+where("date","==",today)
+);
 
 const querySnapshot =
-await getDocs(
-collection(
-db,
-"attendance"
-)
-);
-
-const employeeFilter =
-document.getElementById(
-"employeeFilter"
-);
-
-let names = [];
+await getDocs(q);
 
 querySnapshot.forEach(
 (docItem)=>{
@@ -455,38 +822,37 @@ querySnapshot.forEach(
 const data =
 docItem.data();
 
-if(
-data.staffName &&
-!names.includes(
-data.staffName
-)
-){
+if(!data.outTime){
 
-names.push(
-data.staffName
+const now =
+new Date();
+
+const inDate =
+new Date(
+today +
+" " +
+data.inTime
 );
 
+const diff =
+(now - inDate)
+/1000/60/60;
+
+document.getElementById(
+"workingHours"
+).innerHTML =
+
+"⏱ Working Time : " +
+diff.toFixed(2) +
+" Hours";
+
 }
 
 });
 
-employeeFilter.innerHTML =
+},60000);
 
-'<option value="">All Employees</option>';
-
-names.sort().forEach(
-(name)=>{
-
-employeeFilter.innerHTML +=
-
-`<option value="${name}">
-${name}
-</option>`;
-
-});
-
-}
-
+    
 window.loadAttendance =
 async function(){
 
@@ -498,33 +864,6 @@ db,
 )
 );
 
-const selectedEmployee =
-document.getElementById(
-"employeeFilter"
-).value;
-
-const selectedStatus =
-document.getElementById(
-"statusFilter"
-).value;
-
-const searchStaff =
-document.getElementById(
-"searchStaff"
-)
-.value
-.toLowerCase();
-
-const selectedDate =
-document.getElementById(
-"filterDate"
-).value;
-
-const selectedMonth =
-document.getElementById(
-"filterMonth"
-).value;
-
 let totalAttendance = 0;
 let approved = 0;
 let pending = 0;
@@ -532,76 +871,32 @@ let rejected = 0;
 let totalHours = 0;
 
 let html = "";
-  querySnapshot.forEach(
+
+querySnapshot.forEach(
 (docItem)=>{
 
 const data =
 docItem.data();
 
 if(
-selectedEmployee &&
-data.staffName !== selectedEmployee
+data.staffName !==
+staffName
 ){
 return;
-}
-
-if(
-selectedStatus &&
-data.status !== selectedStatus
-){
-return;
-}
-
-if(
-searchStaff &&
-!data.staffName
-.toLowerCase()
-.includes(searchStaff)
-){
-return;
-}
-
-if(selectedDate){
-
-const filterDate =
-new Date(selectedDate)
-.toLocaleDateString();
-
-if(data.date !== filterDate){
-return;
-}
-
-}
-
-if(selectedMonth){
-
-const attendanceDate =
-new Date(data.date);
-
-const monthValue =
-attendanceDate.getFullYear()
-+
-"-"
-+
-String(
-attendanceDate.getMonth()+1
-).padStart(2,"0");
-
-if(
-monthValue !==
-selectedMonth
-){
-return;
-}
-
 }
 
 totalAttendance++;
 
-if(data.status==="Approved"){
+if(
+data.status ===
+"Approved"
+){
 approved++;
 }
-else if(data.status==="Rejected"){
+else if(
+data.status ===
+"Rejected"
+){
 rejected++;
 }
 else{
@@ -610,9 +905,8 @@ pending++;
 
 totalHours += Number(
 String(
-data.totalHours || 0
-)
-.replace(
+data.totalHours || "0"
+).replace(
 " Hours",
 ""
 )
@@ -620,118 +914,49 @@ data.totalHours || 0
 
 html += `
 
-<div class="attendance-card">
-
-<div class="staff-top">
-
-<img
-src="${
-data.staffPhoto ||
-'https://i.imgur.com/6VBx3io.png'
-}"
-class="staff-photo">
-
-<div>
+<div
+style="
+background:white;
+padding:15px;
+border-radius:15px;
+margin-bottom:15px;
+box-shadow:
+0 5px 15px rgba(0,0,0,.08);
+">
 
 <h3>
-${data.staffName}
+
+📅 ${data.date || "-"}
+
 </h3>
 
 <p>
-${data.staffPosition || '-'}
-</p>
 
-<p>
-📅 ${data.date || '-'}
-</p>
-
-<p>
-📊 ${data.status || 'Pending'}
-</p>
-
-</div>
-
-</div>
-
-<p>
 🟢 IN :
-${data.inTime || '--'}
+${data.inTime || "--"}
+
 </p>
 
 <p>
+
 🔴 OUT :
-${data.outTime || '--'}
+${data.outTime || "--"}
+
 </p>
 
 <p>
-⏱ Total :
-${data.totalHours || 'Working...'}
-</p>
-html += `
 
-<div class="photo-grid">
+⏱ Hours :
+${data.totalHours || "Working..."}
 
-<div>
-
-<p>📷 IN Photo</p>
-
-<img
-src="${data.inPhoto || ''}"
-class="evidence-photo">
-
-</div>
-
-<div>
-
-<p>📷 OUT Photo</p>
-
-<img
-src="${data.outPhoto || ''}"
-class="evidence-photo">
-
-</div>
-
-</div>
-
-<br>
-
-<p>
-📍 IN :
-${data.inLat || '-'},
-${data.inLng || '-'}
 </p>
 
 <p>
-📍 OUT :
-${data.outLat || '-'},
-${data.outLng || '-'}
+
+📊 Status :
+${data.status || "Pending"}
+
 </p>
-
-<br>
-
-<button
-onclick="approveAttendance('${docItem.id}')"
-class="action-btn approve-btn">
-
-Approve
-
-</button>
-
-<button
-onclick="rejectAttendance('${docItem.id}')"
-class="action-btn reject-btn">
-
-Reject
-
-</button>
-
-<button
-onclick="deleteAttendance('${docItem.id}')"
-class="action-btn delete-btn">
-
-Delete
-
-</button>
 
 </div>
 
@@ -771,263 +996,11 @@ totalHours.toFixed(2);
 
 }
 
-window.approveAttendance =
-async function(id){
-
-await updateDoc(
-doc(db,"attendance",id),
-{
-status:"Approved"
-}
-);
-
 loadAttendance();
-
-}
-
-window.rejectAttendance =
-async function(id){
-
-await updateDoc(
-doc(db,"attendance",id),
-{
-status:"Rejected"
-}
-);
-
-loadAttendance();
-
-}
-
-window.deleteAttendance =
-async function(id){
-
-if(
-!confirm(
-"Delete Attendance?"
-)
-){
-return;
-}
-
-await deleteDoc(
-doc(db,"attendance",id)
-);
-
-loadAttendance();
-
-}
-
-document
-.getElementById(
-"applyFilterBtn"
-)
-.addEventListener(
-"click",
-loadAttendance
-);
-
-loadEmployeeFilter();
-
-loadAttendance();
-
-  document.getElementById(
-"backDateForm"
-).innerHTML =
-
-`
-
-<div class="attendance-card">
-
-<h2>
-Back Date Attendance
-</h2>
-
-<br>
-
-<input
-type="text"
-id="backStaff"
-placeholder="Staff Name"
-style="
-width:100%;
-padding:12px;
-margin-bottom:10px;
-">
-
-<input
-type="date"
-id="backDate"
-style="
-width:100%;
-padding:12px;
-margin-bottom:10px;
-">
-
-<input
-type="time"
-id="backIn"
-style="
-width:100%;
-padding:12px;
-margin-bottom:10px;
-">
-
-<input
-type="time"
-id="backOut"
-style="
-width:100%;
-padding:12px;
-margin-bottom:10px;
-">
-
-<input
-type="text"
-id="backReason"
-placeholder="Reason"
-style="
-width:100%;
-padding:12px;
-margin-bottom:10px;
-">
-
-<button
-id="saveBackDateBtn"
-class="green-btn">
-
-Save Attendance
-
-</button>
-
-</div>
-
-`;
-
-document
-.getElementById(
-"saveBackDateBtn"
-)
-.addEventListener(
-"click",
-async()=>{
-
-const staffName =
-document.getElementById(
-"backStaff"
-).value;
-
-const date =
-document.getElementById(
-"backDate"
-).value;
-
-const inTime =
-document.getElementById(
-"backIn"
-).value;
-
-const outTime =
-document.getElementById(
-"backOut"
-).value;
-
-const reason =
-document.getElementById(
-"backReason"
-).value;
-
-if(
-!staffName ||
-!date ||
-!inTime ||
-!outTime
-){
-
-alert(
-"Fill All Fields"
-);
-
-return;
-
-}
-
-const totalHours =
-calculateHours(
-inTime,
-outTime
-);
-
-await addDoc(
-collection(
-db,
-"attendance"
-),
-{
-
-staffName:
-staffName,
-
-date:
-new Date(date)
-.toLocaleDateString(),
-
-inTime:
-inTime,
-
-outTime:
-outTime,
-
-totalHours:
-totalHours +
-" Hours",
-
-status:
-"Approved",
-
-backDate:
-true,
-
-reason:
-reason,
-
-createdBy:
-"Admin"
-
-}
-);
-
-alert(
-"Back Date Attendance Added"
-);
-
-document.getElementById(
-"backStaff"
-).value = "";
-
-document.getElementById(
-"backDate"
-).value = "";
-
-document.getElementById(
-"backIn"
-).value = "";
-
-document.getElementById(
-"backOut"
-).value = "";
-
-document.getElementById(
-"backReason"
-).value = "";
-
-loadAttendance();
-
-}
-);
 
 </script>
 
 </body>
 
 </html>
+  

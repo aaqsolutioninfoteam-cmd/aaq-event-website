@@ -9,7 +9,7 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>
-Staff Attendance V4
+Attendance Management V4
 </title>
 
 <style>
@@ -40,46 +40,41 @@ color:#0f172a;
 
 .container{
 
-max-width:1200px;
+max-width:1600px;
 
 margin:auto;
 
 }
 
-.staff-header{
-
-background:white;
-
-padding:20px;
-
-border-radius:20px;
-
-box-shadow:
-0 10px 25px rgba(0,0,0,.08);
+.header{
 
 display:flex;
 
+justify-content:space-between;
+
 align-items:center;
-
-gap:20px;
-
-flex-wrap:wrap;
 
 margin-bottom:20px;
 
+flex-wrap:wrap;
+
+gap:10px;
+
 }
 
-.staff-photo{
+.back-btn{
 
-width:90px;
+padding:12px 20px;
 
-height:90px;
+border-radius:12px;
 
-border-radius:50%;
+text-decoration:none;
 
-object-fit:cover;
+background:#facc15;
 
-border:4px solid #facc15;
+font-weight:bold;
+
+color:#111827;
 
 }
 
@@ -107,19 +102,17 @@ border-radius:20px;
 text-align:center;
 
 box-shadow:
-0 10px 25px rgba(0,0,0,.08);
+0 5px 15px rgba(0,0,0,.08);
 
 }
 
 .summary-card h1{
 
-font-size:28px;
-
 margin-top:10px;
 
 }
 
-.camera-card{
+.filter-section{
 
 background:white;
 
@@ -127,12 +120,90 @@ padding:20px;
 
 border-radius:20px;
 
-box-shadow:
-0 10px 25px rgba(0,0,0,.08);
-
 margin-bottom:20px;
 
-text-align:center;
+display:flex;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+align-items:end;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.filter-section input,
+.filter-section select{
+
+padding:12px;
+
+border:1px solid #ddd;
+
+border-radius:10px;
+
+min-width:180px;
+
+}
+
+.green-btn{
+
+padding:12px 18px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+background:#22c55e;
+
+color:white;
+
+font-weight:bold;
+
+}
+
+.table-box{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+overflow:auto;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.attendance-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+.attendance-table th{
+
+background:#facc15;
+
+padding:12px;
+
+text-align:left;
+
+}
+
+.attendance-table td{
+
+padding:10px;
+
+border-bottom:1px solid #eee;
 
 }
 
@@ -144,32 +215,19 @@ text-align:center;
 
 <div class="container">
 
-<div class="staff-header">
+<div class="header">
 
-<img
-id="staffPhoto"
-class="staff-photo"
-src="https://i.imgur.com/6VBx3io.png">
+<h1>
+Attendance Management
+</h1>
 
-<div>
+<a
+href="admin.html"
+class="back-btn">
 
-<h2 id="staffName">
-Staff Name
-</h2>
+← Back
 
-<p id="staffPosition">
-Staff Position
-</p>
-
-<p id="currentDate">
-Date
-</p>
-
-<p id="currentTime">
-Time
-</p>
-
-</div>
+</a>
 
 </div>
 
@@ -201,209 +259,95 @@ Time
 </div>
 
 </div>
-<style>
 
-#video{
+<div class="filter-section">
 
-width:100%;
+<input
+type="date"
+id="filterDate">
 
-max-width:350px;
+<input
+type="month"
+id="filterMonth">
 
-border-radius:20px;
+<select
+id="employeeFilter">
 
-border:4px solid #facc15;
+<option value="">
+All Employees
+</option>
 
-}
+</select>
 
-.live-hours{
+<select
+id="statusFilter">
 
-margin-top:15px;
+<option value="">
+All Status
+</option>
 
-padding:15px;
+<option value="Approved">
+Approved
+</option>
 
-background:#f8fafc;
+<option value="Pending">
+Pending
+</option>
 
-border-radius:15px;
+<option value="Rejected">
+Rejected
+</option>
 
-font-size:18px;
+</select>
 
-font-weight:bold;
-
-}
-
-.status-box{
-
-margin-top:15px;
-
-padding:12px;
-
-border-radius:12px;
-
-background:#f8fafc;
-
-font-weight:bold;
-
-}
-
-.button-grid{
-
-display:flex;
-
-gap:15px;
-
-justify-content:center;
-
-flex-wrap:wrap;
-
-margin-top:20px;
-
-}
-
-.face-in-btn{
-
-padding:14px 25px;
-
-border:none;
-
-border-radius:14px;
-
-font-size:16px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-background:
-linear-gradient(
-135deg,
-#22c55e,
-#15803d
-);
-
-color:white;
-
-}
-
-.face-out-btn{
-
-padding:14px 25px;
-
-border:none;
-
-border-radius:14px;
-
-font-size:16px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-background:
-linear-gradient(
-135deg,
-#ef4444,
-#b91c1c
-);
-
-color:white;
-
-}
-
-.attendance-history{
-
-background:white;
-
-padding:20px;
-
-border-radius:20px;
-
-box-shadow:
-0 10px 25px rgba(0,0,0,.08);
-
-margin-top:20px;
-
-}
-
-</style>
-
-<div class="camera-card">
-
-<h2>
-
-📷 Face Attendance
-
-</h2>
-
-<br>
-
-<video
-id="video"
-autoplay
-playsinline>
-
-</video>
-
-<canvas
-id="canvas"
-style="display:none;">
-
-</canvas>
-
-<div
-id="statusBox"
-class="status-box">
-
-Ready For Attendance
-
-</div>
-
-<div
-id="workingHours"
-class="live-hours">
-
-⏱ Working Time : 0 Hours
-
-</div>
-
-<div class="button-grid">
+<input
+type="text"
+id="searchStaff"
+placeholder="Search Staff">
 
 <button
-class="face-in-btn"
-onclick="faceCheckIn()">
+class="green-btn"
+onclick="loadAttendance()">
 
-🟢 FACE IN
-
-</button>
-
-<button
-class="face-out-btn"
-onclick="faceCheckOut()">
-
-🔴 FACE OUT
+Apply Filter
 
 </button>
 
 </div>
 
+<div class="table-box">
+
+<table
+class="attendance-table">
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+<th>Day</th>
+<th>Staff</th>
+<th>IN</th>
+<th>OUT</th>
+<th>Hours</th>
+<th>Status</th>
+<th>Photos</th>
+<th>Location</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody
+id="attendanceTable">
+
+</tbody>
+
+</table>
+
 </div>
-
-<div class="attendance-history">
-
-<h2>
-
-📋 Attendance History
-
-</h2>
-
-<br>
-
-<div
-id="attendanceList">
-
-</div>
-
-</div>
-  <script type="module">
+<script type="module">
 
 import { initializeApp }
 
@@ -414,11 +358,10 @@ import {
 
 getFirestore,
 collection,
-addDoc,
 getDocs,
-query,
-where,
 updateDoc,
+deleteDoc,
+addDoc,
 doc
 
 }
@@ -454,367 +397,32 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 
-const staffName =
-localStorage.getItem(
-"staffName"
-) || "Staff User";
-
-const staffPhoto =
-localStorage.getItem(
-"staffPhoto"
-);
-
-const staffPosition =
-localStorage.getItem(
-"staffPosition"
-) || "Staff";
-
-document.getElementById(
-"staffName"
-).innerHTML =
-staffName;
-
-document.getElementById(
-"staffPosition"
-).innerHTML =
-staffPosition;
-
-if(staffPhoto){
-
-document.getElementById(
-"staffPhoto"
-).src =
-staffPhoto;
-
-}
-
-function updateDateTime(){
-
-document.getElementById(
-"currentDate"
-).innerHTML =
-
-"📅 " +
-new Date()
-.toLocaleDateString();
-
-document.getElementById(
-"currentTime"
-).innerHTML =
-
-"🕒 " +
-new Date()
-.toLocaleTimeString();
-
-}
-
-updateDateTime();
-
-setInterval(
-updateDateTime,
-1000
-);
-
-const video =
-document.getElementById(
-"video"
-);
-
-navigator.mediaDevices
-.getUserMedia({
-video:true
-})
-.then(stream=>{
-
-video.srcObject =
-stream;
-
-});
-
-let currentLat = "";
-let currentLng = "";
-
-async function getLocation(){
-
-return new Promise(
-(resolve)=>{
-
-navigator.geolocation
-.getCurrentPosition(
-
-(position)=>{
-
-currentLat =
-position.coords.latitude;
-
-currentLng =
-position.coords.longitude;
-
-resolve();
-
-},
-
-(error)=>{
-
-console.log(error);
-
-resolve();
-
-}
-
-);
-
-});
-
-}
-
-function capturePhoto(){
-
-const canvas =
-document.getElementById(
-"canvas"
-);
-
-canvas.width =
-video.videoWidth;
-
-canvas.height =
-video.videoHeight;
-
-const ctx =
-canvas.getContext(
-"2d"
-);
-
-ctx.drawImage(
-video,
-0,
-0
-);
-
-return canvas.toDataURL(
-"image/png"
-);
-
-}
-
-const statusBox =
-document.getElementById(
-"statusBox"
-);
-
-    window.faceCheckIn =
+window.loadEmployeeFilter =
 async function(){
 
-statusBox.innerHTML =
-"📷 Verifying Face...";
-
-const today =
-new Date()
-.toLocaleDateString();
-
-const checkQuery =
-query(
-collection(db,"attendance"),
-where("staffName","==",staffName),
-where("date","==",today)
-);
-
-const checkDocs =
-await getDocs(checkQuery);
-
-if(!checkDocs.empty){
-
-alert(
-"Today's Attendance Already Marked"
-);
-
-return;
-
-}
-
-await getLocation();
-
-const photoData =
-capturePhoto();
-
-await addDoc(
+const querySnapshot =
+await getDocs(
 collection(
 db,
 "attendance"
-),
-{
-
-staffName:
-staffName,
-
-staffPhoto:
-staffPhoto || "",
-
-staffPosition:
-staffPosition || "",
-
-date:
-today,
-
-inTime:
-new Date()
-.toLocaleTimeString(),
-
-outTime:"",
-
-totalHours:"",
-
-status:"Pending",
-
-inPhoto:
-photoData,
-
-outPhoto:"",
-
-inLat:
-currentLat,
-
-inLng:
-currentLng,
-
-outLat:"",
-
-outLng:""
-
-}
+)
 );
 
-statusBox.innerHTML =
-"✅ FACE IN SUCCESSFUL";
-
-alert(
-"Attendance Marked Successfully"
+const employeeFilter =
+document.getElementById(
+"employeeFilter"
 );
 
-loadAttendance();
+employeeFilter.innerHTML =
 
-};
+`
+<option value="">
+All Employees
+</option>
+`;
 
-window.faceCheckOut =
-async function(){
-
-statusBox.innerHTML =
-"📷 Verifying Face...";
-
-await getLocation();
-
-const photoData =
-capturePhoto();
-
-const today =
-new Date()
-.toLocaleDateString();
-
-const q =
-query(
-collection(db,"attendance"),
-where("staffName","==",staffName),
-where("date","==",today)
-);
-
-const querySnapshot =
-await getDocs(q);
-
-if(querySnapshot.empty){
-
-alert(
-"Please FACE IN First"
-);
-
-return;
-
-}
-
-querySnapshot.forEach(
-async(item)=>{
-
-const data =
-item.data();
-
-if(data.outTime){
-
-return;
-
-}
-
-const outDate =
-new Date();
-
-const inDate =
-new Date(
-today +
-" " +
-data.inTime
-);
-
-const diff =
-(outDate - inDate)
-/1000/60/60;
-
-await updateDoc(
-doc(
-db,
-"attendance",
-item.id
-),
-{
-
-outTime:
-outDate
-.toLocaleTimeString(),
-
-totalHours:
-diff.toFixed(2)
-+
-" Hours",
-
-outPhoto:
-photoData,
-
-outLat:
-currentLat,
-
-outLng:
-currentLng
-
-}
-);
-
-});
-
-statusBox.innerHTML =
-"✅ FACE OUT SUCCESSFUL";
-
-alert(
-"Attendance Closed Successfully"
-);
-
-loadAttendance();
-
-};
-
-setInterval(
-async()=>{
-
-const today =
-new Date()
-.toLocaleDateString();
-
-const q =
-query(
-collection(db,"attendance"),
-where("staffName","==",staffName),
-where("date","==",today)
-);
-
-const querySnapshot =
-await getDocs(q);
+const names =
+new Set();
 
 querySnapshot.forEach(
 (docItem)=>{
@@ -822,37 +430,37 @@ querySnapshot.forEach(
 const data =
 docItem.data();
 
-if(!data.outTime){
+if(
+data.staffName
+){
 
-const now =
-new Date();
-
-const inDate =
-new Date(
-today +
-" " +
-data.inTime
+names.add(
+data.staffName
 );
-
-const diff =
-(now - inDate)
-/1000/60/60;
-
-document.getElementById(
-"workingHours"
-).innerHTML =
-
-"⏱ Working Time : " +
-diff.toFixed(2) +
-" Hours";
 
 }
 
 });
 
-},60000);
+names.forEach(
+(name)=>{
 
-    
+employeeFilter.innerHTML +=
+
+`
+
+<option value="${name}">
+
+${name}
+
+</option>
+
+`;
+
+});
+
+};
+
 window.loadAttendance =
 async function(){
 
@@ -864,25 +472,135 @@ db,
 )
 );
 
-let totalAttendance = 0;
-let approved = 0;
-let pending = 0;
-let rejected = 0;
-let totalHours = 0;
-
 let html = "";
 
-querySnapshot.forEach(
+let totalAttendance = 0;
+
+let approved = 0;
+
+let pending = 0;
+
+let rejected = 0;
+
+let totalHours = 0;
+
+let filteredHours = 0;
+
+const selectedDate =
+
+document.getElementById(
+"filterDate"
+).value;
+
+const selectedMonth =
+
+document.getElementById(
+"filterMonth"
+).value;
+
+const selectedEmployee =
+
+document.getElementById(
+"employeeFilter"
+).value;
+
+const selectedStatus =
+
+document.getElementById(
+"statusFilter"
+).value;
+
+const searchStaff =
+
+document.getElementById(
+"searchStaff"
+).value
+.toLowerCase();
+
+  querySnapshot.forEach(
 (docItem)=>{
 
 const data =
 docItem.data();
 
 if(
+selectedEmployee &&
 data.staffName !==
-staffName
+selectedEmployee
 ){
 return;
+}
+
+if(
+selectedStatus &&
+data.status !==
+selectedStatus
+){
+return;
+}
+
+if(
+searchStaff &&
+!data.staffName
+.toLowerCase()
+.includes(
+searchStaff
+)
+){
+return;
+}
+
+if(selectedDate){
+
+const filterDate =
+new Date(
+selectedDate
+)
+.toLocaleDateString();
+
+if(
+data.date !==
+filterDate
+){
+return;
+}
+
+}
+
+if(selectedMonth){
+
+const attendanceDate =
+new Date(
+data.date
+);
+
+const monthValue =
+
+attendanceDate
+.getFullYear()
+
++
+
+"-"
+
++
+
+String(
+attendanceDate
+.getMonth()+1
+)
+.padStart(
+2,
+"0"
+);
+
+if(
+monthValue !==
+selectedMonth
+){
+return;
+}
+
 }
 
 totalAttendance++;
@@ -891,81 +609,194 @@ if(
 data.status ===
 "Approved"
 ){
+
 approved++;
+
 }
 else if(
 data.status ===
 "Rejected"
 ){
+
 rejected++;
+
 }
 else{
+
 pending++;
+
 }
 
-totalHours += Number(
+filteredHours += Number(
 String(
-data.totalHours || "0"
-).replace(
+data.totalHours || 0
+)
+.replace(
 " Hours",
 ""
 )
 );
 
-html += `
+totalHours += Number(
+String(
+data.totalHours || 0
+)
+.replace(
+" Hours",
+""
+)
+);
 
-<div
-style="
-background:white;
-padding:15px;
-border-radius:15px;
-margin-bottom:15px;
-box-shadow:
-0 5px 15px rgba(0,0,0,.08);
-">
+const dayName =
 
-<h3>
+new Date(
+data.date
+)
+.toLocaleDateString(
+"en-US",
+{
+weekday:"long"
+}
+);
 
-📅 ${data.date || "-"}
+    html += `
 
-</h3>
+<tr>
 
-<p>
+<td>
 
-🟢 IN :
+${data.date || "-"}
+
+</td>
+
+<td>
+
+${dayName}
+
+</td>
+
+<td>
+
+${data.staffName || "-"}
+
+</td>
+
+<td>
+
 ${data.inTime || "--"}
 
-</p>
+</td>
 
-<p>
+<td>
 
-🔴 OUT :
 ${data.outTime || "--"}
 
-</p>
+</td>
 
-<p>
+<td>
 
-⏱ Hours :
-${data.totalHours || "Working..."}
+${data.totalHours || "0 Hours"}
 
-</p>
+</td>
 
-<p>
+<td>
 
-📊 Status :
 ${data.status || "Pending"}
 
-</p>
+</td>
 
-</div>
+<td>
+
+<button
+onclick="showPhotos(
+'${data.inPhoto || ""}',
+'${data.outPhoto || ""}'
+)"
+class="green-btn">
+
+View
+
+</button>
+
+</td>
+
+<td>
+
+<button
+onclick="showLocation(
+'${data.inLat || ""}',
+'${data.inLng || ""}',
+'${data.outLat || ""}',
+'${data.outLng || ""}'
+)"
+class="green-btn">
+
+View
+
+</button>
+
+</td>
+
+<td>
+
+<button
+onclick="approveAttendance(
+'${docItem.id}'
+)"
+style="
+background:#22c55e;
+color:white;
+border:none;
+padding:8px;
+border-radius:8px;
+">
+
+Approve
+
+</button>
+
+<button
+onclick="rejectAttendance(
+'${docItem.id}'
+)"
+style="
+background:#ef4444;
+color:white;
+border:none;
+padding:8px;
+border-radius:8px;
+">
+
+Reject
+
+</button>
+
+<button
+onclick="deleteAttendance(
+'${docItem.id}'
+)"
+style="
+background:#64748b;
+color:white;
+border:none;
+padding:8px;
+border-radius:8px;
+">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
 
 `;
 
 });
 
 document.getElementById(
-"attendanceList"
+"attendanceTable"
 ).innerHTML =
 html;
 
@@ -992,9 +823,150 @@ rejected;
 document.getElementById(
 "totalHours"
 ).innerHTML =
-totalHours.toFixed(2);
+filteredHours.toFixed(2);
+
+  }
+
+  window.showPhotos =
+function(
+inPhoto,
+outPhoto
+){
+
+let html =
+
+"IN PHOTO\n\n";
+
+if(inPhoto){
+
+html +=
+inPhoto;
 
 }
+
+html +=
+
+"\n\nOUT PHOTO\n\n";
+
+if(outPhoto){
+
+html +=
+outPhoto;
+
+}
+
+alert(
+"Photo Preview Available"
+);
+
+};
+
+window.showLocation =
+function(
+inLat,
+inLng,
+outLat,
+outLng
+){
+
+alert(
+
+"IN Location\n\n"
+
++
+
+inLat
+
++
+
+", "
+
++
+
+inLng
+
++
+
+"\n\nOUT Location\n\n"
+
++
+
+outLat
+
++
+
+", "
+
++
+
+outLng
+
+);
+
+};
+
+window.approveAttendance =
+async function(id){
+
+await updateDoc(
+doc(
+db,
+"attendance",
+id
+),
+{
+status:
+"Approved"
+}
+);
+
+loadAttendance();
+
+};
+
+window.rejectAttendance =
+async function(id){
+
+await updateDoc(
+doc(
+db,
+"attendance",
+id
+),
+{
+status:
+"Rejected"
+}
+);
+
+loadAttendance();
+
+};
+
+window.deleteAttendance =
+async function(id){
+
+if(
+!confirm(
+"Delete Attendance?"
+)
+){
+return;
+}
+
+await deleteDoc(
+doc(
+db,
+"attendance",
+id
+)
+);
+
+loadAttendance();
+
+};
+
+loadEmployeeFilter();
 
 loadAttendance();
 
@@ -1003,4 +975,3 @@ loadAttendance();
 </body>
 
 </html>
-  

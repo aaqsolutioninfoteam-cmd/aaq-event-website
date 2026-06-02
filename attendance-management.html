@@ -9,7 +9,7 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>
-Attendance Management V4
+Attendance Management
 </title>
 
 <style>
@@ -22,7 +22,6 @@ font-family:Arial,sans-serif;
 }
 
 body{
-
 background:
 linear-gradient(
 135deg,
@@ -31,179 +30,87 @@ linear-gradient(
 #fef9c3,
 #ffffff
 );
-
 padding:20px;
-
 color:#0f172a;
-
 }
 
 .container{
-
-max-width:1600px;
-
+max-width:1800px;
 margin:auto;
-
 }
 
 .header{
-
 display:flex;
-
 justify-content:space-between;
-
 align-items:center;
-
 margin-bottom:20px;
-
 flex-wrap:wrap;
-
 gap:10px;
-
 }
 
 .back-btn{
-
 padding:12px 20px;
-
 border-radius:12px;
-
 text-decoration:none;
-
 background:#facc15;
-
-font-weight:bold;
-
 color:#111827;
-
+font-weight:bold;
 }
 
 .summary-grid{
-
 display:grid;
-
 grid-template-columns:
-repeat(auto-fit,minmax(180px,1fr));
-
+repeat(auto-fit,minmax(170px,1fr));
 gap:15px;
-
 margin-bottom:20px;
-
 }
 
 .summary-card{
-
 background:white;
-
 padding:20px;
-
 border-radius:20px;
-
 text-align:center;
-
 box-shadow:
-0 5px 15px rgba(0,0,0,.08);
-
+0 10px 25px rgba(0,0,0,.08);
 }
 
 .summary-card h1{
-
 margin-top:10px;
-
+font-size:28px;
 }
 
 .filter-section{
-
 background:white;
-
 padding:20px;
-
 border-radius:20px;
-
 margin-bottom:20px;
-
 display:flex;
-
-flex-wrap:wrap;
-
 gap:10px;
-
+flex-wrap:wrap;
 align-items:end;
-
 box-shadow:
-0 5px 15px rgba(0,0,0,.08);
-
+0 10px 25px rgba(0,0,0,.08);
 }
 
 .filter-section input,
 .filter-section select{
 
 padding:12px;
-
-border:1px solid #ddd;
-
 border-radius:10px;
-
-min-width:180px;
+border:1px solid #cbd5e1;
+min-width:170px;
 
 }
 
 .green-btn{
 
 padding:12px 18px;
-
 border:none;
-
 border-radius:10px;
-
 cursor:pointer;
-
 background:#22c55e;
-
 color:white;
-
 font-weight:bold;
-
-}
-
-.table-box{
-
-background:white;
-
-padding:20px;
-
-border-radius:20px;
-
-overflow:auto;
-
-box-shadow:
-0 5px 15px rgba(0,0,0,.08);
-
-}
-
-.attendance-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-}
-
-.attendance-table th{
-
-background:#facc15;
-
-padding:12px;
-
-text-align:left;
-
-}
-
-.attendance-table td{
-
-padding:10px;
-
-border-bottom:1px solid #eee;
 
 }
 
@@ -239,6 +146,31 @@ class="back-btn">
 </div>
 
 <div class="summary-card">
+<h3>Present</h3>
+<h1 id="presentCount">0</h1>
+</div>
+
+<div class="summary-card">
+<h3>Half Day</h3>
+<h1 id="halfDayCount">0</h1>
+</div>
+
+<div class="summary-card">
+<h3>Leave</h3>
+<h1 id="leaveCount">0</h1>
+</div>
+
+<div class="summary-card">
+<h3>Holiday</h3>
+<h1 id="holidayCount">0</h1>
+</div>
+
+<div class="summary-card">
+<h3>Absent</h3>
+<h1 id="absentCount">0</h1>
+</div>
+
+<div class="summary-card">
 <h3>Approved</h3>
 <h1 id="approvedCount">0</h1>
 </div>
@@ -256,6 +188,11 @@ class="back-btn">
 <div class="summary-card">
 <h3>Total Hours</h3>
 <h1 id="totalHours">0</h1>
+</div>
+
+<div class="summary-card">
+<h3>Average Hours</h3>
+<h1 id="averageHours">0</h1>
 </div>
 
 </div>
@@ -280,18 +217,67 @@ All Employees
 </select>
 
 <select
+id="attendanceTypeFilter">
+
+<option value="">
+All Types
+</option>
+
+<option value="Present">
+Present
+</option>
+
+<option value="Half Day">
+Half Day
+</option>
+
+<option value="Late Coming">
+Late Coming
+</option>
+
+<option value="Early Going">
+Early Going
+</option>
+
+<option value="Leave">
+Leave
+</option>
+
+<option value="Holiday">
+Holiday
+</option>
+
+<option value="Weekly Off">
+Weekly Off
+</option>
+
+<option value="Absent">
+Absent
+</option>
+
+<option value="On Duty">
+On Duty
+</option>
+
+<option value="Work From Home">
+Work From Home
+</option>
+
+</select>
+
+<select
 id="statusFilter">
 
 <option value="">
 All Status
 </option>
 
-<option value="Approved">
-Approved
-</option>
-
 <option value="Pending">
 Pending
+</option>
+
+<option value="Approved">
+Approved
 </option>
 
 <option value="Rejected">
@@ -313,7 +299,246 @@ Apply Filter
 
 </button>
 
+<button
+class="green-btn"
+onclick="openBackDateForm()">
+
+Back Date
+
+</button>
+
+<button
+class="green-btn"
+onclick="exportExcel()">
+
+Excel
+
+</button>
+
+<button
+class="green-btn"
+onclick="exportPDF()">
+
+PDF
+
+</button>
+
 </div>
+
+  <style>
+
+.table-box{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+overflow:auto;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.attendance-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:1800px;
+
+}
+
+.attendance-table th{
+
+background:#facc15;
+
+padding:12px;
+
+text-align:left;
+
+font-size:14px;
+
+}
+
+.attendance-table td{
+
+padding:10px;
+
+border-bottom:1px solid #eee;
+
+font-size:14px;
+
+}
+
+.status-approved{
+
+background:#dcfce7;
+color:#166534;
+
+padding:6px 12px;
+
+border-radius:20px;
+
+font-weight:bold;
+
+}
+
+.status-pending{
+
+background:#fef3c7;
+color:#92400e;
+
+padding:6px 12px;
+
+border-radius:20px;
+
+font-weight:bold;
+
+}
+
+.status-rejected{
+
+background:#fee2e2;
+color:#991b1b;
+
+padding:6px 12px;
+
+border-radius:20px;
+
+font-weight:bold;
+
+}
+
+.action-btn{
+
+padding:8px 12px;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+font-size:12px;
+
+font-weight:bold;
+
+}
+
+.edit-btn{
+
+background:#3b82f6;
+
+color:white;
+
+}
+
+.save-btn{
+
+background:#22c55e;
+
+color:white;
+
+}
+
+.delete-btn{
+
+background:#ef4444;
+
+color:white;
+
+}
+
+.photo-btn{
+
+background:#8b5cf6;
+
+color:white;
+
+}
+
+.location-btn{
+
+background:#06b6d4;
+
+color:white;
+
+}
+
+.modal{
+
+display:none;
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:
+rgba(0,0,0,.6);
+
+justify-content:center;
+
+align-items:center;
+
+z-index:9999;
+
+}
+
+.modal-content{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+max-width:900px;
+
+width:95%;
+
+max-height:90vh;
+
+overflow:auto;
+
+}
+
+.modal img{
+
+width:250px;
+
+border-radius:12px;
+
+margin:10px;
+
+}
+
+.close-btn{
+
+padding:10px 15px;
+
+border:none;
+
+border-radius:10px;
+
+background:#ef4444;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+</style>
 
 <div class="table-box">
 
@@ -325,14 +550,33 @@ class="attendance-table">
 <tr>
 
 <th>Date</th>
+
 <th>Day</th>
+
 <th>Staff</th>
-<th>IN</th>
-<th>OUT</th>
+
+<th>IN Time</th>
+
+<th>OUT Time</th>
+
 <th>Hours</th>
+
+<th>Attendance Type</th>
+
 <th>Status</th>
+
+<th>Reason</th>
+
+<th>Remarks</th>
+
 <th>Photos</th>
+
 <th>Location</th>
+
+<th>Edited By</th>
+
+<th>Edited On</th>
+
 <th>Action</th>
 
 </tr>
@@ -347,6 +591,78 @@ id="attendanceTable">
 </table>
 
 </div>
+
+<div
+id="photoModal"
+class="modal">
+
+<div class="modal-content">
+
+<h2>
+
+Attendance Photos
+
+</h2>
+
+<br>
+
+<div
+id="photoContainer">
+
+</div>
+
+<br>
+
+<button
+class="close-btn"
+onclick="closePhotoModal()">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+<div
+id="locationModal"
+class="modal">
+
+<div class="modal-content">
+
+<h2>
+
+Attendance Location
+
+</h2>
+
+<br>
+
+<div
+id="locationContainer">
+
+</div>
+
+<br>
+
+<button
+class="close-btn"
+onclick="closeLocationModal()">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+<div
+id="backDateForm">
+
+</div>
+
 <script type="module">
 
 import { initializeApp }
@@ -409,6 +725,7 @@ db,
 );
 
 const employeeFilter =
+
 document.getElementById(
 "employeeFilter"
 );
@@ -430,9 +747,7 @@ querySnapshot.forEach(
 const data =
 docItem.data();
 
-if(
-data.staffName
-){
+if(data.staffName){
 
 names.add(
 data.staffName
@@ -448,13 +763,9 @@ names.forEach(
 employeeFilter.innerHTML +=
 
 `
-
 <option value="${name}">
-
 ${name}
-
 </option>
-
 `;
 
 });
@@ -472,39 +783,31 @@ db,
 )
 );
 
-let html = "";
-
-let totalAttendance = 0;
-
-let approved = 0;
-
-let pending = 0;
-
-let rejected = 0;
-
-let totalHours = 0;
-
-let filteredHours = 0;
-
-const selectedDate =
+const filterDate =
 
 document.getElementById(
 "filterDate"
 ).value;
 
-const selectedMonth =
+const filterMonth =
 
 document.getElementById(
 "filterMonth"
 ).value;
 
-const selectedEmployee =
+const filterEmployee =
 
 document.getElementById(
 "employeeFilter"
 ).value;
 
-const selectedStatus =
+const filterType =
+
+document.getElementById(
+"attendanceTypeFilter"
+).value;
+
+const filterStatus =
 
 document.getElementById(
 "statusFilter"
@@ -517,6 +820,28 @@ document.getElementById(
 ).value
 .toLowerCase();
 
+let html = "";
+
+let totalAttendance = 0;
+
+let totalHours = 0;
+
+let approved = 0;
+
+let pending = 0;
+
+let rejected = 0;
+
+let presentCount = 0;
+
+let halfDayCount = 0;
+
+let leaveCount = 0;
+
+let holidayCount = 0;
+
+let absentCount = 0;
+
   querySnapshot.forEach(
 (docItem)=>{
 
@@ -524,17 +849,25 @@ const data =
 docItem.data();
 
 if(
-selectedEmployee &&
+filterEmployee &&
 data.staffName !==
-selectedEmployee
+filterEmployee
 ){
 return;
 }
 
 if(
-selectedStatus &&
+filterStatus &&
 data.status !==
-selectedStatus
+filterStatus
+){
+return;
+}
+
+if(
+filterType &&
+data.attendanceType !==
+filterType
 ){
 return;
 }
@@ -550,34 +883,33 @@ searchStaff
 return;
 }
 
-if(selectedDate){
+if(filterDate){
 
-const filterDate =
+const formattedDate =
 new Date(
-selectedDate
+filterDate
 )
 .toLocaleDateString();
 
 if(
 data.date !==
-filterDate
+formattedDate
 ){
 return;
 }
 
 }
 
-if(selectedMonth){
+if(filterMonth){
 
-const attendanceDate =
+const d =
 new Date(
 data.date
 );
 
 const monthValue =
 
-attendanceDate
-.getFullYear()
+d.getFullYear()
 
 +
 
@@ -586,17 +918,15 @@ attendanceDate
 +
 
 String(
-attendanceDate
-.getMonth()+1
-)
-.padStart(
+d.getMonth()+1
+).padStart(
 2,
 "0"
 );
 
 if(
 monthValue !==
-selectedMonth
+filterMonth
 ){
 return;
 }
@@ -605,67 +935,100 @@ return;
 
 totalAttendance++;
 
+const hours =
+Number(
+String(
+data.totalHours || "0"
+).replace(
+" Hours",
+""
+)
+);
+
+totalHours += hours;
+
 if(
 data.status ===
 "Approved"
 ){
-
 approved++;
-
 }
 else if(
 data.status ===
 "Rejected"
 ){
-
 rejected++;
-
 }
 else{
-
 pending++;
+}
+
+switch(
+data.attendanceType
+){
+
+case "Present":
+presentCount++;
+break;
+
+case "Half Day":
+halfDayCount++;
+break;
+
+case "Leave":
+leaveCount++;
+break;
+
+case "Holiday":
+holidayCount++;
+break;
+
+case "Absent":
+absentCount++;
+break;
 
 }
 
-filteredHours += Number(
-String(
-data.totalHours || 0
-)
-.replace(
-" Hours",
-""
-)
-);
+    let statusClass =
+"status-pending";
 
-totalHours += Number(
-String(
-data.totalHours || 0
-)
-.replace(
-" Hours",
-""
-)
-);
+if(
+data.status ===
+"Approved"
+){
+statusClass =
+"status-approved";
+}
+
+if(
+data.status ===
+"Rejected"
+){
+statusClass =
+"status-rejected";
+}
 
 const dayName =
 
 new Date(
 data.date
-)
-.toLocaleDateString(
+).toLocaleDateString(
 "en-US",
 {
 weekday:"long"
 }
 );
 
-    html += `
+html += `
 
 <tr>
 
 <td>
 
-${data.date || "-"}
+<input
+id="date-${docItem.id}"
+value="${data.date || ''}"
+disabled>
 
 </td>
 
@@ -677,44 +1040,171 @@ ${dayName}
 
 <td>
 
-${data.staffName || "-"}
+<input
+id="staff-${docItem.id}"
+value="${data.staffName || ''}"
+disabled>
 
 </td>
 
 <td>
 
-${data.inTime || "--"}
+<input
+type="time"
+id="in-${docItem.id}"
+value="${data.inTime || ''}"
+disabled>
 
 </td>
 
 <td>
 
-${data.outTime || "--"}
+<input
+type="time"
+id="out-${docItem.id}"
+value="${data.outTime || ''}"
+disabled>
 
 </td>
 
 <td>
 
-${data.totalHours || "0 Hours"}
+<span
+id="hours-${docItem.id}">
+
+${data.totalHours || '0'}
+
+</span>
 
 </td>
 
 <td>
 
-${data.status || "Pending"}
+<select
+id="type-${docItem.id}"
+disabled>
+
+<option
+value="Present"
+${data.attendanceType==="Present"?"selected":""}>
+Present
+</option>
+
+<option
+value="Half Day"
+${data.attendanceType==="Half Day"?"selected":""}>
+Half Day
+</option>
+
+<option
+value="Late Coming"
+${data.attendanceType==="Late Coming"?"selected":""}>
+Late Coming
+</option>
+
+<option
+value="Early Going"
+${data.attendanceType==="Early Going"?"selected":""}>
+Early Going
+</option>
+
+<option
+value="Leave"
+${data.attendanceType==="Leave"?"selected":""}>
+Leave
+</option>
+
+<option
+value="Holiday"
+${data.attendanceType==="Holiday"?"selected":""}>
+Holiday
+</option>
+
+<option
+value="Weekly Off"
+${data.attendanceType==="Weekly Off"?"selected":""}>
+Weekly Off
+</option>
+
+<option
+value="Absent"
+${data.attendanceType==="Absent"?"selected":""}>
+Absent
+</option>
+
+<option
+value="On Duty"
+${data.attendanceType==="On Duty"?"selected":""}>
+On Duty
+</option>
+
+<option
+value="Work From Home"
+${data.attendanceType==="Work From Home"?"selected":""}>
+Work From Home
+</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select
+id="status-${docItem.id}"
+class="${statusClass}"
+disabled>
+
+<option
+value="Pending"
+${data.status==="Pending"?"selected":""}>
+Pending
+</option>
+
+<option
+value="Approved"
+${data.status==="Approved"?"selected":""}>
+Approved
+</option>
+
+<option
+value="Rejected"
+${data.status==="Rejected"?"selected":""}>
+Rejected
+</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input
+id="reason-${docItem.id}"
+value="${data.reason || ''}"
+disabled>
+
+</td>
+
+<td>
+
+<input
+id="remarks-${docItem.id}"
+value="${data.remarks || ''}"
+disabled>
 
 </td>
 
 <td>
 
 <button
+class="action-btn photo-btn"
 onclick="showPhotos(
 '${data.inPhoto || ""}',
 '${data.outPhoto || ""}'
-)"
-class="green-btn">
+)">
 
-View
+Photos
 
 </button>
 
@@ -723,15 +1213,15 @@ View
 <td>
 
 <button
+class="action-btn location-btn"
 onclick="showLocation(
 '${data.inLat || ""}',
 '${data.inLng || ""}',
 '${data.outLat || ""}',
 '${data.outLng || ""}'
-)"
-class="green-btn">
+)">
 
-View
+Location
 
 </button>
 
@@ -739,49 +1229,43 @@ View
 
 <td>
 
-<button
-onclick="approveAttendance(
-'${docItem.id}'
-)"
-style="
-background:#22c55e;
-color:white;
-border:none;
-padding:8px;
-border-radius:8px;
-">
+${data.editedBy || "-"}
 
-Approve
+</td>
+
+<td>
+
+${data.editedOn || "-"}
+
+</td>
+
+<td>
+
+<button
+class="action-btn edit-btn"
+onclick="enableEdit(
+'${docItem.id}'
+)">
+
+Edit
 
 </button>
 
 <button
-onclick="rejectAttendance(
+class="action-btn save-btn"
+onclick="saveAttendance(
 '${docItem.id}'
-)"
-style="
-background:#ef4444;
-color:white;
-border:none;
-padding:8px;
-border-radius:8px;
-">
+)">
 
-Reject
+Save
 
 </button>
 
 <button
+class="action-btn delete-btn"
 onclick="deleteAttendance(
 '${docItem.id}'
-)"
-style="
-background:#64748b;
-color:white;
-border:none;
-padding:8px;
-border-radius:8px;
-">
+)">
 
 Delete
 
@@ -795,7 +1279,7 @@ Delete
 
 });
 
-document.getElementById(
+  document.getElementById(
 "attendanceTable"
 ).innerHTML =
 html;
@@ -804,6 +1288,31 @@ document.getElementById(
 "totalAttendance"
 ).innerHTML =
 totalAttendance;
+
+document.getElementById(
+"presentCount"
+).innerHTML =
+presentCount;
+
+document.getElementById(
+"halfDayCount"
+).innerHTML =
+halfDayCount;
+
+document.getElementById(
+"leaveCount"
+).innerHTML =
+leaveCount;
+
+document.getElementById(
+"holidayCount"
+).innerHTML =
+holidayCount;
+
+document.getElementById(
+"absentCount"
+).innerHTML =
+absentCount;
 
 document.getElementById(
 "approvedCount"
@@ -823,90 +1332,119 @@ rejected;
 document.getElementById(
 "totalHours"
 ).innerHTML =
-filteredHours.toFixed(2);
+totalHours.toFixed(2);
 
-  }
+document.getElementById(
+"averageHours"
+).innerHTML =
 
-  window.showPhotos =
-function(
-inPhoto,
-outPhoto
-){
+totalAttendance > 0
 
-let html =
+?
 
-"IN PHOTO\n\n";
+(
+totalHours /
+totalAttendance
+).toFixed(2)
 
-if(inPhoto){
+:
 
-html +=
-inPhoto;
+0;
 
-}
+}window.enableEdit =
+function(id){
 
-html +=
+document.getElementById(
+`date-${id}`
+).disabled = false;
 
-"\n\nOUT PHOTO\n\n";
+document.getElementById(
+`staff-${id}`
+).disabled = false;
 
-if(outPhoto){
+document.getElementById(
+`in-${id}`
+).disabled = false;
 
-html +=
-outPhoto;
+document.getElementById(
+`out-${id}`
+).disabled = false;
 
-}
+document.getElementById(
+`type-${id}`
+).disabled = false;
 
-alert(
-"Photo Preview Available"
-);
+document.getElementById(
+`status-${id}`
+).disabled = false;
 
-};
+document.getElementById(
+`reason-${id}`
+).disabled = false;
 
-window.showLocation =
-function(
-inLat,
-inLng,
-outLat,
-outLng
-){
-
-alert(
-
-"IN Location\n\n"
-
-+
-
-inLat
-
-+
-
-", "
-
-+
-
-inLng
-
-+
-
-"\n\nOUT Location\n\n"
-
-+
-
-outLat
-
-+
-
-", "
-
-+
-
-outLng
-
-);
+document.getElementById(
+`remarks-${id}`
+).disabled = false;
 
 };
 
-window.approveAttendance =
+window.saveAttendance =
 async function(id){
+
+const attendanceType =
+document.getElementById(
+`type-${id}`
+).value;
+
+let inTime =
+document.getElementById(
+`in-${id}`
+).value;
+
+let outTime =
+document.getElementById(
+`out-${id}`
+).value;
+
+if(
+attendanceType==="Leave" ||
+attendanceType==="Holiday" ||
+attendanceType==="Weekly Off" ||
+attendanceType==="Absent"
+){
+
+inTime = "";
+outTime = "";
+
+}
+
+let totalHours = "0";
+
+if(
+inTime &&
+outTime
+){
+
+const inDate =
+new Date(
+"2000-01-01 " +
+inTime
+);
+
+const outDate =
+new Date(
+"2000-01-01 " +
+outTime
+);
+
+const diff =
+(outDate - inDate)
+/1000/60/60;
+
+totalHours =
+diff.toFixed(2);
+
+}
 
 await updateDoc(
 doc(
@@ -915,28 +1453,56 @@ db,
 id
 ),
 {
+
+date:
+document.getElementById(
+`date-${id}`
+).value,
+
+staffName:
+document.getElementById(
+`staff-${id}`
+).value,
+
+inTime:
+inTime,
+
+outTime:
+outTime,
+
+totalHours:
+totalHours,
+
+attendanceType:
+attendanceType,
+
 status:
-"Approved"
+document.getElementById(
+`status-${id}`
+).value,
+
+reason:
+document.getElementById(
+`reason-${id}`
+).value,
+
+remarks:
+document.getElementById(
+`remarks-${id}`
+).value,
+
+editedBy:
+"Admin",
+
+editedOn:
+new Date()
+.toLocaleString()
+
 }
 );
 
-loadAttendance();
-
-};
-
-window.rejectAttendance =
-async function(id){
-
-await updateDoc(
-doc(
-db,
-"attendance",
-id
-),
-{
-status:
-"Rejected"
-}
+alert(
+"Attendance Updated"
 );
 
 loadAttendance();
@@ -963,6 +1529,350 @@ id
 );
 
 loadAttendance();
+
+};
+
+window.showPhotos =
+function(
+inPhoto,
+outPhoto
+){
+
+document.getElementById(
+"photoContainer"
+).innerHTML =
+
+`
+
+<h3>
+IN Photo
+</h3>
+
+<img
+src="${inPhoto}">
+
+<br><br>
+
+<h3>
+OUT Photo
+</h3>
+
+<img
+src="${outPhoto}">
+
+`;
+
+document.getElementById(
+"photoModal"
+).style.display =
+"flex";
+
+};
+
+window.closePhotoModal =
+function(){
+
+document.getElementById(
+"photoModal"
+).style.display =
+"none";
+
+};
+
+window.showLocation =
+function(
+inLat,
+inLng,
+outLat,
+outLng
+){
+
+document.getElementById(
+"locationContainer"
+).innerHTML =
+
+`
+
+<h3>
+IN Location
+</h3>
+
+<p>
+
+${inLat},
+${inLng}
+
+</p>
+
+<a
+target="_blank"
+href="https://maps.google.com/?q=${inLat},${inLng}">
+
+Open Google Maps
+
+</a>
+
+<br><br>
+
+<h3>
+OUT Location
+</h3>
+
+<p>
+
+${outLat},
+${outLng}
+
+</p>
+
+<a
+target="_blank"
+href="https://maps.google.com/?q=${outLat},${outLng}">
+
+Open Google Maps
+
+</a>
+
+`;
+
+document.getElementById(
+"locationModal"
+).style.display =
+"flex";
+
+};
+
+window.closeLocationModal =
+function(){
+
+document.getElementById(
+"locationModal"
+).style.display =
+"none";
+
+};
+
+window.openBackDateForm =
+function(){
+
+document.getElementById(
+"backDateForm"
+).innerHTML =
+
+`
+
+<div
+style="
+background:white;
+padding:20px;
+margin-top:20px;
+border-radius:20px;
+">
+
+<h2>
+
+Back Date Attendance
+
+</h2>
+
+<br>
+
+<input
+id="backStaff"
+placeholder="Staff Name">
+
+<br><br>
+
+<input
+type="date"
+id="backDate">
+
+<br><br>
+
+<input
+type="time"
+id="backIn">
+
+<br><br>
+
+<input
+type="time"
+id="backOut">
+
+<br><br>
+
+<select
+id="backType">
+
+<option>
+Present
+</option>
+
+<option>
+Half Day
+</option>
+
+<option>
+Leave
+</option>
+
+<option>
+Holiday
+</option>
+
+<option>
+Weekly Off
+</option>
+
+<option>
+Absent
+</option>
+
+</select>
+
+<br><br>
+
+<input
+id="backReason"
+placeholder="Reason">
+
+<br><br>
+
+<input
+id="backRemarks"
+placeholder="Remarks">
+
+<br><br>
+
+<button
+class="green-btn"
+onclick="saveBackDateAttendance()">
+
+Save Attendance
+
+</button>
+
+</div>
+
+`;
+
+};
+
+window.saveBackDateAttendance =
+async function(){
+
+const inTime =
+document.getElementById(
+"backIn"
+).value;
+
+const outTime =
+document.getElementById(
+"backOut"
+).value;
+
+let hours = "0";
+
+if(
+inTime &&
+outTime
+){
+
+const inDate =
+new Date(
+"2000-01-01 " +
+inTime
+);
+
+const outDate =
+new Date(
+"2000-01-01 " +
+outTime
+);
+
+hours =
+(
+(outDate-inDate)
+/1000/60/60
+).toFixed(2);
+
+}
+
+await addDoc(
+collection(
+db,
+"attendance"
+),
+{
+
+staffName:
+document.getElementById(
+"backStaff"
+).value,
+
+date:
+new Date(
+document.getElementById(
+"backDate"
+).value
+).toLocaleDateString(),
+
+inTime:
+inTime,
+
+outTime:
+outTime,
+
+totalHours:
+hours,
+
+attendanceType:
+document.getElementById(
+"backType"
+).value,
+
+status:
+"Approved",
+
+reason:
+document.getElementById(
+"backReason"
+).value,
+
+remarks:
+document.getElementById(
+"backRemarks"
+).value,
+
+editedBy:
+"Admin",
+
+editedOn:
+new Date()
+.toLocaleString()
+
+}
+);
+
+alert(
+"Back Date Attendance Added"
+);
+
+loadAttendance();
+
+};
+
+window.exportExcel =
+function(){
+
+window.print();
+
+};
+
+window.exportPDF =
+function(){
+
+window.print();
 
 };
 

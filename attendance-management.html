@@ -68,8 +68,6 @@ font-size:32px;
 
 font-weight:bold;
 
-color:#0f172a;
-
 }
 
 .back-btn{
@@ -346,8 +344,7 @@ Average Hours
 </div>
 
 </div>
-
-  <style>
+<style>
 
 .filter-section{
 
@@ -736,8 +733,7 @@ Average Hours :
 </div>
 
 </div>
-
-  <style>
+<style>
 
 .table-box{
 
@@ -783,6 +779,10 @@ font-size:14px;
 
 color:#111827;
 
+position:sticky;
+
+top:0;
+
 }
 
 .attendance-table td{
@@ -792,19 +792,6 @@ padding:10px;
 border-bottom:1px solid #e5e7eb;
 
 font-size:14px;
-
-}
-
-.attendance-table input,
-.attendance-table select{
-
-padding:8px;
-
-border:1px solid #cbd5e1;
-
-border-radius:8px;
-
-width:100%;
 
 }
 
@@ -820,8 +807,6 @@ border-radius:20px;
 
 font-weight:bold;
 
-text-align:center;
-
 }
 
 .status-pending{
@@ -835,8 +820,6 @@ padding:6px 12px;
 border-radius:20px;
 
 font-weight:bold;
-
-text-align:center;
 
 }
 
@@ -852,8 +835,6 @@ border-radius:20px;
 
 font-weight:bold;
 
-text-align:center;
-
 }
 
 .action-btn{
@@ -865,6 +846,8 @@ border:none;
 border-radius:8px;
 
 cursor:pointer;
+
+font-size:12px;
 
 font-weight:bold;
 
@@ -914,7 +897,7 @@ color:white;
 
 .map-btn{
 
-background:#0ea5e9;
+background:#0284c7;
 
 color:white;
 
@@ -1156,8 +1139,7 @@ Close
 id="backDateForm">
 
 </div>
-
-  <script type="module">
+<script type="module">
 
 import { initializeApp }
 
@@ -1612,7 +1594,7 @@ disabled>
 
 <td>
 <span id="hours-${docItem.id}">
-${data.totalHours || '0'}
+${data.totalHours || "0"}
 </span>
 </td>
 
@@ -1622,25 +1604,55 @@ ${data.totalHours || '0'}
 id="type-${docItem.id}"
 disabled>
 
-<option value="Present" ${data.attendanceType==="Present"?"selected":""}>Present</option>
+<option value="Present"
+${data.attendanceType==="Present"?"selected":""}>
+Present
+</option>
 
-<option value="Half Day" ${data.attendanceType==="Half Day"?"selected":""}>Half Day</option>
+<option value="Half Day"
+${data.attendanceType==="Half Day"?"selected":""}>
+Half Day
+</option>
 
-<option value="Late Coming" ${data.attendanceType==="Late Coming"?"selected":""}>Late Coming</option>
+<option value="Late Coming"
+${data.attendanceType==="Late Coming"?"selected":""}>
+Late Coming
+</option>
 
-<option value="Early Going" ${data.attendanceType==="Early Going"?"selected":""}>Early Going</option>
+<option value="Early Going"
+${data.attendanceType==="Early Going"?"selected":""}>
+Early Going
+</option>
 
-<option value="Leave" ${data.attendanceType==="Leave"?"selected":""}>Leave</option>
+<option value="Leave"
+${data.attendanceType==="Leave"?"selected":""}>
+Leave
+</option>
 
-<option value="Holiday" ${data.attendanceType==="Holiday"?"selected":""}>Holiday</option>
+<option value="Holiday"
+${data.attendanceType==="Holiday"?"selected":""}>
+Holiday
+</option>
 
-<option value="Weekly Off" ${data.attendanceType==="Weekly Off"?"selected":""}>Weekly Off</option>
+<option value="Weekly Off"
+${data.attendanceType==="Weekly Off"?"selected":""}>
+Weekly Off
+</option>
 
-<option value="Absent" ${data.attendanceType==="Absent"?"selected":""}>Absent</option>
+<option value="Absent"
+${data.attendanceType==="Absent"?"selected":""}>
+Absent
+</option>
 
-<option value="On Duty" ${data.attendanceType==="On Duty"?"selected":""}>On Duty</option>
+<option value="On Duty"
+${data.attendanceType==="On Duty"?"selected":""}>
+On Duty
+</option>
 
-<option value="Work From Home" ${data.attendanceType==="Work From Home"?"selected":""}>Work From Home</option>
+<option value="Work From Home"
+${data.attendanceType==="Work From Home"?"selected":""}>
+Work From Home
+</option>
 
 </select>
 
@@ -1653,11 +1665,20 @@ id="status-${docItem.id}"
 class="${statusClass}"
 disabled>
 
-<option value="Pending" ${data.status==="Pending"?"selected":""}>Pending</option>
+<option value="Pending"
+${data.status==="Pending"?"selected":""}>
+Pending
+</option>
 
-<option value="Approved" ${data.status==="Approved"?"selected":""}>Approved</option>
+<option value="Approved"
+${data.status==="Approved"?"selected":""}>
+Approved
+</option>
 
-<option value="Rejected" ${data.status==="Rejected"?"selected":""}>Rejected</option>
+<option value="Rejected"
+${data.status==="Rejected"?"selected":""}>
+Rejected
+</option>
 
 </select>
 
@@ -1861,7 +1882,7 @@ filteredRecords
 0;
 
 }
-    window.enableEdit =
+  window.enableEdit =
 function(id){
 
 document.getElementById(
@@ -1896,17 +1917,16 @@ document.getElementById(
 `remarks-${id}`
 ).disabled = false;
 
-const attendanceType =
+const typeField =
 document.getElementById(
 `type-${id}`
 );
 
-attendanceType.addEventListener(
-"change",
-()=>{
+typeField.onchange =
+function(){
 
 const selectedType =
-attendanceType.value;
+this.value;
 
 const inField =
 document.getElementById(
@@ -1951,8 +1971,7 @@ outField.disabled = false;
 
 }
 
-}
-);
+};
 
 };
 
@@ -2086,13 +2105,13 @@ loadAttendance();
 window.deleteAttendance =
 async function(id){
 
-const result =
+const confirmDelete =
 confirm(
 "Delete Attendance Record?"
 );
 
 if(
-!result
+!confirmDelete
 ){
 return;
 }
@@ -2106,13 +2125,13 @@ id
 );
 
 alert(
-"Attendance Deleted"
+"Attendance Deleted Successfully"
 );
 
 loadAttendance();
 
 };
-    window.showPhotos =
+  window.showPhotos =
 function(
 inPhoto,
 outPhoto
@@ -2129,12 +2148,15 @@ style="
 display:flex;
 flex-wrap:wrap;
 gap:20px;
+justify-content:center;
 ">
 
 <div>
 
 <h3>
+
 IN Photo
+
 </h3>
 
 <br>
@@ -2153,7 +2175,7 @@ download="in-photo.png">
 <button
 class="action-btn photo-btn">
 
-Download
+Download Photo
 
 </button>
 
@@ -2164,7 +2186,9 @@ Download
 <div>
 
 <h3>
+
 OUT Photo
+
 </h3>
 
 <br>
@@ -2183,7 +2207,7 @@ download="out-photo.png">
 <button
 class="action-btn photo-btn">
 
-Download
+Download Photo
 
 </button>
 
@@ -2281,14 +2305,14 @@ IN Location
 <p>
 
 Latitude :
-${inLat}
+${inLat || "-"}
 
 </p>
 
 <p>
 
 Longitude :
-${inLng}
+${inLng || "-"}
 
 </p>
 
@@ -2322,14 +2346,14 @@ OUT Location
 <p>
 
 Latitude :
-${outLat}
+${outLat || "-"}
 
 </p>
 
 <p>
 
 Longitude :
-${outLng}
+${outLng || "-"}
 
 </p>
 
@@ -2417,8 +2441,7 @@ zoomModal.style.display =
 }
 
 };
-
-    window.openBackDateForm =
+  window.openBackDateForm =
 function(){
 
 document.getElementById(
@@ -2727,8 +2750,7 @@ document.getElementById(
 loadAttendance();
 
 };
-
-    window.exportExcel =
+  window.exportExcel =
 async function(){
 
 const querySnapshot =
@@ -2830,8 +2852,7 @@ Attendance Report
 body{
 
 font-family:
-Arial,
-sans-serif;
+Arial,sans-serif;
 
 padding:20px;
 
@@ -2927,7 +2948,11 @@ hours:0,
 
 present:0,
 
+halfDay:0,
+
 leave:0,
+
+holiday:0,
 
 absent:0
 
@@ -2951,28 +2976,31 @@ data.totalHours || 0
 if(
 data.attendanceType==="Present"
 ){
+summary[name].present++;
+}
 
-summary[name]
-.present++;
-
+if(
+data.attendanceType==="Half Day"
+){
+summary[name].halfDay++;
 }
 
 if(
 data.attendanceType==="Leave"
 ){
+summary[name].leave++;
+}
 
-summary[name]
-.leave++;
-
+if(
+data.attendanceType==="Holiday"
+){
+summary[name].holiday++;
 }
 
 if(
 data.attendanceType==="Absent"
 ){
-
-summary[name]
-.absent++;
-
+summary[name].absent++;
 }
 
 });
@@ -3042,7 +3070,13 @@ summary[monthKey] = {
 
 records:0,
 
-hours:0
+hours:0,
+
+present:0,
+
+leave:0,
+
+absent:0
 
 };
 
@@ -3061,6 +3095,24 @@ data.totalHours || 0
 )
 );
 
+if(
+data.attendanceType==="Present"
+){
+summary[monthKey].present++;
+}
+
+if(
+data.attendanceType==="Leave"
+){
+summary[monthKey].leave++;
+}
+
+if(
+data.attendanceType==="Absent"
+){
+summary[monthKey].absent++;
+}
+
 });
 
 console.table(
@@ -3070,8 +3122,7 @@ summary
 return summary;
 
 };
-
-    document.getElementById(
+  document.getElementById(
 "filterDate"
 ).addEventListener(
 "change",
@@ -3165,7 +3216,7 @@ loadEmployeeFilter();
 loadAttendance();
 
 console.log(
-"Attendance Management Final Loaded"
+"Attendance Management Final Loaded Successfully"
 );
 
 </script>

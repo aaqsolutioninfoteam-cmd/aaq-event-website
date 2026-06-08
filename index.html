@@ -19,6 +19,9 @@ href="logo.png">
 A.A.Q Solutions & Outsourcing
 </title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
 <style>
 
 *{
@@ -27,7 +30,6 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Poppins',sans-serif;
-scroll-behavior:smooth;
 
 }
 
@@ -41,13 +43,10 @@ linear-gradient(
 #111827
 );
 
-color:white;
-
-}
-
 background-size:400% 400%;
 
-animation:bgAnimation 15s ease infinite;
+animation:
+bgAnimation 15s ease infinite;
 
 color:white;
 
@@ -73,196 +72,213 @@ background-position:0% 50%;
 
 .container{
 
-width:100%;
-
-max-width:1200px;
+max-width:1300px;
 
 margin:auto;
 
-padding:25px;
+padding:20px;
 
 }
 
-header{
+.hero{
+
+min-height:90vh;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
 
 text-align:center;
 
-padding:70px 20px;
+padding:40px 20px;
+
+}
+
+.hero-box{
+
+width:100%;
+
+max-width:1000px;
 
 background:
 rgba(255,255,255,0.05);
 
-backdrop-filter:blur(20px);
+backdrop-filter:
+blur(20px);
 
-border-radius:30px;
+border:
+1px solid rgba(255,255,255,0.10);
 
-border:1px solid
-rgba(255,255,255,0.10);
+border-radius:35px;
+
+padding:50px 30px;
 
 box-shadow:
-0 20px 50px rgba(0,0,0,0.40);
+0 20px 60px rgba(0,0,0,.40);
 
 }
 
 .logo{
 
-width:150px;
+width:170px;
 
 margin-bottom:20px;
 
 filter:
 drop-shadow(
-0 0 20px rgba(255,255,255,.25)
+0 0 25px rgba(255,255,255,.30)
 );
 
 }
 
-h1{
+.hero h1{
 
-font-size:48px;
+font-size:55px;
 
-font-weight:700;
+font-weight:800;
 
 margin-bottom:10px;
 
-color:#ffffff;
-
 }
 
-.subtitle{
+.hero p{
 
 font-size:20px;
 
-color:#f8fafc;
+line-height:1.8;
 
-margin-bottom:35px;
+color:#e5e7eb;
+
+margin-bottom:30px;
+
+}
+
+.button-grid{
+
+display:flex;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+gap:15px;
+
+margin-top:20px;
 
 }
 
 .btn{
 
-display:inline-block;
-
-padding:16px 34px;
-
-margin:10px;
+padding:16px 28px;
 
 border:none;
 
 border-radius:50px;
 
-font-size:18px;
+font-size:16px;
 
 font-weight:700;
 
 cursor:pointer;
 
-color:white;
-
 text-decoration:none;
 
-transition:all .35s ease;
+color:white;
 
-box-shadow:
-0 8px 25px rgba(0,0,0,.35);
-
-}
-
-.btn:hover{
-
-transform:
-translateY(-5px)
-scale(1.05);
-
-box-shadow:
-0 15px 35px rgba(0,0,0,.45);
+transition:.3s;
 
 }
 
 .btn:hover{
 
 transform:
-translateY(-5px)
-scale(1.03);
-
-box-shadow:
-0 18px 35px rgba(0,0,60,.45);
+translateY(-5px);
 
 }
 
 .booking{
-background:linear-gradient(
+
+background:
+linear-gradient(
 135deg,
-#ff8a00,
-#ffb300
+#f59e0b,
+#f97316
 );
+
 }
 
 .feedback{
-background:linear-gradient(
+
+background:
+linear-gradient(
 135deg,
-#9333ea,
-#c084fc
+#8b5cf6,
+#a855f7
 );
+
 }
 
 .complaint{
-background:linear-gradient(
+
+background:
+linear-gradient(
 135deg,
 #ec4899,
 #f472b6
 );
-}
 
-.contact{
-background:linear-gradient(
-135deg,
-#22c55e,
-#4ade80
-);
-}
-
-.webapp{
-background:linear-gradient(
-135deg,
-#7c3aed,
-#a855f7
-);
 }
 
 .career{
-background:linear-gradient(
+
+background:
+linear-gradient(
 135deg,
-#f97316,
-#fb923c
+#22c55e,
+#16a34a
 );
+
 }
 
-section{
+.webapp{
 
-margin-top:40px;
+background:
+linear-gradient(
+135deg,
+#3b82f6,
+#2563eb
+);
 
-padding:10px 0;
+}
 
-background:none;
+.contact{
 
-backdrop-filter:none;
+background:
+linear-gradient(
+135deg,
+#06b6d4,
+#0891b2
+);
 
-border-radius:0;
+}
+
+.section{
+
+padding:80px 20px;
 
 }
 
 .section-title{
 
-font-size:38px;
+font-size:42px;
 
 font-weight:700;
 
-color:#ffffff;
-
 text-align:center;
 
-margin-bottom:25px;
+margin-bottom:40px;
 
 }
 
@@ -271,10 +287,11 @@ margin-bottom:25px;
 background:
 rgba(255,255,255,0.05);
 
+backdrop-filter:
+blur(15px);
+
 border:
 1px solid rgba(255,255,255,0.08);
-
-backdrop-filter:blur(15px);
 
 border-radius:25px;
 
@@ -282,167 +299,31 @@ padding:30px;
 
 }
 
-.services{
+@media(max-width:768px){
 
-display:grid;
+.hero h1{
 
-grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
-
-gap:25px;
+font-size:36px;
 
 }
 
-.leadership{
+.hero p{
 
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(280px,1fr));
-
-gap:25px;
+font-size:16px;
 
 }
 
-.leader-photo{
+.logo{
 
-width:140px;
-
-height:140px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-border:5px solid #facc15;
-
-margin-bottom:15px;
+width:130px;
 
 }
 
-.gallery{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(280px,1fr));
-
-gap:20px;
-
-}
-
-.gallery img{
-
-width:100%;
-
-height:250px;
-
-object-fit:cover;
-
-border-radius:20px;
-
-transition:.3s;
-
-}
-
-.gallery img:hover{
-
-transform:scale(1.03);
-
-}
-
-.popup{
-
-position:fixed;
-
-top:0;
-left:0;
-
-width:100%;
-height:100%;
-
-background:
-rgba(0,0,0,.8);
-
-display:none;
-
-justify-content:center;
-
-align-items:center;
-
-z-index:999;
-
-padding:15px;
-
-}
-
-.popup-content{
-
-background:#111827;
-
-padding:25px;
-
-border-radius:25px;
-
-width:100%;
-
-max-width:450px;
-
-position:relative;
-
-}
-
-.close{
-
-position:absolute;
-
-right:15px;
-
-top:10px;
+.section-title{
 
 font-size:30px;
 
-cursor:pointer;
-
 }
-
-input,
-textarea,
-select{
-
-width:100%;
-
-padding:14px;
-
-margin-bottom:15px;
-
-border:none;
-
-border-radius:12px;
-
-background:#1f2937;
-
-color:white;
-
-}
-
-.submit-btn{
-
-background:#f59e0b;
-
-color:black;
-
-font-weight:bold;
-
-}
-
-footer{
-
-text-align:center;
-
-padding:50px 20px;
-
-margin-top:60px;
 
 }
 
@@ -454,29 +335,39 @@ margin-top:60px;
 
 <div class="container">
 
-<header>
+<section class="hero">
+
+<div class="hero-box">
 
 <img
 src="logo.png"
-class="logo"
-alt="AAQ Logo">
+class="logo">
 
 <h1>
+
 A.A.Q Solutions & Outsourcing
+
 </h1>
 
-<p class="subtitle">
+<p>
 
-Professional Event Management &
-Staffing Services
+Professional Event Management,
+Volunteer Management,
+Corporate Events,
+Live Streaming,
+VIP Management,
+Staffing Solutions &
+Outsourcing Services Across Gujarat
 
 </p>
+
+<div class="button-grid">
 
 <button
 class="btn booking"
 onclick="openPopup('bookingPopup')">
 
-📅 Book Event Inquiries 
+📅 Book Event
 
 </button>
 
@@ -505,51 +396,164 @@ onclick="openPopup('careerPopup')">
 </button>
 
 <a
-class="btn webapp"
-href="login.html">
+href="login.html"
+class="btn webapp">
 
 🌐 Web App
 
 </a>
 
 <a
-class="btn contact"
 href="https://wa.me/917600263704"
-target="_blank">
+target="_blank"
+class="btn contact">
 
 📞 Contact Us
 
 </a>
 
-</header>
+</div>
 
-<section>
-
-<h2 class="section-title">
-About Us
-</h2>
-
-<p style="
-text-align:center;
-font-size:18px;
-line-height:1.9;
-">
-
-A.A.Q Solutions & Outsourcing provides
-professional Event Management,
-Volunteer Management,
-Corporate Events,
-Live Streaming,
-VIP Management,
-Staffing Solutions
-and Outsourcing Services
-across Gujarat.
-
-</p>
+</div>
 
 </section>
 
-<section>
+<section class="section">
+
+<h2 class="section-title">
+
+About Us
+
+</h2>
+
+<div class="card">
+
+<p style="
+font-size:18px;
+line-height:2;
+text-align:center;
+">
+
+A.A.Q Solutions & Outsourcing is a professional
+Event Management and Staffing Company providing
+high-quality services across Gujarat.
+
+We specialize in Event Management,
+Volunteer Management,
+Corporate Events,
+Religious Programs,
+Live Streaming,
+VIP Management,
+Access Control,
+Manpower Solutions,
+Promotional Activities and Outsourcing Services.
+
+Our mission is to deliver professional,
+reliable and result-oriented solutions
+for every event and project.
+
+</p>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+
+Why Choose Us
+
+</h2>
+
+<div style="
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+">
+
+<div class="card">
+
+<h3>
+
+✅ Professional Team
+
+</h3>
+
+<br>
+
+<p>
+
+Experienced and trained staff for all types
+of events and operations.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+⚡ Fast Execution
+
+</h3>
+
+<br>
+
+<p>
+
+Quick planning, deployment and execution
+with professional management.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+🛡 Reliable Service
+
+</h3>
+
+<br>
+
+<p>
+
+Trusted by clients for quality,
+commitment and transparency.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+📍 Gujarat Coverage
+
+</h3>
+
+<br>
+
+<p>
+
+Providing services across Gujarat with
+dedicated support and manpower.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
 
 <h2 class="section-title">
 
@@ -557,16 +561,28 @@ Our Services
 
 </h2>
 
-<div class="services">
+<div style="
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+">
 
 <div class="card">
 
 <h3>
-Event Management
+
+🎪 Event Management
+
 </h3>
 
+<br>
+
 <p>
-Professional event handling solutions.
+
+Complete planning and execution of
+events from start to finish.
+
 </p>
 
 </div>
@@ -574,11 +590,18 @@ Professional event handling solutions.
 <div class="card">
 
 <h3>
-Corporate Events
+
+🏢 Corporate Events
+
 </h3>
 
+<br>
+
 <p>
-Premium corporate event services.
+
+Professional management of meetings,
+seminars and corporate gatherings.
+
 </p>
 
 </div>
@@ -586,11 +609,18 @@ Premium corporate event services.
 <div class="card">
 
 <h3>
-Live Streaming
+
+🎥 Live Streaming
+
 </h3>
 
+<br>
+
 <p>
-Professional streaming setup.
+
+Multi-camera live streaming solutions
+for online and hybrid events.
+
 </p>
 
 </div>
@@ -598,11 +628,18 @@ Professional streaming setup.
 <div class="card">
 
 <h3>
-Event Staffing
+
+👥 Volunteer Management
+
 </h3>
 
+<br>
+
 <p>
-Professional crew support.
+
+Volunteer recruitment, deployment and
+coordination services.
+
 </p>
 
 </div>
@@ -610,11 +647,18 @@ Professional crew support.
 <div class="card">
 
 <h3>
-Volunteer Management
+
+⭐ VIP Management
+
 </h3>
 
+<br>
+
 <p>
-Volunteer handling services.
+
+Professional guest handling and protocol
+management services.
+
 </p>
 
 </div>
@@ -622,11 +666,56 @@ Volunteer handling services.
 <div class="card">
 
 <h3>
-VIP Management
+
+👨‍💼 Staffing Solutions
+
 </h3>
 
+<br>
+
 <p>
-Luxury guest support services.
+
+Temporary and permanent staffing
+for events and businesses.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+🎫 Access Management
+
+</h3>
+
+<br>
+
+<p>
+
+Entry control, pass management and
+visitor verification systems.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+📣 Promotions & Activations
+
+</h3>
+
+<br>
+
+<p>
+
+Brand promotion, marketing activities
+and field activation campaigns.
+
 </p>
 
 </div>
@@ -635,7 +724,426 @@ Luxury guest support services.
 
 </section>
 
-<section>
+  
+<section class="section">
+
+<h2 class="section-title">
+
+Our Achievements
+
+</h2>
+
+<div style="
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+">
+
+<div class="card"
+style="text-align:center;">
+
+<h1 style="
+font-size:50px;
+color:#facc15;
+">
+
+500+
+
+</h1>
+
+<br>
+
+<p>
+
+Events Successfully Managed
+
+</p>
+
+</div>
+
+<div class="card"
+style="text-align:center;">
+
+<h1 style="
+font-size:50px;
+color:#22c55e;
+">
+
+1000+
+
+</h1>
+
+<br>
+
+<p>
+
+Volunteers Managed
+
+</p>
+
+</div>
+
+<div class="card"
+style="text-align:center;">
+
+<h1 style="
+font-size:50px;
+color:#3b82f6;
+">
+
+100+
+
+</h1>
+
+<br>
+
+<p>
+
+Corporate Clients
+
+</p>
+
+</div>
+
+<div class="card"
+style="text-align:center;">
+
+<h1 style="
+font-size:50px;
+color:#ec4899;
+">
+
+24/7
+
+</h1>
+
+<br>
+
+<p>
+
+Support Available
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+
+Why Clients Trust Us
+
+</h2>
+
+<div style="
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+">
+
+<div class="card">
+
+<h3>
+
+🎯 Quality Service
+
+</h3>
+
+<br>
+
+<p>
+
+Delivering high-quality event and staffing
+solutions with professionalism.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+🤝 Trusted Partner
+
+</h3>
+
+<br>
+
+<p>
+
+Long-term relationships built on trust,
+transparency and commitment.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+🚀 Innovation
+
+</h3>
+
+<br>
+
+<p>
+
+Using modern technology and management
+systems for better event execution.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+
+Event Gallery
+
+</h2>
+
+<div class="gallery-grid">
+
+<img
+src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop"
+class="gallery-img">
+
+<img
+src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop"
+class="gallery-img">
+
+<img
+src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=1200&auto=format&fit=crop"
+class="gallery-img">
+
+<img
+src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1200&auto=format&fit=crop"
+class="gallery-img">
+
+<img
+src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1200&auto=format&fit=crop"
+class="gallery-img">
+
+<img
+src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1200&auto=format&fit=crop"
+class="gallery-img">
+
+</div>
+
+</section>
+
+<style>
+
+.gallery-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(300px,1fr));
+
+gap:25px;
+
+}
+
+.gallery-img{
+
+width:100%;
+
+height:260px;
+
+object-fit:cover;
+
+border-radius:25px;
+
+transition:.4s;
+
+cursor:pointer;
+
+box-shadow:
+0 15px 35px rgba(0,0,0,.30);
+
+}
+
+.gallery-img:hover{
+
+transform:
+scale(1.05);
+
+}
+
+</style>
+  
+<section class="section">
+
+<h2 class="section-title">
+
+Client Reviews
+
+</h2>
+
+<div style="
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+">
+
+<div class="card">
+
+<h3>
+
+⭐⭐⭐⭐⭐
+
+</h3>
+
+<br>
+
+<p>
+
+Professional team and excellent event
+management services. Highly recommended.
+
+</p>
+
+<br>
+
+<b>
+
+Corporate Client
+
+</b>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+⭐⭐⭐⭐⭐
+
+</h3>
+
+<br>
+
+<p>
+
+Very well organized event with excellent
+staff support and management.
+
+</p>
+
+<br>
+
+<b>
+
+Event Organizer
+
+</b>
+
+</div>
+
+<div class="card">
+
+<h3>
+
+⭐⭐⭐⭐⭐
+
+</h3>
+
+<br>
+
+<p>
+
+Outstanding volunteer and access management
+services during our large-scale event.
+
+</p>
+
+<br>
+
+<b>
+
+NGO Partner
+
+</b>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2 class="section-title">
+
+Contact Information
+
+</h2>
+
+<div class="card"
+style="text-align:center;">
+
+<h3>
+
+📞 Contact Us
+
+</h3>
+
+<br>
+
+<p>
+
+📱 +91 7600263704
+
+</p>
+
+<br>
+
+<p>
+
+📧 aaqsolutioninfoteam@gmail.com
+
+</p>
+
+<br>
+
+<p>
+
+📍 Ahmedabad, Gujarat, India
+
+</p>
+
+<br>
+
+<a
+href="https://wa.me/917600263704"
+target="_blank"
+class="btn contact">
+
+WhatsApp Now
+
+</a>
+
+</div>
+
+</section>
+
+<section class="section">
 
 <h2 class="section-title">
 
@@ -643,24 +1151,62 @@ Leadership Team
 
 </h2>
 
-<div class="leadership">
+<div style="
+display:flex;
+justify-content:center;
+">
 
-<div class="card">
+<div class="card"
+style="
+max-width:650px;
+text-align:center;
+">
 
 <img
 src="ceo.png"
-class="leader-photo">
+style="
+width:180px;
+height:180px;
+border-radius:50%;
+object-fit:cover;
+border:6px solid #facc15;
+margin-bottom:20px;
+">
 
-<h3>
+<h2>
 
 Shaikh Mohammad Arkan
 
-</h3>
+</h2>
 
-<p>
+<br>
+
+<div style="
+display:inline-block;
+padding:10px 25px;
+background:#facc15;
+color:#111827;
+border-radius:50px;
+font-weight:bold;
+">
 
 Founder & CEO
 
+</div>
+
+<br><br>
+
+<p style="
+line-height:2;
+font-size:17px;
+">
+
+Leading A.A.Q Solutions & Outsourcing with a vision
+to provide professional Event Management,
+Volunteer Management, Staffing Solutions,
+Corporate Event Operations and Outsourcing Services
+across Gujarat with quality, commitment and innovation.
+
 </p>
 
 </div>
@@ -669,76 +1215,61 @@ Founder & CEO
 
 </section>
 
-  <section>
-
-<h2 class="section-title">
-
-Gallery
-
-</h2>
-
-<div class="gallery">
-
-<img
-src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop">
-
-<img
-src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop">
-
-<img
-src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=1200&auto=format&fit=crop">
-
-<img
-src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=1200&auto=format&fit=crop">
-
-</div>
-
-</section>
-
-<footer>
+<footer
+style="
+text-align:center;
+padding:60px 20px;
+margin-top:40px;
+border-top:1px solid rgba(255,255,255,.08);
+">
 
 <h2>
+
 A.A.Q Solutions & Outsourcing
+
 </h2>
 
 <br>
 
 <p>
+
 Professional Event Management &
 Staffing Services
+
 </p>
 
 <br>
 
 <p>
+
 📞 +91 7600263704
+
 </p>
 
 <p>
+
 📧 aaqsolutioninfoteam@gmail.com
+
 </p>
 
 <br>
 
 <p>
+
 © 2026 All Rights Reserved
+
 </p>
 
 </footer>
 
-</div>
-
+  
 <!-- FEEDBACK POPUP -->
 
-<div
-class="popup"
-id="feedbackPopup">
+<div class="popup" id="feedbackPopup">
 
-<div
-class="popup-content">
+<div class="popup-content">
 
-<span
-class="close"
+<span class="close"
 onclick="closePopup('feedbackPopup')">
 
 &times;
@@ -804,7 +1335,7 @@ placeholder="Your Feedback">
 
 <button
 type="submit"
-class="btn submit-btn">
+class="btn booking">
 
 Submit Feedback
 
@@ -818,15 +1349,11 @@ Submit Feedback
 
 <!-- COMPLAINT POPUP -->
 
-<div
-class="popup"
-id="complaintPopup">
+<div class="popup" id="complaintPopup">
 
-<div
-class="popup-content">
+<div class="popup-content">
 
-<span
-class="close"
+<span class="close"
 onclick="closePopup('complaintPopup')">
 
 &times;
@@ -876,7 +1403,7 @@ placeholder="Complaint Details">
 
 <button
 type="submit"
-class="btn submit-btn">
+class="btn complaint">
 
 Submit Complaint
 
@@ -888,17 +1415,13 @@ Submit Complaint
 
 </div>
 
-  <!-- BOOK EVENT POPUP -->
+<!-- BOOKING POPUP -->
 
-<div
-class="popup"
-id="bookingPopup">
+<div class="popup" id="bookingPopup">
 
-<div
-class="popup-content">
+<div class="popup-content">
 
-<span
-class="close"
+<span class="close"
 onclick="closePopup('bookingPopup')">
 
 &times;
@@ -949,12 +1472,12 @@ required>
 Select Event Type
 </option>
 
-<option>Webinar</option>
 <option>Corporate Event</option>
-<option>Religious Program</option>
-<option>Live Streaming</option>
+<option>Conference</option>
 <option>Seminar</option>
-<option>Meeting</option>
+<option>Live Streaming</option>
+<option>Religious Program</option>
+<option>Other</option>
 
 </select>
 
@@ -965,9 +1488,9 @@ placeholder="Event Details">
 
 <button
 type="submit"
-class="btn submit-btn">
+class="btn booking">
 
-Book Now
+Book Event
 
 </button>
 
@@ -979,15 +1502,11 @@ Book Now
 
 <!-- CAREER POPUP -->
 
-<div
-class="popup"
-id="careerPopup">
+<div class="popup" id="careerPopup">
 
-<div
-class="popup-content">
+<div class="popup-content">
 
-<span
-class="close"
+<span class="close"
 onclick="closePopup('careerPopup')">
 
 &times;
@@ -1046,9 +1565,9 @@ Select Position
 
 <option>Event Coordinator</option>
 <option>Event Crew</option>
+<option>Volunteer</option>
 <option>Access Manager</option>
 <option>Technical Team</option>
-<option>Volunteer</option>
 <option>Office Staff</option>
 
 </select>
@@ -1060,7 +1579,7 @@ placeholder="Experience / Skills">
 
 <button
 type="submit"
-class="btn submit-btn">
+class="btn career">
 
 Apply Now
 
@@ -1072,27 +1591,121 @@ Apply Now
 
 </div>
 
+<style>
+
+.popup{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:
+rgba(0,0,0,.80);
+
+display:none;
+
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+
+padding:20px;
+
+}
+
+.popup-content{
+
+background:#111827;
+
+width:100%;
+max-width:500px;
+
+padding:30px;
+
+border-radius:25px;
+
+position:relative;
+
+border:1px solid
+rgba(255,255,255,.08);
+
+}
+
+.close{
+
+position:absolute;
+
+top:10px;
+right:18px;
+
+font-size:30px;
+
+cursor:pointer;
+
+}
+
+input,
+textarea,
+select{
+
+width:100%;
+
+padding:14px;
+
+margin-bottom:15px;
+
+border:none;
+
+border-radius:12px;
+
+background:#1f2937;
+
+color:white;
+
+}
+
+textarea{
+
+min-height:120px;
+
+resize:vertical;
+
+}
+
+</style>
+
 <script>
 
 function openPopup(id){
 
-document.getElementById(id).style.display = "flex";
+document.getElementById(id).style.display =
+"flex";
 
 }
 
 function closePopup(id){
 
-document.getElementById(id).style.display = "none";
+document.getElementById(id).style.display =
+"none";
 
 }
 
-window.onclick = function(event){
+window.onclick =
+function(event){
 
-document.querySelectorAll(".popup").forEach(function(popup){
+document
+.querySelectorAll(".popup")
+.forEach(function(popup){
 
-if(event.target === popup){
+if(
+event.target === popup
+){
 
-popup.style.display = "none";
+popup.style.display =
+"none";
 
 }
 
@@ -1100,44 +1713,63 @@ popup.style.display = "none";
 
 };
 
-const forms = document.querySelectorAll("form");
+const forms =
+document.querySelectorAll("form");
 
-forms.forEach(form => {
+forms.forEach(form=>{
 
-form.addEventListener("submit", function(){
+form.addEventListener(
+"submit",
+function(){
 
 const nameInput =
-form.querySelector('input[name="name"]');
+form.querySelector(
+'input[name="name"]'
+);
 
 const subjectInput =
-form.querySelector('input[name="subject"]');
+form.querySelector(
+'input[name="subject"]'
+);
 
-if(nameInput && subjectInput){
+if(
+nameInput &&
+subjectInput
+){
 
-const name = nameInput.value;
+const name =
+nameInput.value;
 
-if(subjectInput.value.includes("Feedback")){
+if(
+subjectInput.value.includes("Feedback")
+){
 
 subjectInput.value =
-"New Feedback Received From " + name;
+"New Feedback From " + name;
 
 }
 
-if(subjectInput.value.includes("Complaint")){
+if(
+subjectInput.value.includes("Complaint")
+){
 
 subjectInput.value =
-"New Complaint Received From " + name;
+"New Complaint From " + name;
 
 }
 
-if(subjectInput.value.includes("Booking")){
+if(
+subjectInput.value.includes("Booking")
+){
 
 subjectInput.value =
-"New Event Booking From " + name;
+"New Booking From " + name;
 
 }
 
-if(subjectInput.value.includes("Career")){
+if(
+subjectInput.value.includes("Career")
+){
 
 subjectInput.value =
 "New Career Application From " + name;
@@ -1151,6 +1783,8 @@ subjectInput.value =
 });
 
 </script>
+
+</div>
 
 </body>
 

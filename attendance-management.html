@@ -2,247 +2,99 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Management - Pro</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Professional Attendance System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        :root {
-            --bg-color: #f4f7fe;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --primary: #4318FF;
-            --success: #05cd99;
-            --danger: #ee5d50;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-color); padding: 20px 30px; color: var(--text-main); }
-        .container { max-width: 100%; margin: auto; }
-
-        /* Hide elements during print */
-        @media print {
-            body * { visibility: hidden; }
-            .table-box, .table-box * { visibility: visible; }
-            .table-box { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; border: none; }
-            .attendance-table th { background: #f1f5f9 !important; color: #000 !important; }
-            .action-col { display: none; } /* Hide action buttons in print */
-        }
-
-        /* Header & Cards */
-        .header { display: flex; justify-content: space-between; margin-bottom: 25px; }
-        .page-title { font-size: 24px; font-weight: 700; color: #2b3674; }
-        
-        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .summary-card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border-left: 4px solid var(--primary); }
-        .summary-card h3 { font-size: 13px; color: var(--text-muted); }
-        .summary-card h1 { font-size: 24px; margin-top: 5px; color: #2b3674; }
-        
-        /* Filters */
-        .filter-section { background: var(--card-bg); padding: 20px; border-radius: 12px; display: flex; flex-wrap: wrap; gap: 15px; align-items: end; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-        .filter-box { display: flex; flex-direction: column; gap: 5px; }
-        .filter-box label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
-        .filter-box input, .filter-box select { padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; outline: none; }
-        
-        .btn { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; color: white; display: inline-flex; align-items: center; gap: 5px; }
-        .btn-primary { background: var(--primary); }
-        .btn-success { background: var(--success); }
-        .btn-danger { background: var(--danger); }
-        .btn-dark { background: #1e293b; }
-
-        /* Table & Action Menu */
-        .table-box { background: var(--card-bg); border-radius: 12px; overflow-x: auto; margin-bottom: 20px; }
-        .attendance-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
-        .attendance-table th, .attendance-table td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); font-size: 14px; text-align: left; }
-        .attendance-table th { background: #f8fafc; color: var(--text-muted); font-weight: 600; }
-        
-        .attendance-table input, .attendance-table select { width: 100%; border: none; background: transparent; color: inherit; pointer-events: none; }
-        .attendance-table input.editable, .attendance-table select.editable { pointer-events: auto; background: #f1f5f9; border: 1px solid var(--primary); padding: 4px; border-radius: 4px; }
-
-        /* Clean Dropdown Menu */
-        .action-dropdown { position: relative; display: inline-block; }
-        .action-btn-main { background: #f1f5f9; color: var(--text-main); border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 16px; }
-        .dropdown-content { display: none; position: absolute; right: 0; background-color: #fff; min-width: 120px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-radius: 8px; z-index: 100; border: 1px solid var(--border-color); }
-        .action-dropdown:hover .dropdown-content { display: block; }
-        .dropdown-content button { width: 100%; padding: 10px; text-align: left; background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-        .dropdown-content button:hover { background-color: #f8fafc; }
-        .dropdown-content button.del-text { color: var(--danger); }
-
-        /* Modern Modal for Back Date */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 9999; }
-        .modal-content { background: #fff; padding: 30px; border-radius: 16px; width: 400px; max-width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; }
-        .modal-content h2 { font-size: 20px; margin-bottom: 20px; color: #1e293b; }
-        .modal-content input, .modal-content select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border-color); border-radius: 8px; }
-        .close-modal { position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); }
+        :root { --primary: #4318FF; --bg: #f4f7fe; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); padding: 20px; }
+        .filter-bar { background: white; padding: 15px; border-radius: 12px; display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+        select, input { padding: 8px; border: 1px solid #ddd; border-radius: 6px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
+        th { background: #f8f9fa; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        .missing-punch { background: #fff5f5; border-left: 4px solid #e53e3e; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <div class="page-title">Attendance Management</div>
-    </div>
-
-    <!-- Reduced Clean Cards -->
-    <div class="summary-grid">
-        <div class="summary-card"><h3>Total Records</h3><h1 id="totalAttendance">0</h1></div>
-        <div class="summary-card" style="border-color: #05cd99;"><h3>Present</h3><h1 id="presentCount">0</h1></div>
-        <div class="summary-card" style="border-color: #ee5d50;"><h3>Absent</h3><h1 id="absentCount">0</h1></div>
-        <div class="summary-card" style="border-color: #ffce20;"><h3>Leave/Holiday</h3><h1 id="leaveCount">0</h1></div>
-        <div class="summary-card" style="border-color: #8b5cf6;"><h3>Total Hours</h3><h1 id="totalHours">0</h1></div>
-    </div>
-
-    <!-- Actions & Filters -->
-    <div class="filter-section">
-        <div class="filter-box"><label>Date</label><input type="date" id="filterDate"></div>
-        <div class="filter-box"><label>Month</label><input type="month" id="filterMonth"></div>
-        <div class="filter-box"><label>Status</label>
-            <select id="statusFilter"><option value="">All</option><option value="Approved">Approved</option><option value="Pending">Pending</option></select>
-        </div>
-        
-        <button class="btn btn-primary" onclick="loadAttendance()"><i class="fa-solid fa-filter"></i> Filter</button>
-        <button class="btn btn-dark" onclick="openBackDateModal()"><i class="fa-solid fa-plus"></i> Add Back Date</button>
-        <button class="btn btn-success" onclick="exportExcelRobust()"><i class="fa-solid fa-file-excel"></i> Export Excel</button>
-        <button class="btn" style="background:#64748b;" onclick="window.print()"><i class="fa-solid fa-print"></i> Print PDF</button>
-    </div>
-
-    <!-- Main Table -->
-    <div class="table-box">
-        <table class="attendance-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Staff Name</th>
-                    <th>IN Time</th>
-                    <th>OUT Time</th>
-                    <th>Hours</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th class="action-col" style="text-align:right;">Action</th>
-                </tr>
-            </thead>
-            <tbody id="attendanceTable">
-                <!-- Data populated by JS -->
-            </tbody>
-        </table>
-    </div>
+<div class="filter-bar">
+    <i class="fa-solid fa-filter"></i>
+    <select id="empDropdown" onchange="loadAttendance()">
+        <option value="">Select Employee</option>
+    </select>
+    <select id="statusDropdown" onchange="loadAttendance()">
+        <option value="">All Status</option>
+        <option value="Approved">Approved</option>
+        <option value="Pending">Pending</option>
+    </select>
+    <button onclick="loadAttendance()" class="btn">Refresh Data</button>
 </div>
 
-<!-- Clean Back Date Modal -->
-<div id="backDateModal" class="modal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeBackDateModal()"><i class="fa-solid fa-xmark"></i></button>
-        <h2>Add Back Date Entry</h2>
-        <input type="text" id="bd-staff" placeholder="Staff Name">
-        <input type="date" id="bd-date">
-        <div style="display:flex; gap:10px;">
-            <input type="time" id="bd-in" placeholder="In Time">
-            <input type="time" id="bd-out" placeholder="Out Time">
-        </div>
-        <select id="bd-type">
-            <option value="Present">Present</option>
-            <option value="Absent">Absent</option>
-            <option value="Leave">Leave</option>
-        </select>
-        <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="saveBackDate()">Save Record</button>
-    </div>
+<div class="table-box">
+    <table>
+        <thead>
+            <tr>
+                <th>Emp Code</th>
+                <th>Staff Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="attendanceTable"></tbody>
+    </table>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, getDocs, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
-        authDomain: "aaq-event-erp.firebaseapp.com",
-        projectId: "aaq-event-erp",
-        storageBucket: "aaq-event-erp.firebasestorage.app",
-        messagingSenderId: "985636664002",
-        appId: "1:985636664002:web:4b941d3562609d2058815b"
-    };
-
+    const firebaseConfig = { /* Apna Config Yahan Daalein */ };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    
+    // Admin Role Access (Ye Login se ayega)
+    const IS_MANAGER = true; 
 
-    // Load Data
-    window.loadAttendance = async function(){
-        const querySnapshot = await getDocs(collection(db, "attendance"));
+    // 1. Load Dropdowns dynamically
+    async function initFilters() {
+        const qs = await getDocs(collection(db, "attendance"));
+        const empList = new Set();
+        qs.forEach(d => empList.add(d.data().empCode)); // Employee Code filter
+        const sel = document.getElementById("empDropdown");
+        empList.forEach(code => sel.innerHTML += `<option value="${code}">${code}</option>`);
+    }
+
+    // 2. Main Load Function
+    window.loadAttendance = async function() {
+        const empFilter = document.getElementById("empDropdown").value;
+        const qs = await getDocs(collection(db, "attendance"));
         let html = "";
-        
-        querySnapshot.forEach((docItem)=>{
-            const data = docItem.data();
-            
+
+        qs.forEach((d) => {
+            const data = d.data();
+            if(empFilter && data.empCode !== empFilter) return;
+
+            const isMissing = !data.outTime;
             html += `
-            <tr>
-                <td><input type="text" id="date-${docItem.id}" value="${data.date || ''}"></td>
-                <td><input type="text" id="staff-${docItem.id}" value="${data.staffName || ''}"></td>
-                <td><input type="time" id="in-${docItem.id}" value="${data.inTime || ''}"></td>
-                <td><input type="time" id="out-${docItem.id}" value="${data.outTime || ''}"></td>
-                <td style="font-weight:bold; color:var(--primary);">${data.totalHours || "0"}</td>
+            <tr class="${isMissing ? 'missing-punch' : ''}">
+                <td>${data.empCode || 'N/A'}</td>
+                <td>${data.staffName}</td>
+                <td>${data.date}</td>
+                <td>${data.inTime} - ${data.outTime || '---'}</td>
+                <td><span class="badge">${data.status}</span></td>
                 <td>
-                    <select id="type-${docItem.id}">
-                        <option value="Present" ${data.attendanceType==="Present"?"selected":""}>Present</option>
-                        <option value="Absent" ${data.attendanceType==="Absent"?"selected":""}>Absent</option>
-                    </select>
-                </td>
-                <td><span style="background:#e2e8f0; padding:4px 8px; border-radius:4px; font-size:12px;">${data.status || 'Pending'}</span></td>
-                
-                <td class="action-col" style="text-align:right;">
-                    <!-- Dropdown Action Menu -->
-                    <div class="action-dropdown">
-                        <button class="action-btn-main"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                        <div class="dropdown-content">
-                            <button onclick="enableEditMode('${docItem.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
-                            <button onclick="saveChanges('${docItem.id}')"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-                            <button class="del-text" onclick="deleteRecord('${docItem.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
-                        </div>
-                    </div>
+                    ${IS_MANAGER ? `<button onclick="editRow('${d.id}')">Edit</button>` : 'View Only'}
                 </td>
             </tr>`;
         });
-
         document.getElementById("attendanceTable").innerHTML = html;
     }
 
-    // Modern Excel Export that fixes formatting
-    window.exportExcelRobust = async function(){
-        const querySnapshot = await getDocs(collection(db, "attendance"));
-        let csv = "Date,Staff Name,IN Time,OUT Time,Hours,Type,Status\n";
-        
-        querySnapshot.forEach((docItem)=>{
-            const data = docItem.data();
-            // Wrap variables in quotes to prevent Excel from breaking cells if a comma exists
-            csv += `"${data.date || ""}","${data.staffName || ""}","${data.inTime || ""}","${data.outTime || ""}","${data.totalHours || ""}","${data.attendanceType || ""}","${data.status || ""}"\n`;
-        });
-
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url; a.download = "Attendance_Report.csv";
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    };
-
-    // Make inputs editable
-    window.enableEditMode = function(id) {
-        let fields = ['date','staff','in','out','type'];
-        fields.forEach(f => document.getElementById(`${f}-${id}`).classList.add("editable"));
-    }
-
-    window.saveChanges = async function(id) {
-        // Validation logic + Firebase update here (same as your previous logic)
-        alert("Saved successfully!");
-        let fields = ['date','staff','in','out','type'];
-        fields.forEach(f => document.getElementById(`${f}-${id}`).classList.remove("editable"));
-    }
-
-    // Modal Controls
-    window.openBackDateModal = function() { document.getElementById("backDateModal").style.display = "flex"; }
-    window.closeBackDateModal = function() { document.getElementById("backDateModal").style.display = "none"; }
-
+    initFilters();
     loadAttendance();
 </script>
 </body>

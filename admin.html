@@ -1,611 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>AAQ Admin Panel</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-
-background:
-linear-gradient(
-135deg,
-#000000,
-#1a1a1a,
-#3b2a00,
-#d4af37,
-#3b2a00,
-#000000
-);
-
-background-size:400% 400%;
-
-animation:bgMove 12s ease infinite;
-
-min-height:100vh;
-
-padding:20px;
-
-color:white;
-
-}
-
-@keyframes bgMove{
-
-0%{
-background-position:0% 50%;
-}
-
-50%{
-background-position:100% 50%;
-}
-
-100%{
-background-position:0% 50%;
-}
-
-}
-
-.top-bar{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-bottom:20px;
-
-flex-wrap:wrap;
-
-gap:15px;
-
-}
-
-.time-box{
-
-background:rgba(255,255,255,0.08);
-
-padding:12px 18px;
-
-border-radius:15px;
-
-backdrop-filter:blur(12px);
-
-font-size:13px;
-
-line-height:1.6;
-
-}
-
-.logout-btn{
-
-background:#dc2626;
-
-padding:12px 20px;
-
-border:none;
-
-border-radius:12px;
-
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
-
-transition:0.3s;
-
-}
-
-.logout-btn:hover{
-
-transform:scale(1.05);
-
-}
-
-.header{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-background:rgba(255,255,255,0.08);
-
-padding:20px;
-
-border-radius:20px;
-
-backdrop-filter:blur(12px);
-
-margin-bottom:30px;
-
-flex-wrap:wrap;
-
-gap:15px;
-
-}
-
-.left-header{
-
-display:flex;
-
-align-items:center;
-
-gap:15px;
-
-}
-
-.logo{
-
-width:75px;
-
-}
-
-.title-box h1{
-
-font-size:28px;
-
-margin-bottom:4px;
-
-}
-
-.title-box p{
-
-font-size:13px;
-
-color:#d1d5db;
-
-}
-
-.user-box{
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-}
-
-.user-photo{
-
-width:60px;
-
-height:60px;
-
-border-radius:50%;
-
-border:3px solid white;
-
-object-fit:cover;
-
-}
-
-.user-details h3{
-
-font-size:17px;
-
-margin-bottom:3px;
-
-}
-
-.user-details p{
-
-font-size:13px;
-
-color:#d1d5db;
-
-}
-
-.dashboard{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(240px,1fr));
-
-gap:25px;
-
-}
-
-.card{
-
-background:rgba(255,255,255,0.08);
-
-padding:30px;
-
-border-radius:25px;
-
-backdrop-filter:blur(12px);
-
-text-align:center;
-
-transition:0.3s;
-
-box-shadow:
-0 10px 30px rgba(0,0,0,0.4);
-
-}
-
-.card:hover{
-
-transform:translateY(-6px);
-
-}
-
-.card h2{
-
-margin-bottom:14px;
-
-font-size:24px;
-
-}
-
-.card p{
-
-margin-bottom:20px;
-
-font-size:14px;
-
-color:#e5e7eb;
-
-}
-
-.btn{
-
-display:inline-block;
-
-padding:12px 25px;
-
-border:none;
-
-border-radius:12px;
-
-font-weight:bold;
-
-color:white;
-
-cursor:pointer;
-
-transition:0.3s;
-
-text-decoration:none;
-
-}
-
-.btn:hover{
-
-transform:scale(1.05);
-
-}
-
-.staff{
-
-background:
-linear-gradient(
-135deg,
-#2563eb,
-#1d4ed8
-);
-
-}
-
-.attendance{
-
-background:
-linear-gradient(
-135deg,
-#16a34a,
-#166534
-);
-
-}
-
-.events{
-
-background:
-linear-gradient(
-135deg,
-#ca8a04,
-#a16207
-);
-
-}
-
-.idcard{
-
-background:
-linear-gradient(
-135deg,
-#dc2626,
-#991b1b
-);
-
-}
-
-.reports{
-
-background:
-linear-gradient(
-135deg,
-#7c3aed,
-#5b21b6
-);
-
-}
-
-.settings{
-
-background:
-linear-gradient(
-135deg,
-#0f766e,
-#115e59
-);
-
-}
-
-@media(max-width:768px){
-
-.top-bar{
-
-flex-direction:column;
-
-align-items:flex-start;
-
-}
-
-.header{
-
-flex-direction:column;
-
-align-items:flex-start;
-
-}
-
-.dashboard{
-
-grid-template-columns:1fr;
-
-}
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAQ Admin Panel - Pro</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            /* Clean, modern dark slate background */
+            background-color: #0f172a; 
+            background-image: radial-gradient(circle at top right, #1e293b, #0f172a);
+            min-height: 100vh;
+            padding: 20px 40px;
+            color: #f8fafc;
+        }
+
+        /* --- Glassmorphism Base --- */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+        }
+
+        /* --- Top Navigation --- */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px 25px;
+        }
+
+        .time-box {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #94a3b8;
+        }
+
+        .time-box i {
+            color: #38bdf8;
+            margin-right: 8px;
+        }
+
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #ef4444;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        /* --- Profile Header --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 35px;
+            margin-bottom: 35px;
+        }
+
+        .left-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 65px;
+            height: 65px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .title-box h1 {
+            font-size: 26px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .title-box p {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .user-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: right;
+        }
+
+        .user-photo {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 2px solid #38bdf8;
+            object-fit: cover;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* --- Dashboard Grid --- */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            padding: 30px 25px;
+            text-align: left;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Icon styling inside cards */
+        .card-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: inline-block;
+            padding: 15px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            width: fit-content;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateX(4px);
+        }
+
+        /* Card Specific Colors */
+        .staff .card-icon { color: #3b82f6; }
+        .staff .btn { background: #3b82f6; }
+
+        .attendance .card-icon { color: #10b981; }
+        .attendance .btn { background: #10b981; }
+
+        .events .card-icon { color: #f59e0b; }
+        .events .btn { background: #f59e0b; }
+
+        .idcard .card-icon { color: #ef4444; }
+        .idcard .btn { background: #ef4444; }
+
+        .reports .card-icon { color: #8b5cf6; }
+        .reports .btn { background: #8b5cf6; }
+
+        .settings .card-icon { color: #14b8a6; }
+        .settings .btn { background: #14b8a6; }
+
+        /* Responsive */
+        @media(max-width: 768px) {
+            body { padding: 15px; }
+            .header, .top-bar { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .user-box { text-align: left; flex-direction: row-reverse; justify-content: flex-end;}
+            .logout-btn { width: 100%; justify-content: center; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="top-bar">
-
-<div class="time-box">
-
-<div id="liveDate"></div>
-
-<div id="liveTime"></div>
-
-</div>
-
-<button
-onclick="logout()"
-class="logout-btn">
-
-Logout
-
-</button>
-
-</div>
-
-<div class="header">
-
-<div class="left-header">
-
-<img src="logo.png"
-class="logo">
-
-<div class="title-box">
-
-<h1>AAQ Admin Panel</h1>
-
-<p>
-Professional ERP Management Dashboard
-</p>
-
-</div>
-
-</div>
-
-<div class="user-box">
-
-<img
-src="https://i.imgur.com/6VBx3io.png"
-class="user-photo">
-
-<div class="user-details">
-
-<h3>
-Admin
-</h3>
-
-<p>
-Administrator
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="dashboard">
-
-<div class="card">
-
-<h2>Staff Management</h2>
-
-<p>
-Add, edit and manage all staff members.
-</p>
-
-<a
-href="staff-management.html"
-class="btn staff">
-
-Open
-
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>Attendance</h2>
-
-<p>
-Manage attendance and staff presence.
-</p>
-
-<a
-href="attendance-management.html"
-class="btn attendance">
-
-Open
-
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>Events Management</h2>
-
-<p>
-Manage all events and duty schedules.
-</p>
-
-<a
-href="events-management.html"
-class="btn events">
-
-Open
-
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>ID Card Tracking</h2>
-
-<p>
-Track issued and returned ID cards.
-</p>
-
-<a
-href="id-card-management.html"
-class="btn idcard">
-
-Open
-
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>Reports</h2>
-
-<p>
-Check staff and attendance reports.
-</p>
-
-<a
-href="reports-management.html"
-class="btn reports">
-
-Open
-
-</a>
-
-</div>
-
-<div class="card">
-
-<h2>Settings</h2>
-
-<p>
-Manage panel settings and controls.
-</p>
-
-<a
-href="settings.html"
-class="btn settings">
-
-Open
-
-</a>
-
-</div>
-
-</div>
-
-<script>
-
-function updateDateTime(){
-
-const now = new Date();
-
-document.getElementById(
-"liveDate"
-).innerHTML =
-
-"📅 " +
-
-now.toLocaleDateString();
-
-document.getElementById(
-"liveTime"
-).innerHTML =
-
-"🕒 " +
-
-now.toLocaleTimeString();
-
-}
-
-setInterval(updateDateTime,1000);
-
-updateDateTime();
-
-function logout(){
-
-localStorage.clear();
-
-window.location.href =
-"login.html";
-
-}
-
-</script>
-
+    <div class="top-bar glass-panel">
+        <div class="time-box">
+            <div id="liveDate"><i class="fa-regular fa-calendar"></i><span></span></div>
+            <div id="liveTime"><i class="fa-regular fa-clock"></i><span></span></div>
+        </div>
+        <button onclick="logout()" class="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+    </div>
+
+    <div class="header glass-panel">
+        <div class="left-header">
+            <img src="https://cdn-icons-png.flaticon.com/512/9322/9322127.png" class="logo" alt="Logo">
+            <div class="title-box">
+                <h1>AAQ Admin Panel</h1>
+                <p>Professional ERP Management Dashboard</p>
+            </div>
+        </div>
+        <div class="user-box">
+            <div class="user-details">
+                <h3>Admin</h3>
+                <p>System Administrator</p>
+            </div>
+            <img src="https://i.imgur.com/6VBx3io.png" class="user-photo" alt="Admin Profile">
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="card glass-panel staff">
+            <div>
+                <i class="fa-solid fa-users card-icon"></i>
+                <h2>Staff Management</h2>
+                <p>Add, edit, monitor and manage all internal staff members and profiles.</p>
+            </div>
+            <a href="staff-management.html" class="btn">Open Module <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="card glass-panel attendance">
+            <div>
+                <i class="fa-solid fa-clipboard-user card-icon"></i>
+                <h2>Attendance</h2>
+                <p>Manage daily attendance, view timesheets, and track staff presence.</p>
+            </div>
+            <a href="attendance-management.html" class="btn">Open Module <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="card glass-panel events">
+            <div>
+                <i class="fa-solid fa-calendar-check card-icon"></i>
+                <h2>Events Management</h2>
+                <p>Schedule upcoming events, manage duties, and organize timelines.</p>
+            </div>
+            <a href="events-management.html" class="btn">Open Module <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="card glass-panel idcard">
+            <div>
+                <i class="fa-solid fa-id-badge card-icon"></i>
+                <h2>ID Card Tracking</h2>
+                <p>Track all issued, pending, and returned identification cards easily.</p>
+            </div>
+            <a href="id-card-management.html" class="btn">Open Module <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="card glass-panel reports">
+            <div>
+                <i class="fa-solid fa-chart-pie card-icon"></i>
+                <h2>System Reports</h2>
+                <p>Generate detailed reports for staff analytics and attendance data.</p>
+            </div>
+            <a href="reports-management.html" class="btn">Open Module <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="card glass-panel settings">
+            <div>
+                <i class="fa-solid fa-gear card-icon"></i>
+                <h2>Settings</h2>
+                <p>Configure panel preferences, user roles, and security controls.</p>
+            </div>
+            <a href="settings.html" class="btn">Open Module <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            
+            // Format Date (e.g., Oct 24, 2023)
+            const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+            document.querySelector("#liveDate span").textContent = now.toLocaleDateString('en-US', dateOptions);
+            
+            // Format Time
+            document.querySelector("#liveTime span").textContent = now.toLocaleTimeString('en-US');
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Run immediately
+
+        function logout() {
+            if(confirm("Are you sure you want to logout?")) {
+                localStorage.clear();
+                window.location.href = "login.html";
+            }
+        }
+    </script>
 </body>
-
 </html>

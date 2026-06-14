@@ -5,8 +5,7 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AAQ Staff Dashboard</title>
 
@@ -16,7 +15,7 @@ content="width=device-width, initial-scale=1.0">
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 body{
@@ -68,7 +67,7 @@ justify-content:space-between;
 
 align-items:center;
 
-margin-bottom:30px;
+margin-bottom:25px;
 
 background:rgba(255,255,255,0.08);
 
@@ -77,6 +76,8 @@ padding:18px;
 border-radius:20px;
 
 backdrop-filter:blur(12px);
+
+border: 1px solid rgba(255,255,255,0.1);
 
 gap:20px;
 
@@ -105,6 +106,8 @@ width:65px;
 font-size:24px;
 
 margin-bottom:4px;
+
+letter-spacing: 0.5px;
 
 }
 
@@ -148,7 +151,7 @@ height:60px;
 
 border-radius:50%;
 
-border:3px solid white;
+border:3px solid #d4af37;
 
 object-fit:cover;
 
@@ -162,15 +165,19 @@ font-size:16px;
 
 margin-bottom:2px;
 
+color: #ffffff;
+
 }
 
 .user-details p{
 
 font-size:12px;
 
-color:#e5e7eb;
+color:#d4af37;
 
 margin-bottom:3px;
+
+font-weight: bold;
 
 }
 
@@ -208,6 +215,58 @@ transition:0.3s;
 
 transform:scale(1.05);
 
+box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+
+}
+
+/* Premium Notification Box */
+.notification-box {
+background: rgba(212, 175, 55, 0.12);
+border: 1px solid rgba(212, 175, 55, 0.4);
+padding: 18px 24px;
+border-radius: 20px;
+margin-bottom: 25px;
+backdrop-filter: blur(10px);
+display: none;
+animation: pulseGlow 2.5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+0% { box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.45); }
+}
+
+.notification-content {
+display: flex;
+align-items: center;
+gap: 15px;
+}
+
+.noti-icon {
+font-size: 24px;
+animation: bellRing 1.5s infinite;
+}
+
+@keyframes bellRing {
+0%, 100% { transform: rotate(0); }
+20% { transform: rotate(15deg); }
+40% { transform: rotate(-15deg); }
+60% { transform: rotate(10deg); }
+80% { transform: rotate(-10deg); }
+}
+
+.noti-text-container h4 {
+font-size: 16px;
+color: #d4af37;
+margin-bottom: 3px;
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.noti-text-container p {
+font-size: 14px;
+color: #ffffff;
+line-height: 1.4;
 }
 
 .dashboard{
@@ -223,7 +282,7 @@ gap:22px;
 
 .card{
 
-background:rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.06);
 
 padding:28px;
 
@@ -231,18 +290,24 @@ border-radius:25px;
 
 backdrop-filter:blur(12px);
 
+border: 1px solid rgba(255,255,255,0.05);
+
 text-align:center;
 
 transition:0.3s;
 
 box-shadow:
-0 10px 30px rgba(0,0,0,0.4);
+0 10px 30px rgba(0,0,0,0.5);
 
 }
 
 .card:hover{
 
 transform:translateY(-6px);
+
+border-color: rgba(212, 175, 55, 0.3);
+
+box-shadow: 0 15px 35px rgba(212, 175, 55, 0.15);
 
 }
 
@@ -251,6 +316,8 @@ transform:translateY(-6px);
 margin-bottom:14px;
 
 font-size:24px;
+
+letter-spacing: 0.5px;
 
 }
 
@@ -289,6 +356,8 @@ border:none;
 .btn:hover{
 
 transform:scale(1.05);
+
+box-shadow: 0 5px 15px rgba(255,255,255,0.1);
 
 }
 
@@ -383,16 +452,13 @@ grid-template-columns:1fr;
 
 <div class="left-header">
 
-<img src="logo.png"
-class="logo">
+<img src="logo.png" class="logo">
 
 <div class="header-text">
 
 <h1>AAQ Staff Dashboard</h1>
 
-<p>
-Welcome To Staff Management System
-</p>
+<p>Welcome To Staff Management System</p>
 
 </div>
 
@@ -409,13 +475,9 @@ class="user-photo">
 
 <div class="user-details">
 
-<h3 id="userName">
-Staff User
-</h3>
+<h3 id="userName">Staff User</h3>
 
-<p id="userRole">
-Staff Panel
-</p>
+<p id="userRole">Staff Panel</p>
 
 <div class="live-box">
 
@@ -429,16 +491,20 @@ Staff Panel
 
 </div>
 
-<button
-onclick="logout()"
-class="logout">
-
-Logout
-
-</button>
+<button onclick="logout()" class="logout">Logout</button>
 
 </div>
 
+</div>
+
+<div id="notificationAlert" class="notification-box">
+    <div class="notification-content">
+        <div class="noti-icon">📢</div>
+        <div class="noti-text-container">
+            <h4>Important Notice From Admin</h4>
+            <p id="notificationText">Loading latest announcement...</p>
+        </div>
+    </div>
 </div>
 
 <div class="dashboard">
@@ -447,16 +513,9 @@ Logout
 
 <h2>Attendance</h2>
 
-<p>
-Mark and view attendance records.
-</p>
+<p>Mark and view attendance records.</p>
 
-<a href="attendance.html"
-class="btn attendance">
-
-Open
-
-</a>
+<a href="attendance.html" class="btn attendance">Open</a>
 
 </div>
 
@@ -464,16 +523,9 @@ Open
 
 <h2>My Profile</h2>
 
-<p>
-View personal staff details.
-</p>
+<p>View personal staff details.</p>
 
-<a href="my-profile.html"
-class="btn profile">
-
-Open
-
-</a>
+<a href="my-profile.html" class="btn profile">Open</a>
 
 </div>
 
@@ -481,16 +533,9 @@ Open
 
 <h2>My Events</h2>
 
-<p>
-Check assigned event duties.
-</p>
+<p>Check assigned event duties.</p>
 
-<a href="my-events.html"
-class="btn events">
-
-Open
-
-</a>
+<a href="my-events.html" class="btn events">Open</a>
 
 </div>
 
@@ -498,16 +543,9 @@ Open
 
 <h2>Reports</h2>
 
-<p>
-View work & attendance reports.
-</p>
+<p>View work & attendance reports.</p>
 
-<a href="reports.html"
-class="btn reports">
-
-Open
-
-</a>
+<a href="reports.html" class="btn reports">Open</a>
 
 </div>
 
@@ -515,100 +553,71 @@ Open
 
 <h2>ID Card Status</h2>
 
-<p>
-Track issued & returned ID cards.
-</p>
+<p>Track issued & returned ID cards.</p>
 
-<a href="id-card.html"
-class="btn idcard">
-
-Open
-
-</a>
+<a href="id-card.html" class="btn idcard">Open</a>
 
 </div>
 
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+const firebaseConfig = {
+    apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+    authDomain: "aaq-event-erp.firebaseapp.com",
+    projectId: "aaq-event-erp",
+    storageBucket: "aaq-event-erp.firebasestorage.app",
+    messagingSenderId: "985636664002",
+    appId: "1:985636664002:web:4b941d3562609d2058815b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Update Date and Time Engine
 function updateDateTime(){
-
-const now = new Date();
-
-document.getElementById(
-"liveDate"
-).innerHTML =
-
-"🗓️ " +
-
-now.toLocaleDateString();
-
-document.getElementById(
-"liveTime"
-).innerHTML =
-
-"🕛 " +
-
-now.toLocaleTimeString();
-
+    const now = new Date();
+    document.getElementById("liveDate").innerHTML = "🗓️ " + now.toLocaleDateString();
+    document.getElementById("liveTime").innerHTML = "🕛 " + now.toLocaleTimeString();
 }
-
-setInterval(updateDateTime,1000);
-
+setInterval(updateDateTime, 1000);
 updateDateTime();
 
-const userName =
-localStorage.getItem(
-"staffName"
-) || "Staff User";
+// Hydrate Profile from LocalStorage
+const userName = localStorage.getItem("staffName") || "Staff User";
+const userPhoto = localStorage.getItem("staffPhoto");
+const userPosition = localStorage.getItem("staffPosition") || "Staff Panel";
 
-const userPhoto =
-localStorage.getItem(
-"staffPhoto"
-);
+document.getElementById("userName").innerHTML = userName;
+document.getElementById("userRole").innerHTML = userPosition;
+document.getElementById("userPhoto").src = userPhoto && userPhoto !== "undefined" && userPhoto !== "null" && userPhoto !== "" 
+    ? userPhoto 
+    : "https://i.imgur.com/6VBx3io.png";
 
-const userPosition =
-localStorage.getItem(
-"staffPosition"
-) || "Staff Panel";
+// Real-time Notification Listener (Interlock System)
+const notiQuery = query(collection(db, "notifications"), orderBy("timestamp", "desc"), limit(1));
+onSnapshot(notiQuery, (snapshot) => {
+    if (!snapshot.empty) {
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            if(data && data.message) {
+                document.getElementById("notificationAlert").style.display = "block";
+                document.getElementById("notificationText").innerHTML = `<b>[${data.date}]</b> : ${data.message}`;
+            }
+        });
+    } else {
+        document.getElementById("notificationAlert").style.display = "none";
+    }
+});
 
-document.getElementById(
-"userName"
-).innerHTML =
-userName;
-
-document.getElementById(
-"userRole"
-).innerHTML =
-userPosition;
-
-document.getElementById(
-"userPhoto"
-).src =
-
-userPhoto &&
-userPhoto !== "undefined" &&
-userPhoto !== "null" &&
-userPhoto !== ""
-
-?
-
-userPhoto
-
-:
-
-"https://i.imgur.com/6VBx3io.png";
-
-function logout(){
-
-localStorage.clear();
-
-window.location.href =
-"login.html";
-
+// Logout Router
+window.logout = function(){
+    localStorage.clear();
+    window.location.href = "login.html";
 }
-
 </script>
 
 </body>

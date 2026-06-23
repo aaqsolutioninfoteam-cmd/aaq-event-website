@@ -284,7 +284,8 @@
     localStorage.setItem("loggedUser", "Admin");
     
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    // ADDED 'query' AND 'where' IN THE FIRESTORE IMPORTS BELOW
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     
     const firebaseConfig = {
         apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
@@ -335,6 +336,26 @@
         } 
         
         try {
+            // --- DUPLICATE EMAIL VERIFICATION SYSTEM START ---
+            if(email) {
+                const emailCheckQuery = query(collection(db, "staffs"), where("email", "==", email));
+                const querySnapshot = await getDocs(emailCheckQuery);
+                
+                let isDuplicate = false;
+                querySnapshot.forEach((docItem) => {
+                    // If registering new user OR updating someone else's profile with this email
+                    if (!editId || docItem.id !== editId) {
+                        isDuplicate = true;
+                    }
+                });
+
+                if (isDuplicate) {
+                    alert("⚠️ THIS EMAIL ID ALREADY EXISTS! Please use a different email address.");
+                    return; // Stops execution instantly
+                }
+            }
+            // --- DUPLICATE EMAIL VERIFICATION SYSTEM END ---
+
             const documentPayload = { staffName, mobile, email, password, position, address, aadhaar, staffId, status, photoURL };
             
             if(editId){

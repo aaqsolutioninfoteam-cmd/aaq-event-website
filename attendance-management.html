@@ -44,7 +44,7 @@
 
         /* Sleek Filter Bar */
         .filter-bar { background: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center; border: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(0,0,0,0.01); }
-        .input-group { display: flex; align-items: center; background: #f1f5f9; border-radius: 10px; padding: 2px 12px; flex: 1; min-width: 200px; border: 1px solid transparent; }
+        .input-group { display: flex; align-items: center; background: #f1f5f9; border-radius: 10px; padding: 2px 12px; flex: 1; min-width: 180px; border: 1px solid transparent; }
         .input-group:focus-within { border-color: #3b82f6; background: white; }
         .input-group i { color: #94a3b8; margin-right: 8px; }
         .input-group input, .input-group select { background: transparent; border: none; padding: 10px 4px; width: 100%; outline: none; font-size: 14px; color: #334155; }
@@ -183,6 +183,13 @@
                 <option value="Late Mark">Late Mark</option>
             </select>
         </div>
+        <div class="input-group" style="border: 1px solid #3b82f6; background: #eff6ff;">
+            <i class="fa-solid fa-arrow-up-9-1" style="color: #3b82f6;"></i>
+            <select id="dateSortOrder" onchange="filterData()" style="font-weight: 600; color: #1e293b;">
+                <option value="desc">Date: 30 to 1 (Newest First)</option>
+                <option value="asc">Date: 1 to 30 (Oldest First)</option>
+            </select>
+        </div>
     </div>
 
     <div class="table-container">
@@ -257,7 +264,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, getDocs, updateDoc, doc, query, orderBy, setDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, updateDoc, doc, onSnapshot, setDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
@@ -272,35 +279,57 @@
     const db = getFirestore(app);
     let allData = [];
 
-    // Core Init Load Admin Dashboard Data Pipeline Arrays Handler Matrix
-    async function loadAdminData() {
+    // Date standardizer for accurate sequential comparison
+    function parseDateToTimestamp(dateStr) {
+        if (!dateStr) return 0;
+        let parts = dateStr.split('/');
+        if (parts.length === 3) {
+            let month = parts[0].padStart(2, '0');
+            let day = parts[1].padStart(2, '0');
+            let year = parts[2];
+            return new Date(`${year}-${month}-${day}T00:00:00`).getTime();
+        }
+        parts = dateStr.split('-');
+        if (parts.length === 3) {
+            if(parts[0].length === 4) return new Date(dateStr + "T00:00:00").getTime();
+            let day = parts[0].padStart(2, '0');
+            let month = parts[1].padStart(2, '0');
+            let year = parts[2];
+            return new Date(`${year}-${month}-${day}T00:00:00`).getTime();
+        }
+        return new Date(dateStr).getTime() || 0;
+    }
+
+    // Real-time Dashboard Listener Pipeline (Bina refresh live update ke liye)
+    function listenToAdminData() {
         try {
-            // Load Engine Config
-            const configSnapshot = await getDocs(collection(db, "settings"));
-            configSnapshot.forEach((cfgDoc) => {
-                if(cfgDoc.id === "lateCutoffTime") {
-                    document.getElementById("lateCutoffTimeInput").value = cfgDoc.data().value || "10:30";
-                }
+            // Cutoff settings reader
+            onSnapshot(collection(db, "settings"), (snapshot) => {
+                snapshot.forEach((cfgDoc) => {
+                    if(cfgDoc.id === "lateCutoffTime") {
+                        document.getElementById("lateCutoffTimeInput").value = cfgDoc.data().value || "10:30";
+                    }
+                });
             });
 
-            // Load Master Records
-            const q = query(collection(db, "attendance"), orderBy("date", "desc"));
-            const querySnapshot = await getDocs(q);
-            allData = [];
-            querySnapshot.forEach(doc => {
-                allData.push({ id: doc.id, ...doc.data() });
-            });
-            renderTable(allData);
-            updateStats();
+            // LIVE ATTENDANCE TRACKER LISTEN ENGINE
+            onSnapshot(collection(db, "attendance"), (querySnapshot) => {
+                allData = [];
+                querySnapshot.forEach(doc => {
+                    allData.push({ id: doc.id, ...doc.data() });
+                });
 
-            // Fetch Backdate Queue
-            await fetchBackdateRequestsQueue();
+                // Filter aur apply sorting logic rules instantly on data changes
+                filterData();
+                updateStats();
+            });
+
+            listenToBackdateRequests();
         } catch(err) {
-            console.error("Error loading data: ", err);
+            console.error("Error setting up real-time listener: ", err);
         }
     }
 
-    // Main Master Log Table Rows Assembly
     function renderTable(data) {
         const tbody = document.getElementById("adminTableBody");
         tbody.innerHTML = "";
@@ -314,19 +343,18 @@
             const currentStatusType = item.attendanceType === "Late Mark" ? "late-mark" : (item.status ? item.status.toLowerCase() : 'pending');
             const displayLabel = item.attendanceType === "Late Mark" ? "Late Mark" : (item.status || 'Pending');
 
-            // Safely escape values string parsing architecture
             const row = `
                 <tr>
                     <td>
                         <div class="staff-profile">
-                            <img src="${item.staffPhoto || 'https://via.placeholder.com/44'}" class="thumb">
+                            <img src="${item.staffPhoto || './logo.png'}" class="thumb" onerror="this.src='https://via.placeholder.com/44'">
                             <div class="staff-info">
                                 <b>${item.staffName || 'Unknown'}</b><br>
                                 <small>${item.staffPosition || 'Staff Member'}</small>
                             </div>
                         </div>
                     </td>
-                    <td><i class="fa-regular fa-calendar" style="color:#64748b; margin-right:5px;"></i> ${item.date}</td>
+                    <td><i class="fa-regular fa-calendar" style="color:#3b82f6; font-weight: 600; margin-right:5px;"></i> <b>${item.date}</b></td>
                     <td><span style="color:#10b981; font-weight:500;"><i class="fa-solid fa-right-to-bracket"></i> ${item.inTime || '--:--'}</span></td>
                     <td><span style="color:${item.outTime ? '#ef4444' : '#94a3b8'}; font-weight:500;"><i class="fa-solid fa-right-from-bracket"></i> ${item.outTime || '--:--'}</span></td>
                     <td><strong>${item.totalHours || '0'}</strong></td>
@@ -334,7 +362,7 @@
                     <td>
                         <button class="action-btn btn-approve" title="Approve Entry" onclick="changeStatus('${item.id}', 'Approved')"><i class="fa-solid fa-check"></i></button>
                         <button class="action-btn btn-reject" title="Reject Entry" onclick="changeStatus('${item.id}', 'Rejected')"><i class="fa-solid fa-xmark"></i></button>
-                        <button class="action-btn btn-edit" title="Edit Master Log Records" onclick="openEditModal('${item.id}', '${item.inTime || ''}', '${item.outTime || ''}', '${item.totalHours || ''}', '${item.status || 'Pending'}', '${item.attendanceType || ''}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="action-btn btn-edit" title="Edit Master Log" onclick="openEditModal('${item.id}', '${item.inTime || ''}', '${item.outTime || ''}', '${item.totalHours || ''}', '${item.status || 'Pending'}', '${item.attendanceType || ''}')"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button class="action-btn btn-photo" title="Biometric Photos" onclick="triggerLightboxView('${item.inPhoto || ''}', '${item.outPhoto || ''}')"><i class="fa-solid fa-camera"></i></button>
                         <button class="action-btn btn-map" title="View Location" onclick="viewMap('${item.inLat}', '${item.inLng}')"><i class="fa-solid fa-location-dot"></i></button>
                     </td>
@@ -344,14 +372,11 @@
         });
     }
 
-    // System Status Override Interlock Engine
     window.changeStatus = async (id, newStatus) => {
         const docRef = doc(db, "attendance", id);
         await updateDoc(docRef, { status: newStatus });
-        loadAdminData();
     };
 
-    // Rule Config Rule Setter
     window.saveLateMarkCutoffConfig = async () => {
         const inputVal = document.getElementById("lateCutoffTimeInput").value;
         if(!inputVal) return alert("Select a valid cutoff threshold!");
@@ -361,12 +386,10 @@
         } catch(e) { console.error(e); }
     };
 
-    // Fetch and Process Pending Backdate Queue System Elements
-    async function fetchBackdateRequestsQueue() {
+    function listenToBackdateRequests() {
         const tbody = document.getElementById("backdateRequestsTableBody");
-        tbody.innerHTML = "";
-        try {
-            const snapshot = await getDocs(collection(db, "backdate_requests"));
+        onSnapshot(collection(db, "backdate_requests"), (snapshot) => {
+            tbody.innerHTML = "";
             let pendingItemsCount = 0;
 
             snapshot.forEach((requestDoc) => {
@@ -374,8 +397,6 @@
                 if(reqData.status !== "Pending") return;
 
                 pendingItemsCount++;
-                
-                // Fixed functional parameter template escaping framework mapping rules block
                 const row = `
                     <tr>
                         <td>
@@ -388,33 +409,31 @@
                         <td><small>${reqData.timestamp || '-'}</small></td>
                         <td><span class="status-badge pending">Awaiting Action</span></td>
                         <td>
-                            <button class="action-btn btn-approve" title="Approve Backdate" id="btn_approve_bd_${requestDoc.id}"><i class="fa-solid fa-circle-check"></i></button>
-                            <button class="action-btn btn-reject" title="Reject Backdate" id="btn_reject_bd_${requestDoc.id}"><i class="fa-solid fa-circle-xmark"></i></button>
+                            <button class="action-btn btn-approve" title="Approve" id="btn_approve_bd_${requestDoc.id}"><i class="fa-solid fa-circle-check"></i></button>
+                            <button class="action-btn btn-reject" title="Reject" id="btn_reject_bd_${requestDoc.id}"><i class="fa-solid fa-circle-xmark"></i></button>
                         </td>
                     </tr>`;
                 tbody.innerHTML += row;
             });
 
-            // Dynamic event assignment listener hooks framework attach
             snapshot.forEach((requestDoc) => {
                 const reqData = requestDoc.data();
                 if(reqData.status !== "Pending") return;
 
-                document.getElementById(`btn_approve_bd_${requestDoc.id}`).addEventListener("click", () => {
+                document.getElementById(`btn_approve_bd_${requestDoc.id}`).onclick = () => {
                     processBackdateDecision(requestDoc.id, 'Approved', reqData.staffName, reqData.requestedDate, reqData.staffPosition || 'Staff');
-                });
-                document.getElementById(`btn_reject_bd_${requestDoc.id}`).addEventListener("click", () => {
+                };
+                document.getElementById(`btn_reject_bd_${requestDoc.id}`).onclick = () => {
                     processBackdateDecision(requestDoc.id, 'Rejected');
-                });
+                };
             });
 
             if(pendingItemsCount === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:15px; color:#94a3b8;">No pending back-date authorization requests.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:15px; color:#94a3b8;">No pending back-date requests.</td></tr>`;
             }
-        } catch(err) { console.error("Fault loading backdate pipeline: ", err); }
+        });
     }
 
-    // Resolve Authorization Requests Decision Pipeline Block
     async function processBackdateDecision(reqId, decision, sName, rDate, sPos) {
         try {
             await updateDoc(doc(db, "backdate_requests", reqId), { status: decision });
@@ -427,18 +446,13 @@
                     outTime: "06:00:00 PM (Backdated)",
                     totalHours: "8.00 Hours",
                     attendanceType: "Present",
-                    status: "Approved",
-                    reason: "Backdate Authorization System Framework",
-                    remarks: "Authorized by Command Center Dashboard Controls Engine",
-                    inPhoto: "", outPhoto: "", inLat: "", inLng: "", outLat: "", outLng: ""
+                    status: "Approved"
                 });
             }
-            alert(`Request status updated successfully: ${decision}`);
-            loadAdminData();
-        } catch(e) { console.error("Error finalizing backdate payload logic path: ", e); }
+            alert(`Backdate request: ${decision}`);
+        } catch(e) { console.error(e); }
     }
 
-    // NEW LOGIC ENGINE INJECTION BLOCK: DIRECT MANUAL LOG UPDATE ROUTER SAVE HANDLER
     window.saveEditedAttendanceLog = async () => {
         const id = document.getElementById("editLogId").value;
         const newInTime = document.getElementById("editInTime").value;
@@ -449,28 +463,23 @@
 
         if(!id) return;
         try {
-            const docRef = doc(db, "attendance", id);
-            await updateDoc(docRef, {
+            await updateDoc(doc(db, "attendance", id), {
                 inTime: newInTime,
                 outTime: newOutTime,
                 totalHours: newTotalHours,
                 status: newStatus,
                 attendanceType: newType
             });
-            alert("✨ Attendance record node modified successfully inside cloud server infrastructure dataset!");
+            alert("✨ Attendance record modified successfully!");
             closeEditModal();
-            loadAdminData();
-        } catch(err) {
-            console.error("Direct record edit pipeline configuration fault structural write: ", err);
-            alert("Error updating record payload matrix parameters nodes!");
-        }
+        } catch(err) { console.error(err); }
     };
 
     window.viewMap = (lat, lng) => {
         if(lat && lat !== 'undefined' && lat !== '' && lat !== 'null') {
-            window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank');
+            window.open(`https://maps.google.com/?q=${lat},${lng}`, '_blank');
         } else {
-            alert("Live location geo-coordinates not captured for this specific punch cycle record matrix.");
+            alert("Location data not found.");
         }
     };
 
@@ -485,15 +494,19 @@
         const name = document.getElementById("searchName").value.toLowerCase();
         const date = document.getElementById("searchDate").value;
         const status = document.getElementById("statusFilter").value;
+        const sortOrder = document.getElementById("dateSortOrder").value;
 
         const filtered = allData.filter(item => {
             const matchesName = item.staffName ? item.staffName.toLowerCase().includes(name) : false;
-            let convertedDateStr = "";
+            
+            let matchesDate = true;
             if(date) {
                 const parts = date.split('-'); // yyyy-mm-dd
-                convertedDateStr = `${parseInt(parts[1])}/${parseInt(parts[2])}/${parts[0]}`; // m/d/yyyy
+                const variantA = `${parseInt(parts[1])}/${parseInt(parts[2])}/${parts[0]}`; // m/d/yyyy
+                const variantB = `${parseInt(parts[2])}/${parseInt(parts[1])}/${parts[0]}`; // d/m/yyyy
+                matchesDate = item.date && (item.date.includes(date) || item.date === variantA || item.date === variantB);
             }
-            const matchesDate = !date || (item.date && (item.date.includes(date) || item.date === convertedDateStr));
+
             let matchesStatus = !status || item.status === status;
             if(status === "Late Mark") {
                 matchesStatus = item.attendanceType === "Late Mark";
@@ -502,6 +515,14 @@
             }
             return matchesName && matchesDate && matchesStatus;
         });
+
+        // EXCEL-LIKE REVERSIBLE SORTING ENGINE (1 to 30 OR 30 to 1)
+        filtered.sort((a, b) => {
+            const timeA = parseDateToTimestamp(a.date);
+            const timeB = parseDateToTimestamp(b.date);
+            return sortOrder === "desc" ? (timeB - timeA) : (timeA - timeB);
+        });
+
         renderTable(filtered);
     };
 
@@ -514,26 +535,25 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Master_Corporate_Attendance_Dataset.csv`;
+        a.download = `Master_Attendance_Dataset.csv`;
         a.click();
     };
 
-    // Bootstrap trigger execution sequences nodes mapping binding loop
-    loadAdminData();
+    // Trigger Listeners Engine on Launch
+    listenToAdminData();
 </script>
 
 <script>
-    // Global UI Layout Overlay Actions Mappings Handlers Framework
     function triggerLightboxView(inSnap, outSnap) {
         const container = document.getElementById("lightboxPhotoContainer");
         container.innerHTML = `
             <div>
-                <p style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:6px; text-align:center;">Check-In Photo Matrix</p>
-                <img src="${inSnap || 'https://via.placeholder.com/220?text=No+Capture+Captured'}" class="attendance-photo">
+                <p style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:6px; text-align:center;">Check-In Photo</p>
+                <img src="${inSnap || 'https://via.placeholder.com/220?text=No+Photo'}" class="attendance-photo">
             </div>
             <div>
-                <p style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:6px; text-align:center;">Check-Out Photo Matrix</p>
-                <img src="${outSnap || 'https://via.placeholder.com/220?text=No+Capture+Captured'}" class="attendance-photo">
+                <p style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:6px; text-align:center;">Check-Out Photo</p>
+                <img src="${outSnap || 'https://via.placeholder.com/220?text=No+Photo'}" class="attendance-photo">
             </div>`;
         document.getElementById("photoLightboxModal").style.display = "flex";
     }
@@ -542,7 +562,6 @@
         document.getElementById("photoLightboxModal").style.display = "none";
     }
 
-    // OPEN SYSTEM MANUAL WORKBENCH EDIT OVERLAY INTERFACE DYNAMIC NODE ELEMENT MODAL WINDOWS HOOK
     function openEditModal(id, inTime, outTime, totalHours, status, type) {
         document.getElementById("editLogId").value = id;
         document.getElementById("editInTime").value = inTime;

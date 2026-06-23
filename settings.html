@@ -3,235 +3,539 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Attendance & Notifications</title>
+    <title>Staff & Attendance Management - Premium Admin Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: #f0f2f5; padding: 20px; color: #1e293b; }
-        .admin-container { max-width: 1400px; margin: auto; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         
-        /* Stats Section */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-bottom: 4px solid #3b82f6; }
-        .stat-card h3 { font-size: 14px; color: #64748b; text-transform: uppercase; }
-        .stat-card h1 { font-size: 32px; margin-top: 5px; }
+        body { 
+            background: #0f172a; 
+            min-height: 100vh; 
+            padding: 25px; 
+            color: #f8fafc; 
+        }
+        
+        .container { max-width: 1400px; margin: auto; }
 
-        /* Notification Box Style */
-        .notification-card { background: white; padding: 20px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid #8b5cf6; }
-        .notification-card h3 { margin-bottom: 10px; color: #6d28d9; }
-        .noti-flex { display: flex; gap: 10px; }
-        .noti-flex input { flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; }
+        /* Premium Glassmorphic Header */
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(30, 41, 59, 0.7); 
+            padding: 20px 30px; 
+            border-radius: 20px; 
+            backdrop-filter: blur(16px); 
+            margin-bottom: 30px; 
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+        .logo-box { display: flex; align-items: center; gap: 15px; }
+        .logo-box h2 { font-size: 22px; font-weight: 700; color: #f59e0b; }
+        .logo-box p { font-size: 13px; color: #94a3b8; }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+        .live-box { text-align: right; font-size: 13px; color: #cbd5e1; font-weight: 500; }
+        #liveTime { font-size: 16px; font-weight: 700; color: #f59e0b; margin-top: 2px; }
+        .back-btn { 
+            background: #ef4444; 
+            padding: 10px 20px; 
+            border-radius: 12px; 
+            text-decoration: none; 
+            color: white; 
+            font-weight: 600; 
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .back-btn:hover { background: #dc2626; transform: translateY(-1px); }
 
-        /* Filter Section */
-        .filter-bar { background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
-        input, select { padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
+        /* Master Dashboard Split Layout */
+        .dashboard-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 30px; 
+        }
+        @media (min-width: 950px) { 
+            .dashboard-grid { grid-template-columns: 400px 1fr; } 
+        }
 
-        /* Table Style */
-        .table-container { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: #f8fafc; padding: 15px; border-bottom: 2px solid #edf2f7; color: #475569; }
-        td { padding: 15px; border-bottom: 1px solid #edf2f7; font-size: 14px; }
+        /* Modern Form Container */
+        .form-box { 
+            background: rgba(30, 41, 59, 0.5); 
+            padding: 25px; 
+            border-radius: 24px; 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            height: fit-content;
+        }
+        .form-box h2 { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #f8fafc; display: flex; align-items: center; gap: 8px; }
         
-        /* Buttons */
-        .btn { padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: white; margin-right: 5px; font-size: 12px; transition: 0.2s; }
-        .btn:hover { opacity: 0.9; transform: scale(1.02); }
-        .btn-approve { background: #22c55e; }
-        .btn-reject { background: #ef4444; }
-        .btn-view { background: #8b5cf6; }
-        .btn-map { background: #0ea5e9; }
+        .input-group { position: relative; margin-bottom: 16px; }
+        .input-group i { position: absolute; left: 14px; top: 15px; color: #64748b; font-size: 15px; }
         
-        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-        .pending { background: #fef3c7; color: #92400e; }
-        .approved { background: #dcfce7; color: #166534; }
-        .rejected { background: #fee2e2; color: #991b1b; }
+        input, select { 
+            width: 100%; 
+            padding: 14px 14px 14px 42px; 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 12px; 
+            background: #0f172a; 
+            color: white; 
+            font-size: 14px; 
+            outline: none;
+            transition: all 0.2s;
+        }
+        input[type="file"] { padding-left: 14px; }
+        input:focus, select:focus { border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15); }
         
-        img.thumb { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        .file-label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 6px; font-weight: 500; }
+
+        .save-btn { 
+            width: 100%; 
+            padding: 14px; 
+            border: none; 
+            border-radius: 12px; 
+            background: linear-gradient(135deg, #f59e0b, #d97706); 
+            color: #0f172a; 
+            font-size: 15px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        .save-btn:hover { opacity: 0.95; transform: translateY(-1px); }
+
+        /* Modern Grid Architecture for Cards */
+        .staff-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 20px; align-content: start; }
+        
+        .card { 
+            background: rgba(30, 41, 59, 0.4); 
+            padding: 20px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { transform: translateY(-4px); border-color: rgba(245, 158, 11, 0.3); }
+        
+        .staff-row { display: flex; gap: 16px; align-items: flex-start; }
+        .staff-photo { width: 80px; height: 80px; border-radius: 14px; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.1); }
+        
+        .staff-details { flex: 1; }
+        .staff-details h3 { font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 2px; }
+        .staff-details .role-badge { font-size: 12px; color: #f59e0b; font-weight: 600; margin-bottom: 12px; display: block; }
+        
+        .info-line { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+        .info-line i { color: #64748b; width: 16px; text-align: center; }
+
+        .status-pill { 
+            display: inline-block; 
+            padding: 4px 8px; 
+            border-radius: 6px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+        .status-active { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .status-inactive { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+        /* Integrated Attendance Panel Inside Card */
+        .attendance-panel {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .attendance-title { font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .attendance-actions { display: flex; gap: 6px; }
+        
+        .att-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-present { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); }
+        .btn-present:hover, .btn-present.active { background: #10b981; color: #0f172a; }
+        
+        .btn-absent { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); }
+        .btn-absent:hover, .btn-absent.active { background: #ef4444; color: white; }
+        
+        .attendance-status-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #e2e8f0;
+            background: #1e293b;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* Actions Container Inside Card */
+        .action-buttons { display: flex; gap: 8px; position: absolute; top: 15px; right: 15px; }
+        .action-btn { 
+            width: 32px; 
+            height: 32px; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            color: white; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .edit-btn { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .edit-btn:hover { background: #3b82f6; color: white; }
+        .delete-btn { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+        .delete-btn:hover { background: #ef4444; color: white; }
+
+        /* Smart Popup Modals */
+        .popup { 
+            display:none; 
+            position:fixed; 
+            top:0; left:0; width:100%; height:100%; 
+            background: rgba(15, 23, 42, 0.7); 
+            backdrop-filter: blur(4px); 
+            justify-content:center; align-items:center; 
+            z-index:9999; 
+        }
+        .popup-box { 
+            background: #1e293b; 
+            padding: 25px; 
+            border-radius: 20px; 
+            width: 340px; 
+            text-align: center; 
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .popup-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .popup-box p { font-size: 14px; color: #94a3b8; margin-bottom: 20px; }
+        .popup-buttons { display: flex; gap: 10px; }
+        .popup-buttons button { flex: 1; padding: 12px; border: none; border-radius: 10px; color: white; font-weight: 600; cursor: pointer; font-size: 14px; }
+        .confirm-btn { background: #ef4444; }
+        .cancel-btn { background: #334155; }
     </style>
 </head>
 <body>
 
-<div class="admin-container">
-    <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2>🚀 Admin Attendance Dashboard</h2>
-        <button class="btn btn-view" onclick="exportMasterData()">Export All Data (CSV)</button>
-    </div>
-
-    <div class="notification-card">
-        <h3>📢 Broadcast Notification to Staff</h3>
-        <div class="noti-flex">
-            <input type="text" id="notiMessage" placeholder="Type important notice or announcement here...">
-            <button class="btn btn-view" style="padding: 0 20px;" onclick="sendNotification()">Send Notice</button>
+<div class="container">
+    <div class="header">
+        <div class="logo-box">
+            <div>
+                <h2>Staff & Attendance Administration</h2>
+                <p>AAQ Event Management ERP System</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="live-box">
+                <div id="liveDate">📅 --/--/----</div>
+                <div id="liveTime">🕒 00:00:00</div>
+            </div>
+            <a href="admin.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
         </div>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card" style="border-color: #3b82f6;"><h3>Total Records</h3><h1 id="statTotal">0</h1></div>
-        <div class="stat-card" style="border-color: #eab308;"><h3>Pending</h3><h1 id="statPending">0</h1></div>
-        <div class="stat-card" style="border-color: #22c55e;"><h3>Approved</h3><h1 id="statApproved">0</h1></div>
-        <div class="stat-card" style="border-color: #ef4444;"><h3>Rejected</h3><h1 id="statRejected">0</h1></div>
-    </div>
+    <div class="dashboard-grid">
+        <div class="form-box">
+            <h2 id="formTitle"><i class="fa-solid fa-user-plus" style="color: #f59e0b;"></i> Register New Staff</h2>
+            
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="staffName" placeholder="Staff Full Name">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-phone"></i>
+                <input type="tel" id="mobile" placeholder="Mobile Number">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="email" placeholder="Email Address">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" placeholder="Account Password">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-id-badge"></i>
+                <input type="text" id="position" placeholder="Job Position / Role">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-location-dot"></i>
+                <input type="text" id="address" placeholder="Residential Address">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-address-card"></i>
+                <input type="text" id="aadhaar" placeholder="Identification Document Number">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-fingerprint"></i>
+                <input type="text" id="staffId" placeholder="Internal ID Card Number">
+            </div>
+            
+            <span class="file-label">Profile Image Attachment</span>
+            <div class="input-group" style="margin-bottom:12px;">
+                <input type="file" id="photo">
+            </div>
 
-    <div class="filter-bar">
-        <input type="text" id="searchName" placeholder="Search Staff Name..." oninput="filterData()">
-        <input type="date" id="searchDate" onchange="filterData()">
-        <select id="statusFilter" onchange="filterData()">
-            <option value="">All Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Approved">Approved</option>
-            <option value="Rejected">Rejected</option>
-        </select>
-    </div>
+            <div class="input-group" style="padding-left:0;">
+                <i class="fa-solid fa-toggle-on"></i>
+                <select id="status" style="padding-left: 42px;">
+                    <option value="Select Status">Select Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Staff</th>
-                    <th>Date</th>
-                    <th>In Time</th>
-                    <th>Out Time</th>
-                    <th>Hours</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="adminTableBody">
-                </tbody>
-        </table>
+            <button type="button" onclick="saveStaff()" class="save-btn">Save Profile Data</button>
+        </div>
+
+        <div class="staff-list" id="staffList">
+            </div>
     </div>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, getDocs, updateDoc, doc, addDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<div class="popup" id="deletePopup">
+    <div class="popup-box">
+        <h3>Remove Employee Profile?</h3>
+        <p>This will permanently erase the records from database.</p>
+        <div class="popup-buttons">
+            <button class="confirm-btn" onclick="confirmDelete()">Delete</button>
+            <button class="cancel-btn" onclick="closePopup()">Cancel</button>
+        </div>
+    </div>
+</div>
 
+<script>
+    window.dbRecordsCache = {};
+    window.currentDateStr = new Date().toISOString().split('T')[0]; // Current Date (YYYY-MM-DD)
+</script>
+
+<script type="module">
+    localStorage.setItem("loggedUser", "Admin");
+    
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    
     const firebaseConfig = {
         apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
         authDomain: "aaq-event-erp.firebaseapp.com",
         projectId: "aaq-event-erp",
         storageBucket: "aaq-event-erp.firebasestorage.app",
         messagingSenderId: "985636664002",
-        appId: "1:985636664002:web:4b941d3562609d2058815b"
+        appId: "1:985636664002:web:4b941d3562609d2058815b",
+        measurementId: "G-HHD049KDS8"
     };
-
+    
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    let allData = [];
-
-    // Fetch All Attendance Records
-    async function loadAdminData() {
-        const q = query(collection(db, "attendance"), orderBy("date", "desc"));
-        const querySnapshot = await getDocs(q);
-        allData = [];
-        querySnapshot.forEach(doc => {
-            allData.push({ id: doc.id, ...doc.data() });
-        });
-        renderTable(allData);
-        updateStats();
-    }
-
-    function renderTable(data) {
-        const tbody = document.getElementById("adminTableBody");
-        tbody.innerHTML = "";
+    
+    let editId = null;
+    let deleteId = null;
+    window.currentPhoto = "";
+    
+    // Save or Update Staff Profile Data
+    window.saveStaff = async function(){
+        const staffName = document.getElementById("staffName").value;
+        const mobile = document.getElementById("mobile").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const position = document.getElementById("position").value;
+        const address = document.getElementById("address").value;
+        const aadhaar = document.getElementById("aadhaar").value;
+        const staffId = document.getElementById("staffId").value;
+        const status = document.getElementById("status").value;
+        const photo = document.getElementById("photo").files[0];
         
-        data.forEach(item => {
-            const row = `
-                <tr>
-                    <td>
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <img src="${item.staffPhoto || 'https://via.placeholder.com/40'}" class="thumb">
-                            <div><b>${item.staffName}</b><br><small>${item.staffPosition}</small></div>
-                        </div>
-                    </td>
-                    <td>${item.date}</td>
-                    <td>${item.inTime}</td>
-                    <td>${item.outTime || '--'}</td>
-                    <td>${item.totalHours || '0'}</td>
-                    <td><span class="status-badge ${item.status ? item.status.toLowerCase() : 'pending'}">${item.status || 'Pending'}</span></td>
-                    <td>
-                        <button class="btn btn-approve" onclick="changeStatus('${item.id}', 'Approved')">✔</button>
-                        <button class="btn btn-reject" onclick="changeStatus('${item.id}', 'Rejected')">✖</button>
-                        <button class="btn btn-map" onclick="viewMap('${item.inLat}', '${item.inLng}')">📍</button>
-                    </td>
-                </tr>
-            `;
-            tbody.innerHTML += row;
-        });
-    }
-
-    // Update Status to Firestore
-    window.changeStatus = async (id, newStatus) => {
-        const docRef = doc(db, "attendance", id);
-        await updateDoc(docRef, { status: newStatus });
-        alert("Status Updated to " + newStatus);
-        loadAdminData();
-    };
-
-    // Fixed Map View Link
-    window.viewMap = (lat, lng) => {
-        if(lat && lat !== "undefined" && lat !== "") {
-            window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
-        } else {
-            alert("Location data not available for this entry.");
-        }
-    };
-
-    // Send Notification Function
-    window.sendNotification = async () => {
-        const msg = document.getElementById("notiMessage").value.trim();
-        if(!msg) {
-            alert("Please type a message first!");
-            return;
-        }
-
+        let photoURL = window.currentPhoto || "";
+        
+        if(photo){
+            const formData = new FormData();
+            formData.append("file", photo);
+            formData.append("upload_preset", "aaqstaff");
+            
+            try {
+                const response = await fetch("https://api.cloudinary.com/v1_1/dcwxyosh8/image/upload", {
+                    method: "POST",
+                    body: formData
+                });
+                const result = await response.json();
+                photoURL = result.secure_url;
+            } catch(e) {
+                alert("Cloudinary Upload Failure");
+            }
+        } 
+        
         try {
-            await addDoc(collection(db, "notifications"), {
-                message: msg,
-                timestamp: new Date().toLocaleString(),
-                date: new Date().toLocaleDateString()
-            });
-            alert("📢 Notification sent successfully to all Staff members!");
-            document.getElementById("notiMessage").value = "";
-        } catch (error) {
-            console.error("Error sending notification: ", error);
-            alert("Failed to send notification.");
+            const documentPayload = { staffName, mobile, email, password, position, address, aadhaar, staffId, status, photoURL };
+            
+            if(editId){
+                await updateDoc(doc(db, "staffs", editId), documentPayload);
+                alert("Staff Profile Synced Successfully");
+                editId = null;
+                document.getElementById("formTitle").innerHTML = `<i class="fa-solid fa-user-plus" style="color: #f59e0b;"></i> Register New Staff`;
+            } else {
+                await addDoc(collection(db, "staffs"), documentPayload);
+                alert("Staff Registered to Database");
+            }
+            
+            document.querySelectorAll("input").forEach(input => input.value = "");
+            document.getElementById("status").value = "Select Status";
+            window.currentPhoto = "";
+            loadStaff();
+        } catch(error) {
+            alert(error);
         }
     };
+    
+    // Edit Staff Row Mapping Form Trigger
+    window.editStaff = function(id){
+        const data = window.dbRecordsCache[id];
+        if(!data) return;
 
-    function updateStats() {
-        document.getElementById("statTotal").innerText = allData.length;
-        document.getElementById("statPending").innerText = allData.filter(d => d.status === "Pending" || !d.status).length;
-        document.getElementById("statApproved").innerText = allData.filter(d => d.status === "Approved").length;
-        document.getElementById("statRejected").innerText = allData.filter(d => d.status === "Rejected").length;
+        document.getElementById("staffName").value = data.staffName || "";
+        document.getElementById("mobile").value = data.mobile || "";
+        document.getElementById("email").value = data.email || "";
+        document.getElementById("password").value = data.password || "";
+        document.getElementById("position").value = data.position || "";
+        document.getElementById("address").value = data.address || "";
+        document.getElementById("aadhaar").value = data.aadhaar || "";
+        document.getElementById("staffId").value = data.staffId || "";
+        document.getElementById("status").value = data.status || "Select Status";
+        
+        window.currentPhoto = data.photoURL || "";
+        editId = id;
+        
+        document.getElementById("formTitle").innerHTML = `<i class="fa-solid fa-user-pen" style="color: #f59e0b;"></i> Edit Staff Profile`;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    
+    // Delete Staff Handlers
+    window.deleteStaff = function(id){
+        deleteId = id;
+        document.getElementById("deletePopup").style.display = "flex";
+    };
+    
+    window.closePopup = function(){
+        document.getElementById("deletePopup").style.display = "none";
+    };
+    
+    window.confirmDelete = async function(){
+        if(!deleteId) return;
+        await deleteDoc(doc(db, "staffs", deleteId));
+        closePopup();
+        loadStaff();
+    };
+
+    // New Feature: Mark Live Attendance System Engine 
+    window.markAttendance = async function(staffDocId, currentStatus) {
+        const timeStr = new Date().toLocaleTimeString();
+        const attendanceDocId = `${staffDocId}_${window.currentDateStr}`;
+        
+        try {
+            await setDoc(doc(db, "attendance", attendanceDocId), {
+                staffDocId: staffDocId,
+                date: window.currentDateStr,
+                status: currentStatus,
+                timestamp: timeStr
+            });
+            alert(`Marked ${currentStatus} at ${timeStr}`);
+            loadStaff(); // Reload view to showcase dynamic live updates
+        } catch(e) {
+            alert("Attendance Database Error: " + e.message);
+        }
+    };
+    
+    // Load Directory Records Sync Method
+    async function loadStaff(){
+        const querySnapshot = await getDocs(collection(db, "staffs"));
+        const attendanceSnapshot = await getDocs(collection(db, "attendance"));
+        
+        // Map attendance snapshot log dictionary memory mappings
+        let dailyAttendanceMap = {};
+        attendanceSnapshot.forEach(item => {
+            const attData = item.data();
+            if(attData.date === window.currentDateStr) {
+                dailyAttendanceMap[attData.staffDocId] = {
+                    status: attData.status,
+                    time: attData.timestamp
+                };
+            }
+        });
+
+        let html = "";
+        window.dbRecordsCache = {}; // Clear memory store cache mapping
+        
+        querySnapshot.forEach((docItem)=>{
+            const id = docItem.id;
+            const data = docItem.data();
+            window.dbRecordsCache[id] = data; 
+            
+            const statusClass = data.status === "Active" ? "status-active" : "status-inactive";
+            
+            // Resolve live attendance tracking log entries
+            const staffAttendance = dailyAttendanceMap[id];
+            let attendanceBadgeHtml = `<span class="attendance-status-text">🔴 Not Marked Today</span>`;
+            
+            if(staffAttendance) {
+                if(staffAttendance.status === "Present") {
+                    attendanceBadgeHtml = `<span class="attendance-status-text" style="background:rgba(16,185,129,0.2); color:#10b981; border:1px solid #10b981;">🟢 Present (${staffAttendance.time})</span>`;
+                } else if(staffAttendance.status === "Absent") {
+                    attendanceBadgeHtml = `<span class="attendance-status-text" style="background:rgba(239,68,68,0.2); color:#ef4444; border:1px solid #ef4444;">❌ Absent (${staffAttendance.time})</span>`;
+                }
+            }
+
+            html += `
+                <div class="card">
+                    <div class="action-buttons">
+                        <button class="action-btn edit-btn" onclick="editStaff('${id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="action-btn delete-btn" onclick="deleteStaff('${id}')"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                    <div class="staff-row">
+                        <img src="${data.photoURL || 'https://i.imgur.com/6VBx3io.png'}" class="staff-photo">
+                        <div class="staff-details">
+                            <h3>${data.staffName || "Unnamed User"}</h3>
+                            <span class="role-badge">${data.position || "General Staff"}</span>
+                            
+                            <div class="info-line"><i class="fa-solid fa-phone"></i> ${data.mobile || "-"}</div>
+                            <div class="info-line"><i class="fa-solid fa-envelope"></i> ${data.email || "-"}</div>
+                            <div class="info-line"><i class="fa-solid fa-fingerprint"></i> ID: ${data.staffId || "-"}</div>
+                            <div class="info-line"><i class="fa-solid fa-address-card"></i> Doc: ${data.aadhaar || "-"}</div>
+                            <div class="info-line"><i class="fa-solid fa-location-dot"></i> ${data.address || "-"}</div>
+                            
+                            <span class="status-pill ${statusClass}">${data.status || "Inactive"}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="attendance-panel">
+                        <div class="attendance-actions">
+                            <button class="att-btn btn-present" onclick="markAttendance('${id}', 'Present')">Present</button>
+                            <button class="att-btn btn-absent" onclick="markAttendance('${id}', 'Absent')">Absent</button>
+                        </div>
+                        ${attendanceBadgeHtml}
+                    </div>
+                </div>`;
+        });
+        
+        document.getElementById("staffList").innerHTML = html || `<div style="grid-column:1/-1; text-align:center; padding:40px; color:#64748b;">No active employee directory found.</div>`;
     }
-
-    window.filterData = () => {
-        const name = document.getElementById("searchName").value.toLowerCase();
-        const date = document.getElementById("searchDate").value;
-        const status = document.getElementById("statusFilter").value;
-
-        const filtered = allData.filter(item => {
-            const matchesName = item.staffName ? item.staffName.toLowerCase().includes(name) : false;
-            const matchesDate = !date || (item.date && item.date.includes(date));
-            const matchesStatus = !status || item.status === status;
-            return matchesName && matchesDate && matchesStatus;
-        });
-        renderTable(filtered);
-    };
-
-    window.exportMasterData = () => {
-        let csv = "Name,Position,Date,In Time,Out Time,Total Hours,Status\n";
-        allData.forEach(d => {
-            csv += `"${d.staffName || ''}","${d.staffPosition || ''}","${d.date || ''}","${d.inTime || ''}","${d.outTime || ''}","${d.totalHours || ''}","${d.status || 'Pending'}"\n`;
-        });
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Master_Attendance_Report.csv';
-        a.click();
-    };
-
-    loadAdminData();
+    
+    loadStaff();
+    
+    function updateDateTime(){
+        const now = new Date();
+        document.getElementById("liveDate").innerHTML = "📅 " + now.toLocaleDateString();
+        document.getElementById("liveTime").innerHTML = "🕒 " + now.toLocaleTimeString();
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
 </script>
+
 </body>
 </html>

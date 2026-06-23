@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AAQ ERP - Master Notification & Settings Control</title>
+    <title>AAQ ERP - Premium Master Control Center</title>
+    <!-- Modern Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -90,7 +91,7 @@
             gap: 30px; 
         }
         @media (min-width: 950px) { 
-            .dashboard-grid { grid-template-columns: 400px 1fr; } 
+            .dashboard-grid { grid-template-columns: 420px 1fr; } 
         }
 
         /* Modern Form Container */
@@ -162,7 +163,7 @@
 
         /* Notification Card Styles */
         .notify-card { background: rgba(30, 41, 59, 0.4); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); position: relative; }
-        .notify-card h4 { font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 6px; padding-right: 120px;}
+        .notify-card h4 { font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 6px; padding-right: 140px;}
         .notify-card p { font-size: 14px; color: #cbd5e1; line-height: 1.5; margin-bottom: 15px; padding-right: 20px; }
         
         .notify-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #64748b; font-weight: 500; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 12px; }
@@ -178,12 +179,12 @@
         .text-inactive { color: #64748b; }
 
         /* Settings System Panel Wrapper Grid */
-        .settings-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; width: 100%; }
+        .settings-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 25px; width: 100%; }
         .settings-card { background: rgba(30, 41, 59, 0.5); padding: 25px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); }
         .settings-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 18px; color: #f59e0b; display: flex; align-items: center; gap: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 10px; }
         .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .setting-info label { font-size: 14px; font-weight: 600; color: #f8fafc; display: block; margin-bottom: 2px;}
-        .setting-info span { font-size: 12px; color: #64748b; }
+        .setting-info span { font-size: 12px; color: #64748b; line-height: 1.3; display: block; }
         
         /* Global Toggle Switch Styling */
         .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; cursor: pointer; }
@@ -207,6 +208,7 @@
 <body>
 
 <div class="container">
+    <!-- Main Header -->
     <div class="header">
         <div class="logo-box">
             <h2>AAQ ERP Control Center</h2>
@@ -221,11 +223,13 @@
         </div>
     </div>
 
+    <!-- Tabs Engine Controller Bar -->
     <div class="tabs-bar">
         <button class="tab-btn active" onclick="switchView('notify-tab', this)"><i class="fa-solid fa-bullhorn"></i> Notification Hub</button>
-        <button class="tab-btn" onclick="switchView('settings-tab', this)"><i class="fa-solid fa-sliders"></i> ERP Settings</button>
+        <button class="tab-btn" onclick="switchView('settings-tab', this)"><i class="fa-solid fa-sliders"></i> ERP Control Settings</button>
     </div>
 
+    <!-- TAB 1: LIVE BROADCAST NOTIFICATION SYSTEMS MANAGEMENT -->
     <div id="notify-tab" class="tab-content active dashboard-grid">
         <div class="form-box">
             <h2 id="notifyFormTitle"><i class="fa-solid fa-circle-broadcast" style="color: #f59e0b;"></i> Broadcast Notice</h2>
@@ -247,39 +251,55 @@
         <div class="notify-list" id="notifyList"></div>
     </div>
 
+    <!-- TAB 2: MASTER SYSTEM CONFIGURATION SETTINGS -->
     <div id="settings-tab" class="tab-content">
         <div class="settings-container">
+            <!-- Section 1: System Operation Status -->
             <div class="settings-card">
-                <h3><i class="fa-solid fa-shield-halved"></i> ERP Security Control</h3>
+                <h3><i class="fa-solid fa-gears"></i> Global System Mode</h3>
                 <div class="setting-row">
-                    <div class="setting-info"><label>Public Registrations</label><span>Allow staff self-signup from mobile app</span></div>
-                    <label class="toggle-switch"><input type="checkbox" id="set_signup" onchange="saveSettingToggle('publicSignup', this.checked)"><span class="slider"></span></label>
+                    <div class="setting-info"><label>Maintenance Mode</label><span>Block full staff app for backend updates</span></div>
+                    <label class="toggle-switch"><input type="checkbox" id="set_maintenance" onchange="saveSettingToggle('maintenanceMode', this.checked)"><span class="slider"></span></label>
                 </div>
                 <div class="setting-row">
                     <div class="setting-info"><label>Biometric Geo-Fence</label><span>Restrict attendance to event location coordinates</span></div>
                     <label class="toggle-switch"><input type="checkbox" id="set_geofence" onchange="saveSettingToggle('geoFence', this.checked)" checked><span class="slider"></span></label>
                 </div>
             </div>
+
+            <!-- Section 2: Shift & Attendance Policy Rules -->
             <div class="settings-card">
-                <h3><i class="fa-solid fa-bell"></i> Automation & Alerts</h3>
-                <div class="setting-row">
-                    <div class="setting-info"><label>WhatsApp Alerts</label><span>Send instant rosters to staff mobile numbers</span></div>
-                    <label class="toggle-switch"><input type="checkbox" id="set_whatsapp" onchange="saveSettingToggle('whatsappAlerts', this.checked)"><span class="slider"></span></label>
+                <h3><i class="fa-solid fa-clock"></i> Attendance & Shift Policies</h3>
+                <div style="margin-bottom: 16px;">
+                    <span class="file-label" style="margin: 0 0 6px 0;">Late-Mark Cutoff Threshold Time</span>
+                    <div class="input-group" style="margin-bottom:0;"><i class="fa-solid fa-hourglass-start"></i><input type="time" id="set_cutoff" onchange="saveSettingValue('lateCutoffTime', this.value)"></div>
                 </div>
-                <div class="setting-row">
-                    <div class="setting-info"><label>Auto Absent Trigger</label><span>Mark unverified staff absent automatically post 11 AM</span></div>
-                    <label class="toggle-switch"><input type="checkbox" id="set_autoabsent" onchange="saveSettingToggle('autoAbsent', this.checked)" checked><span class="slider"></span></label>
+                <div>
+                    <span class="file-label" style="margin: 0 0 6px 0;">GPS Scan Radius Buffer (Meters)</span>
+                    <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+                        <input type="range" id="set_radius" min="50" max="1000" step="50" value="100" style="padding:0; background:transparent; height:6px; cursor:pointer;" oninput="updateRadiusText(this.value)" onchange="saveSettingValue('geoRadiusMeters', this.value)">
+                        <span id="radiusVal" style="font-size:14px; font-weight:700; color:#f59e0b; min-width:60px;">100m</span>
+                    </div>
                 </div>
             </div>
+
+            <!-- Section 3: Staff Dashboard Module Visibility Switches -->
             <div class="settings-card">
-                <h3><i class="fa-solid fa-coins"></i> Financial System Defaults</h3>
-                <div style="margin-bottom: 12px;"><span class="file-label" style="margin: 0 0 6px 0;">Standard Shift Daily Allowance (INR)</span><input type="number" id="set_allowance" value="500" style="padding-left: 15px;" onchange="saveSettingValue('defaultAllowance', this.value)"></div>
-                <div><span class="file-label" style="margin: 0 0 6px 0;">Overtime Hourly Bonus Scale</span><input type="text" id="set_ot" value="1.5x Rate" style="padding-left: 15px;" onchange="saveSettingValue('overtimeScale', this.value)"></div>
+                <h3><i class="fa-solid fa-eye-slash"></i> Module Tab Visibility</h3>
+                <div class="setting-row">
+                    <div class="setting-info"><label>ID Card Status Button</label><span>Show/Hide ID tracker on staff app</span></div>
+                    <label class="toggle-switch"><input type="checkbox" id="set_tab_idcard" onchange="saveSettingToggle('tabIdCardVisible', this.checked)" checked><span class="slider"></span></label>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info"><label>My Events Button</label><span>Show/Hide roster events module on staff app</span></div>
+                    <label class="toggle-switch"><input type="checkbox" id="set_tab_events" onchange="saveSettingToggle('tabEventsVisible', this.checked)" checked><span class="slider"></span></label>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Protected Deletion Dialog Popup Modal (Master Password Enforcement) -->
 <div class="popup" id="deletePopup">
     <div class="popup-box">
         <i class="fa-solid fa-triangle-exclamation" style="font-size: 36px; color: #ef4444; margin-bottom: 10px;"></i>
@@ -296,6 +316,7 @@
     </div>
 </div>
 
+<!-- Core Storage In-Memory Cache Core Engine -->
 <script>
     window.dbNotifyCache = {};
     window.currentDateStr = new Date().toISOString().split('T')[0];
@@ -306,8 +327,13 @@
         document.getElementById(tabId).classList.add('active');
         btnElement.classList.add('active');
     }
+
+    function updateRadiusText(val) {
+        document.getElementById("radiusVal").innerText = val + "m";
+    }
 </script>
 
+<!-- Firebase Application Cloud Infrastructure Driver Setup Module -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -328,7 +354,6 @@
     let notifyEditId = null;
     let activeDeleteId = null;
 
-    // Security Gate Master Key Configuration
     const MASTER_DELETE_PASSWORD = "AAQADMINSECURE";
 
     /* =========================================
@@ -376,8 +401,6 @@
     window.toggleNotificationStatus = async function(id, currentCheckedState) {
         try {
             await updateDoc(doc(db, "notifications", id), { active: currentCheckedState });
-            
-            // Dom label live feedback update text
             const textLabel = document.getElementById(`statusText_${id}`);
             if(textLabel) {
                 if(currentCheckedState) {
@@ -447,20 +470,29 @@
     window.saveSettingValue = async function(settingKey, rawVal) {
         try { await setDoc(doc(db, "settings", settingKey), { value: rawVal }, { merge: true }); } catch(e){}
     };
+    
     async function loadSettings() {
         try {
-            const signupSnap = await getDoc(doc(db, "settings", "publicSignup"));
-            if(signupSnap.exists()) document.getElementById("set_signup").checked = signupSnap.data().value;
+            const maintSnap = await getDoc(doc(db, "settings", "maintenanceMode"));
+            if(maintSnap.exists()) document.getElementById("set_maintenance").checked = maintSnap.data().value;
+            
             const fenceSnap = await getDoc(doc(db, "settings", "geoFence"));
             if(fenceSnap.exists()) document.getElementById("set_geofence").checked = fenceSnap.data().value;
-            const whatsappSnap = await getDoc(doc(db, "settings", "whatsappAlerts"));
-            if(whatsappSnap.exists()) document.getElementById("set_whatsapp").checked = whatsappSnap.data().value;
-            const absentSnap = await getDoc(doc(db, "settings", "autoAbsent"));
-            if(absentSnap.exists()) document.getElementById("set_autoabsent").checked = absentSnap.data().value;
-            const allowSnap = await getDoc(doc(db, "settings", "defaultAllowance"));
-            if(allowSnap.exists()) document.getElementById("set_allowance").value = allowSnap.data().value;
-            const otSnap = await getDoc(doc(db, "settings", "overtimeScale"));
-            if(otSnap.exists()) document.getElementById("set_ot").value = otSnap.data().value;
+            
+            const cutoffSnap = await getDoc(doc(db, "settings", "lateCutoffTime"));
+            if(cutoffSnap.exists()) document.getElementById("set_cutoff").value = cutoffSnap.data().value;
+            
+            const radiusSnap = await getDoc(doc(doc(db, "settings", "geoRadiusMeters")));
+            if(radiusSnap.exists()) {
+                document.getElementById("set_radius").value = radiusSnap.data().value;
+                updateRadiusText(radiusSnap.data().value);
+            }
+            
+            const tabIdSnap = await getDoc(doc(db, "settings", "tabIdCardVisible"));
+            if(tabIdSnap.exists()) document.getElementById("set_tab_idcard").checked = tabIdSnap.data().value;
+            
+            const tabEvSnap = await getDoc(doc(db, "settings", "tabEventsVisible"));
+            if(tabEvSnap.exists()) document.getElementById("set_tab_events").checked = tabEvSnap.data().value;
         } catch(e){}
     }
 
@@ -471,21 +503,17 @@
     
     window.executeGlobalDelete = async function() {
         const inputPassword = document.getElementById("deleteMasterPassword").value;
-        
         if(inputPassword !== MASTER_DELETE_PASSWORD) {
             alert("❌ Invalid Admin Security Password! Deletion Blocked.");
             return;
         }
-
         if(!activeDeleteId) return;
-        
-        await deleteDoc(doc(doc(db, "notifications", activeDeleteId)));
+        await deleteDoc(doc(db, "notifications", activeDeleteId));
         loadNotifications();
         alert("🗑️ Broadcast notice permanently removed from Firestore.");
         closePopup();
     };
 
-    // Main Init Execution Lifecycle
     loadNotifications();
     loadSettings();
 </script>

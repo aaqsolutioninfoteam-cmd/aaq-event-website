@@ -42,7 +42,14 @@
             backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); gap: 20px; flex-wrap: wrap;
         }
         .left-header { display: flex; align-items: center; gap: 15px; }
-        .logo { width: 55px; height: auto; }
+        
+        /* LOGO CRITICAL FIXED SIZE */
+        .logo { 
+            width: 55px !important; 
+            height: 55px !important; 
+            object-fit: contain;
+        }
+        
         .header-text h1 { font-size: 22px; font-weight: 700; color: #ffffff; letter-spacing: 0.5px; }
         .header-text p { color: #94a3b8; font-size: 13px; }
 
@@ -146,7 +153,7 @@
 <div class="container" id="mainDashboardWrapper">
     <div class="header">
         <div class="left-header">
-            <img src="logo.png" alt="Logo" id="dashboardLogo">
+            <img src="logo.png" alt="Logo" id="dashboardLogo" class="logo">
             <div class="header-text">
                 <h1>AAQ Staff Dashboard</h1>
                 <p>Welcome To Staff Management System</p>
@@ -261,7 +268,7 @@
                 }
             }
 
-            // 2. Global Structural System Lock Checker (Maintenance) -> FIXED NESTED BUG HERE
+            // 2. Global Structural System Lock Checker (Maintenance)
             const structuralLock = await getDoc(doc(db, "settings", "maintenanceStatus"));
             if(structuralLock.exists() && structuralLock.data().enabled === true) {
                 document.getElementById("maintenanceOverlay").style.display = "flex";
@@ -284,7 +291,7 @@
         }, 1000);
     }
 
-    // Module Safe Event Listeners for Buttons -> FIXED WINDOW SCOPING HOOKS
+    // Module Safe Event Listeners for Buttons
     document.getElementById("modalAckBtn").addEventListener("click", () => {
         localStorage.setItem("notice_ack_latestNotice", "true");
         document.getElementById("strictNoticeModal").style.display = "none";

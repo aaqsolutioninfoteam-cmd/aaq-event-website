@@ -78,8 +78,6 @@
         .late-mark { background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; }
         
         /* Staff Profile Block Elements Layout */
-        .staff-profile { display:flex; align-items:center; gap:12px; }
-        img.thumb { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; border: 2px solid #e2e8f0; background: #f1f5f9; }
         .staff-info b { font-size: 15px; color: #1e293b; }
         .staff-info small { color: #64748b; font-size: 12px; }
 
@@ -196,11 +194,11 @@
         <table>
             <thead>
                 <tr>
-                    <th>Staff Profile</th>
+                    <th>Staff Name & Position</th>
                     <th>Date</th>
                     <th>Punch In</th>
                     <th>Punch Out</th>
-                    <th>Duration</th>
+                    <th>Duration (Auto)</th>
                     <th>Status Type</th>
                     <th>Actions</th>
                 </tr>
@@ -236,10 +234,6 @@
         <div class="form-group">
             <label>Punch Out Time</label>
             <input type="text" id="editOutTime" placeholder="e.g. 06:30:00 PM">
-        </div>
-        <div class="form-group">
-            <label>Total Working Hours</label>
-            <input type="text" id="editTotalHours" placeholder="e.g. 8.25 Hours">
         </div>
         <div class="form-group">
             <label>Attendance Status Rule</label>
@@ -279,12 +273,36 @@
     const db = getFirestore(app);
     let allData = [];
 
-    // ROBUST DATE PARSER ENGINE - Converts all mixed formats cleanly
+    // AUTO CALCULATE DURATION ENGINE (Calculates hours seamlessly)
+    function calculateHoursAuto(inTimeStr, outTimeStr) {
+        if (!inTimeStr || !outTimeStr || outTimeStr === '--:--') return "0.00 Hours";
+        try {
+            function convertTo24h(timeStr) {
+                timeStr = timeStr.trim().toUpperCase();
+                let hasAMPM = timeStr.includes("AM") || timeStr.includes("PM");
+                let parts = timeStr.replace(/[AMP]/g, '').trim().split(':');
+                let hrs = parseInt(parts[0], 10);
+                let mins = parseInt(parts[1], 10) || 0;
+                
+                if (hasAMPM) {
+                    if (timeStr.includes("PM") && hrs < 12) hrs += 12;
+                    if (timeStr.includes("AM") && hrs === 12) hrs = 0;
+                }
+                return hrs * 60 + mins;
+            }
+            let startMins = convertTo24h(inTimeStr);
+            let endMins = convertTo24h(outTimeStr);
+            let diff = endMins - startMins;
+            if(diff < 0) diff += 1440; // Handles overnight shifts
+            return (diff / 60).toFixed(2) + " Hours";
+        } catch(e) {
+            return "0.00 Hours";
+        }
+    }
+
     function parseDateToTimestamp(dateStr) {
         if (!dateStr) return 0;
         let s = dateStr.toString().trim();
-        
-        // Handles "DD/MM/YYYY" or "MM/DD/YYYY" mixed variants safely
         if (s.includes('/')) {
             let parts = s.split('/');
             if (parts.length === 3) {
@@ -292,7 +310,6 @@
                 let p1 = parts[1].padStart(2, '0');
                 let p2 = parts[2];
                 if (p2.length === 4) {
-                    // Test if first part is year or day
                     let d = new Date(`${p2}-${p0}-${p1}T00:00:00`);
                     if (!isNaN(d.getTime())) return d.getTime();
                     let d2 = new Date(`${p2}-${p1}-${p0}T00:00:00`);
@@ -300,12 +317,8 @@
                 }
             }
         }
-        
-        // Standard parser fallback for YYYY-MM-DD
         let timestamp = Date.parse(s);
         if(!isNaN(timestamp)) return timestamp;
-
-        // Ultimate hardcoded parsing for DD-MM-YYYY fallback
         if (s.includes('-')) {
             let parts = s.split('-');
             if (parts[0].length === 4) return new Date(s + "T00:00:00").getTime() || 0;
@@ -330,7 +343,6 @@
                 querySnapshot.forEach(doc => {
                     allData.push({ id: doc.id, ...doc.data() });
                 });
-
                 filterData();
                 updateStats();
             });
@@ -354,14 +366,13 @@
             const currentStatusType = item.attendanceType === "Late Mark" ? "late-mark" : (item.status ? item.status.toLowerCase() : 'pending');
             const displayLabel = item.attendanceType === "Late Mark" ? "Late Mark" : (item.status || 'Pending');
             
-            // Fixed Broken Photo Fallback to system logo/placeholder
-            const safePhoto = item.staffPhoto && item.staffPhoto !== "" ? item.staffPhoto : "./logo.png";
+            // Auto calculate duration on the fly if not correctly formatted
+            const autoDuration = calculateHoursAuto(item.inTime, item.outTime);
 
             const row = `
                 <tr>
                     <td>
                         <div class="staff-profile">
-                            <img src="${safePhoto}" class="thumb" onerror="this.onerror=null; this.src='https://via.placeholder.com/44?text=AAQ';">
                             <div class="staff-info">
                                 <b>${item.staffName || 'Unknown'}</b><br>
                                 <small>${item.staffPosition || 'Staff Member'}</small>
@@ -371,12 +382,12 @@
                     <td><i class="fa-regular fa-calendar" style="color:#3b82f6; font-weight: 600; margin-right:5px;"></i> <b>${item.date}</b></td>
                     <td><span style="color:#10b981; font-weight:500;"><i class="fa-solid fa-right-to-bracket"></i> ${item.inTime || '--:--'}</span></td>
                     <td><span style="color:${item.outTime ? '#ef4444' : '#94a3b8'}; font-weight:500;"><i class="fa-solid fa-right-from-bracket"></i> ${item.outTime || '--:--'}</span></td>
-                    <td><strong>${item.totalHours || '0'}</strong></td>
+                    <td><strong>${autoDuration}</strong></td>
                     <td><span class="status-badge ${currentStatusType}">${displayLabel}</span></td>
                     <td>
                         <button class="action-btn btn-approve" title="Approve Entry" onclick="changeStatus('${item.id}', 'Approved')"><i class="fa-solid fa-check"></i></button>
                         <button class="action-btn btn-reject" title="Reject Entry" onclick="changeStatus('${item.id}', 'Rejected')"><i class="fa-solid fa-xmark"></i></button>
-                        <button class="action-btn btn-edit" title="Edit Master Log" onclick="openEditModal('${item.id}', '${item.inTime || ''}', '${item.outTime || ''}', '${item.totalHours || ''}', '${item.status || 'Pending'}', '${item.attendanceType || ''}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="action-btn btn-edit" title="Edit Master Log" onclick="openEditModal('${item.id}', '${item.inTime || ''}', '${item.outTime || ''}', '${item.status || 'Pending'}', '${item.attendanceType || ''}')"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button class="action-btn btn-photo" title="Biometric Photos" onclick="triggerLightboxView('${item.inPhoto || ''}', '${item.outPhoto || ''}')"><i class="fa-solid fa-camera"></i></button>
                         <button class="action-btn btn-map" title="View Location" onclick="viewMap('${item.inLat}', '${item.inLng}')"><i class="fa-solid fa-location-dot"></i></button>
                     </td>
@@ -471,16 +482,19 @@
         const id = document.getElementById("editLogId").value;
         const newInTime = document.getElementById("editInTime").value;
         const newOutTime = document.getElementById("editOutTime").value;
-        const newTotalHours = document.getElementById("editTotalHours").value;
         const newStatus = document.getElementById("editStatus").value;
         const newType = document.getElementById("editType").value;
 
         if(!id) return;
+        
+        // Automatic runtime duration conversion based on updated inputs
+        const calculatedHours = calculateHoursAuto(newInTime, newOutTime);
+
         try {
             await updateDoc(doc(db, "attendance", id), {
                 inTime: newInTime,
                 outTime: newOutTime,
-                totalHours: newTotalHours,
+                totalHours: calculatedHours,
                 status: newStatus,
                 attendanceType: newType
             });
@@ -531,7 +545,6 @@
             return matchesName && matchesDate && matchesStatus;
         });
 
-        // Advanced Date Sorter Engine (1 to 30 OR 30 to 1)
         filtered.sort((a, b) => {
             const timeA = parseDateToTimestamp(a.date);
             const timeB = parseDateToTimestamp(b.date);
@@ -544,7 +557,8 @@
     window.exportMasterData = () => {
         let csv = "Name,Position,Date,In Time,Out Time,Total Hours,Status,Type\n";
         allData.forEach(d => {
-            csv += `"${d.staffName || ''}","${d.staffPosition || ''}","${d.date || ''}","${d.inTime || ''}","${d.outTime || ''}","${d.totalHours || '0'}","${d.status || 'Pending'}","${d.attendanceType || 'Standard'}"\n`;
+            const autoH = calculateHoursAuto(d.inTime, d.outTime);
+            csv += `"${d.staffName || ''}","${d.staffPosition || ''}","${d.date || ''}","${d.inTime || ''}","${d.outTime || ''}","${autoH}","${d.status || 'Pending'}","${d.attendanceType || 'Standard'}"\n`;
         });
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
@@ -576,11 +590,10 @@
         document.getElementById("photoLightboxModal").style.display = "none";
     }
 
-    function openEditModal(id, inTime, outTime, totalHours, status, type) {
+    function openEditModal(id, inTime, outTime, status, type) {
         document.getElementById("editLogId").value = id;
         document.getElementById("editInTime").value = inTime;
         document.getElementById("editOutTime").value = outTime;
-        document.getElementById("editTotalHours").value = totalHours;
         document.getElementById("editStatus").value = status === "" ? "Pending" : status;
         document.getElementById("editType").value = type === "Late Mark" ? "Late Mark" : "Standard";
         document.getElementById("editLogModal").style.display = "flex";

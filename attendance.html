@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Portal - Premium Attendance Suite</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background: #f8fafc; padding: 25px; color: #0f172a; }
         .container { max-width: 1400px; margin: auto; }
+
+        /* Top Bar Navigation Component */
+        .top-nav-bar { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 14px 24px; border-radius: 16px; margin-bottom: 20px; color: white; }
+        .back-nav-btn { background: rgba(255, 255, 255, 0.1); padding: 10px 16px; border: none; border-radius: 10px; color: white; font-weight: 600; cursor: pointer; text-decoration: none; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .back-nav-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .db-status { font-size: 12px; color: #10b981; font-weight: 600; display: flex; align-items: center; gap: 6px; }
 
         /* Premium Profile Header */
         .staff-header { background: white; padding: 24px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 25px; border: 1px solid #e2e8f0; }
@@ -43,11 +49,21 @@
         #video { width: 100%; max-width: 380px; aspect-ratio: 4/3; border-radius: 14px; border: 2px solid #cbd5e1; background: #000; object-fit: cover; }
         .live-hours { margin-top: 15px; padding: 12px 20px; background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; border-radius: 12px; font-size: 15px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; }
         .status-box { margin-top: 12px; padding: 10px 16px; border-radius: 10px; background: #f1f5f9; font-weight: 600; font-size: 13px; color: #475569; width: 100%; max-width: 380px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .button-grid { display: flex; gap: 12px; width: 100%; max-width: 380px; margin-top: 15px; }
+        
+        /* Interactive Live Target Date Controller */
+        .date-control-panel { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 12px; width: 100%; max-width: 380px; margin-top: 15px; display: flex; align-items: center; gap: 10px; }
+        .date-control-panel label { font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; }
+        .date-control-panel input { flex:1; border: none; background: transparent; font-size: 14px; font-weight: 600; color: #1e293b; outline: none; }
+
+        .button-grid { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 380px; margin-top: 15px; }
+        .punch-row { display: flex; gap: 12px; width: 100%; }
         
         .btn-punch { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .face-in-btn { background: #10b981; } .face-in-btn:hover { background: #059669; }
         .face-out-btn { background: #ef4444; } .face-out-btn:hover { background: #dc2626; }
+        
+        .backdate-req-btn { display: none; width: 100%; background: #f59e0b; color: white; padding: 14px; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); }
+        .backdate-req-btn:hover { background: #d97706; }
 
         /* Filter Section Styling */
         .filter-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; width: 100%; margin-bottom: 20px; }
@@ -58,6 +74,7 @@
         .btn-action { padding: 11px 18px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
         .blue-btn { background: #3b82f6; color: white; } .blue-btn:hover { background: #2563eb; }
         .purple-btn { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; } .purple-btn:hover { background: #e2e8f0; }
+        .mode-indicator { font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 8px; margin-left: auto; background: #eff6ff; color: #2563eb; }
 
         /* Modern History Logs */
         .history-list { display: flex; flex-direction: column; gap: 15px; }
@@ -102,8 +119,13 @@
 
 <div class="container">
 
+    <div class="top-nav-bar">
+        <a href="dashboard.html" class="back-nav-btn"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+        <div class="db-status"><i class="fa-solid fa-circle-check"></i> Connected to Core Server</div>
+    </div>
+
     <div class="staff-header">
-        <img id="staffPhoto" class="staff-photo" src="https://i.imgur.com/6VBx3io.png">
+        <img id="staffPhoto" class="staff-photo" src="https://i.imgur.com/6VBx3io.png" alt="Profile">
         <div class="staff-info">
             <h2 id="staffName">Staff Name</h2>
             <p><i class="fa-solid fa-briefcase"></i> <span id="staffPosition">Position</span></p>
@@ -131,9 +153,17 @@
             <div id="statusBox" class="status-box">Ready For Scan</div>
             <div id="workingHours" class="live-hours"><i class="fa-solid fa-stopwatch"></i> Duty Time : 0.00 Hours</div>
             
+            <div class="date-control-panel">
+                <label for="targetAttendanceDate">Target Date:</label>
+                <input type="date" id="targetAttendanceDate" onchange="evaluateDateScopeInterlock()">
+            </div>
+
             <div class="button-grid">
-                <button class="btn-punch face-in-btn" onclick="faceCheckIn()"><i class="fa-solid fa-right-to-bracket"></i> FACE IN</button>
-                <button class="btn-punch face-out-btn" onclick="faceCheckOut()"><i class="fa-solid fa-right-from-bracket"></i> FACE OUT</button>
+                <div class="punch-row" id="standardPunchGroup">
+                    <button class="btn-punch face-in-btn" onclick="faceCheckIn()"><i class="fa-solid fa-right-to-bracket"></i> FACE IN</button>
+                    <button class="btn-punch face-out-btn" onclick="faceCheckOut()"><i class="fa-solid fa-right-from-bracket"></i> FACE OUT</button>
+                </div>
+                <button class="backdate-req-btn" id="backdateRequestBtn" onclick="dispatchBackdateRequest()"><i class="fa-solid fa-paper-plane"></i> Request Back-Date Approval</button>
             </div>
         </div>
 
@@ -143,13 +173,13 @@
                     <i class="fa-solid fa-calendar-week"></i>
                     <input type="month" id="monthFilter">
                 </div>
-                <button class="btn-action blue-btn" onclick="loadAttendance()"><i class="fa-solid fa-sliders"></i> Apply Filter</button>
+                <button class="btn-action blue-btn" onclick="applyPastHistoryFilter()"><i class="fa-solid fa-sliders"></i> Apply Filter</button>
+                <button class="btn-action purple-btn" onclick="resetToDailyDefaultView()"><i class="fa-solid fa-arrows-rotate"></i> Today's Log</button>
                 <button class="btn-action purple-btn" onclick="exportMyAttendanceExcel()"><i class="fa-solid fa-file-excel"></i> CSV Export</button>
-                <button class="btn-action purple-btn" onclick="exportMyAttendancePDF()"><i class="fa-solid fa-file-pdf"></i> Print PDF</button>
+                <div id="viewModeBadge" class="mode-indicator">Mode: Today's Log</div>
             </div>
 
-            <div id="attendanceList" class="history-list">
-                </div>
+            <div id="attendanceList" class="history-list"></div>
         </div>
     </div>
 </div>
@@ -176,7 +206,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
@@ -197,6 +227,17 @@
     document.getElementById("staffName").innerHTML = staffName;
     document.getElementById("staffPosition").innerHTML = staffPosition;
     if(staffPhoto) document.getElementById("staffPhoto").src = staffPhoto;
+
+    // Default Date Settings Init Initialization
+    const inputDateElement = document.getElementById("targetAttendanceDate");
+    const todayObj = new Date();
+    const localTodayString = todayObj.toLocaleDateString();
+    
+    // ISO Date formatting logic for input value assignment
+    const yyyy = todayObj.getFullYear();
+    const mm = String(todayObj.getMonth() + 1).padStart(2, '0');
+    const dd = String(todayObj.getDate()).padStart(2, '0');
+    inputDateElement.value = `${yyyy}-${mm}-${dd}`;
 
     function updateDateTime(){
         document.getElementById("currentDate").innerHTML = "📅 " + new Date().toLocaleDateString();
@@ -231,6 +272,27 @@
     }
 
     const statusBox = document.getElementById("statusBox");
+
+    // Evaluate if Date Selected is Current Date or Back-Date
+    window.evaluateDateScopeInterlock = function() {
+        const selectedValue = document.getElementById("targetAttendanceDate").value;
+        if(!selectedValue) return;
+
+        const selectedDateStr = new Date(selectedValue).toLocaleDateString();
+        const liveDateStr = new Date().toLocaleDateString();
+
+        if(selectedDateStr !== liveDateStr) {
+            // Trigger Back-date State Mode Configuration
+            document.getElementById("standardPunchGroup").style.display = "none";
+            document.getElementById("backdateRequestBtn").style.display = "inline-flex";
+            statusBox.innerHTML = "⚠️ BACK-DATE MODE: Request Approval";
+        } else {
+            // Restore Current Day Operations Configuration Standard Frame
+            document.getElementById("standardPunchGroup").style.display = "flex";
+            document.getElementById("backdateRequestBtn").style.display = "none";
+            statusBox.innerHTML = "Ready For Scan";
+        }
+    };
       
     window.faceCheckIn = async function(){
         statusBox.innerHTML = "📷 Syncing GPS & Face Matrix...";
@@ -246,16 +308,34 @@
             return;
         }
 
+        // Live Admin Late Cutoff Engine Interlock Integration Check
+        let finalType = "Present";
+        try {
+            const cutoffDoc = await getDocs(query(collection(db, "settings"), where("__name__", "==", "lateCutoffTime")));
+            if(!cutoffDoc.empty) {
+                const adminTimeRaw = cutoffDoc.docs[0].data().value; // format: "11:00"
+                if(adminTimeRaw) {
+                    const currentHours = new Date().getHours();
+                    const currentMinutes = new Date().getMinutes();
+                    const [cutoffH, cutoffM] = adminTimeRaw.split(":").map(Number);
+                    
+                    if((currentHours > cutoffH) || (currentHours === cutoffH && currentMinutes > cutoffM)) {
+                        finalType = "Late Mark";
+                    }
+                }
+            }
+        } catch(e) { console.error("Cutoff engine error: ", e); }
+
         await addDoc(collection(db, "attendance"), {
             staffName, staffPhoto, staffPosition,
             date: today,
             inTime: new Date().toLocaleTimeString(),
-            outTime:"", totalHours:"", attendanceType: "Present", status: "Pending", reason:"", remarks:"",
+            outTime:"", totalHours:"", attendanceType: finalType, status: "Pending", reason:"", remarks:"",
             inPhoto: photoData, outPhoto:"", inLat: currentLat, inLng: currentLng, outLat:"", outLng:"", editedBy:"", editedOn:""
         });
 
-        statusBox.innerHTML = "✅ Punch In Successful";
-        loadAttendance();
+        statusBox.innerHTML = finalType === "Late Mark" ? "⚠️ Punched In (LATE MARKED)" : "✅ Punch In Successful";
+        loadAttendanceEngine(true); // reload dashboard
     };
 
     window.faceCheckOut = async function(){
@@ -288,11 +368,30 @@
                 outPhoto: photoData, outLat: currentLat, outLng: currentLng
             });
             statusBox.innerHTML = "✅ Duty Cycle Ended Successfully";
-            loadAttendance();
+            loadAttendanceEngine(true);
         });
     };
 
-    // Live Tracker Counter logic
+    // Dispatch Backdate Approval Pipeline Request to Admin Panel Queue Array
+    window.dispatchBackdateRequest = async function() {
+        const rawDateVal = document.getElementById("targetAttendanceDate").value;
+        if(!rawDateVal) return;
+
+        statusBox.innerHTML = "⏳ Sending Request to Admin...";
+        const targetFormattedDate = new Date(rawDateVal).toLocaleDateString();
+        
+        await addDoc(collection(db, "backdate_requests"), {
+            staffName,
+            staffPosition,
+            requestedDate: targetFormattedDate,
+            timestamp: new Date().toLocaleString(),
+            status: "Pending"
+        });
+
+        statusBox.innerHTML = "📩 Request Sent! Awaiting Admin Action";
+    };
+
+    // Live Tracker Counter logic loop
     setInterval(async()=>{
         const today = new Date().toLocaleDateString();
         const q = query(collection(db,"attendance"), where("staffName","==",staffName), where("date","==",today));
@@ -306,19 +405,27 @@
         });
     }, 60000);
       
-    window.loadAttendance = async function(){
+    // Structural Refactored Base Core Load Database Analytics Renderer Engine
+    window.loadAttendanceEngine = async function(onlyToday = true){
         const monthFilter = document.getElementById("monthFilter").value;
         const querySnapshot = await getDocs(collection(db, "attendance"));
+        const liveTodayStr = new Date().toLocaleDateString();
         
         let html = "", totalAttendance = 0, approvedCount = 0, pendingCount = 0, rejectedCount = 0, totalHours = 0;
         let records = [];
 
         querySnapshot.forEach(d => { if(d.data().staffName === staffName) records.push(d.data()); });
 
+        // Sort descending logic pattern parsing
+        records.sort((a,b) => new Date(b.date) - new Date(a.date));
+
         records.forEach((data)=>{
-            if(monthFilter){
+            // Enforcement rule evaluation filter boundary limits
+            if(onlyToday) {
+                if(data.date !== liveTodayStr) return; // Hide records outside modern day scope frame boundaries
+            } else if(monthFilter) {
                 try {
-                    const parts = data.date.split('/'); // standard date mapping handling
+                    const parts = data.date.split('/'); 
                     const rMonth = `${parts[2]}-${parts[0].padStart(2,'0')}`;
                     if(rMonth !== monthFilter) return;
                 } catch { return; }
@@ -333,15 +440,13 @@
             else pendingCount++;
 
             const badgeClass = data.status === "Approved" ? "status-approved" : data.status === "Rejected" ? "status-rejected" : "status-pending";
-
-            // Escape single quotes for string variables passing safely into buttons
             const inImg = data.inPhoto || '';
             const outImg = data.outPhoto || '';
 
             html += `
                 <div class="history-card">
                     <div class="history-header">
-                        <h3>📅 &nbsp;${data.date}</h3>
+                        <h3>📅  ${data.date}</h3>
                         <span class="status-badge ${badgeClass}">${data.status || "Pending"}</span>
                     </div>
                     <div class="info-grid">
@@ -359,12 +464,33 @@
                 </div>`;
         });
 
-        document.getElementById("attendanceList").innerHTML = html || `<div style="text-align:center; padding:40px; color:#94a3b8;">No records matched standard queries.</div>`;
+        document.getElementById("attendanceList").innerHTML = html || `<div style="text-align:center; padding:40px; color:#94a3b8;">No records found for this view selection.</div>`;
         document.getElementById("totalAttendance").innerHTML = totalAttendance;
         document.getElementById("approvedCount").innerHTML = approvedCount;
         document.getElementById("pendingCount").innerHTML = pendingCount;
         document.getElementById("rejectedCount").innerHTML = rejectedCount;
         document.getElementById("totalHours").innerHTML = totalHours.toFixed(2);
+    };
+
+    // Filter Trigger Switches Routes Configuration UI
+    window.applyPastHistoryFilter = function() {
+        const monthFilter = document.getElementById("monthFilter").value;
+        if(!monthFilter) {
+            alert("Please select a month first!");
+            return;
+        }
+        document.getElementById("viewModeBadge").innerText = "Mode: Past History";
+        document.getElementById("viewModeBadge").style.background = "#f59e0b";
+        document.getElementById("viewModeBadge").style.color = "white";
+        loadAttendanceEngine(false);
+    };
+
+    window.resetToDailyDefaultView = function() {
+        document.getElementById("monthFilter").value = "";
+        document.getElementById("viewModeBadge").innerText = "Mode: Today's Log";
+        document.getElementById("viewModeBadge").style.background = "#eff6ff";
+        document.getElementById("viewModeBadge").style.color = "#2563eb";
+        loadAttendanceEngine(true);
     };
 
     window.exportMyAttendanceExcel = async function(){
@@ -382,16 +508,12 @@
         a.href = url; a.download = `${staffName}-attendance.csv`; a.click();
     };
 
-    window.exportMyAttendancePDF = function(){
-        window.print();
-    };
-
-    document.getElementById("monthFilter").addEventListener("change", loadAttendance);
-    loadAttendance();
+    // Boot Initialization Engine Default State Call
+    resetToDailyDefaultView();
 </script>
 
 <script>
-    // Global Helper functions for Modals mapping
+    // Global UI Helper Window Modals Controllers mappings
     function openPhotoView(inPhoto, outPhoto) {
         const body = document.getElementById("photoModalBody");
         body.innerHTML = `
@@ -415,7 +537,7 @@
         body.innerHTML = `
             <img src="${url}" class="zoom-photo">
             <div style="margin-top:15px; text-align:left;">
-                <button class="btn-action purple-btn" onclick="loadAttendance()"><i class="fa-solid fa-arrow-left"></i> Back to Gallery</button>
+                <button class="btn-action purple-btn" onclick="resetToDailyDefaultView()"><i class="fa-solid fa-arrow-left"></i> Reset List View</button>
             </div>`;
         document.getElementById("modalTitle").innerText = "Detailed Preview";
     }
@@ -426,12 +548,12 @@
             <div class="location-card">
                 <h4><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Punch-In Coordinates</h4>
                 <p style="font-size:13px; color:#475569; margin-top:4px;">Lat: ${inLat || 'N/A'} | Lng: ${inLng || 'N/A'}</p>
-                ${inLat ? `<a class="map-btn" href="https://www.google.com/maps?q=${inLat},${inLng}" target="_blank"><i class="fa-solid fa-map-location-dot"></i> Open Google Maps</a>` : ''}
+                ${inLat ? `<a class="map-btn" href="https://maps.google.com/?q=${inLat},${inLng}" target="_blank"><i class="fa-solid fa-map-location-dot"></i> Open Google Maps</a>` : ''}
             </div>
             <div class="location-card">
                 <h4><i class="fa-solid fa-circle-xmark" style="color:#ef4444;"></i> Punch-Out Coordinates</h4>
                 <p style="font-size:13px; color:#475569; margin-top:4px;">Lat: ${outLat || 'N/A'} | Lng: ${outLng || 'N/A'}</p>
-                ${outLat ? `<a class="map-btn" href="https://www.google.com/maps?q=${outLat},${outLng}" target="_blank"><i class="fa-solid fa-map-location-dot"></i> Open Google Maps</a>` : ''}
+                ${outLat ? `<a class="map-btn" href="https://maps.google.com/?q=${outLat},${outLng}" target="_blank"><i class="fa-solid fa-map-location-dot"></i> Open Google Maps</a>` : ''}
             </div>`;
         document.getElementById("locationModal").style.display = "flex";
     }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff & Attendance Management - Premium Admin Suite</title>
+    <title>AAQ ERP - Master Admin Control Panel</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -28,11 +28,10 @@
             padding: 20px 30px; 
             border-radius: 20px; 
             backdrop-filter: blur(16px); 
-            margin-bottom: 30px; 
+            margin-bottom: 25px; 
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
-        .logo-box { display: flex; align-items: center; gap: 15px; }
         .logo-box h2 { font-size: 22px; font-weight: 700; color: #f59e0b; }
         .logo-box p { font-size: 13px; color: #94a3b8; }
         .header-right { display: flex; align-items: center; gap: 20px; }
@@ -50,9 +49,43 @@
         }
         .back-btn:hover { background: #dc2626; transform: translateY(-1px); }
 
+        /* Navigation Tabs Bar */
+        .tabs-bar {
+            display: flex;
+            gap: 12px;
+            background: #1e293b;
+            padding: 8px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #0f172a;
+        }
+
+        /* View Content Dynamic Visibility */
+        .tab-content { display: none; }
+        .tab-content.active { display: grid; }
+
         /* Master Dashboard Split Layout */
         .dashboard-grid { 
-            display: grid; 
             grid-template-columns: 1fr; 
             gap: 30px; 
         }
@@ -74,7 +107,7 @@
         .input-group { position: relative; margin-bottom: 16px; }
         .input-group i { position: absolute; left: 14px; top: 15px; color: #64748b; font-size: 15px; }
         
-        input, select { 
+        input, select, textarea { 
             width: 100%; 
             padding: 14px 14px 14px 42px; 
             border: 1px solid rgba(255, 255, 255, 0.05); 
@@ -85,8 +118,9 @@
             outline: none;
             transition: all 0.2s;
         }
+        textarea { height: 100px; resize: none; padding-top: 12px; }
         input[type="file"] { padding-left: 14px; }
-        input:focus, select:focus { border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15); }
+        input:focus, select:focus, textarea:focus { border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15); }
         
         .file-label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 6px; font-weight: 500; }
 
@@ -105,8 +139,8 @@
         }
         .save-btn:hover { opacity: 0.95; transform: translateY(-1px); }
 
-        /* Modern Grid Architecture for Cards */
-        .staff-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 20px; align-content: start; }
+        /* Grid Lists Elements CSS */
+        .staff-list, .notify-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 20px; align-content: start; }
         
         .card { 
             background: rgba(30, 41, 59, 0.4); 
@@ -130,91 +164,58 @@
         .info-line i { color: #64748b; width: 16px; text-align: center; }
 
         .status-pill { 
-            display: inline-block; 
-            padding: 4px 8px; 
-            border-radius: 6px; 
-            font-size: 11px; 
-            font-weight: 700; 
-            text-transform: uppercase;
-            margin-top: 6px;
+            display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-top: 6px;
         }
         .status-active { background: rgba(16, 185, 129, 0.15); color: #10b981; }
         .status-inactive { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
 
-        /* Integrated Attendance Panel Inside Card */
+        /* Integrated Attendance Panel */
         .attendance-panel {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center;
         }
-        .attendance-title { font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
         .attendance-actions { display: flex; gap: 6px; }
-        
-        .att-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+        .att-btn { padding: 6px 12px; border: none; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
         .btn-present { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); }
-        .btn-present:hover, .btn-present.active { background: #10b981; color: #0f172a; }
-        
+        .btn-present:hover { background: #10b981; color: #0f172a; }
         .btn-absent { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); }
-        .btn-absent:hover, .btn-absent.active { background: #ef4444; color: white; }
-        
-        .attendance-status-text {
-            font-size: 12px;
-            font-weight: 600;
-            color: #e2e8f0;
-            background: #1e293b;
-            padding: 4px 10px;
-            border-radius: 6px;
-        }
+        .btn-absent:hover { background: #ef4444; color: white; }
+        .attendance-status-text { font-size: 12px; font-weight: 600; color: #e2e8f0; background: #1e293b; padding: 4px 10px; border-radius: 6px; }
 
-        /* Actions Container Inside Card */
+        /* Action Controls */
         .action-buttons { display: flex; gap: 8px; position: absolute; top: 15px; right: 15px; }
-        .action-btn { 
-            width: 32px; 
-            height: 32px; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-size: 14px; 
-            color: white; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
+        .action-btn { width: 32px; height: 32px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; color: white; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .edit-btn { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
         .edit-btn:hover { background: #3b82f6; color: white; }
         .delete-btn { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
         .delete-btn:hover { background: #ef4444; color: white; }
 
+        /* Notification Card Styles */
+        .notify-card { background: rgba(30, 41, 59, 0.4); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); position: relative; }
+        .notify-card h4 { font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 6px; padding-right: 70px;}
+        .notify-card p { font-size: 14px; color: #cbd5e1; line-height: 1.5; margin-bottom: 12px; }
+        .notify-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #64748b; font-weight: 500; }
+        .badge-type { padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 10px; text-transform: uppercase; }
+        .badge-urgent { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .badge-info { background: rgba(59,130,246,0.15); color: #3b82f6; }
+        .badge-event { background: rgba(245,158,11,0.15); color: #f59e0b; }
+
+        /* Settings System Panel Wrapper Grid */
+        .settings-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; width: 100%; }
+        .settings-card { background: rgba(30, 41, 59, 0.5); padding: 25px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); }
+        .settings-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 18px; color: #f59e0b; display: flex; align-items: center; gap: 8px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 10px; }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .setting-info label { font-size: 14px; font-weight: 600; color: #f8fafc; display: block; margin-bottom: 2px;}
+        .setting-info span { font-size: 12px; color: #64748b; }
+        .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .3s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
+        input:checked + .slider { background-color: #10b981; }
+        input:checked + .slider:before { transform: translateX(20px); }
+
         /* Smart Popup Modals */
-        .popup { 
-            display:none; 
-            position:fixed; 
-            top:0; left:0; width:100%; height:100%; 
-            background: rgba(15, 23, 42, 0.7); 
-            backdrop-filter: blur(4px); 
-            justify-content:center; align-items:center; 
-            z-index:9999; 
-        }
-        .popup-box { 
-            background: #1e293b; 
-            padding: 25px; 
-            border-radius: 20px; 
-            width: 340px; 
-            text-align: center; 
-            border: 1px solid rgba(255,255,255,0.1);
-        }
+        .popup { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); justify-content:center; align-items:center; z-index:9999; }
+        .popup-box { background: #1e293b; padding: 25px; border-radius: 20px; width: 340px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
         .popup-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
         .popup-box p { font-size: 14px; color: #94a3b8; margin-bottom: 20px; }
         .popup-buttons { display: flex; gap: 10px; }
@@ -228,10 +229,8 @@
 <div class="container">
     <div class="header">
         <div class="logo-box">
-            <div>
-                <h2>Staff & Attendance Administration</h2>
-                <p>AAQ Event Management ERP System</p>
-            </div>
+            <h2>AAQ ERP Control Center</h2>
+            <p>Master Administration Suite</p>
         </div>
         <div class="header-right">
             <div class="live-box">
@@ -242,71 +241,93 @@
         </div>
     </div>
 
-    <div class="dashboard-grid">
+    <div class="tabs-bar">
+        <button class="tab-btn active" onclick="switchView('staff-tab', this)"><i class="fa-solid fa-users-gear"></i> Staff & Attendance</button>
+        <button class="tab-btn" onclick="switchView('notify-tab', this)"><i class="fa-solid fa-bullhorn"></i> Notification Hub</button>
+        <button class="tab-btn" onclick="switchView('settings-tab', this)"><i class="fa-solid fa-sliders"></i> ERP Settings</button>
+    </div>
+
+    <div id="staff-tab" class="tab-content active dashboard-grid">
         <div class="form-box">
             <h2 id="formTitle"><i class="fa-solid fa-user-plus" style="color: #f59e0b;"></i> Register New Staff</h2>
-            
-            <div class="input-group">
-                <i class="fa-solid fa-user"></i>
-                <input type="text" id="staffName" placeholder="Staff Full Name">
-            </div>
-            <div class="input-group">
-                <i class="fa-solid fa-phone"></i>
-                <input type="tel" id="mobile" placeholder="Mobile Number">
-            </div>
-            <div class="input-group">
-                <i class="fa-solid fa-envelope"></i>
-                <input type="email" id="email" placeholder="Email Address">
-            </div>
-            <div class="input-group">
-                <i class="fa-solid fa-lock"></i>
-                <input type="password" id="password" placeholder="Account Password">
-            </div>
-            <div class="input-group">
-                <i class="fa-solid fa-id-badge"></i>
-                <input type="text" id="position" placeholder="Job Position / Role">
-            </div>
-            <div class="input-group">
-                <i class="fa-solid fa-location-dot"></i>
-                <input type="text" id="address" placeholder="Residential Address">
-            </div>
-            <div class="input-group">
-                <i class="fa-solid fa-address-card"></i>
-                <input type="text" id="aadhaar" placeholder="Identification Document Number">
-            </div>
-            <div class="input-group">
-                <i class="fa-solid fa-fingerprint"></i>
-                <input type="text" id="staffId" placeholder="Internal ID Card Number">
-            </div>
-            
+            <div class="input-group"><i class="fa-solid fa-user"></i><input type="text" id="staffName" placeholder="Staff Full Name"></div>
+            <div class="input-group"><i class="fa-solid fa-phone"></i><input type="tel" id="mobile" placeholder="Mobile Number"></div>
+            <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" id="email" placeholder="Email Address"></div>
+            <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" id="password" placeholder="Account Password"></div>
+            <div class="input-group"><i class="fa-solid fa-id-badge"></i><input type="text" id="position" placeholder="Job Position / Role"></div>
+            <div class="input-group"><i class="fa-solid fa-location-dot"></i><input type="text" id="address" placeholder="Residential Address"></div>
+            <div class="input-group"><i class="fa-solid fa-address-card"></i><input type="text" id="aadhaar" placeholder="Identification Number"></div>
+            <div class="input-group"><i class="fa-solid fa-fingerprint"></i><input type="text" id="staffId" placeholder="Internal ID Card Number"></div>
             <span class="file-label">Profile Image Attachment</span>
-            <div class="input-group" style="margin-bottom:12px;">
-                <input type="file" id="photo">
-            </div>
-
-            <div class="input-group" style="padding-left:0;">
-                <i class="fa-solid fa-toggle-on"></i>
+            <div class="input-group" style="margin-bottom:12px;"><input type="file" id="photo"></div>
+            <div class="input-group" style="padding-left:0;"><i class="fa-solid fa-toggle-on"></i>
                 <select id="status" style="padding-left: 42px;">
                     <option value="Select Status">Select Status</option>
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
                 </select>
             </div>
-
             <button type="button" onclick="saveStaff()" class="save-btn">Save Profile Data</button>
         </div>
+        <div class="staff-list" id="staffList"></div>
+    </div>
 
-        <div class="staff-list" id="staffList">
+    <div id="notify-tab" class="tab-content dashboard-grid">
+        <div class="form-box">
+            <h2 id="notifyFormTitle"><i class="fa-solid fa-circle-broadcast" style="color: #f59e0b;"></i> Broadcast Notice</h2>
+            <div class="input-group"><i class="fa-solid fa-heading"></i><input type="text" id="noticeTitle" placeholder="Notice Heading / Title"></div>
+            <div class="input-group"><i class="fa-solid fa-paragraph"></i><textarea id="noticeMessage" placeholder="Type notification details or announcements here..."></textarea></div>
+            <div class="input-group" style="padding-left:0;"><i class="fa-solid fa-triangle-exclamation"></i>
+                <select id="noticeType" style="padding-left: 42px;">
+                    <option value="info">Info Announcement</option>
+                    <option value="urgent">Urgent Alert</option>
+                    <option value="event">Event Assignment</option>
+                </select>
             </div>
+            <button type="button" onclick="saveNotification()" class="save-btn">Broadcast to Users</button>
+        </div>
+        <div class="notify-list" id="notifyList"></div>
+    </div>
+
+    <div id="settings-tab" class="tab-content">
+        <div class="settings-container">
+            <div class="settings-card">
+                <h3><i class="fa-solid fa-shield-halved"></i> ERP Security Control</h3>
+                <div class="setting-row">
+                    <div class="setting-info"><label>Public Registrations</label><span>Allow staff self-signup from mobile app</span></div>
+                    <label class="toggle-switch"><input type="checkbox" id="set_signup" onchange="saveSettingToggle('publicSignup', this.checked)"><span class="slider"></span></label>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info"><label>Biometric Geo-Fence</label><span>Restrict attendance to event location coordinates</span></div>
+                    <label class="toggle-switch"><input type="checkbox" id="set_geofence" onchange="saveSettingToggle('geoFence', this.checked)" checked><span class="slider"></span></label>
+                </div>
+            </div>
+            <div class="settings-card">
+                <h3><i class="fa-solid fa-bell"></i> Automation & Alerts</h3>
+                <div class="setting-row">
+                    <div class="setting-info"><label>WhatsApp Alerts</label><span>Send instant rosters to staff mobile numbers</span></div>
+                    <label class="toggle-switch"><input type="checkbox" id="set_whatsapp" onchange="saveSettingToggle('whatsappAlerts', this.checked)"><span class="slider"></span></label>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-info"><label>Auto Absent Trigger</label><span>Mark unverified staff absent automatically post 11 AM</span></div>
+                    <label class="toggle-switch"><input type="checkbox" id="set_autoabsent" onchange="saveSettingToggle('autoAbsent', this.checked)" checked><span class="slider"></span></label>
+                </div>
+            </div>
+            <div class="settings-card">
+                <h3><i class="fa-solid fa-coins"></i> Financial System Defaults</h3>
+                <div style="margin-bottom: 12px;"><span class="file-label" style="margin: 0 0 6px 0;">Standard Shift Daily Allowance (INR)</span><input type="number" id="set_allowance" value="500" style="padding-left: 15px;" onchange="saveSettingValue('defaultAllowance', this.value)"></div>
+                <div><span class="file-label" style="margin: 0 0 6px 0;">Overtime Hourly Bonus Scale</span><input type="text" id="set_ot" value="1.5x Rate" style="padding-left: 15px;" onchange="saveSettingValue('overtimeScale', this.value)"></div>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="popup" id="deletePopup">
     <div class="popup-box">
-        <h3>Remove Employee Profile?</h3>
-        <p>This will permanently erase the records from database.</p>
+        <h3 id="popupHead">Delete Entry Records?</h3>
+        <p>This operation is destructive and cannot be reverted from Firestore.</p>
         <div class="popup-buttons">
-            <button class="confirm-btn" onclick="confirmDelete()">Delete</button>
+            <button class="confirm-btn" onclick="executeGlobalDelete()">Delete</button>
             <button class="cancel-btn" onclick="closePopup()">Cancel</button>
         </div>
     </div>
@@ -314,12 +335,19 @@
 
 <script>
     window.dbRecordsCache = {};
-    window.currentDateStr = new Date().toISOString().split('T')[0]; // Current Date (YYYY-MM-DD)
+    window.dbNotifyCache = {};
+    window.currentDateStr = new Date().toISOString().split('T')[0];
+    
+    // View View Layout Engine Tab Switching Functionality
+    function switchView(tabId, btnElement) {
+        document.querySelectorAll('.tab-content').forEach(view => view.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    }
 </script>
 
 <script type="module">
-    localStorage.setItem("loggedUser", "Admin");
-    
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     
@@ -337,11 +365,15 @@
     const db = getFirestore(app);
     
     let editId = null;
-    let deleteId = null;
+    let notifyEditId = null;
+    let activeDeleteId = null;
+    let targetDeleteContext = ""; // context mapping tracker: "staff" vs "notification"
     window.currentPhoto = "";
-    
-    // Save or Update Staff Profile Data
-    window.saveStaff = async function(){
+
+    /* =========================================
+       SECTION 1: STAFF MANAGEMENT ARCHITECTURE
+       ========================================= */
+    window.saveStaff = async function() {
         const staffName = document.getElementById("staffName").value;
         const mobile = document.getElementById("mobile").value;
         const email = document.getElementById("email").value;
@@ -354,27 +386,19 @@
         const photo = document.getElementById("photo").files[0];
         
         let photoURL = window.currentPhoto || "";
-        
         if(photo){
             const formData = new FormData();
             formData.append("file", photo);
             formData.append("upload_preset", "aaqstaff");
-            
             try {
-                const response = await fetch("https://api.cloudinary.com/v1_1/dcwxyosh8/image/upload", {
-                    method: "POST",
-                    body: formData
-                });
+                const response = await fetch("https://api.cloudinary.com/v1_1/dcwxyosh8/image/upload", { method: "POST", body: formData });
                 const result = await response.json();
                 photoURL = result.secure_url;
-            } catch(e) {
-                alert("Cloudinary Upload Failure");
-            }
+            } catch(e) { alert("Cloudinary Connection Failure."); }
         } 
         
         try {
             const documentPayload = { staffName, mobile, email, password, position, address, aadhaar, staffId, status, photoURL };
-            
             if(editId){
                 await updateDoc(doc(db, "staffs", editId), documentPayload);
                 alert("Staff Profile Synced Successfully");
@@ -382,23 +406,18 @@
                 document.getElementById("formTitle").innerHTML = `<i class="fa-solid fa-user-plus" style="color: #f59e0b;"></i> Register New Staff`;
             } else {
                 await addDoc(collection(db, "staffs"), documentPayload);
-                alert("Staff Registered to Database");
+                alert("Staff Registered Successfully");
             }
-            
-            document.querySelectorAll("input").forEach(input => input.value = "");
+            document.querySelectorAll("#staff-tab input").forEach(input => input.value = "");
             document.getElementById("status").value = "Select Status";
             window.currentPhoto = "";
             loadStaff();
-        } catch(error) {
-            alert(error);
-        }
+        } catch(error) { alert(error.message); }
     };
     
-    // Edit Staff Row Mapping Form Trigger
-    window.editStaff = function(id){
+    window.editStaff = function(id) {
         const data = window.dbRecordsCache[id];
         if(!data) return;
-
         document.getElementById("staffName").value = data.staffName || "";
         document.getElementById("mobile").value = data.mobile || "";
         document.getElementById("email").value = data.email || "";
@@ -408,89 +427,50 @@
         document.getElementById("aadhaar").value = data.aadhaar || "";
         document.getElementById("staffId").value = data.staffId || "";
         document.getElementById("status").value = data.status || "Select Status";
-        
         window.currentPhoto = data.photoURL || "";
         editId = id;
-        
         document.getElementById("formTitle").innerHTML = `<i class="fa-solid fa-user-pen" style="color: #f59e0b;"></i> Edit Staff Profile`;
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
-    
-    // Delete Staff Handlers
-    window.deleteStaff = function(id){
-        deleteId = id;
+
+    window.deleteStaff = function(id) {
+        activeDeleteId = id;
+        targetDeleteContext = "staff";
+        document.getElementById("popupHead").innerText = "Remove Employee Profile?";
         document.getElementById("deletePopup").style.display = "flex";
     };
-    
-    window.closePopup = function(){
-        document.getElementById("deletePopup").style.display = "none";
-    };
-    
-    window.confirmDelete = async function(){
-        if(!deleteId) return;
-        await deleteDoc(doc(db, "staffs", deleteId));
-        closePopup();
-        loadStaff();
-    };
 
-    // New Feature: Mark Live Attendance System Engine 
     window.markAttendance = async function(staffDocId, currentStatus) {
         const timeStr = new Date().toLocaleTimeString();
         const attendanceDocId = `${staffDocId}_${window.currentDateStr}`;
-        
         try {
-            await setDoc(doc(db, "attendance", attendanceDocId), {
-                staffDocId: staffDocId,
-                date: window.currentDateStr,
-                status: currentStatus,
-                timestamp: timeStr
-            });
+            await setDoc(doc(db, "attendance", attendanceDocId), { staffDocId, date: window.currentDateStr, status: currentStatus, timestamp: timeStr });
             alert(`Marked ${currentStatus} at ${timeStr}`);
-            loadStaff(); // Reload view to showcase dynamic live updates
-        } catch(e) {
-            alert("Attendance Database Error: " + e.message);
-        }
+            loadStaff();
+        } catch(e) { alert("Database error: " + e.message); }
     };
-    
-    // Load Directory Records Sync Method
-    async function loadStaff(){
+
+    async function loadStaff() {
         const querySnapshot = await getDocs(collection(db, "staffs"));
         const attendanceSnapshot = await getDocs(collection(db, "attendance"));
-        
-        // Map attendance snapshot log dictionary memory mappings
         let dailyAttendanceMap = {};
         attendanceSnapshot.forEach(item => {
             const attData = item.data();
-            if(attData.date === window.currentDateStr) {
-                dailyAttendanceMap[attData.staffDocId] = {
-                    status: attData.status,
-                    time: attData.timestamp
-                };
-            }
+            if(attData.date === window.currentDateStr) dailyAttendanceMap[attData.staffDocId] = { status: attData.status, time: attData.timestamp };
         });
-
         let html = "";
-        window.dbRecordsCache = {}; // Clear memory store cache mapping
-        
+        window.dbRecordsCache = {};
         querySnapshot.forEach((docItem)=>{
             const id = docItem.id;
             const data = docItem.data();
-            window.dbRecordsCache[id] = data; 
-            
+            window.dbRecordsCache[id] = data;
             const statusClass = data.status === "Active" ? "status-active" : "status-inactive";
-            
-            // Resolve live attendance tracking log entries
             const staffAttendance = dailyAttendanceMap[id];
             let attendanceBadgeHtml = `<span class="attendance-status-text">🔴 Not Marked Today</span>`;
-            
             if(staffAttendance) {
-                if(staffAttendance.status === "Present") {
-                    attendanceBadgeHtml = `<span class="attendance-status-text" style="background:rgba(16,185,129,0.2); color:#10b981; border:1px solid #10b981;">🟢 Present (${staffAttendance.time})</span>`;
-                } else if(staffAttendance.status === "Absent") {
-                    attendanceBadgeHtml = `<span class="attendance-status-text" style="background:rgba(239,68,68,0.2); color:#ef4444; border:1px solid #ef4444;">❌ Absent (${staffAttendance.time})</span>`;
-                }
+                if(staffAttendance.status === "Present") attendanceBadgeHtml = `<span class="attendance-status-text" style="background:rgba(16,185,129,0.2); color:#10b981; border:1px solid #10b981;">🟢 Present (${staffAttendance.time})</span>`;
+                else if(staffAttendance.status === "Absent") attendanceBadgeHtml = `<span class="attendance-status-text" style="background:rgba(239,68,68,0.2); color:#ef4444; border:1px solid #ef4444;">❌ Absent (${staffAttendance.time})</span>`;
             }
-
             html += `
                 <div class="card">
                     <div class="action-buttons">
@@ -502,17 +482,14 @@
                         <div class="staff-details">
                             <h3>${data.staffName || "Unnamed User"}</h3>
                             <span class="role-badge">${data.position || "General Staff"}</span>
-                            
                             <div class="info-line"><i class="fa-solid fa-phone"></i> ${data.mobile || "-"}</div>
                             <div class="info-line"><i class="fa-solid fa-envelope"></i> ${data.email || "-"}</div>
                             <div class="info-line"><i class="fa-solid fa-fingerprint"></i> ID: ${data.staffId || "-"}</div>
                             <div class="info-line"><i class="fa-solid fa-address-card"></i> Doc: ${data.aadhaar || "-"}</div>
                             <div class="info-line"><i class="fa-solid fa-location-dot"></i> ${data.address || "-"}</div>
-                            
                             <span class="status-pill ${statusClass}">${data.status || "Inactive"}</span>
                         </div>
                     </div>
-                    
                     <div class="attendance-panel">
                         <div class="attendance-actions">
                             <button class="att-btn btn-present" onclick="markAttendance('${id}', 'Present')">Present</button>
@@ -522,12 +499,135 @@
                     </div>
                 </div>`;
         });
-        
-        document.getElementById("staffList").innerHTML = html || `<div style="grid-column:1/-1; text-align:center; padding:40px; color:#64748b;">No active employee directory found.</div>`;
+        document.getElementById("staffList").innerHTML = html || `<div style="grid-column:1/-1; text-align:center; padding:40px; color:#64748b;">No employees profiles registered.</div>`;
     }
+
+    /* =========================================
+       SECTION 2: LIVE BROADCAST NOTIFICATIONS SYSTEM
+       ========================================= */
+    window.saveNotification = async function() {
+        const title = document.getElementById("noticeTitle").value;
+        const message = document.getElementById("noticeMessage").value;
+        const type = document.getElementById("noticeType").value;
+        const timestampStr = new Date().toLocaleString();
+
+        if(!title || !message) { alert("Please complete notice fields!"); return; }
+
+        try {
+            const payload = { title, message, type, dateStr: window.currentDateStr, timeMark: timestampStr };
+            if(notifyEditId) {
+                await updateDoc(doc(db, "notifications", notifyEditId), payload);
+                alert("Broadcast Notice Updated Successfully");
+                notifyEditId = null;
+                document.getElementById("notifyFormTitle").innerHTML = `<i class="fa-solid fa-circle-broadcast" style="color: #f59e0b;"></i> Broadcast Notice`;
+            } else {
+                await addDoc(collection(db, "notifications"), payload);
+                alert("Announcement Published to User Dashboards");
+            }
+            document.getElementById("noticeTitle").value = "";
+            document.getElementById("noticeMessage").value = "";
+            loadNotifications();
+        } catch(err) { alert(err.message); }
+    };
+
+    window.editNotification = function(id) {
+        const data = window.dbNotifyCache[id];
+        if(!data) return;
+        document.getElementById("noticeTitle").value = data.title || "";
+        document.getElementById("noticeMessage").value = data.message || "";
+        document.getElementById("noticeType").value = data.type || "info";
+        notifyEditId = id;
+        document.getElementById("notifyFormTitle").innerHTML = `<i class="fa-solid fa-pen-to-square" style="color: #f59e0b;"></i> Modify Broadcast Notice`;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    window.deleteNotification = function(id) {
+        activeDeleteId = id;
+        targetDeleteContext = "notification";
+        document.getElementById("popupHead").innerText = "Delete Broadcast Notice?";
+        document.getElementById("deletePopup").style.display = "flex";
+    };
+
+    async function loadNotifications() {
+        const querySnapshot = await getDocs(collection(db, "notifications"));
+        let html = "";
+        window.dbNotifyCache = {};
+        querySnapshot.forEach(item => {
+            const id = item.id;
+            const data = item.data();
+            window.dbNotifyCache[id] = data;
+
+            let typeClass = "badge-info";
+            if(data.type === "urgent") typeClass = "badge-urgent";
+            if(data.type === "event") typeClass = "badge-event";
+
+            html += `
+                <div class="notify-card card">
+                    <div class="action-buttons">
+                        <button class="action-btn edit-btn" onclick="editNotification('${id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="action-btn delete-btn" onclick="deleteNotification('${id}')"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                    <h4>${data.title || "No Title"}</h4>
+                    <p>${data.message || ""}</p>
+                    <div class="notify-meta">
+                        <span class="badge-type ${typeClass}">${data.type || "info"}</span>
+                        <span>${data.timeMark || ""}</span>
+                    </div>
+                </div>`;
+        });
+        document.getElementById("notifyList").innerHTML = html || `<div style="grid-column:1/-1; text-align:center; padding:40px; color:#64748b;">No active announcements running.</div>`;
+    }
+
+    /* =========================================
+       SECTION 3: ERP SYSTEM SETTINGS RUNTIME
+       ========================================= */
+    window.saveSettingToggle = async function(settingKey, stateValue) {
+        try { await setDoc(doc(db, "settings", settingKey), { value: stateValue }, { merge: true }); } catch(e){}
+    };
+    window.saveSettingValue = async function(settingKey, rawVal) {
+        try { await setDoc(doc(db, "settings", settingKey), { value: rawVal }, { merge: true }); } catch(e){}
+    };
+    async function loadSettings() {
+        try {
+            const signupSnap = await getDoc(doc(db, "settings", "publicSignup"));
+            if(signupSnap.exists()) document.getElementById("set_signup").checked = signupSnap.data().value;
+            const fenceSnap = await getDoc(doc(db, "settings", "geoFence"));
+            if(fenceSnap.exists()) document.getElementById("set_geofence").checked = fenceSnap.data().value;
+            const whatsappSnap = await getDoc(doc(db, "settings", "whatsappAlerts"));
+            if(whatsappSnap.exists()) document.getElementById("set_whatsapp").checked = whatsappSnap.data().value;
+            const absentSnap = await getDoc(doc(db, "settings", "autoAbsent"));
+            if(absentSnap.exists()) document.getElementById("set_autoabsent").checked = absentSnap.data().value;
+            const allowSnap = await getDoc(doc(db, "settings", "defaultAllowance"));
+            if(allowSnap.exists()) document.getElementById("set_allowance").value = allowSnap.data().value;
+            const otSnap = await getDoc(doc(db, "settings", "overtimeScale"));
+            if(otSnap.exists()) document.getElementById("set_ot").value = otSnap.data().value;
+        } catch(e){}
+    }
+
+    /* =========================================
+       GLOBAL INTERACTIVE ENGINE CLOSURES
+       ========================================= */
+    window.closePopup = function() { document.getElementById("deletePopup").style.display = "none"; };
     
+    window.executeGlobalDelete = async function() {
+        if(!activeDeleteId) return;
+        if(targetDeleteContext === "staff") {
+            await deleteDoc(doc(db, "staffs", activeDeleteId));
+            loadStaff();
+        } else if(targetDeleteContext === "notification") {
+            await deleteDoc(doc(db, "notifications", activeDeleteId));
+            loadNotifications();
+        }
+        closePopup();
+    };
+
+    // Main Init Execution Lifecycle
     loadStaff();
-    
+    loadNotifications();
+    loadSettings();
+</script>
+
+<script>
     function updateDateTime(){
         const now = new Date();
         document.getElementById("liveDate").innerHTML = "📅 " + now.toLocaleDateString();

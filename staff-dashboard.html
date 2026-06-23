@@ -103,7 +103,6 @@
         .ic-profile { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
         .ic-events { background: linear-gradient(135deg, #f59e0b, #b45309); }
         .ic-reports { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-        .ic-idcard { background: linear-gradient(135deg, #ef4444, #b91c1c); }
 
         .card h2 { margin-bottom: 8px; font-size: 18px; font-weight: 700; color: white; }
         .card p { margin-bottom: 20px; color: #94a3b8; font-size: 13px; line-height: 1.4; }
@@ -147,7 +146,7 @@
 <div class="container" id="mainDashboardWrapper">
     <div class="header">
         <div class="left-header">
-            <img src="logo.png" class="logo" alt="Logo">
+            <img src="https://via.placeholder.com/55?text=AAQ" class="logo" alt="Logo" id="companyLogo">
             <div class="header-text">
                 <h1>AAQ Staff Dashboard</h1>
                 <p>Welcome To Staff Management System</p>
@@ -158,15 +157,15 @@
             <div class="user-box">
                 <img id="userPhoto" src="https://i.imgur.com/6VBx3io.png" class="user-photo" alt="User">
                 <div class="user-details">
-                    <h3 id="userName">Staff User</h3>
-                    <p id="userRole">Staff Panel</p>
+                    <h3 id="userName">Loading Staff...</h3>
+                    <p id="userRole">Staff Member</p>
                     <div class="live-box">
                         <div id="liveDate">🗓️ --/--/----</div>
                         <div id="liveTime">🕛 00:00:00</div>
                     </div>
                 </div>
             </div>
-            <button onclick="logout()" class="logout"><i class="fa-solid fa-power-off"></i> Logout</button>
+            <button id="logoutBtn" class="logout"><i class="fa-solid fa-power-off"></i> Logout</button>
         </div>
     </div>
 
@@ -206,3 +205,104 @@
             </div>
             <a href="reports.html" class="btn ic-reports">Open</a>
         </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+        authDomain: "aaq-event-erp.firebaseapp.com",
+        projectId: "aaq-event-erp",
+        storageBucket: "aaq-event-erp.firebasestorage.app",
+        messagingSenderId: "985636664002",
+        appId: "1:985636664002:web:4b941d3562609d2058815b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Dynamic Engine Session Control Block
+    function checkUserSession() {
+        const cachedStaff = localStorage.getItem("activeStaffUser");
+        if(!cachedStaff) {
+            alert("Session expired or invalid login. Redirecting to auth center!");
+            window.location.href = "login.html";
+            return null;
+        }
+        return JSON.parse(cachedStaff);
+    }
+
+    async function initDashboardEngine() {
+        const user = checkUserSession();
+        if(!user) return;
+
+        // Inject Dynamic Realtime Mappings inside HTML Element Layout Node
+        document.getElementById("userName").innerText = user.name || "Unknown Staff";
+        document.getElementById("userRole").innerText = user.position || "Field Worker";
+        if(user.photoUrl && user.photoUrl !== "") {
+            document.getElementById("userPhoto").src = user.photoUrl;
+        }
+
+        // Live Real-Time Broadcasting Interlock Checker
+        try {
+            // 1. Notice System Checker
+            const broadcastDoc = await getDoc(doc(db, "broadcast", "latestNotice"));
+            if(broadcastDoc.exists()) {
+                const bData = broadcastDoc.data();
+                const acknowledgedId = localStorage.getItem(`notice_ack_${broadcastDoc.id}`);
+                
+                if(bData.active && !acknowledgedId) {
+                    document.getElementById("strictNoticeText").innerText = bData.message || "";
+                    document.getElementById("noticeTimeMeta").innerText = `Broadcast Date: ${bData.date || '--/--/----'}`;
+                    document.getElementById("strictNoticeModal").style.display = "flex";
+                }
+            }
+
+            // 2. Global Structural System Lock Checker (Maintenance)
+            const structuralLock = await getDoc(doc(doc(db, "settings", "maintenanceStatus")));
+            if(structuralLock.exists() && structuralLock.data().enabled === true) {
+                document.getElementById("maintenanceOverlay").style.display = "flex";
+                document.getElementById("mainDashboardWrapper").style.display = "none";
+            }
+        } catch(err) {
+            console.error("Broadcasting Engine fault layout node parsing: ", err);
+        }
+    }
+
+    // Set Live Clock Engine System Loop
+    function triggerLiveClockSystem() {
+        setInterval(() => {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB'); 
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: true });
+            
+            document.getElementById("liveDate").innerText = `🗓️ ${dateStr}`;
+            document.getElementById("liveTime").innerText = `🕛 ${timeStr}`;
+        }, 1000);
+    }
+
+    // Safe Interlocked Functional Expose Mappings Window
+    window.acknowledgeNotice = () => {
+        localStorage.setItem("notice_ack_latestNotice", "true");
+        document.getElementById("strictNoticeModal").style.display = "none";
+    };
+
+    window.logoutSystem = () => {
+        if(confirm("Are you sure you want to log out safely from AAQ Premium ERP Core?")) {
+            localStorage.removeItem("activeStaffUser");
+            window.location.href = "login.html";
+        }
+    };
+
+    // Bind Event Trigger Element
+    document.getElementById("logoutBtn").addEventListener("click", window.logoutSystem);
+
+    // Initial Execution Runs
+    initDashboardEngine();
+    triggerLiveClockSystem();
+</script>
+</body>
+</html>

@@ -139,7 +139,7 @@
         <h3>Important Notice From Admin</h3>
         <span id="noticeTimeMeta" class="modal-meta-tag">Date: --/--/----</span>
         <p id="strictNoticeText">Loading live instructions...</p>
-        <button class="modal-ack-btn" onclick="acknowledgeNotice()">OK, Understood</button>
+        <button class="modal-ack-btn" id="modalAckBtn">OK, Understood</button>
     </div>
 </div>
 
@@ -210,7 +210,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
@@ -261,8 +261,8 @@
                 }
             }
 
-            // 2. Global Structural System Lock Checker (Maintenance)
-            const structuralLock = await getDoc(doc(doc(db, "settings", "maintenanceStatus")));
+            // 2. Global Structural System Lock Checker (Maintenance) -> FIXED NESTED BUG HERE
+            const structuralLock = await getDoc(doc(db, "settings", "maintenanceStatus"));
             if(structuralLock.exists() && structuralLock.data().enabled === true) {
                 document.getElementById("maintenanceOverlay").style.display = "flex";
                 document.getElementById("mainDashboardWrapper").style.display = "none";
@@ -284,21 +284,18 @@
         }, 1000);
     }
 
-    // Safe Interlocked Functional Expose Mappings Window
-    window.acknowledgeNotice = () => {
+    // Module Safe Event Listeners for Buttons -> FIXED WINDOW SCOPING HOOKS
+    document.getElementById("modalAckBtn").addEventListener("click", () => {
         localStorage.setItem("notice_ack_latestNotice", "true");
         document.getElementById("strictNoticeModal").style.display = "none";
-    };
+    });
 
-    window.logoutSystem = () => {
+    document.getElementById("logoutBtn").addEventListener("click", () => {
         if(confirm("Are you sure you want to log out safely from AAQ Premium ERP Core?")) {
             localStorage.removeItem("activeStaffUser");
             window.location.href = "login.html";
         }
-    };
-
-    // Bind Event Trigger Element
-    document.getElementById("logoutBtn").addEventListener("click", window.logoutSystem);
+    });
 
     // Initial Execution Runs
     initDashboardEngine();

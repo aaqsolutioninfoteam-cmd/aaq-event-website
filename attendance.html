@@ -120,8 +120,8 @@
 <div class="container">
 
     <div class="top-nav-bar">
-        <a href="admin.html"
-            <div class="db-status"><i class="fa-solid fa-circle-check"></i> Back To Desbord </div> 
+        <a href="admin.html" class="back-nav-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        <div class="db-status"><i class="fa-solid fa-circle-check"></i> Dashboard Active </div> 
     </div>
 
     <div class="staff-header">
@@ -546,28 +546,17 @@
         const body = document.getElementById("locationModalBody");
         body.innerHTML = `
             <div class="location-card">
-                <h4><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Punch-In Coordinates</h4>
-                <p style="font-size:13px; color:#475569; margin-top:4px;">Lat: ${inLat || 'N/A'} | Lng: ${inLng || 'N/A'}</p>
-                ${inLat ? `<a class="map-btn" href="https://maps.google.com/?q=${inLat},${inLng}" target="_blank"><i class="fa-solid fa-map-location-dot"></i> Open Google Maps</a>` : ''}
-            </div>
-            <div class="location-card">
-                <h4><i class="fa-solid fa-circle-xmark" style="color:#ef4444;"></i> Punch-Out Coordinates</h4>
-                <p style="font-size:13px; color:#475569; margin-top:4px;">Lat: ${outLat || 'N/A'} | Lng: ${outLng || 'N/A'}</p>
-                ${outLat ? `<a class="map-btn" href="https://maps.google.com/?q=${outLat},${outLng}" target="_blank"><i class="fa-solid fa-map-location-dot"></i> Open Google Maps</a>` : ''}
+                <h4><i class="fa-solid fa-location-dot"></i> GPS Coordinates</h4>
+                <p style="font-size:13px; padding-top: 8px;"><b>IN:</b> ${inLat || 'N/A'}, ${inLng || 'N/A'}</p>
+                <p style="font-size:13px; padding-top: 4px;"><b>OUT:</b> ${outLat || 'N/A'}, ${outLng || 'N/A'}</p>
+                <a href="https://maps.google.com/?q=${inLat},${inLng}" target="_blank" class="map-btn"><i class="fa-solid fa-map"></i> View on Map</a>
             </div>`;
         document.getElementById("locationModal").style.display = "flex";
     }
 
-    function closeModal(id) {
-        document.getElementById(id).style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = "none";
-        }
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
     }
 </script>
-
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Premium Attendance Suite</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Admin - Enterprise Attendance Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -13,75 +13,115 @@
         .admin-container { max-width: 1400px; margin: auto; }
         
         /* Premium Header Styling */
-        .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; }
+        .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; flex-wrap: wrap; gap: 20px; }
         .header-title h2 { font-size: 28px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 12px; }
         .header-title p { color: #64748b; font-size: 14px; margin-top: 4px; }
+        .action-header-group { display: flex; gap: 12px; align-items: center; }
+
+        /* Configuration Console Widget */
+        .config-card { background: white; padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.01); }
+        .config-info h4 { font-size: 15px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 8px; }
+        .config-info p { font-size: 13px; color: #64748b; margin-top: 2px; }
+        .config-controls { display: flex; gap: 10px; align-items: center; }
+        .config-controls input { padding: 10px 14px; border-radius: 10px; border: 1px solid #cbd5e1; outline: none; font-weight: 600; color: #334155; font-size: 14px; }
+        .config-controls input:focus { border-color: #3b82f6; }
 
         /* Modern Glassmorphic Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 35px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-bottom: 35px; }
         .stat-card { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; transition: transform 0.2s; }
         .stat-card:hover { transform: translateY(-2px); }
         .stat-card .info h3 { font-size: 13px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
         .stat-card .info h1 { font-size: 32px; margin-top: 8px; font-weight: 700; color: #1e293b; }
         .stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
         
-        /* Dynamic Border Colors based on Status */
         .total-card { border-left: 5px solid #3b82f6; } .total-card .stat-icon { background: #eff6ff; color: #3b82f6; }
         .pending-card { border-left: 5px solid #f59e0b; } .pending-card .stat-icon { background: #fef3c7; color: #f59e0b; }
         .approved-card { border-left: 5px solid #10b981; } .approved-card .stat-icon { background: #ecfdf5; color: #10b981; }
         .rejected-card { border-left: 5px solid #ef4444; } .rejected-card .stat-icon { background: #fef2f2; color: #ef4444; }
 
-        /* Sleek Filter Section */
-        .filter-bar { background: white; padding: 20px; border-radius: 16px; margin-bottom: 25px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center; border: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(0,0,0,0.01); }
+        /* Section Layout Split Matrix */
+        .section-headline { font-size: 18px; font-weight: 700; color: #1e293b; margin: 30px 0 15px 0; display: flex; align-items: center; gap: 8px; }
+
+        /* Sleek Filter Bar */
+        .filter-bar { background: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center; border: 1px solid #e2e8f0; box-shadow: 0 2px 12px rgba(0,0,0,0.01); }
         .input-group { display: flex; align-items: center; background: #f1f5f9; border-radius: 10px; padding: 2px 12px; flex: 1; min-width: 200px; border: 1px solid transparent; }
         .input-group:focus-within { border-color: #3b82f6; background: white; }
         .input-group i { color: #94a3b8; margin-right: 8px; }
         .input-group input, .input-group select { background: transparent; border: none; padding: 10px 4px; width: 100%; outline: none; font-size: 14px; color: #334155; }
 
-        /* Premium Table Design */
-        .table-container { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 25px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; }
+        /* Premium Table Component Box Design */
+        .table-container { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 25px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; margin-bottom: 35px; }
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th { background: #f8fafc; padding: 18px 20px; border-bottom: 2px solid #f1f5f9; color: #475569; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 18px 20px; border-bottom: 1px solid #f1f5f9; font-size: 14px; color: #334155; vertical-align: middle; }
         tr:hover { background-color: #f8fafc; }
         
-        /* Modern Button Engine */
-        .btn { padding: 10px 16px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; transition: all 0.2s; }
+        /* Modern Button Architecture System */
+        .btn { padding: 11px 18px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; transition: all 0.2s; }
         .btn-export { background: #1e293b; color: white; box-shadow: 0 4px 12px rgba(30,41,59,0.15); }
         .btn-export:hover { background: #0f172a; }
+        .btn-save { background: #3b82f6; color: white; } .btn-save:hover { background: #2563eb; }
         
-        /* Action Table Buttons */
+        /* Action Utility Circular Triggers Matrix Elements */
         .action-btn { width: 36px; height: 36px; border-radius: 8px; border: none; cursor: pointer; color: white; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; transition: all 0.2s; margin-right: 4px; }
         .btn-approve { background: #10b981; } .btn-approve:hover { background: #059669; box-shadow: 0 4px 10px rgba(16,185,129,0.2); }
         .btn-reject { background: #ef4444; } .btn-reject:hover { background: #dc2626; box-shadow: 0 4px 10px rgba(239,68,68,0.2); }
         .btn-map { background: #0ea5e9; } .btn-map:hover { background: #0284c7; box-shadow: 0 4px 10px rgba(14,165,233,0.2); }
+        .btn-photo { background: #8b5cf6; } .btn-photo:hover { background: #7c3aed; box-shadow: 0 4px 10px rgba(139,92,246,0.2); }
         
-        /* Status Badges */
+        /* Dynamic Reactive Status Labels Grid Components */
         .status-badge { padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; display: inline-block; text-transform: capitalize; }
         .pending { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
         .approved { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
         .rejected { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+        .late-mark { background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; }
         
-        /* Staff Profile Block */
+        /* Staff Profile Block Elements Layout */
         .staff-profile { display:flex; align-items:center; gap:12px; }
         img.thumb { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; border: 2px solid #e2e8f0; }
         .staff-info b { font-size: 15px; color: #1e293b; }
         .staff-info small { color: #64748b; font-size: 12px; }
+
+        /* Window Lightbox Framework Architecture Overlay */
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
+        .modal-content { background: white; padding: 24px; border-radius: 20px; width: 100%; max-width: 550px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        .modal-header h2 { font-size: 18px; font-weight: 700; color: #1e293b; }
+        .close-btn { background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 14px; color: #64748b; }
+        .photo-grid { display: flex; gap: 20px; justify-content: center; margin-top: 10px; }
+        .attendance-photo { width: 100%; max-width: 220px; aspect-ratio: 1; object-fit: cover; border-radius: 12px; border: 2px solid #e2e8f0; }
     </style>
 </head>
 <body>
 
 <div class="admin-container">
+    
+    <!-- Top Command Block Header Area -->
     <div class="header-section">
         <div class="header-title">
             <h2><i class="fa-solid fa-shield-halved" style="color: #3b82f6;"></i> Attendance Command Center</h2>
-            <p>Monitor staff check-ins, geo-locations, and streamline approvals.</p>
+            <p>Monitor staff check-ins, geo-locations, configure cutoff rules and streamline approvals.</p>
         </div>
-        <button class="btn btn-export" onclick="exportMasterData()">
-            <i class="fa-solid fa-file-csv"></i> Export Master Data
-        </button>
+        <div class="action-header-group">
+            <button class="btn btn-export" onclick="exportMasterData()">
+                <i class="fa-solid fa-file-csv"></i> Export Master Data
+            </button>
+        </div>
     </div>
 
+    <!-- Live Interlock Late Rule Configurator Core Card Wrapper -->
+    <div class="config-card">
+        <div class="config-info">
+            <h4><i class="fa-solid fa-user-clock" style="color: #f59e0b;"></i> Daily Late-Mark Interlock Rule Engine</h4>
+            <p>Define the strict benchmark cutoff limit. Any Punch-In recorded beyond this threshold triggers auto-late logging.</p>
+        </div>
+        <div class="config-controls">
+            <input type="time" id="lateCutoffTimeInput" value="10:30">
+            <button class="btn btn-save" onclick="saveLateMarkCutoffConfig()"><i class="fa-solid fa-floppy-disk"></i> Update Rule</button>
+        </div>
+    </div>
+
+    <!-- Matrix Counters Row Metrics Node Group Container -->
     <div class="stats-grid">
         <div class="stat-card total-card">
             <div class="info"><h3>Total Logs</h3><h1 id="statTotal">0</h1></div>
@@ -101,6 +141,27 @@
         </div>
     </div>
 
+    <!-- Back-date Staff Request Approval Control Panel Component Node Grid Area -->
+    <div class="section-headline"><i class="fa-solid fa-envelope-open-text" style="color:#f59e0b;"></i> Back-Date Attendance Requests Queue</div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Staff Info</th>
+                    <th>Requested Date</th>
+                    <th>Request Timestamp</th>
+                    <th>Status Badge</th>
+                    <th>Action Console</th>
+                </tr>
+            </thead>
+            <tbody id="backdateRequestsTableBody">
+                <tr><td colspan="5" style="text-align:center; padding:20px; color:#94a3b8;">Loading requests queue...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Primary Filters Master Engine Frame Logic Block Layout -->
+    <div class="section-headline"><i class="fa-solid fa-list-check" style="color:#3b82f6;"></i> Master Attendance Transaction Logs</div>
     <div class="filter-bar">
         <div class="input-group">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -117,10 +178,12 @@
                 <option value="Pending">Pending</option>
                 <option value="Approved">Approved</option>
                 <option value="Rejected">Rejected</option>
+                <option value="Late Mark">Late Mark</option>
             </select>
         </div>
     </div>
 
+    <!-- Main Data Table Log Grid Container Component Area -->
     <div class="table-container">
         <table>
             <thead>
@@ -130,19 +193,31 @@
                     <th>Punch In</th>
                     <th>Punch Out</th>
                     <th>Duration</th>
-                    <th>Status</th>
+                    <th>Status Type</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="adminTableBody">
-                </tbody>
+                <tr><td colspan="7" style="text-align:center; padding:30px; color:#94a3b8;">Loading master logs dataset...</td></tr>
+            </tbody>
         </table>
+    </div>
+</div>
+
+<!-- Lighbox Frame Biometric Elements Window Framework Component -->
+<div id="photoLightboxModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Biometric Capture Verification</h2>
+            <button class="close-btn" onclick="closeLightboxModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="photo-grid" id="lightboxPhotoContainer"></div>
     </div>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, getDocs, updateDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, updateDoc, doc, query, orderBy, setDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
@@ -157,8 +232,18 @@
     const db = getFirestore(app);
     let allData = [];
 
+    // Core Init Load Admin Dashboard Data Pipeline Arrays Handler Matrix
     async function loadAdminData() {
         try {
+            // Load Engine Interlock Rule Config Value Form Parameters
+            const configSnapshot = await getDocs(collection(db, "settings"));
+            configSnapshot.forEach((cfgDoc) => {
+                if(cfgDoc.id === "lateCutoffTime") {
+                    document.getElementById("lateCutoffTimeInput").value = cfgDoc.data().value || "10:30";
+                }
+            });
+
+            // Load Master Attendance Transaction Records Arrays
             const q = query(collection(db, "attendance"), orderBy("date", "desc"));
             const querySnapshot = await getDocs(q);
             allData = [];
@@ -167,11 +252,15 @@
             });
             renderTable(allData);
             updateStats();
+
+            // Fire Backdate Queue Processor Method Task Execution Frame Call
+            await fetchBackdateRequestsQueue();
         } catch(err) {
             console.error("Error loading data: ", err);
         }
     }
 
+    // Main Master Log Table Rows Assembly System Component Router Block
     function renderTable(data) {
         const tbody = document.getElementById("adminTableBody");
         tbody.innerHTML = "";
@@ -182,6 +271,9 @@
         }
 
         data.forEach(item => {
+            const currentStatusType = item.attendanceType === "Late Mark" ? "late-mark" : (item.status ? item.status.toLowerCase() : 'pending');
+            const displayLabel = item.attendanceType === "Late Mark" ? "Late Mark" : (item.status || 'Pending');
+
             const row = `
                 <tr>
                     <td>
@@ -194,13 +286,14 @@
                         </div>
                     </td>
                     <td><i class="fa-regular fa-calendar" style="color:#64748b; margin-right:5px;"></i> ${item.date}</td>
-                    <td><span style="color:#10b981; font-weight:500;"><i class="fa-solid fa-right-to-bracket"></i> ${item.inTime}</span></td>
+                    <td><span style="color:#10b981; font-weight:500;"><i class="fa-solid fa-right-to-bracket"></i> ${item.inTime || '--:--'}</span></td>
                     <td><span style="color:${item.outTime ? '#ef4444' : '#94a3b8'}; font-weight:500;"><i class="fa-solid fa-right-from-bracket"></i> ${item.outTime || '--:--'}</span></td>
-                    <td><strong>${item.totalHours || '0'} hrs</strong></td>
-                    <td><span class="status-badge ${item.status ? item.status.toLowerCase() : 'pending'}">${item.status || 'Pending'}</span></td>
+                    <td><strong>${item.totalHours || '0'}</strong></td>
+                    <td><span class="status-badge ${currentStatusType}">${displayLabel}</span></td>
                     <td>
-                        <button class="action-btn btn-approve" title="Approve" onclick="changeStatus('${item.id}', 'Approved')"><i class="fa-solid fa-check"></i></button>
-                        <button class="action-btn btn-reject" title="Reject" onclick="changeStatus('${item.id}', 'Rejected')"><i class="fa-solid fa-xmark"></i></button>
+                        <button class="action-btn btn-approve" title="Approve Entry" onclick="changeStatus('${item.id}', 'Approved')"><i class="fa-solid fa-check"></i></button>
+                        <button class="action-btn btn-reject" title="Reject Entry" onclick="changeStatus('${item.id}', 'Rejected')"><i class="fa-solid fa-xmark"></i></button>
+                        <button class="action-btn btn-photo" title="Biometric Photos" onclick="triggerLightboxView('${item.inPhoto || ''}', '${item.outPhoto || ''}')"><i class="fa-solid fa-camera"></i></button>
                         <button class="action-btn btn-map" title="View Location" onclick="viewMap('${item.inLat}', '${item.inLng}')"><i class="fa-solid fa-location-dot"></i></button>
                     </td>
                 </tr>
@@ -209,15 +302,94 @@
         });
     }
 
+    // System Status Override Interlock Engine Node Mappings Execution Control Block
     window.changeStatus = async (id, newStatus) => {
         const docRef = doc(db, "attendance", id);
         await updateDoc(docRef, { status: newStatus });
         loadAdminData();
     };
 
+    // Rule Config Rule Setter Core Update Handler Node
+    window.saveLateMarkCutoffConfig = async () => {
+        const inputVal = document.getElementById("lateCutoffTimeInput").value;
+        if(!inputVal) return alert("Select a valid cutoff timestamp pattern framework configuration!");
+        
+        try {
+            await setDoc(doc(db, "settings", "lateCutoffTime"), { value: inputVal });
+            alert("🎯 Rules Config Engine sync complete! Cutoff threshold locked at: " + inputVal);
+        } catch(e) { console.error("Rule engine write fault structural layout: ", e); }
+    };
+
+    // Fetch and Process Pending Backdate Queue System Elements Array Logic Node
+    async function fetchBackdateRequestsQueue() {
+        const tbody = document.getElementById("backdateRequestsTableBody");
+        tbody.innerHTML = "";
+        
+        try {
+            const snapshot = await getDocs(collection(db, "backdate_requests"));
+            let pendingItemsCount = 0;
+
+            snapshot.forEach((requestDoc) => {
+                const reqData = requestDoc.data();
+                if(reqData.status !== "Pending") return;
+
+                pendingItemsCount++;
+                const row = `
+                    <tr>
+                        <td>
+                            <div class="staff-info">
+                                <b>${reqData.staffName}</b><br>
+                                <small>${reqData.staffPosition || 'Member'}</small>
+                            </div>
+                        </td>
+                        <td><b>📅 ${reqData.requestedDate}</b></td>
+                        <td><small>${reqData.timestamp || '-'}</small></td>
+                        <td><span class="status-badge pending">Awaiting Action</span></td>
+                        <td>
+                            <button class="action-btn btn-approve" title="Approve Backdate" onclick="processBackdateDecision('${requestDoc.id}', 'Approved', '${reqData.staffName}', '${reqData.requestedDate}', '${reqData.staffPosition || 'Staff'}')"><i class="fa-solid fa-circle-check"></i></button>
+                            <button class="action-btn btn-reject" title="Reject Backdate" onclick="processBackdateDecision('${requestDoc.id}', 'Rejected')"><i class="fa-solid fa-circle-xmark"></i></button>
+                        </td>
+                    </tr>`;
+                tbody.innerHTML += row;
+            });
+
+            if(pendingItemsCount === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:15px; color:#94a3b8;">No pending back-date authorization anomalies found in queue.</td></tr>`;
+            }
+        } catch(err) { console.error("Fault loading backdate pipeline: ", err); }
+    }
+
+    // Resolve Authorization Requests Decision and Auto Insert Log Logic Pipeline Block Mapping
+    window.processBackdateDecision = async (reqId, decision, sName, rDate, sPos) => {
+        try {
+            // Step 1: Resolve Request Target Status Object In Database Module Element Array Queue
+            await updateDoc(doc(db, "backdate_requests", reqId), { status: decision });
+
+            // Step 2: Auto Push Transaction Log Object If State Passed Configuration Criteria Parameter
+            if(decision === "Approved") {
+                await addDoc(collection(db, "attendance"), {
+                    staffName: sName,
+                    staffPosition: sPos,
+                    date: rDate,
+                    inTime: "10:00:00 AM (Backdated)",
+                    outTime: "06:00:00 PM (Backdated)",
+                    totalHours: "8.00 Hours",
+                    attendanceType: "Present",
+                    status: "Approved",
+                    reason: "Backdate Authorization Framework Push",
+                    remarks: "Authorized by Command Center Dashboard Grid Engine Interface Controller Matrix",
+                    inPhoto: "", outPhoto: "", inLat: "", inLng: "", outLat: "", outLng: ""
+                });
+            }
+
+            alert(`Request status updated successfully: ${decision}`);
+            loadAdminData(); // Full refresh dashboard layout metrics dataset nodes mapping loop
+        } catch(e) { console.error("Error finalizing backdate payload logic path: ", e); }
+    };
+
     window.viewMap = (lat, lng) => {
-        if(lat && lat !== 'undefined') window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
-        else alert("Live location data not captured for this punch-in.");
+        if(lat && lat !== 'undefined' && lat !== '') window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
+        else alert("Live location geo-coordinates not captured for this specific punch cycle record matrix layout node data block.");
     };
 
     function updateStats() {
@@ -234,27 +406,69 @@
 
         const filtered = allData.filter(item => {
             const matchesName = item.staffName ? item.staffName.toLowerCase().includes(name) : false;
-            const matchesDate = !date || (item.date && item.date.includes(date));
-            const matchesStatus = !status || item.status === status;
+            
+            // Format converter interlock parser
+            let convertedDateStr = "";
+            if(date) {
+                const parts = date.split('-'); // yyyy-mm-dd
+                convertedDateStr = `${parseInt(parts[1])}/${parseInt(parts[2])}/${parts[0]}`; // m/d/yyyy
+            }
+
+            const matchesDate = !date || (item.date && (item.date.includes(date) || item.date === convertedDateStr));
+            
+            let matchesStatus = !status || item.status === status;
+            if(status === "Late Mark") {
+                matchesStatus = item.attendanceType === "Late Mark";
+            } else if (status === "Pending") {
+                matchesStatus = (item.status === "Pending" || !item.status) && item.attendanceType !== "Late Mark";
+            }
+
             return matchesName && matchesDate && matchesStatus;
         });
         renderTable(filtered);
     };
 
     window.exportMasterData = () => {
-        let csv = "Name,Position,Date,In Time,Out Time,Total Hours,Status\n";
+        let csv = "Name,Position,Date,In Time,Out Time,Total Hours,Status,Type\n";
         allData.forEach(d => {
-            csv += `"${d.staffName || ''}","${d.staffPosition || ''}","${d.date || ''}","${d.inTime || ''}","${d.outTime || ''}","${d.totalHours || '0'}","${d.status || 'Pending'}"\n`;
+            csv += `"${d.staffName || ''}","${d.staffPosition || ''}","${d.date || ''}","${d.inTime || ''}","${d.outTime || ''}","${d.totalHours || '0'}","${d.status || 'Pending'}","${d.attendanceType || 'Standard'}"\n`;
         });
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Master_Attendance_${new Date().toISOString().split('T')[0]}.csv`;
+        a.download = `Master_Corporate_Attendance_Dataset.csv`;
         a.click();
     };
 
     loadAdminData();
+</script>
+
+<script>
+    // Global UI Layout Overlay Actions Mappings Box Window Handlers Framework
+    function triggerLightboxView(inSnap, outSnap) {
+        const container = document.getElementById("lightboxPhotoContainer");
+        container.innerHTML = `
+            <div>
+                <p style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:6px; text-align:center;">Check-In Photo Matrix</p>
+                <img src="${inSnap || 'https://via.placeholder.com/220?text=No+Capture+Captured'}" class="attendance-photo">
+            </div>
+            <div>
+                <p style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:6px; text-align:center;">Check-Out Photo Matrix</p>
+                <img src="${outSnap || 'https://via.placeholder.com/220?text=No+Capture+Captured'}" class="attendance-photo">
+            </div>`;
+        document.getElementById("photoLightboxModal").style.display = "flex";
+    }
+
+    function closeLightboxModal() {
+        document.getElementById("photoLightboxModal").style.display = "none";
+    }
+
+    window.onclick = function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = "none";
+        }
+    }
 </script>
 </body>
 </html>

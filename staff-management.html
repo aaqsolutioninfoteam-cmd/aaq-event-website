@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Staff Management - Premium Admin Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes scaleIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+        @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        body { 
+            background-color: #eef1f6;
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(59,130,246,0.15) 0%, transparent 45%),
+                radial-gradient(at 80% 10%, rgba(168,85,247,0.12) 0%, transparent 45%),
+                radial-gradient(at 50% 80%, rgba(16,185,129,0.12) 0%, transparent 45%),
+                radial-gradient(at 90% 70%, rgba(245,158,11,0.14) 0%, transparent 45%),
+                radial-gradient(at 20% 60%, rgba(99,102,241,0.12) 0%, transparent 45%);
+            background-attachment: fixed;
+            min-height: 100vh; 
+            padding: 25px; 
+            color: #0f172a; 
+        }
+        
+        .container { max-width: 1300px; margin: auto; }
+
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: rgba(255,255,255,0.6); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 20px 30px; 
+            border-radius: 22px; 
+            margin-bottom: 30px; 
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 8px 30px rgba(15,23,42,0.06);
+            animation: fadeInUp 0.5s ease;
+        }
+        .logo-box { display: flex; align-items: center; gap: 15px; }
+        .logo-box h2 { font-size: 22px; font-weight: 700; color: #d97706; }
+        .logo-box p { font-size: 13px; color: #64748b; }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+        .live-box { text-align: right; font-size: 13px; color: #475569; font-weight: 500; }
+        #liveTime { font-size: 16px; font-weight: 700; color: #d97706; margin-top: 2px; }
+        .back-btn { 
+            background: rgba(255,255,255,0.55); 
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.25); 
+            padding: 10px 20px; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            color: #ef4444; 
+            font-weight: 600; 
+            font-size: 14px;
+            transition: all 0.25s ease;
+        }
+        .back-btn:hover { background: rgba(239,68,68,0.08); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(239,68,68,0.1); }
+
+        .dashboard-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 30px; 
+        }
+        @media (min-width: 950px) { 
+            .dashboard-grid { grid-template-columns: 420px 1fr; } 
+        }
+
+        .form-box { 
+            background: rgba(255,255,255,0.6); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 25px; 
+            border-radius: 22px; 
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 8px 30px rgba(15,23,42,0.06);
+            height: fit-content;
+            animation: fadeInUp 0.5s ease;
+        }
+        .form-box h2 { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+        
+        .input-group { position: relative; margin-bottom: 16px; }
+        .input-group i { position: absolute; left: 14px; top: 15px; color: #64748b; font-size: 15px; transition: color 0.3s; }
+        .input-group:focus-within i { color: #d97706; }
+        
+        input, select { 
+            width: 100%; 
+            padding: 14px 14px 14px 42px; 
+            border: 1px solid rgba(226,232,240,0.9); 
+            border-radius: 12px; 
+            background: rgba(255,255,255,0.55); 
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            color: #0f172a; 
+            font-size: 14px; 
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        input[type="file"] { padding-left: 14px; }
+        input:focus, select:focus { border-color: #d97706; box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1); background: rgba(255,255,255,0.7); }
+        
+        .file-label { display: block; font-size: 12px; color: #64748b; margin-bottom: 6px; font-weight: 500; }
+
+        .save-btn { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid rgba(255,255,255,0.25); 
+            border-radius: 12px; 
+            background: linear-gradient(135deg, #3b82f6, #2563eb); 
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            color: white; 
+            font-size: 15px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+            letter-spacing: 0.3px;
+        }
+        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,130,246,0.4); }
+        .save-btn:active { transform: translateY(0); }
+
+        .staff-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; align-content: start; }
+        
+        .card { 
+            background: rgba(255,255,255,0.6); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 20px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 8px 30px rgba(15,23,42,0.06);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d97706, #f59e0b, #d97706);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .card:hover::before { opacity: 1; }
+        .card:hover { transform: translateY(-4px); border-color: #d97706; box-shadow: 0 12px 32px rgba(217,119,6,0.1); }
+        
+        .staff-row { display: flex; gap: 16px; align-items: flex-start; }
+        .staff-photo { width: 70px; height: 70px; border-radius: 14px; object-fit: cover; border: 2px solid #e2e8f0; transition: all 0.3s; }
+        .card:hover .staff-photo { border-color: #d97706; box-shadow: 0 4px 12px rgba(217,119,6,0.15); }
+        
+        .staff-details { flex: 1; }
+        .staff-details h3 { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+        .staff-details .role-badge { font-size: 12px; color: #d97706; font-weight: 600; margin-bottom: 12px; display: block; }
+        
+        .info-line { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 6px; }
+        .info-line i { color: #64748b; width: 16px; text-align: center; }
+
+        .status-pill { 
+            display: inline-block; 
+            padding: 4px 10px; 
+            border-radius: 8px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            text-transform: uppercase;
+            margin-top: 6px;
+            letter-spacing: 0.5px;
+        }
+        .status-active { background: linear-gradient(135deg, #ecfdf5, #d1fae5); color: #047857; border: 1px solid #a7f3d0; box-shadow: 0 2px 8px rgba(16,185,129,0.1); }
+        .status-inactive { background: linear-gradient(135deg, #fef2f2, #fee2e2); color: #b91c1c; border: 1px solid #fecaca; box-shadow: 0 2px 8px rgba(239,68,68,0.1); }
+
+        .action-buttons { display: flex; gap: 8px; position: absolute; top: 15px; right: 15px; }
+        .action-btn { 
+            width: 32px; 
+            height: 32px; 
+            border: 1px solid rgba(255,255,255,0.25); 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            color: white; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        }
+        .edit-btn { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .edit-btn:hover { background: linear-gradient(135deg, #d97706, #b45309); transform: translateY(-2px) scale(1.1); box-shadow: 0 4px 12px rgba(217,119,6,0.3); }
+        .delete-btn { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .delete-btn:hover { background: linear-gradient(135deg, #dc2626, #b91c1c); transform: translateY(-2px) scale(1.1); box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
+
+        .popup { 
+            display:none; 
+            position:fixed; 
+            top:0; left:0; width:100%; height:100%; 
+            background: rgba(0, 0, 0, 0.4); 
+            backdrop-filter: blur(4px);
+            justify-content:center; align-items:center; 
+            z-index:9999; 
+        }
+        .popup-box { 
+            background: rgba(255,255,255,0.75); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 30px; 
+            border-radius: 22px; 
+            width: 340px; 
+            text-align: center; 
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            animation: scaleIn 0.3s ease;
+        }
+        .popup-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #0f172a; }
+        .popup-box p { font-size: 14px; color: #64748b; margin-bottom: 20px; }
+        .popup-buttons { display: flex; gap: 10px; }
+        .popup-buttons button { flex: 1; padding: 12px; border: 1px solid rgba(255,255,255,0.25); border-radius: 10px; color: white; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.25s; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .popup-buttons button:hover { transform: translateY(-1px); }
+        .confirm-btn { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .confirm-btn:hover { box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
+        .cancel-btn { background: linear-gradient(135deg, #64748b, #475569); }
+        .cancel-btn:hover { box-shadow: 0 4px 12px rgba(100,116,139,0.3); }
+
+        .scroll-animate { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .scroll-animate.visible { opacity: 1; transform: translateY(0); }
+        /* === PREMIUM TOAST NOTIFICATIONS === */
+        #toastWrap { position: fixed; top: 20px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
+        .toast { pointer-events: auto; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 360px; padding: 14px 18px; border-radius: 14px; color: #fff; font-size: 13px; font-weight: 600; line-height: 1.4; box-shadow: 0 12px 30px rgba(2,6,23,0.25); animation: toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1); position: relative; overflow: hidden; }
+        .toast::after { content: ''; position: absolute; bottom: 0; left: 0; height: 3px; width: 100%; background: rgba(255,255,255,0.4); animation: toastBar 3s linear forwards; }
+        .toast.out { animation: toastOut 0.35s ease forwards; }
+        .toast .t-ic { width: 32px; height: 32px; border-radius: 9px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+        .toast-success { background: linear-gradient(135deg, #10b981, #059669); }
+        .toast-error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .toast-warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .toast-info { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        @keyframes toastIn { from { transform: translateX(120%) scale(0.9); opacity: 0; } to { transform: translateX(0) scale(1); opacity: 1; } }
+        @keyframes toastOut { to { transform: translateX(120%); opacity: 0; } }
+        @keyframes toastBar { from { width: 100%; } to { width: 0%; } }
+    </style>
+</head>
+<body>
+
+<!-- Auth Guard: ADMIN, MANAGER only. ADMIN full access; MANAGER view-only -->
+<script>
+    (function(){
+        var role = localStorage.getItem('userRole');
+        if(!['ADMIN','MANAGER'].includes(role)){ window.location.replace('login.html'); }
+        window.__staffPageRole = role;
+    })();
+    function __isStaffAdmin(){ return window.__staffPageRole === 'ADMIN'; }
+</script>
+
+<div class="container">
+    <div class="header">
+        <div class="logo-box">
+            <div>
+                <h2>Staff Administration</h2>
+                <p>AAQ Event Management ERP</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="live-box">
+                <div id="liveDate">📅 --/--/----</div>
+                <div id="liveTime">🕒 00:00:00</div>
+            </div>
+            <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div id="managerViewOnly" class="form-box" style="display:none; text-align:center; border: 1px dashed rgba(245,158,11,0.4);">
+            <h2 style="color:#d97706;"><i class="fa-solid fa-eye" style="color:#d97706;"></i> Staff Directory (View Only)</h2>
+            <p style="color:#64748b; margin-top:10px; line-height:1.6;">You have Manager access. You can view the staff directory below but cannot add, edit, delete, or assign staff. Only an Administrator can manage staff.</p>
+        </div>
+        <div class="form-box" id="staffFormBox">
+            <h2 id="formTitle"><i class="fa-solid fa-user-plus" style="color: #f59e0b;"></i> Register New Staff</h2>
+            
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" id="staffName" placeholder="Staff Full Name">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-phone"></i>
+                <input type="tel" id="mobile" placeholder="Mobile Number">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="email" placeholder="Email Address">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" placeholder="Account Password">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-id-badge"></i>
+                <input type="text" id="position" placeholder="Job Position / Role">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-location-dot"></i>
+                <input type="text" id="address" placeholder="Residential Address">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-address-card"></i>
+                <input type="text" id="aadhaar" placeholder="Identification Document Number">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-fingerprint"></i>
+                <input type="text" id="staffId" placeholder="Internal ID Card Number">
+            </div>
+            
+            <span class="file-label">Profile Image Attachment</span>
+            <div class="input-group" style="margin-bottom:12px;">
+                <input type="file" id="photo">
+            </div>
+
+            <div class="input-group" style="padding-left:0;">
+                <i class="fa-solid fa-toggle-on"></i>
+                <select id="status" style="padding-left: 42px;">
+                    <option value="Select Status">Select Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+
+            <div class="input-group" style="padding-left:0;">
+                <i class="fa-solid fa-user-shield"></i>
+                <select id="staffRole" style="padding-left: 42px;">
+                    <option value="CREW">Event Crew</option>
+                    <option value="COORDINATOR">Event Coordinator</option>
+                    <option value="MANAGER">Manager</option>
+                </select>
+            </div>
+
+            <div class="input-group" style="padding-left:0;">
+                <i class="fa-solid fa-user-plus"></i>
+                <select id="assignedTo" style="padding-left: 42px;">
+                    <option value="">Assign To Manager / Coordinator</option>
+                </select>
+            </div>
+
+            <button type="button" onclick="saveStaff()" class="save-btn">Save Profile Data</button>
+        </div>
+
+        <div class="staff-list" id="staffList">
+            </div>
+    </div>
+</div>
+
+<div class="popup" id="deletePopup">
+    <div class="popup-box">
+        <h3>Remove Employee Profile?</h3>
+        <p>This will permanently erase the records from database.</p>
+        <div class="popup-buttons">
+            <button class="confirm-btn" onclick="confirmDelete()">Delete</button>
+            <button class="cancel-btn" onclick="closePopup()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    window.dbRecordsCache = {};
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+</script>
+
+<script type="module">
+    localStorage.setItem("loggedUser", "Admin");
+    
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    // ADDED 'query' AND 'where' IN THE FIRESTORE IMPORTS BELOW
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    async function hashPassword(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+        authDomain: "aaq-event-erp.firebaseapp.com",
+        projectId: "aaq-event-erp",
+        storageBucket: "aaq-event-erp.firebasestorage.app",
+        messagingSenderId: "985636664002",
+        appId: "1:985636664002:web:4b941d3562609d2058815b",
+        measurementId: "G-HHD049KDS8"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    
+    const isStaffAdmin = __isStaffAdmin();
+    if(!isStaffAdmin){
+        // MANAGER view-only: hide full form, show view-only banner
+        var formBox = document.getElementById("staffFormBox");
+        var mgrBox = document.getElementById("managerViewOnly");
+        if(formBox) formBox.style.display = "none";
+        if(mgrBox) mgrBox.style.display = "block";
+    }
+    
+    let editId = null;
+    let deleteId = null;
+    window.currentPhoto = "";
+    
+    window.saveStaff = async function(){
+        const staffName = document.getElementById("staffName").value;
+        const mobile = document.getElementById("mobile").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const position = document.getElementById("position").value;
+        const address = document.getElementById("address").value;
+        const aadhaar = document.getElementById("aadhaar").value;
+        const staffId = document.getElementById("staffId").value;
+        const status = document.getElementById("status").value;
+        const staffRole = document.getElementById("staffRole").value;
+        const assignedTo = document.getElementById("assignedTo").value;
+        const photo = document.getElementById("photo").files[0];
+        
+        let photoURL = window.currentPhoto || "";
+        
+        if(photo){
+            const formData = new FormData();
+            formData.append("file", photo);
+            formData.append("upload_preset", "aaqstaff");
+            
+            try {
+                const response = await fetch("https://api.cloudinary.com/v1_1/dcwxyosh8/image/upload", {
+                    method: "POST",
+                    body: formData
+                });
+                const result = await response.json();
+                photoURL = result.secure_url;
+            } catch(e) {
+                alert("Cloudinary Upload Failure");
+            }
+        } 
+        
+        try {
+            // --- DUPLICATE EMAIL VERIFICATION SYSTEM START ---
+            if(email) {
+                const emailCheckQuery = query(collection(db, "staffs"), where("email", "==", email));
+                const querySnapshot = await getDocs(emailCheckQuery);
+                
+                let isDuplicate = false;
+                querySnapshot.forEach((docItem) => {
+                    // If registering new user OR updating someone else's profile with this email
+                    if (!editId || docItem.id !== editId) {
+                        isDuplicate = true;
+                    }
+                });
+
+                if (isDuplicate) {
+                    alert("⚠️ THIS EMAIL ID ALREADY EXISTS! Please use a different email address.");
+                    return; // Stops execution instantly
+                }
+            }
+            // --- DUPLICATE EMAIL VERIFICATION SYSTEM END ---
+
+            let documentPayload = { staffName, mobile, email, position, address, aadhaar, staffId, status, photoURL, role: staffRole, assignedTo };
+            // Password fix: only update password when a new one is provided.
+            // When editing and the password field is blank, keep the existing password.
+            if(password){
+                documentPayload.password = await hashPassword(password);
+            } else if(!editId){
+                // New staff must have a password
+                if(!password){ showToast("Please set an account password for new staff.", 'warning'); return; }
+                documentPayload.password = '';
+            }
+            
+            if(editId){
+                await updateDoc(doc(db, "staffs", editId), documentPayload);
+                showToast("Staff Profile Synced Successfully", 'success');
+                editId = null;
+                document.getElementById("formTitle").innerHTML = `<i class="fa-solid fa-user-plus" style="color: #f59e0b;"></i> Register New Staff`;
+            } else {
+                await addDoc(collection(db, "staffs"), documentPayload);
+                showToast("Staff Registered to Database", 'success');
+            }
+            
+            document.querySelectorAll("input").forEach(input => input.value = "");
+            document.getElementById("status").value = "Select Status";
+            window.currentPhoto = "";
+            loadStaff();
+        } catch(error) {
+            alert(error);
+        }
+    };
+    
+    window.editStaff = function(id){
+        const data = window.dbRecordsCache[id];
+        if(!data) return;
+
+        document.getElementById("staffName").value = data.staffName || "";
+        document.getElementById("mobile").value = data.mobile || "";
+        document.getElementById("email").value = data.email || "";
+        document.getElementById("password").value = "";
+        document.getElementById("position").value = data.position || "";
+        document.getElementById("address").value = data.address || "";
+        document.getElementById("aadhaar").value = data.aadhaar || "";
+        document.getElementById("staffId").value = data.staffId || "";
+        document.getElementById("status").value = data.status || "Select Status";
+        document.getElementById("staffRole").value = data.role || "CREW";
+        try { document.getElementById("assignedTo").value = data.assignedTo || ""; } catch(e) {}
+        window.currentPhoto = data.photoURL || "";
+        editId = id;
+        
+        document.getElementById("formTitle").innerHTML = `<i class="fa-solid fa-user-pen" style="color: #f59e0b;"></i> Edit Staff Profile`;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    
+    window.deleteStaff = function(id){
+        deleteId = id;
+        document.getElementById("deletePopup").style.display = "flex";
+    };
+    
+    window.closePopup = function(){
+        document.getElementById("deletePopup").style.display = "none";
+    };
+    
+    window.confirmDelete = async function(){
+        if(!deleteId) return;
+        await deleteDoc(doc(db, "staffs", deleteId));
+        closePopup();
+        loadStaff();
+    };
+    
+    async function loadStaff(){
+        const querySnapshot = await getDocs(collection(db, "staffs"));
+        let html = "";
+        window.dbRecordsCache = {}; // Cache clear process
+
+        function getRoleName(role) {
+            if (role === 'MANAGER') return 'Manager';
+            if (role === 'COORDINATOR') return 'Event Coordinator';
+            if (role === 'ADMIN') return 'Administrator';
+            return 'Event Crew';
+        }
+
+        // Build manager/coordinator list for the "assign to" dropdown (ADMIN only)
+        const assignOptions = [];
+        const emailToName = {};
+        querySnapshot.forEach((docItem)=>{
+            const d = docItem.data();
+            emailToName[String(d.email||'').toLowerCase().trim()] = d.staffName || d.email || '';
+            if(d.role === 'MANAGER' || d.role === 'COORDINATOR' || d.role === 'ADMIN'){
+                assignOptions.push({ email: d.email, name: d.staffName + ' (' + getRoleName(d.role) + ')' });
+            }
+        });
+        let assignSelectHtml = `<option value="">Assign To Manager / Coordinator</option>`;
+        assignOptions.forEach(o => {
+            assignSelectHtml += `<option value="${escapeHtml(o.email)}">${escapeHtml(o.name)}</option>`;
+        });
+        const assignSelect = document.getElementById("assignedTo");
+        if(assignSelect) { const prev = assignSelect.value; assignSelect.innerHTML = assignSelectHtml; assignSelect.value = prev; }
+        
+        querySnapshot.forEach((docItem)=>{
+            const id = docItem.id;
+            const data = docItem.data();
+            window.dbRecordsCache[id] = data; // Cache storage maps mapping dynamically safely
+            
+            const statusClass = data.status === "Active" ? "status-active" : "status-inactive";
+            const assignedName = emailToName[String(data.assignedTo||'').toLowerCase().trim()] || '';
+            
+            html += `
+                <div class="card">
+                    <div class="action-buttons">
+                        ${isStaffAdmin ? `
+                        <button class="action-btn edit-btn" onclick="editStaff('${id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="action-btn delete-btn" onclick="deleteStaff('${id}')"><i class="fa-solid fa-trash-can"></i></button>
+                        ` : ''}
+                    </div>
+                    <div class="staff-row">
+                        <img src="${data.photoURL || 'https://i.imgur.com/6VBx3io.png'}" class="staff-photo">
+                        <div class="staff-details">
+                            <h3>${escapeHtml(data.staffName) || "Unnamed User"}</h3>
+                            <span class="role-badge">${escapeHtml(getRoleName(data.role))}</span>
+                            
+                            <div class="info-line"><i class="fa-solid fa-phone"></i> ${escapeHtml(data.mobile) || "-"}</div>
+                            <div class="info-line"><i class="fa-solid fa-envelope"></i> ${escapeHtml(data.email) || "-"}</div>
+                            <div class="info-line"><i class="fa-solid fa-fingerprint"></i> ID: ${escapeHtml(data.staffId) || "-"}</div>
+                            <div class="info-line"><i class="fa-solid fa-address-card"></i> Doc: ${escapeHtml(data.aadhaar) || "-"}</div>
+                            <div class="info-line"><i class="fa-solid fa-location-dot"></i> ${escapeHtml(data.address) || "-"}</div>
+                            ${assignedName ? `<div class="info-line" style="color:#d97706;"><i class="fa-solid fa-user-plus"></i> Assigned To: <b>${escapeHtml(assignedName)}</b></div>` : ''}
+                            
+                            <span class="status-pill ${statusClass}">${escapeHtml(data.status) || "Inactive"}</span>
+                        </div>
+                    </div>
+                </div>`;
+        });
+        
+        document.getElementById("staffList").innerHTML = html || `<div style="grid-column:1/-1; text-align:center; padding:40px; color:#64748b;">No active employee directory found.</div>`;
+    }
+    
+    loadStaff();
+    
+    function updateDateTime(){
+        const now = new Date();
+        document.getElementById("liveDate").innerHTML = "📅 " + now.toLocaleDateString();
+        document.getElementById("liveTime").innerHTML = "🕒 " + now.toLocaleTimeString();
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+</script>
+
+<!-- Back-button auth guard -->
+<script>
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted) { window.location.replace(window.location.href); }
+    });
+    window.addEventListener('popstate', function() {
+        var user = localStorage.getItem('activeStaffUser') || localStorage.getItem('currentUser') || localStorage.getItem('userRole');
+        if (!user) { window.location.replace('login.html'); }
+    });
+</script>
+
+<script>
+(function(){
+    const els = document.querySelectorAll('.card, .form-box, .header, .stat-item');
+    els.forEach(function(el){ el.classList.add('scroll-animate'); });
+    const obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+    },{threshold:0.1});
+    els.forEach(function(el){ obs.observe(el); });
+})();
+
+// === PREMIUM TOAST NOTIFICATIONS ===
+(function(){
+    let wrap = document.getElementById('toastWrap');
+    if(!wrap){ wrap = document.createElement('div'); wrap.id = 'toastWrap'; document.body.appendChild(wrap); }
+    const icons = { success: '&#10003;', error: '&#10005;', warning: '&#9888;', info: '&#9432;' };
+    window.showToast = function(msg, type){
+        type = type || 'info';
+        const t = document.createElement('div');
+        t.className = 'toast toast-' + type;
+        t.innerHTML = '<span class="t-ic">' + (icons[type]||icons.info) + '</span><span>' + msg + '</span>';
+        wrap.appendChild(t);
+        setTimeout(function(){ t.classList.add('out'); setTimeout(function(){ t.remove(); }, 400); }, 3000);
+    };
+    window.alert = function(msg){ showToast(msg, 'warning'); };
+})();
+</script>
+
+
+</body>
+</html>

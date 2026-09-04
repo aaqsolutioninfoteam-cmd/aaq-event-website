@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAQ ERP Dashboard</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes slideInLeft { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes scaleIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
+        @keyframes glow { 0%,100% { box-shadow: 0 0 5px rgba(245,158,11,0.3); } 50% { box-shadow: 0 0 20px rgba(245,158,11,0.5); } }
+        @keyframes modalSlide { from { transform: translateY(30px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+        @keyframes sidebarSlideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+
+        body {
+            background: #eef1f6;
+            background-image:
+                radial-gradient(at 8% 12%, rgba(96,165,250,0.18), transparent 45%),
+                radial-gradient(at 85% 20%, rgba(167,139,250,0.16), transparent 45%),
+                radial-gradient(at 70% 80%, rgba(52,211,153,0.15), transparent 50%),
+                radial-gradient(at 15% 90%, rgba(251,191,36,0.14), transparent 50%);
+            min-height: 100vh;
+            color: #0f172a;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-attachment: fixed;
+        }
+
+        ::selection { background: #fde68a; color: #92400e; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .layout { display: flex; min-height: 100vh; }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #ffffff;
+            border-left: 3px solid #f59e0b;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 2px 0 30px rgba(0,0,0,0.04);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px 25px;
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            margin: -20px -20px 15px;
+            padding: 20px 20px 25px;
+            border-bottom: 1px solid rgba(245,158,11,0.15);
+        }
+
+        .sidebar-brand img {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(245,158,11,0.2);
+        }
+
+        .sidebar-brand span {
+            font-size: 17px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.3px;
+        }
+
+        .sidebar-brand .accent { color: #d97706; }
+
+        .sidebar-role {
+            padding: 6px 20px 15px;
+            margin-bottom: 5px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .role-ADMIN { background: #fef2f2; color: #ef4444; border: 1px solid #fecaca; }
+        .role-MANAGER { background: #eff6ff; color: #3b82f6; border: 1px solid #bfdbfe; }
+        .role-COORDINATOR { background: #ecfdf5; color: #10b981; border: 1px solid #a7f3d0; }
+        .role-CREW { background: #f5f3ff; color: #8b5cf6; border: 1px solid #ddd6fe; }
+
+        .hdr-role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+        .role-badge-mod.role-ADMIN { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
+        .role-badge-mod.role-MANAGER { background: #dbeafe; color: #2563eb; border: 1px solid #bfdbfe; }
+        .role-badge-mod.role-COORDINATOR { background: #d1fae5; color: #059669; border: 1px solid #a7f3d0; }
+        .role-badge-mod.role-CREW { background: #ede9fe; color: #7c3aed; border: 1px solid #ddd6fe; }
+
+        .sidebar-nav { list-style: none; padding: 0 10px; }
+
+        .sidebar-nav li { margin-bottom: 4px; }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 16px;
+            color: #64748b;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            border-left: 3px solid transparent;
+            position: relative;
+        }
+
+        .sidebar-nav a:hover {
+            background: linear-gradient(135deg, rgba(254,243,199,0.5), rgba(254,226,138,0.3));
+            color: #92400e;
+            border-left: 3px solid #d97706;
+            box-shadow: 0 2px 8px rgba(245,158,11,0.08);
+        }
+
+        .sidebar-nav a.active {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #d97706;
+            font-weight: 700;
+            border-left: 3px solid #d97706;
+            box-shadow: 0 2px 12px rgba(245,158,11,0.15);
+        }
+
+        .sidebar-nav a i { width: 20px; text-align: center; font-size: 15px; transition: transform 0.3s ease; }
+        .sidebar-nav a:hover i { transform: scale(1.1); }
+
+        .sidebar-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+            margin: 12px 20px;
+        }
+
+        .sidebar-logout {
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+
+        .sidebar-logout a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 16px;
+            color: #ef4444;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-logout a:hover { background: #fee2e2; border-left: 3px solid #ef4444; box-shadow: 0 2px 8px rgba(239,68,68,0.1); }
+
+        /* MAIN CONTENT */
+        .main {
+            margin-left: 260px;
+            flex: 1;
+            padding: 25px 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.75), rgba(255,255,255,0.5));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-left: 5px solid #f59e0b;
+            border-radius: 20px;
+            padding: 20px 26px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 35px rgba(15,23,42,0.08);
+            animation: fadeInUp 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .top-bar::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 260px; height: 100%;
+            background: radial-gradient(circle at 80% 20%, rgba(245,158,11,0.10), transparent 60%);
+            pointer-events: none;
+        }
+
+        .top-bar-left h1 {
+            font-size: 28px;
+            font-weight: 900;
+            color: #0f172a;
+            letter-spacing: -0.8px;
+            background: linear-gradient(135deg, #0f172a, #334155);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .top-bar-left p {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 3px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .live-clock {
+            text-align: right;
+            font-size: 12px;
+            color: #64748b;
+            background: linear-gradient(135deg, #fef3c7, #fffbeb);
+            border-radius: 12px;
+            padding: 8px 16px;
+            border: 1px solid rgba(245,158,11,0.15);
+        }
+
+        .live-clock .time { font-size: 18px; font-weight: 700; color: #d97706; }
+        .live-clock .date { font-weight: 500; margin-top: 1px; }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 3px solid #f59e0b;
+            object-fit: cover;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            cursor: pointer;
+        }
+
+        .user-avatar:hover {
+            box-shadow: 0 0 0 4px rgba(245,158,11,0.15), 0 4px 20px rgba(245,158,11,0.4);
+            animation: glow 2s ease-in-out infinite;
+            transform: scale(1.08);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #0f172a;
+            font-size: 20px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .mobile-toggle:hover { background: #f8fafc; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+        /* STAT CARDS */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border: 1px solid rgba(226,232,240,0.8);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-color, #f59e0b), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover::after { opacity: 1; }
+
+        .stat-card:nth-child(1) { animation-delay: 0.05s; }
+        .stat-card:nth-child(2) { animation-delay: 0.1s; }
+        .stat-card:nth-child(3) { animation-delay: 0.15s; }
+        .stat-card:nth-child(4) { animation-delay: 0.2s; }
+        .stat-card:nth-child(5) { animation-delay: 0.25s; }
+
+        .stat-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: rgba(245,158,11,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-icon { transform: scale(1.1) rotate(-3deg); }
+
+        .bg-blue { background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(59,130,246,0.06)); color: #3b82f6; box-shadow: 0 4px 12px rgba(59,130,246,0.12); }
+        .bg-green { background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(16,185,129,0.06)); color: #10b981; box-shadow: 0 4px 12px rgba(16,185,129,0.12); }
+        .bg-amber { background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(245,158,11,0.06)); color: #f59e0b; box-shadow: 0 4px 12px rgba(245,158,11,0.12); }
+        .bg-red { background: linear-gradient(135deg, rgba(239,68,68,0.12), rgba(239,68,68,0.06)); color: #ef4444; box-shadow: 0 4px 12px rgba(239,68,68,0.12); }
+        .bg-purple { background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(139,92,246,0.06)); color: #8b5cf6; box-shadow: 0 4px 12px rgba(139,92,246,0.12); }
+        .bg-teal { background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(20,184,166,0.06)); color: #14b8a6; box-shadow: 0 4px 12px rgba(20,184,166,0.12); }
+        .bg-cyan { background: linear-gradient(135deg, rgba(6,182,212,0.12), rgba(6,182,212,0.06)); color: #06b6d4; box-shadow: 0 4px 12px rgba(6,182,212,0.12); }
+        .bg-pink { background: linear-gradient(135deg, rgba(236,72,153,0.12), rgba(236,72,153,0.06)); color: #ec4899; box-shadow: 0 4px 12px rgba(236,72,153,0.12); }
+
+        .stat-info h3 { font-size: 24px; font-weight: 800; line-height: 1; color: #0f172a; letter-spacing: -0.5px; }
+        .stat-info p { font-size: 12px; color: #94a3b8; margin-top: 4px; font-weight: 500; }
+
+        /* SECTION TITLE */
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideInLeft 0.5s ease;
+        }
+
+        .section-title i { color: #f59e0b; }
+
+        /* MODULE GRID */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .module-card {
+            background: rgba(255,255,255,0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.75);
+            border-radius: 22px;
+            padding: 28px 24px;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+            box-shadow: 0 8px 30px rgba(15,23,42,0.06);
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 60%, rgba(245,158,11,0.03));
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .module-card:hover::before { opacity: 1; }
+
+        .module-card:nth-child(1) { animation-delay: 0.05s; }
+        .module-card:nth-child(2) { animation-delay: 0.1s; }
+        .module-card:nth-child(3) { animation-delay: 0.15s; }
+        .module-card:nth-child(4) { animation-delay: 0.2s; }
+        .module-card:nth-child(5) { animation-delay: 0.25s; }
+        .module-card:nth-child(6) { animation-delay: 0.3s; }
+
+        .module-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.95);
+            box-shadow: 0 24px 50px rgba(15,23,42,0.12);
+        }
+
+        .module-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .module-card:hover .module-icon { transform: scale(1.1) rotate(-5deg); }
+
+        .module-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: #0f172a; letter-spacing: -0.3px; }
+        .module-card p { font-size: 12px; color: #94a3b8; line-height: 1.6; margin-bottom: 18px; }
+
+        .module-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            width: fit-content;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.25);
+            letter-spacing: 0.2px;
+        }
+
+        .module-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .module-btn:hover::before { left: 100%; }
+
+        .module-btn:hover { transform: translateX(4px); box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+
+        .btn-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .btn-blue:hover { box-shadow: 0 4px 20px rgba(59,130,246,0.35); }
+        .btn-green { background: linear-gradient(135deg, #10b981, #059669); }
+        .btn-green:hover { box-shadow: 0 4px 20px rgba(16,185,129,0.35); }
+        .btn-amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .btn-amber:hover { box-shadow: 0 4px 20px rgba(245,158,11,0.35); }
+        .btn-red { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .btn-red:hover { box-shadow: 0 4px 20px rgba(239,68,68,0.35); }
+        .btn-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .btn-purple:hover { box-shadow: 0 4px 20px rgba(139,92,246,0.35); }
+        .btn-teal { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+        .btn-teal:hover { box-shadow: 0 4px 20px rgba(20,184,166,0.35); }
+        .btn-cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .btn-cyan:hover { box-shadow: 0 4px 20px rgba(6,182,212,0.35); }
+        .btn-pink { background: linear-gradient(135deg, #ec4899, #db2777); }
+        .btn-pink:hover { box-shadow: 0 4px 20px rgba(236,72,153,0.35); }
+
+        /* MAINTENANCE OVERLAY */
+        #maintenanceOverlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .maint-content {
+            animation: scaleIn 0.5s ease;
+        }
+
+        .maint-content i { font-size: 64px; color: #f59e0b; margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
+        .maint-content h2 { font-size: 28px; font-weight: 800; margin-bottom: 10px; color: #0f172a; letter-spacing: -0.5px; }
+        .maint-content p { color: #64748b; font-size: 15px; line-height: 1.6; }
+
+        /* BROADCAST MODAL */
+        .broadcast-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(15,23,42,0.4);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid rgba(226,232,240,0.6);
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+            animation: scaleIn 0.3s ease;
+        }
+
+        .modal-icon-wrap {
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 20px rgba(245,158,11,0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .modal-icon-wrap i { font-size: 26px; color: #d97706; }
+
+        .modal-card h3 { font-size: 20px; font-weight: 700; color: #d97706; margin-bottom: 6px; }
+        .modal-meta { font-size: 11px; background: linear-gradient(135deg, #f1f5f9, #f8fafc); padding: 4px 10px; border-radius: 6px; color: #64748b; display: inline-block; margin-bottom: 15px; font-weight: 600; }
+        .modal-card p { font-size: 15px; color: #475569; line-height: 1.6; margin-bottom: 25px; }
+
+        .modal-ack-btn {
+            width: 100%; padding: 14px; border: none; border-radius: 12px;
+            background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: 0 4px 15px rgba(245,158,11,0.25);
+        }
+        .modal-ack-btn:hover { box-shadow: 0 8px 25px rgba(245,158,11,0.4); transform: translateY(-2px); }
+
+        /* MOBILE OVERLAY */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15,23,42,0.3);
+            backdrop-filter: blur(4px);
+            z-index: 99;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @media(max-width:768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                animation: none;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+                animation: sidebarSlideIn 0.3s cubic-bezier(0.4,0,0.2,1);
+                box-shadow: 4px 0 40px rgba(0,0,0,0.15);
+            }
+            .main { margin-left: 0; padding: 15px; }
+            .mobile-toggle { display: block; }
+            .top-bar { flex-direction: column; gap: 12px; align-items: flex-start; }
+            .top-bar-right { width: 100%; justify-content: space-between; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .module-grid { grid-template-columns: 1fr; }
+            .stat-card, .module-card { animation-delay: 0s !important; }
+        }
+
+        @media(max-width:480px) {
+            .stats-row { grid-template-columns: 1fr; }
+        }
+        /* === PREMIUM TOAST NOTIFICATIONS === */
+        #toastWrap { position: fixed; top: 20px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
+        .toast { pointer-events: auto; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 360px; padding: 14px 18px; border-radius: 14px; color: #fff; font-size: 13px; font-weight: 600; line-height: 1.4; box-shadow: 0 12px 30px rgba(2,6,23,0.25); animation: toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1); position: relative; overflow: hidden; }
+        .toast::after { content: ''; position: absolute; bottom: 0; left: 0; height: 3px; width: 100%; background: rgba(255,255,255,0.4); animation: toastBar 3s linear forwards; }
+        .toast.out { animation: toastOut 0.35s ease forwards; }
+        .toast .t-ic { width: 32px; height: 32px; border-radius: 9px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+        .toast-success { background: linear-gradient(135deg, #10b981, #059669); }
+        .toast-error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .toast-warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .toast-info { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        @keyframes toastIn { from { transform: translateX(120%) scale(0.9); opacity: 0; } to { transform: translateX(0) scale(1); opacity: 1; } }
+        @keyframes toastOut { to { transform: translateX(120%); opacity: 0; } }
+        @keyframes toastBar { from { width: 100%; } to { width: 0%; } }
+    </style>
+</head>
+<body>
+
+<!-- MAINTENANCE OVERLAY -->
+<div id="maintenanceOverlay">
+    <div class="maint-content">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h2>System Under Maintenance</h2>
+        <p>Admin has locked operations for technical updates. Please try again later.</p>
+    </div>
+</div>
+
+<!-- BROADCAST MODAL -->
+<div id="broadcastModal" class="broadcast-modal">
+    <div class="modal-card">
+        <div class="modal-icon-wrap"><i class="fa-solid fa-bullhorn"></i></div>
+        <h3>Important Notice</h3>
+        <span id="noticeDate" class="modal-meta">Date: --/--/----</span>
+        <p id="noticeText">Loading...</p>
+        <button class="modal-ack-btn" id="ackBtn">OK, Understood</button>
+    </div>
+</div>
+
+<div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <img src="logo.png" alt="AAQ">
+            <span><span class="accent">AAQ</span> ERP</span>
+        </div>
+        <div class="sidebar-role">
+            <span class="role-badge" id="roleBadge">LOADING</span>
+        </div>
+        <ul class="sidebar-nav" id="sidebarNav"></ul>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-logout">
+            <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main" id="mainContent">
+        <div class="top-bar">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <button class="mobile-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="top-bar-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="welcomeText">Welcome back!</p>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <div class="live-clock">
+                    <div class="time" id="liveTime">00:00:00</div>
+                    <div class="date" id="liveDate">--/--/----</div>
+                </div>
+                <img src="https://i.imgur.com/6VBx3io.png" class="user-avatar" id="userAvatar" alt="User">
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-row" id="statsRow"></div>
+
+        <!-- MODULES -->
+        <div class="section-title"><i class="fa-solid fa-grid-2"></i> Quick Access Modules</div>
+        <div class="module-grid" id="moduleGrid"></div>
+    </main>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+        authDomain: "aaq-event-erp.firebaseapp.com",
+        projectId: "aaq-event-erp",
+        storageBucket: "aaq-event-erp.firebasestorage.app",
+        messagingSenderId: "985636664002",
+        appId: "1:985636664002:web:4b941d3562609d2058815b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const ROLE_MODULES = {
+        ADMIN: {
+            stats: [
+                { icon: 'fa-solid fa-users', bg: 'bg-blue', label: 'Total Staff', value: '--' },
+                { icon: 'fa-solid fa-calendar-check', bg: 'bg-amber', label: 'Events', value: '--' },
+                { icon: 'fa-solid fa-clipboard-check', bg: 'bg-green', label: 'Today Attendance', value: '--' },
+                { icon: 'fa-solid fa-gear', bg: 'bg-teal', label: 'System', value: 'Active' }
+            ],
+            modules: [
+                { title: 'Staff Management', desc: 'Add, edit, monitor and manage all staff members.', icon: 'fa-solid fa-users', iconBg: 'bg-blue', btn: 'btn-blue', link: 'staff-management.html' },
+                { title: 'Attendance', desc: 'Manage daily attendance, approve requests, track timesheets.', icon: 'fa-solid fa-clipboard-user', iconBg: 'bg-green', btn: 'btn-green', link: 'attendance.html' },
+                { title: 'Events Management', desc: 'Schedule events, manage duties, assign crew posts.', icon: 'fa-solid fa-calendar-check', iconBg: 'bg-amber', btn: 'btn-amber', link: 'events-management.html' },
+                { title: 'ID Card Tracking', desc: 'Manage all issued, pending and returned ID cards.', icon: 'fa-solid fa-id-badge', iconBg: 'bg-red', btn: 'btn-red', link: 'id-card.html' },
+                { title: 'System Reports', desc: 'Generate detailed analytics for staff and attendance.', icon: 'fa-solid fa-chart-pie', iconBg: 'bg-purple', btn: 'btn-purple', link: 'reports.html' },
+                { title: 'Settings', desc: 'Configure notifications, maintenance mode and controls.', icon: 'fa-solid fa-gear', iconBg: 'bg-teal', btn: 'btn-teal', link: 'settings.html' }
+            ],
+            nav: [
+                { icon: 'fa-solid fa-gauge-high', text: 'Dashboard', active: true },
+                { icon: 'fa-solid fa-users', text: 'Staff Management', link: 'staff-management.html' },
+                { icon: 'fa-solid fa-clipboard-user', text: 'Attendance', link: 'attendance.html' },
+                { icon: 'fa-solid fa-calendar-check', text: 'Events', link: 'events-management.html' },
+                { icon: 'fa-solid fa-id-badge', text: 'ID Cards', link: 'id-card.html' },
+                { icon: 'fa-solid fa-chart-pie', text: 'Reports', link: 'reports.html' },
+                { icon: 'fa-solid fa-gear', text: 'Settings', link: 'settings.html' }
+            ]
+        },
+        MANAGER: {
+            stats: [
+                { icon: 'fa-solid fa-users', bg: 'bg-blue', label: 'Total Staff', value: '--' },
+                { icon: 'fa-solid fa-calendar-check', bg: 'bg-amber', label: 'Events', value: '--' },
+                { icon: 'fa-solid fa-clipboard-check', bg: 'bg-green', label: 'Today Attendance', value: '--' }
+            ],
+            modules: [
+                { title: 'Staff Management', desc: 'View the staff directory and monitor your team.', icon: 'fa-solid fa-users', iconBg: 'bg-blue', btn: 'btn-blue', link: 'staff-management.html' },
+                { title: 'Attendance', desc: 'Manage daily attendance, approve requests, track timesheets.', icon: 'fa-solid fa-clipboard-user', iconBg: 'bg-green', btn: 'btn-green', link: 'attendance.html' },
+                { title: 'Events Management', desc: 'Schedule events, manage duties, assign crew posts.', icon: 'fa-solid fa-calendar-check', iconBg: 'bg-amber', btn: 'btn-amber', link: 'events-management.html' },
+                { title: 'ID Card Tracking', desc: 'Manage all issued, pending and returned ID cards.', icon: 'fa-solid fa-id-badge', iconBg: 'bg-red', btn: 'btn-red', link: 'id-card.html' },
+                { title: 'System Reports', desc: 'Generate detailed analytics for staff and attendance.', icon: 'fa-solid fa-chart-pie', iconBg: 'bg-purple', btn: 'btn-purple', link: 'reports.html' }
+            ],
+            nav: [
+                { icon: 'fa-solid fa-gauge-high', text: 'Dashboard', active: true },
+                { icon: 'fa-solid fa-users', text: 'Staff Management', link: 'staff-management.html' },
+                { icon: 'fa-solid fa-clipboard-user', text: 'Attendance', link: 'attendance.html' },
+                { icon: 'fa-solid fa-calendar-check', text: 'Events', link: 'events-management.html' },
+                { icon: 'fa-solid fa-id-badge', text: 'ID Cards', link: 'id-card.html' },
+                { icon: 'fa-solid fa-chart-pie', text: 'Reports', link: 'reports.html' }
+            ]
+        },
+        COORDINATOR: {
+            stats: [
+                { icon: 'fa-solid fa-calendar-check', bg: 'bg-amber', label: 'Events', value: '--' },
+                { icon: 'fa-solid fa-clipboard-check', bg: 'bg-green', label: 'Today Attendance', value: '--' },
+                { icon: 'fa-solid fa-chart-line', bg: 'bg-purple', label: 'Reports', value: 'View' }
+            ],
+            modules: [
+                { title: 'Attendance', desc: 'View and manage daily attendance records.', icon: 'fa-solid fa-clipboard-user', iconBg: 'bg-green', btn: 'btn-green', link: 'attendance.html' },
+                { title: 'Events Management', desc: 'Manage event schedules, duties and crew posts.', icon: 'fa-solid fa-calendar-check', iconBg: 'bg-amber', btn: 'btn-amber', link: 'events-management.html' },
+                { title: 'Reports', desc: 'View attendance and event analytics.', icon: 'fa-solid fa-chart-pie', iconBg: 'bg-purple', btn: 'btn-purple', link: 'reports.html' },
+                { title: 'My Profile', desc: 'View and update your personal profile.', icon: 'fa-solid fa-user-tie', iconBg: 'bg-cyan', btn: 'btn-cyan', link: 'my-profile.html' }
+            ],
+            nav: [
+                { icon: 'fa-solid fa-gauge-high', text: 'Dashboard', active: true },
+                { icon: 'fa-solid fa-clipboard-user', text: 'Attendance', link: 'attendance.html' },
+                { icon: 'fa-solid fa-calendar-check', text: 'Events', link: 'events-management.html' },
+                { icon: 'fa-solid fa-chart-pie', text: 'Reports', link: 'reports.html' },
+                { icon: 'fa-solid fa-user-tie', text: 'My Profile', link: 'my-profile.html' }
+            ]
+        },
+        CREW: {
+            stats: [
+                { icon: 'fa-solid fa-fingerprint', bg: 'bg-green', label: 'My Attendance', value: '--' },
+                { icon: 'fa-solid fa-calendar-check', bg: 'bg-amber', label: 'My Events', value: '--' },
+                { icon: 'fa-solid fa-id-card', bg: 'bg-cyan', label: 'My ID Card', value: 'View' }
+            ],
+            modules: [
+                { title: 'Attendance', desc: 'Mark face-in/face-out and view attendance history.', icon: 'fa-solid fa-fingerprint', iconBg: 'bg-green', btn: 'btn-green', link: 'attendance.html' },
+                { title: 'My Profile', desc: 'View and update your personal profile.', icon: 'fa-solid fa-user-tie', iconBg: 'bg-blue', btn: 'btn-blue', link: 'my-profile.html' },
+                { title: 'My Events', desc: 'Check assigned duties and event schedules.', icon: 'fa-solid fa-calendar-check', iconBg: 'bg-amber', btn: 'btn-amber', link: 'my-events.html' },
+                { title: 'ID Card', desc: 'View your digital event ID card.', icon: 'fa-solid fa-id-card', iconBg: 'bg-cyan', btn: 'btn-cyan', link: 'id-card.html' },
+                { title: 'Reports', desc: 'Track your work history and attendance logs.', icon: 'fa-solid fa-chart-line', iconBg: 'bg-purple', btn: 'btn-purple', link: 'reports.html' }
+            ],
+            nav: [
+                { icon: 'fa-solid fa-gauge-high', text: 'Dashboard', active: true },
+                { icon: 'fa-solid fa-fingerprint', text: 'Attendance', link: 'attendance.html' },
+                { icon: 'fa-solid fa-user-tie', text: 'My Profile', link: 'my-profile.html' },
+                { icon: 'fa-solid fa-calendar-check', text: 'My Events', link: 'my-events.html' },
+                { icon: 'fa-solid fa-id-card', text: 'ID Card', link: 'id-card.html' },
+                { icon: 'fa-solid fa-chart-line', text: 'Reports', link: 'reports.html' }
+            ]
+        }
+    };
+
+    function getUserSession() {
+        const admin = localStorage.getItem('currentUser');
+        const staff = localStorage.getItem('activeStaffUser');
+        const role = localStorage.getItem('userRole');
+
+        if (role && admin) {
+            try { return JSON.parse(admin); } catch(e) {}
+        }
+        if (staff) {
+            try { return JSON.parse(staff); } catch(e) {}
+        }
+        return null;
+    }
+
+    function titleCase(str) {
+        if (!str) return '';
+        return String(str).charAt(0).toUpperCase() + String(str).slice(1).toLowerCase();
+    }
+
+    function renderDashboard(user, role) {
+        const config = ROLE_MODULES[role] || ROLE_MODULES.CREW;
+        const roleLabel = titleCase(role);
+
+        document.getElementById('roleBadge').textContent = roleLabel;
+        document.getElementById('roleBadge').className = 'role-badge role-' + role;
+
+        const userName = user.name || user.staffName || 'User';
+        document.getElementById('welcomeText').innerHTML = '<span class="hdr-role-badge role-badge-mod role-' + role + '"><i class="fa-solid fa-shield-halved"></i> ' + roleLabel + '</span> Welcome back, <b>' + userName + '</b>';
+        document.getElementById('pageTitle').textContent = roleLabel + ' Dashboard';
+
+        if (user.photoUrl || user.photoURL) {
+            document.getElementById('userAvatar').src = user.photoUrl || user.photoURL;
+        }
+
+        const nav = document.getElementById('sidebarNav');
+        nav.innerHTML = config.nav.map(n =>
+            `<li><a href="${n.link || '#'}" class="${n.active ? 'active' : ''}"><i class="${n.icon}"></i> ${n.text}</a></li>`
+        ).join('');
+
+        const stats = document.getElementById('statsRow');
+        stats.innerHTML = config.stats.map(s =>
+            `<div class="stat-card">
+                <div class="stat-icon ${s.bg}"><i class="${s.icon}"></i></div>
+                <div class="stat-info"><h3>${s.value}</h3><p>${s.label}</p></div>
+            </div>`
+        ).join('');
+
+        const modules = document.getElementById('moduleGrid');
+        modules.innerHTML = config.modules.map(m =>
+            `<div class="module-card">
+                <div>
+                    <div class="module-icon ${m.iconBg}"><i class="${m.icon}"></i></div>
+                    <h3>${m.title}</h3>
+                    <p>${m.desc}</p>
+                </div>
+                <a href="${m.link}" class="module-btn ${m.btn}">Open Module <i class="fa-solid fa-arrow-right"></i></a>
+            </div>`
+        ).join('');
+    }
+
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('liveTime').textContent = now.toLocaleTimeString('en-US', { hour12: true });
+        document.getElementById('liveDate').textContent = now.toLocaleDateString('en-GB');
+    }
+
+    async function loadBroadcast() {
+        try {
+            const snap = await getDoc(doc(db, 'broadcast', 'latestNotice'));
+            if (snap.exists()) {
+                const data = snap.data();
+                const ack = localStorage.getItem('notice_ack_latestNotice');
+                if (data.active && !ack) {
+                    document.getElementById('noticeText').textContent = data.message || '';
+                    document.getElementById('noticeDate').textContent = 'Date: ' + (data.date || '--/--/----');
+                    document.getElementById('broadcastModal').style.display = 'flex';
+                }
+            }
+        } catch(e) { console.log('Broadcast check skipped'); }
+    }
+
+    async function checkMaintenance() {
+        try {
+            const snap = await getDoc(doc(db, 'settings', 'maintenanceMode'));
+            if (snap.exists() && snap.data().enabled === true) {
+                document.getElementById('maintenanceOverlay').style.display = 'flex';
+                document.getElementById('mainContent').style.display = 'none';
+            }
+        } catch(e) { console.log('Maintenance check skipped'); }
+    }
+
+    // INIT
+    const user = getUserSession();
+    const role = localStorage.getItem('userRole') || 'CREW';
+
+    if (!user) {
+        window.location.href = 'login.html';
+    } else {
+        renderDashboard(user, role);
+        updateClock();
+        setInterval(updateClock, 1000);
+        loadBroadcast();
+        checkMaintenance();
+
+        document.getElementById('ackBtn').addEventListener('click', () => {
+            localStorage.setItem('notice_ack_latestNotice', 'true');
+            document.getElementById('broadcastModal').style.display = 'none';
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast("Logging out...", 'info');
+            setTimeout(function(){ localStorage.clear(); window.location.replace('login.html'); }, 800);
+        });
+    }
+</script>
+
+<!-- Back-button auth guard: force recheck when page is restored from bfcache -->
+<script>
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted) { window.location.replace(window.location.href); }
+    });
+    window.addEventListener('popstate', function() {
+        var user = localStorage.getItem('activeStaffUser') || localStorage.getItem('currentUser') || localStorage.getItem('userRole');
+        if (!user) { window.location.replace('login.html'); }
+    });
+</script>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+                e.target.style.animation = `fadeInUp 0.5s ease ${i * 0.1}s forwards`;
+                e.target.style.opacity = '0';
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.module-card, .stat-card').forEach(el => observer.observe(el));
+// === PREMIUM TOAST NOTIFICATIONS ===
+(function(){
+    let wrap = document.getElementById('toastWrap');
+    if(!wrap){ wrap = document.createElement('div'); wrap.id = 'toastWrap'; document.body.appendChild(wrap); }
+    const icons = { success: '&#10003;', error: '&#10005;', warning: '&#9888;', info: '&#9432;' };
+    window.showToast = function(msg, type){
+        type = type || 'info';
+        const t = document.createElement('div');
+        t.className = 'toast toast-' + type;
+        t.innerHTML = '<span class="t-ic">' + (icons[type]||icons.info) + '</span><span>' + msg + '</span>';
+        wrap.appendChild(t);
+        setTimeout(function(){ t.classList.add('out'); setTimeout(function(){ t.remove(); }, 400); }, 3000);
+    };
+    window.alert = function(msg){ showToast(msg, 'warning'); };
+})();
+</script>
+</body>
+</html>

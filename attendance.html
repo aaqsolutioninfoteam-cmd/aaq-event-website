@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>AAQ Staff Portal - Attendance Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* === GLOBAL PREMIUM ANIMATIONS === */
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes pulse-glow { 0%,100%{box-shadow:0 0 5px rgba(59,130,246,0.3)} 50%{box-shadow:0 0 20px rgba(59,130,246,0.5)} }
+        @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+        @keyframes scaleIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans',sans-serif; }
+
+        body {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            color: #0f172a;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1440px; margin: auto; }
+
+        /* === TOP NAVIGATION === */
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #ffffff; box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            padding: 14px 24px; border-radius: 18px; margin-bottom: 22px;
+            border: 1px solid #e2e8f0;
+            animation: fadeInUp 0.6s ease;
+            position: relative; z-index: 1;
+        }
+        .nav-left { display: flex; align-items: center; gap: 16px; }
+        .back-btn {
+            background: #f1f5f9; border: 1px solid #e2e8f0;
+            padding: 10px 18px; border-radius: 12px; color: #334155;
+            text-decoration: none; font-weight: 600; font-size: 13px;
+            display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;
+        }
+        .back-btn:hover { background: #e2e8f0; color: #0f172a; transform: translateX(-2px) scale(1.02); box-shadow: 0 6px 15px rgba(0,0,0,0.08); }
+        .brand-tag { font-size: 12px; font-weight: 700; color: #d97706; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-right { display: flex; align-items: center; gap: 12px; }
+        .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 2s infinite; display: inline-block; }
+        @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0.4)} 50%{box-shadow:0 0 0 8px rgba(16,185,129,0)} }
+        .nav-clock { font-size: 13px; color: #64748b; font-weight: 500; background: #f8fafc; border: 1px solid #e2e8f0; padding: 7px 14px; border-radius: 10px; }
+        .nav-clock span { color: #d97706; font-weight: 700; }
+
+        /* === PROFILE HERO === */
+        .hero-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 24px; padding: 28px 32px;
+            display: flex; align-items: center; gap: 28px;
+            margin-bottom: 24px; position: relative; overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+            animation: fadeInUp 0.6s ease;
+        }
+        .hero-card::before {
+            content: ''; position: absolute; top: -50%; right: -20%;
+            width: 400px; height: 400px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(245,158,11,0.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-card::after {
+            content: ''; position: absolute; bottom: -40%; left: 30%;
+            width: 320px; height: 320px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-photo {
+            width: 88px; height: 88px; border-radius: 20px;
+            object-fit: cover; border: 3px solid rgba(245,158,11,0.5);
+            box-shadow: 0 8px 24px rgba(245,158,11,0.25);
+            position: relative; z-index: 1; transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hero-photo:hover { transform: scale(1.05); box-shadow: 0 12px 30px rgba(245,158,11,0.35); }
+        .hero-info { flex: 1; position: relative; z-index: 1; }
+        .hero-info h2 { font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+        .hero-info .position-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309;
+            padding: 5px 14px; border-radius: 8px; font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            box-shadow: 0 3px 10px rgba(245,158,11,0.15);
+        }
+        .hero-clock { text-align: right; position: relative; z-index: 1; }
+        .hero-clock .date-text { font-size: 14px; color: #64748b; font-weight: 500; margin-bottom: 4px; }
+        .hero-clock .time-text { font-size: 32px; font-weight: 800; color: #d97706; font-variant-numeric: tabular-nums; letter-spacing: 1px; text-shadow: 0 0 20px rgba(217,119,6,0.2); }
+
+        /* === STATS ROW === */
+        .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-pill {
+            background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%);
+            border: 1px solid #e2e8f0; border-radius: 18px;
+            padding: 20px; position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        .stat-pill:nth-child(1) { animation-delay: 0.1s; }
+        .stat-pill:nth-child(2) { animation-delay: 0.2s; }
+        .stat-pill:nth-child(3) { animation-delay: 0.3s; }
+        .stat-pill:nth-child(4) { animation-delay: 0.4s; }
+        .stat-pill:nth-child(5) { animation-delay: 0.5s; }
+        .stat-pill:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.08); border-color: #cbd5e1; }
+        .stat-pill .stat-label { font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
+        .stat-pill .stat-value { font-size: 30px; font-weight: 800; margin-top: 6px; }
+        .stat-pill .stat-icon { position: absolute; top: 16px; right: 16px; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .sp-total { border-left: 5px solid #3b82f6; border-image: linear-gradient(180deg, #60a5fa, #3b82f6) 1; } .sp-total .stat-value { color: #3b82f6; } .sp-total .stat-icon { background: #eff6ff; color: #3b82f6; }
+        .sp-approved { border-left: 5px solid #10b981; border-image: linear-gradient(180deg, #34d399, #10b981) 1; } .sp-approved .stat-value { color: #10b981; } .sp-approved .stat-icon { background: #ecfdf5; color: #10b981; }
+        .sp-pending { border-left: 5px solid #f59e0b; border-image: linear-gradient(180deg, #fbbf24, #f59e0b) 1; } .sp-pending .stat-value { color: #f59e0b; } .sp-pending .stat-icon { background: #fffbeb; color: #f59e0b; }
+        .sp-rejected { border-left: 5px solid #ef4444; border-image: linear-gradient(180deg, #f87171, #ef4444) 1; } .sp-rejected .stat-value { color: #ef4444; } .sp-rejected .stat-icon { background: #fef2f2; color: #ef4444; }
+        .sp-hours { border-left: 5px solid #8b5cf6; border-image: linear-gradient(180deg, #a78bfa, #8b5cf6) 1; } .sp-hours .stat-value { color: #8b5cf6; } .sp-hours .stat-icon { background: #f5f3ff; color: #8b5cf6; }
+
+        /* === MAIN WORKSPACE GRID === */
+        .workspace { display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 24px; }
+        @media(min-width:960px){ .workspace { grid-template-columns: 440px 1fr; } }
+
+        /* === CAMERA PUNCH CARD === */
+        .punch-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0; border-radius: 24px;
+            padding: 28px; text-align: center; position: relative; overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+            animation: fadeInUp 0.6s ease;
+            opacity: 0;
+        }
+        .punch-card::before {
+            content: ''; position: absolute; top: -60%; right: -30%;
+            width: 380px; height: 380px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .punch-card::after {
+            content: ''; position: absolute; bottom: -30%; left: -10%;
+            width: 300px; height: 300px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .punch-title {
+            font-size: 16px; font-weight: 700; color: #0f172a;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            margin-bottom: 18px; position: relative; z-index: 1;
+        }
+        .punch-title .shield-icon {
+            width: 32px; height: 32px; background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; color: white; box-shadow: 0 4px 12px rgba(59,130,246,0.3);
+            animation: pulse-glow 2s infinite;
+        }
+
+        .camera-viewport {
+            position: relative; z-index: 1;
+            width: 100%; max-width: 380px; margin: 0 auto 18px;
+            border-radius: 20px; overflow: hidden;
+            border: 3px solid rgba(255,255,255,0.9);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        #video { width: 100%; aspect-ratio: 4/3; background: #000; object-fit: cover; display: block; }
+        .camera-overlay {
+            position: absolute; top: 12px; left: 12px;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 6px 12px; border-radius: 8px;
+            font-size: 11px; font-weight: 700; color: #10b981;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .camera-overlay .rec-dot { width: 6px; height: 6px; border-radius: 50%; background: #ef4444; animation: pulse 1.5s infinite; }
+
+        .status-display {
+            position: relative; z-index: 1;
+            padding: 12px 20px; border-radius: 12px;
+            font-weight: 700; font-size: 13px; letter-spacing: 0.5px;
+            text-transform: uppercase; margin-bottom: 12px;
+            width: 100%; max-width: 380px;
+            background: rgba(16,185,129,0.1); color: #10b981;
+            border: 1px solid rgba(16,185,129,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .duty-timer {
+            position: relative; z-index: 1;
+            padding: 14px 22px; border-radius: 14px;
+            background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+            border: 1px solid #a7f3d0;
+            color: #059669; font-size: 15px; font-weight: 700;
+            display: inline-flex; align-items: center; gap: 10px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 14px rgba(16,185,129,0.10);
+            animation: pulse-glow 2.5s infinite;
+        }
+        .duty-timer i { font-size: 18px; }
+
+        .date-picker-row {
+            position: relative; z-index: 1;
+            background: #f8fafc; border: 1px solid #e2e8f0;
+            padding: 12px 18px; border-radius: 14px;
+            width: 100%; max-width: 380px; margin: 0 auto 18px;
+            display: flex; align-items: center; gap: 12px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .date-picker-row:focus-within { border-color: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.12); }
+        .date-picker-row label { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+        .date-picker-row input {
+            flex: 1; border: none; background: transparent;
+            font-size: 14px; font-weight: 600; color: #0f172a; outline: none;
+            font-family: inherit;
+        }
+
+        .action-buttons {
+            position: relative; z-index: 1;
+            display: flex; flex-direction: column; gap: 12px;
+            width: 100%; max-width: 380px; margin: 0 auto;
+        }
+        .punch-row { display: flex; gap: 12px; }
+        .btn-punch {
+            flex: 1; padding: 16px; border: none; border-radius: 14px;
+            font-size: 14px; font-weight: 800; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            color: white; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .btn-facein {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 8px 20px rgba(59,130,246,0.3);
+        }
+        .btn-facein:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(59,130,246,0.4); background: linear-gradient(135deg, #60a5fa, #3b82f6); }
+        .btn-facein:active { transform: translateY(0) scale(0.98); }
+        .btn-faceout {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 8px 20px rgba(239,68,68,0.3);
+        }
+        .btn-faceout:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(239,68,68,0.4); }
+        .btn-backdate {
+            display: none; width: 100%; padding: 16px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white; border: none; border-radius: 14px;
+            font-weight: 800; font-size: 14px; cursor: pointer;
+            justify-content: center; align-items: center; gap: 10px;
+            box-shadow: 0 8px 20px rgba(245,158,11,0.3);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .btn-backdate:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(245,158,11,0.4); }
+
+        /* === HISTORY SECTION === */
+        .history-section {
+            background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px;
+            padding: 24px; box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+            animation: fadeInUp 0.6s ease;
+            opacity: 0;
+        }
+
+        .filter-row {
+            display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;
+        }
+        .filter-pill {
+            display: flex; align-items: center; background: #f8fafc;
+            border: 2px solid #e2e8f0; border-radius: 12px;
+            padding: 0 14px; min-width: 200px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+        .filter-pill:focus-within { border-color: #d97706; background: #fff; box-shadow: 0 0 0 3px rgba(217,119,6,0.12); }
+        .filter-pill i { color: #64748b; margin-right: 8px; font-size: 13px; }
+        .filter-pill input {
+            background: transparent; border: none; padding: 11px 0; width: 100%;
+            outline: none; font-size: 13px; color: #0f172a; font-weight: 500; font-family: inherit;
+        }
+        .btn-filter {
+            padding: 11px 18px; border: none; border-radius: 12px;
+            font-weight: 700; font-size: 12px; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 7px;
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); text-transform: uppercase; letter-spacing: 0.3px;
+        }
+        .btn-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; box-shadow: 0 4px 14px rgba(59,130,246,0.25); }
+        .btn-blue:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(59,130,246,0.35); }
+        .btn-ghost { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; }
+        .btn-ghost:hover { background: #e2e8f0; color: #0f172a; transform: translateY(-1px); }
+        .mode-tag {
+            margin-left: auto; font-size: 11px; font-weight: 700; padding: 7px 14px;
+            border-radius: 8px; background: #eff6ff; color: #2563eb;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .history-cards { display: flex; flex-direction: column; gap: 14px; }
+        .history-item {
+            background: #f8fafc; border: 1px solid #eef2f7;
+            border-radius: 18px; padding: 20px; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .history-item:hover { border-color: #cbd5e1; background: #f1f5f9; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        .history-top {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px dashed #e2e8f0;
+        }
+        .history-date { font-size: 15px; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+        .badge-status { padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+        .bd-approved { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+        .bd-pending { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+        .bd-rejected { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+        .info-matrix { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 14px; }
+        .info-cell {
+            background: #ffffff; padding: 12px; border-radius: 10px;
+            border: 1px solid #eef2f7; font-size: 11px; color: #64748b; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.3px;
+            transition: all 0.2s ease;
+        }
+        .info-cell:hover { border-color: #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .info-cell b { font-size: 14px; color: #0f172a; display: block; margin-top: 4px; font-weight: 700; text-transform: none; letter-spacing: 0; }
+
+        .history-actions { display: flex; gap: 8px; justify-content: flex-end; padding-top: 12px; border-top: 1px solid #eef2f7; }
+        .btn-card {
+            padding: 8px 14px; border: none; border-radius: 10px;
+            font-size: 11px; font-weight: 700; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); text-transform: uppercase; letter-spacing: 0.3px;
+        }
+        .btn-photo-staff { background: #eff6ff; color: #2563eb; border: 1px solid rgba(59,130,246,0.2); } .btn-photo-staff:hover { background: #dbeafe; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(59,130,246,0.2); }
+        .btn-gps { background: #ecfdf5; color: #059669; border: 1px solid rgba(16,185,129,0.2); } .btn-gps:hover { background: #a7f3d0; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(16,185,129,0.2); }
+
+        .empty-state { text-align: center; padding: 50px 20px; color: #475569; }
+        .empty-state i { font-size: 48px; margin-bottom: 14px; color: #334155; }
+        .empty-state p { font-size: 14px; font-weight: 500; }
+
+        /* === STAFF MODALS === */
+        .modal-overlay {
+            display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(15,23,42,0.5); backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            justify-content:center; align-items:center; z-index:9999; padding:20px;
+        }
+        .modal-box {
+            background: #ffffff; border: 1px solid rgba(226,232,240,0.6);
+            border-radius: 20px; padding: 28px; width: 100%; max-width: 580px;
+            box-shadow: 0 30px 60px rgba(2,6,23,0.25);
+            animation: scaleIn 0.3s ease;
+        }
+        @keyframes modalIn { from{transform:translateY(20px) scale(0.95);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
+        .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-top h2 { font-size: 18px; font-weight: 700; color: #0f172a; }
+        .modal-close {
+            width: 34px; height: 34px; border-radius: 10px; border: none;
+            background: #f1f5f9; color: #64748b; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
+            transition: all 0.2s;
+        }
+        .modal-close:hover { background: #fee2e2; color: #ef4444; transform: rotate(90deg); }
+
+        .photo-compare { display: flex; gap: 16px; justify-content: center; }
+        .photo-slot { text-align: center; flex: 1; }
+        .photo-slot label { display: block; font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .photo-slot img {
+            width: 100%; max-width: 220px; aspect-ratio: 1; object-fit: cover;
+            border-radius: 14px; border: 2px solid #e2e8f0;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .photo-slot img:hover { border-color: #f59e0b; transform: scale(1.03); box-shadow: 0 8px 20px rgba(245,158,11,0.2); }
+        .zoom-img { width: 100%; border-radius: 14px; }
+
+        .loc-card {
+            background: #f8fafc; padding: 18px; border-radius: 14px;
+            border: 1px solid #e2e8f0;
+        }
+        .loc-card h4 { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .loc-card p { font-size: 13px; color: #64748b; margin-bottom: 4px; }
+        .loc-card p b { color: #334155; }
+        .map-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 18px; background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white; border: none; border-radius: 10px; font-size: 12px;
+            font-weight: 700; text-decoration: none; margin-top: 10px;
+            box-shadow: 0 4px 14px rgba(14,165,233,0.25); transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .map-link:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 20px rgba(14,165,233,0.35); }
+
+        /* ============================================ */
+        /* === ADMIN VIEW STYLES (prefixed ad- to avoid conflicts) === */
+        /* ============================================ */
+        #adminView { display: none; }
+        #adminView .ad-admin-container { max-width: 1400px; margin: auto; animation: fadeInUp 0.6s ease; }
+        #adminView .ad-header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; flex-wrap: wrap; gap: 20px; }
+        #adminView .ad-header-title h2 { font-size: 28px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 12px; }
+        #adminView .ad-header-title p { color: #64748b; font-size: 14px; margin-top: 4px; }
+        #adminView .ad-action-header-group { display: flex; gap: 12px; align-items: center; }
+
+        #adminView .ad-config-card { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 20px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.03); transition: all 0.3s ease; }
+        #adminView .ad-config-card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.06); transform: translateY(-2px); }
+        #adminView .ad-config-info h4 { font-size: 15px; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 8px; }
+        #adminView .ad-config-info p { font-size: 13px; color: #64748b; margin-top: 2px; }
+        #adminView .ad-config-controls { display: flex; gap: 10px; align-items: center; }
+        #adminView .ad-config-controls input { padding: 10px 14px; border-radius: 10px; border: 2px solid #cbd5e1; outline: none; font-weight: 600; color: #334155; font-size: 14px; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        #adminView .ad-config-controls input:focus { border-color: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.12); }
+
+        #adminView .ad-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-bottom: 35px; }
+        #adminView .ad-stat-card { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); padding: 24px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+        #adminView .ad-stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+        #adminView .ad-stat-card .ad-info h3 { font-size: 13px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+        #adminView .ad-stat-card .ad-info h1 { font-size: 32px; margin-top: 8px; font-weight: 700; color: #1e293b; }
+        #adminView .ad-stat-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        #adminView .ad-total-card { border-left: 5px solid #3b82f6; } #adminView .ad-total-card .ad-stat-icon { background: #eff6ff; color: #3b82f6; }
+        #adminView .ad-pending-card { border-left: 5px solid #f59e0b; } #adminView .ad-pending-card .ad-stat-icon { background: #fef3c7; color: #f59e0b; }
+        #adminView .ad-approved-card { border-left: 5px solid #10b981; } #adminView .ad-approved-card .ad-stat-icon { background: #ecfdf5; color: #10b981; }
+        #adminView .ad-rejected-card { border-left: 5px solid #ef4444; } #adminView .ad-rejected-card .ad-stat-icon { background: #fef2f2; color: #ef4444; }
+
+        #adminView .ad-section-headline { font-size: 18px; font-weight: 700; color: #1e293b; margin: 30px 0 15px 0; display: flex; align-items: center; gap: 8px; }
+
+        #adminView .ad-filter-bar { background: #ffffff; padding: 20px; border-radius: 16px; margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center; border: 1px solid #e2e8f0; box-shadow: 0 8px 25px rgba(0,0,0,0.03); }
+        #adminView .ad-input-group { display: flex; align-items: center; background: #f1f5f9; border-radius: 10px; padding: 2px 12px; flex: 1; min-width: 180px; border: 2px solid transparent; transition: all 0.3s ease; }
+        #adminView .ad-input-group:focus-within { border-color: #d97706; background: white; box-shadow: 0 0 0 3px rgba(217,119,6,0.10); }
+        #adminView .ad-input-group i { color: #94a3b8; margin-right: 8px; }
+        #adminView .ad-input-group input, #adminView .ad-input-group select { background: transparent; border: none; padding: 10px 4px; width: 100%; outline: none; font-size: 14px; color: #334155; }
+
+        #adminView .ad-table-container { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; margin-bottom: 35px; }
+        #adminView table.ad-admin-table { width: 100%; border-collapse: collapse; text-align: left; }
+        #adminView table.ad-admin-table th { background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 18px 20px; border-bottom: 2px solid #e2e8f0; color: #475569; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        #adminView table.ad-admin-table td { padding: 18px 20px; border-bottom: 1px solid #f1f5f9; font-size: 14px; color: #334155; vertical-align: middle; }
+        #adminView table.ad-admin-table tr { transition: all 0.2s ease; }
+        #adminView table.ad-admin-table tr:hover { background-color: #f8fafc; transform: scale(1.005); }
+
+        #adminView .ad-btn { padding: 11px 18px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); color: white; }
+        #adminView .ad-btn-export { background: linear-gradient(135deg, #1e293b, #0f172a); box-shadow: 0 4px 12px rgba(30,41,59,0.2); }
+        #adminView .ad-btn-export:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(30,41,59,0.3); }
+        #adminView .ad-btn-save { background: linear-gradient(135deg, #3b82f6, #2563eb); box-shadow: 0 4px 12px rgba(59,130,246,0.25); } #adminView .ad-btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(59,130,246,0.35); }
+
+        #adminView .ad-action-btn { width: 34px; height: 34px; border-radius: 9px; border: none; cursor: pointer; color: white; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); margin-right: 4px; }
+        #adminView .ad-btn-approve { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 10px rgba(16,185,129,0.25); } #adminView .ad-btn-approve:hover { transform: translateY(-2px) scale(1.08); box-shadow: 0 8px 18px rgba(16,185,129,0.35); }
+        #adminView .ad-btn-reject { background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 4px 10px rgba(239,68,68,0.25); } #adminView .ad-btn-reject:hover { transform: translateY(-2px) scale(1.08); box-shadow: 0 8px 18px rgba(239,68,68,0.35); }
+        #adminView .ad-btn-map { background: linear-gradient(135deg, #0ea5e9, #0284c7); box-shadow: 0 4px 10px rgba(14,165,233,0.25); } #adminView .ad-btn-map:hover { transform: translateY(-2px) scale(1.08); box-shadow: 0 8px 18px rgba(14,165,233,0.35); }
+        #adminView .ad-btn-photo-admin { background: linear-gradient(135deg, #8b5cf6, #7c3aed); box-shadow: 0 4px 10px rgba(139,92,246,0.25); } #adminView .ad-btn-photo-admin:hover { transform: translateY(-2px) scale(1.08); box-shadow: 0 8px 18px rgba(139,92,246,0.35); }
+        #adminView .ad-btn-edit { background: linear-gradient(135deg, #2563eb, #1d4ed8); box-shadow: 0 4px 10px rgba(37,99,235,0.25); } #adminView .ad-btn-edit:hover { transform: translateY(-2px) scale(1.08); box-shadow: 0 8px 18px rgba(37,99,235,0.35); }
+
+        #adminView .ad-status-badge { padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; display: inline-block; text-transform: capitalize; }
+        #adminView .ad-pending { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+        #adminView .ad-approved { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+        #adminView .ad-rejected { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+        #adminView .ad-late-mark { background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; }
+
+        #adminView .ad-staff-info b { font-size: 15px; color: #1e293b; }
+        #adminView .ad-staff-info small { color: #64748b; font-size: 12px; }
+
+        #adminView .ad-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); justify-content: center; align-items: center; z-index: 9998; padding: 20px; }
+        #adminView .ad-modal-content { background: white; padding: 24px; border-radius: 20px; width: 100%; max-width: 550px; box-shadow: 0 30px 60px rgba(2,6,23,0.25); position: relative; animation: scaleIn 0.3s ease; }
+        #adminView .ad-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+        #adminView .ad-modal-header h2 { font-size: 18px; font-weight: 700; color: #1e293b; }
+        #adminView .ad-close-btn { background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 14px; color: #64748b; transition: all 0.2s; }
+        #adminView .ad-close-btn:hover { background: #fee2e2; color: #ef4444; transform: rotate(90deg); }
+        #adminView .ad-photo-grid { display: flex; gap: 20px; justify-content: center; margin-top: 10px; }
+        #adminView .ad-attendance-photo { width: 100%; max-width: 220px; aspect-ratio: 1; object-fit: cover; border-radius: 12px; border: 2px solid #e2e8f0; transition: all 0.3s ease; }
+        #adminView .ad-attendance-photo:hover { border-color: #d97706; transform: scale(1.02); box-shadow: 0 8px 20px rgba(217,119,6,0.15); }
+
+        #adminView .ad-form-group { margin-bottom: 15px; }
+        #adminView .ad-form-group label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+        #adminView .ad-form-group input, #adminView .ad-form-group select { width: 100%; padding: 10px 14px; border-radius: 10px; border: 2px solid #cbd5e1; outline: none; font-size: 14px; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        #adminView .ad-form-group input:focus, #adminView .ad-form-group select:focus { border-color: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.10); }
+
+        /* === RESPONSIVE === */
+        @media(max-width:768px){
+            .hero-card { flex-direction: column; text-align: center; padding: 24px; }
+            .hero-clock { text-align: center; }
+            .hero-clock .time-text { font-size: 28px; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .punch-row { flex-direction: column; }
+            .photo-compare { flex-direction: column; align-items: center; }
+            .filter-row { flex-direction: column; }
+            .filter-pill { min-width: 100%; }
+        }
+        /* === PREMIUM TOAST NOTIFICATIONS === */
+        #toastWrap { position: fixed; top: 20px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
+        .toast { pointer-events: auto; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 360px; padding: 14px 18px; border-radius: 14px; color: #fff; font-size: 13px; font-weight: 600; line-height: 1.4; box-shadow: 0 12px 30px rgba(2,6,23,0.25); animation: toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1); position: relative; overflow: hidden; }
+        .toast::after { content: ''; position: absolute; bottom: 0; left: 0; height: 3px; width: 100%; background: rgba(255,255,255,0.4); animation: toastBar 3s linear forwards; }
+        .toast.out { animation: toastOut 0.35s ease forwards; }
+        .toast .t-ic { width: 32px; height: 32px; border-radius: 9px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+        .toast-success { background: linear-gradient(135deg, #10b981, #059669); }
+        .toast-error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .toast-warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .toast-info { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        @keyframes toastIn { from { transform: translateX(120%) scale(0.9); opacity: 0; } to { transform: translateX(0) scale(1); opacity: 1; } }
+        @keyframes toastOut { to { transform: translateX(120%); opacity: 0; } }
+        @keyframes toastBar { from { width: 100%; } to { width: 0%; } }
+    </style>
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- ==================== STAFF VIEW ============ -->
+<!-- ============================================ -->
+<div id="staffView" class="container">
+
+    <!-- TOP NAV -->
+    <div class="top-nav">
+        <div class="nav-left">
+            <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+            <span class="brand-tag">AAQ ERP</span>
+        </div>
+        <div class="nav-right">
+            <span class="live-dot"></span>
+            <div class="nav-clock"><span id="navTime">00:00:00</span></div>
+        </div>
+    </div>
+
+    <!-- HERO PROFILE -->
+    <div class="hero-card">
+        <img id="staffPhoto" class="hero-photo" src="https://i.imgur.com/6VBx3io.png" alt="Profile">
+        <div class="hero-info">
+            <h2 id="staffName">Staff Name</h2>
+            <span class="position-badge"><i class="fa-solid fa-briefcase"></i> <span id="staffPosition">Position</span></span>
+        </div>
+        <div class="hero-clock">
+            <div class="date-text" id="currentDate">--/--/----</div>
+            <div class="time-text" id="currentTime">00:00:00</div>
+        </div>
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="stats-row">
+        <div class="stat-pill sp-total">
+            <div class="stat-label">Total Logs</div>
+            <div class="stat-value" id="totalAttendance">0</div>
+            <div class="stat-icon"><i class="fa-solid fa-folder-open"></i></div>
+        </div>
+        <div class="stat-pill sp-approved">
+            <div class="stat-label">Approved</div>
+            <div class="stat-value" id="approvedCount">0</div>
+            <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+        <div class="stat-pill sp-pending">
+            <div class="stat-label">Pending</div>
+            <div class="stat-value" id="pendingCount">0</div>
+            <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+        </div>
+        <div class="stat-pill sp-rejected">
+            <div class="stat-label">Rejected</div>
+            <div class="stat-value" id="rejectedCount">0</div>
+            <div class="stat-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+        </div>
+        <div class="stat-pill sp-hours">
+            <div class="stat-label">Total Hours</div>
+            <div class="stat-value" id="totalHours">0</div>
+            <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+        </div>
+    </div>
+
+    <!-- MAIN WORKSPACE -->
+    <div class="workspace">
+
+        <!-- LEFT: PUNCH CARD -->
+        <div class="punch-card">
+            <div class="punch-title">
+                <div class="shield-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                Biometric Verification
+            </div>
+
+            <div class="camera-viewport">
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas" style="display:none;"></canvas>
+                <div class="camera-overlay"><span class="rec-dot"></span> LIVE</div>
+            </div>
+
+            <div id="statusBox" class="status-display">
+                <i class="fa-solid fa-fingerprint" style="margin-right:6px;"></i> Ready For Scan
+            </div>
+
+            <div id="workingHours" class="duty-timer">
+                <i class="fa-solid fa-stopwatch"></i> Duty Time : 0.00 Hours
+            </div>
+
+            <div class="date-picker-row">
+                <label for="targetAttendanceDate">Target Date</label>
+                <input type="date" id="targetAttendanceDate" onchange="evaluateDateScopeInterlock()">
+            </div>
+
+            <div class="action-buttons">
+                <div class="punch-row" id="standardPunchGroup">
+                    <button class="btn-punch btn-facein" onclick="faceCheckIn()">
+                        <i class="fa-solid fa-right-to-bracket"></i> FACE IN
+                    </button>
+                    <button class="btn-punch btn-faceout" onclick="faceCheckOut()">
+                        <i class="fa-solid fa-right-from-bracket"></i> FACE OUT
+                    </button>
+                </div>
+                <button class="btn-backdate" id="backdateRequestBtn" onclick="dispatchBackdateRequest()">
+                    <i class="fa-solid fa-paper-plane"></i> Request Back-Date Approval
+                </button>
+            </div>
+        </div>
+
+        <!-- RIGHT: HISTORY -->
+        <div class="history-section">
+            <div class="filter-row">
+                <div class="filter-pill">
+                    <i class="fa-solid fa-calendar-week"></i>
+                    <input type="month" id="monthFilter">
+                </div>
+                <button class="btn-filter btn-blue" onclick="applyPastHistoryFilter()">
+                    <i class="fa-solid fa-sliders"></i> Apply
+                </button>
+                <button class="btn-filter btn-ghost" onclick="resetToDailyDefaultView()">
+                    <i class="fa-solid fa-arrows-rotate"></i> Today
+                </button>
+                <button class="btn-filter btn-ghost" onclick="exportMyAttendanceExcel()">
+                    <i class="fa-solid fa-file-excel"></i> CSV
+                </button>
+                <div id="viewModeBadge" class="mode-tag">Today's Log</div>
+            </div>
+
+            <div id="attendanceList" class="history-cards"></div>
+        </div>
+    </div>
+</div>
+
+<!-- STAFF MODALS -->
+<div id="photoModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-top">
+            <h2 id="modalTitle"><i class="fa-solid fa-camera" style="color:#3b82f6; margin-right:8px;"></i>Biometric Photos</h2>
+            <button class="modal-close" onclick="closeStaffModal('photoModal')"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="photoModalBody"></div>
+    </div>
+</div>
+
+<div id="locationModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-top">
+            <h2><i class="fa-solid fa-location-dot" style="color:#10b981; margin-right:8px;"></i>Geo-Location</h2>
+            <button class="modal-close" onclick="closeStaffModal('locationModal')"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="locationModalBody"></div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- ==================== ADMIN VIEW ============ -->
+<!-- ============================================ -->
+<div id="adminView" style="display:none;">
+    <div class="ad-admin-container" style="padding:20px; max-width:1400px; margin:auto;">
+    
+        <div class="ad-header-section">
+            <div class="ad-header-title">
+                <h2><i class="fa-solid fa-shield-halved" style="color: #3b82f6;"></i> Attendance Command Center</h2>
+                <p>Monitor staff check-ins, geo-locations, configure cutoff rules, modify logs and streamline approvals.</p>
+            </div>
+            <div class="ad-action-header-group">
+                <a href="dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+                <button class="ad-btn ad-btn-export" onclick="exportMasterData()">
+                    <i class="fa-solid fa-file-csv"></i> Export Master Data
+                </button>
+            </div>
+        </div>
+
+        <div class="ad-config-card">
+            <div class="ad-config-info">
+                <h4><i class="fa-solid fa-user-clock" style="color: #f59e0b;"></i> Daily Late-Mark Interlock Rule Engine</h4>
+                <p>Define the strict benchmark cutoff limit. Any Punch-In recorded beyond this threshold triggers auto-late logging.</p>
+            </div>
+            <div class="ad-config-controls">
+                <input type="time" id="lateCutoffTimeInput" value="10:30">
+                <button class="ad-btn ad-btn-save" onclick="saveLateMarkCutoffConfig()"><i class="fa-solid fa-floppy-disk"></i> Update Rule</button>
+            </div>
+        </div>
+
+        <div class="ad-stats-grid">
+            <div class="ad-stat-card ad-total-card">
+                <div class="ad-info"><h3>Total Logs</h3><h1 id="statTotal">0</h1></div>
+                <div class="ad-stat-icon"><i class="fa-solid fa-folder-open"></i></div>
+            </div>
+            <div class="ad-stat-card ad-pending-card">
+                <div class="ad-info"><h3>Pending Requests</h3><h1 id="statPending">0</h1></div>
+                <div class="ad-stat-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            </div>
+            <div class="ad-stat-card ad-approved-card">
+                <div class="ad-info"><h3>Approved Logs</h3><h1 id="statApproved">0</h1></div>
+                <div class="ad-stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+            <div class="ad-stat-card ad-rejected-card">
+                <div class="ad-info"><h3>Rejected Logs</h3><h1 id="statRejected">0</h1></div>
+                <div class="ad-stat-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+            </div>
+        </div>
+
+        <div class="ad-section-headline"><i class="fa-solid fa-envelope-open-text" style="color:#f59e0b;"></i> Back-Date Attendance Requests Queue</div>
+        <div class="ad-table-container">
+            <table class="ad-admin-table">
+                <thead>
+                    <tr>
+                        <th>Staff Info</th>
+                        <th>Requested Date</th>
+                        <th>Request Timestamp</th>
+                        <th>Status Badge</th>
+                        <th>Action Console</th>
+                    </tr>
+                </thead>
+                <tbody id="backdateRequestsTableBody">
+                    <tr><td colspan="5" style="text-align:center; padding:20px; color:#94a3b8;">Loading requests queue...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="ad-section-headline"><i class="fa-solid fa-list-check" style="color:#3b82f6;"></i> Master Attendance Transaction Logs</div>
+        <div class="ad-filter-bar">
+            <div class="ad-input-group">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchName" placeholder="Search staff name..." oninput="filterData()">
+            </div>
+            <div class="ad-input-group">
+                <i class="fa-solid fa-calendar-days"></i>
+                <input type="date" id="searchDate" onchange="filterData()">
+            </div>
+            <div class="ad-input-group">
+                <i class="fa-solid fa-filter"></i>
+                <select id="statusFilter" onchange="filterData()">
+                    <option value="">All Statuses</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Late Mark">Late Mark</option>
+                </select>
+            </div>
+            <div class="ad-input-group" style="border: 1px solid #3b82f6; background: #eff6ff;">
+                <i class="fa-solid fa-arrow-up-9-1" style="color: #3b82f6;"></i>
+                <select id="dateSortOrder" onchange="filterData()" style="font-weight: 600; color: #1e293b;">
+                    <option value="desc">Date: 30 to 1 (Newest First)</option>
+                    <option value="asc">Date: 1 to 30 (Oldest First)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="ad-table-container">
+            <table class="ad-admin-table">
+                <thead>
+                    <tr>
+                        <th>Staff Name & Position</th>
+                        <th>Date</th>
+                        <th>Punch In</th>
+                        <th>Punch Out</th>
+                        <th>Duration (Auto)</th>
+                        <th>Status Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="adminTableBody">
+                    <tr><td colspan="7" style="text-align:center; padding:30px; color:#94a3b8;">Loading master logs dataset...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+<!-- ADMIN MODALS (inside adminView so CSS display:none applies) -->
+<div id="photoLightboxModal" class="ad-modal">
+    <div class="ad-modal-content">
+        <div class="ad-modal-header">
+            <h2>Biometric Capture Verification</h2>
+            <button class="ad-close-btn" onclick="closeLightboxModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="ad-photo-grid" id="lightboxPhotoContainer"></div>
+    </div>
+</div>
+
+<div id="editLogModal" class="ad-modal">
+    <div class="ad-modal-content">
+        <div class="ad-modal-header">
+            <h2>Edit Staff Attendance Log</h2>
+            <button class="ad-close-btn" onclick="closeEditModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <input type="hidden" id="editLogId">
+        <div class="ad-form-group">
+            <label>Punch In Time</label>
+            <input type="text" id="editInTime" placeholder="e.g. 10:15:00 AM">
+        </div>
+        <div class="ad-form-group">
+            <label>Punch Out Time</label>
+            <input type="text" id="editOutTime" placeholder="e.g. 06:30:00 PM">
+        </div>
+        <div class="ad-form-group">
+            <label>Attendance Status Rule</label>
+            <select id="editStatus">
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+        </div>
+        <div class="ad-form-group">
+            <label>Log Classification</label>
+            <select id="editType">
+                <option value="Standard">Standard (Present)</option>
+                <option value="Late Mark">Late Mark</option>
+            </select>
+        </div>
+        <button class="ad-btn ad-btn-save" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="saveEditedAttendanceLog()">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Save Updates Safely
+        </button>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- ==================== SCRIPTS =============== -->
+<!-- ============================================ -->
+
+<!-- Auth Guard -->
+<script>
+    (function(){
+        var user = localStorage.getItem('activeStaffUser');
+        var role = localStorage.getItem('userRole');
+        if(!user && !role){ window.location.href = 'login.html'; return; }
+        if(role && ['ADMIN','MANAGER','COORDINATOR'].includes(role)){
+            document.getElementById('staffView').style.display = 'none';
+            document.getElementById('adminView').style.display = 'block';
+        } else {
+            document.getElementById('staffView').style.display = '';
+            document.getElementById('adminView').style.display = 'none';
+        }
+    })();
+</script>
+
+<!-- Shared Firebase + Staff Logic -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, where, updateDoc, doc, getDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC8oQaQ051U1lXafwdjjOo38t56WwsdBO4",
+        authDomain: "aaq-event-erp.firebaseapp.com",
+        projectId: "aaq-event-erp",
+        storageBucket: "aaq-event-erp.firebasestorage.app",
+        messagingSenderId: "985636664002",
+        appId: "1:985636664002:web:4b941d3562609d2058815b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const currentRole = localStorage.getItem('userRole') || 'CREW';
+
+    // =============================================
+    // ========== STAFF VIEW LOGIC ================
+    // =============================================
+    if(currentRole === 'CREW') {
+        const staffName = localStorage.getItem("staffName") || "Staff User";
+        const staffPhoto = localStorage.getItem("staffPhoto") || "";
+        const staffPosition = localStorage.getItem("staffPosition") || "Staff";
+
+        document.getElementById("staffName").textContent = staffName;
+        document.getElementById("staffPosition").textContent = staffPosition;
+        if(staffPhoto) document.getElementById("staffPhoto").src = staffPhoto;
+
+        const inputDateElement = document.getElementById("targetAttendanceDate");
+        const todayObj = new Date();
+        const yyyy = todayObj.getFullYear();
+        const mm = String(todayObj.getMonth() + 1).padStart(2, '0');
+        const dd = String(todayObj.getDate()).padStart(2, '0');
+        inputDateElement.value = `${yyyy}-${mm}-${dd}`;
+
+        function updateDateTime(){
+            const now = new Date();
+            document.getElementById("currentDate").textContent = now.toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+            document.getElementById("currentTime").textContent = now.toLocaleTimeString('en-US', {hour12:true});
+            document.getElementById("navTime").textContent = now.toLocaleTimeString('en-US', {hour12:true});
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        const video = document.getElementById("video");
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => { video.srcObject = stream; })
+            .catch(() => { document.getElementById("statusBox").innerHTML = '<i class="fa-solid fa-camera-slash" style="margin-right:6px;"></i> Camera Access Denied'; });
+
+        let currentLat = "", currentLng = "";
+        async function getLocation(){
+            return new Promise((resolve)=>{
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => { currentLat = pos.coords.latitude; currentLng = pos.coords.longitude; resolve(); },
+                    () => { currentLat = ""; currentLng = ""; resolve(); }
+                );
+            });
+        }
+
+        function capturePhoto(){
+            const canvas = document.getElementById("canvas");
+            canvas.width = video.videoWidth || 420;
+            canvas.height = video.videoHeight || 315;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL("image/png");
+        }
+
+        const statusBox = document.getElementById("statusBox");
+
+        window.evaluateDateScopeInterlock = function() {
+            const selectedValue = document.getElementById("targetAttendanceDate").value;
+            if(!selectedValue) return;
+            const selectedDateStr = new Date(selectedValue).toLocaleDateString();
+            const liveDateStr = new Date().toLocaleDateString();
+            if(selectedDateStr !== liveDateStr) {
+                document.getElementById("standardPunchGroup").style.display = "none";
+                document.getElementById("backdateRequestBtn").style.display = "inline-flex";
+                statusBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i> BACK-DATE MODE: Request Approval';
+                statusBox.style.background = "rgba(245,158,11,0.1)"; statusBox.style.color = "#fbbf24"; statusBox.style.borderColor = "rgba(245,158,11,0.2)";
+            } else {
+                document.getElementById("standardPunchGroup").style.display = "flex";
+                document.getElementById("backdateRequestBtn").style.display = "none";
+                statusBox.innerHTML = '<i class="fa-solid fa-fingerprint" style="margin-right:6px;"></i> Ready For Scan';
+                statusBox.style.background = "rgba(16,185,129,0.1)"; statusBox.style.color = "#10b981"; statusBox.style.borderColor = "rgba(16,185,129,0.2)";
+            }
+        };
+
+        window.faceCheckIn = async function(){
+            statusBox.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:6px;"></i> Syncing GPS & Face Matrix...';
+            statusBox.style.background = "rgba(59,130,246,0.1)"; statusBox.style.color = "#60a5fa"; statusBox.style.borderColor = "rgba(59,130,246,0.2)";
+            await getLocation();
+            const photoData = capturePhoto();
+            const today = new Date().toLocaleDateString();
+            const checkQuery = query(collection(db,"attendance"), where("staffName","==",staffName), where("date","==",today));
+            const existingAttendance = await getDocs(checkQuery);
+            if(!existingAttendance.empty){
+                statusBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i> Punch-In Already Registered';
+                statusBox.style.background = "rgba(245,158,11,0.1)"; statusBox.style.color = "#fbbf24"; statusBox.style.borderColor = "rgba(245,158,11,0.2)";
+                return;
+            }
+            let finalType = "Present";
+            try {
+                const cutoffDoc = await getDocs(query(collection(db, "settings"), where("__name__", "==", "lateCutoffTime")));
+                if(!cutoffDoc.empty) {
+                    const adminTimeRaw = cutoffDoc.docs[0].data().value;
+                    if(adminTimeRaw) {
+                        const currentHours = new Date().getHours();
+                        const currentMinutes = new Date().getMinutes();
+                        const [cutoffH, cutoffM] = adminTimeRaw.split(":").map(Number);
+                        if((currentHours > cutoffH) || (currentHours === cutoffH && currentMinutes > cutoffM)) finalType = "Late Mark";
+                    }
+                }
+            } catch(e) { console.error("Cutoff engine error: ", e); }
+            await addDoc(collection(db, "attendance"), {
+                staffName, staffPhoto, staffPosition,
+                date: today, inTime: new Date().toLocaleTimeString(),
+                outTime:"", totalHours:"", attendanceType: finalType, status: "Pending", reason:"", remarks:"",
+                inPhoto: photoData, outPhoto:"", inLat: currentLat, inLng: currentLng, outLat:"", outLng:"", editedBy:"", editedOn:""
+            });
+            if(finalType === "Late Mark") {
+                statusBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i> Punched In (LATE MARKED)';
+                statusBox.style.background = "rgba(245,158,11,0.1)"; statusBox.style.color = "#fbbf24"; statusBox.style.borderColor = "rgba(245,158,11,0.2)";
+            } else {
+                statusBox.innerHTML = '<i class="fa-solid fa-circle-check" style="margin-right:6px;"></i> Punch In Successful';
+                statusBox.style.background = "rgba(16,185,129,0.1)"; statusBox.style.color = "#10b981"; statusBox.style.borderColor = "rgba(16,185,129,0.2)";
+            }
+            loadAttendanceEngine(true);
+        };
+
+        window.faceCheckOut = async function(){
+            statusBox.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:6px;"></i> Validating Biometrics...';
+            statusBox.style.background = "rgba(59,130,246,0.1)"; statusBox.style.color = "#60a5fa"; statusBox.style.borderColor = "rgba(59,130,246,0.2)";
+            await getLocation();
+            const photoData = capturePhoto();
+            const today = new Date().toLocaleDateString();
+            const q = query(collection(db,"attendance"), where("staffName","==",staffName), where("date","==",today));
+            const querySnapshot = await getDocs(q);
+            if(querySnapshot.empty){
+                statusBox.innerHTML = '<i class="fa-solid fa-circle-xmark" style="margin-right:6px;"></i> Active Punch-In Not Found';
+                statusBox.style.background = "rgba(239,68,68,0.1)"; statusBox.style.color = "#f87171"; statusBox.style.borderColor = "rgba(239,68,68,0.2)";
+                return;
+            }
+            querySnapshot.forEach(async(item)=>{
+                const data = item.data();
+                if(data.outTime){
+                    statusBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i> Punch-Out Already Done';
+                    statusBox.style.background = "rgba(245,158,11,0.1)"; statusBox.style.color = "#fbbf24"; statusBox.style.borderColor = "rgba(245,158,11,0.2)";
+                    return;
+                }
+                const outDate = new Date();
+                const inDate = new Date(today + " " + data.inTime);
+                const diff = (outDate - inDate) / 1000 / 60 / 60;
+                await updateDoc(doc(db, "attendance", item.id), {
+                    outTime: outDate.toLocaleTimeString(), totalHours: diff.toFixed(2) + " Hours",
+                    outPhoto: photoData, outLat: currentLat, outLng: currentLng
+                });
+                statusBox.innerHTML = '<i class="fa-solid fa-circle-check" style="margin-right:6px;"></i> Duty Cycle Ended';
+                statusBox.style.background = "rgba(16,185,129,0.1)"; statusBox.style.color = "#10b981"; statusBox.style.borderColor = "rgba(16,185,129,0.2)";
+                loadAttendanceEngine(true);
+            });
+        };
+
+        window.dispatchBackdateRequest = async function() {
+            const rawDateVal = document.getElementById("targetAttendanceDate").value;
+            if(!rawDateVal) return;
+            statusBox.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:6px;"></i> Sending Request...';
+            const targetFormattedDate = new Date(rawDateVal).toLocaleDateString();
+            await addDoc(collection(db, "backdate_requests"), {
+                staffName, staffPosition, requestedDate: targetFormattedDate,
+                timestamp: new Date().toLocaleString(), status: "Pending"
+            });
+            statusBox.innerHTML = '<i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i> Request Sent! Awaiting Admin';
+            statusBox.style.background = "rgba(59,130,246,0.1)"; statusBox.style.color = "#60a5fa"; statusBox.style.borderColor = "rgba(59,130,246,0.2)";
+        };
+
+        setInterval(async()=>{
+            const today = new Date().toLocaleDateString();
+            const q = query(collection(db,"attendance"), where("staffName","==",staffName), where("date","==",today));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((docItem)=>{
+                const data = docItem.data();
+                if(!data.outTime){
+                    const diff = (new Date() - new Date(today + " " + data.inTime)) / 1000 / 60 / 60;
+                    document.getElementById("workingHours").innerHTML = `<i class="fa-solid fa-stopwatch"></i> Duty Time : ${diff.toFixed(2)} Hours`;
+                }
+            });
+        }, 60000);
+
+        window.loadAttendanceEngine = async function(onlyToday = true){
+            const monthFilter = document.getElementById("monthFilter").value;
+            const querySnapshot = await getDocs(collection(db, "attendance"));
+            const liveTodayStr = new Date().toLocaleDateString();
+            let html = "", totalAttendance = 0, approvedCount = 0, pendingCount = 0, rejectedCount = 0, totalHours = 0;
+            let records = [];
+            querySnapshot.forEach(d => { if(d.data().staffName === staffName) records.push(d.data()); });
+            records.sort((a,b) => new Date(b.date) - new Date(a.date));
+            records.forEach((data)=>{
+                if(onlyToday) { if(data.date !== liveTodayStr) return; }
+                else if(monthFilter) {
+                    try { const parts = data.date.split('/'); const rMonth = `${parts[2]}-${parts[0].padStart(2,'0')}`; if(rMonth !== monthFilter) return; } catch { return; }
+                }
+                totalAttendance++;
+                const hours = Number(String(data.totalHours || "0").replace(" Hours", ""));
+                totalHours += hours;
+                if(data.status === "Approved") approvedCount++;
+                else if(data.status === "Rejected") rejectedCount++;
+                else pendingCount++;
+                const badgeClass = data.status === "Approved" ? "bd-approved" : data.status === "Rejected" ? "bd-rejected" : "bd-pending";
+                const inImg = data.inPhoto || '';
+                const outImg = data.outPhoto || '';
+                html += `
+                    <div class="history-item">
+                        <div class="history-top">
+                            <div class="history-date"><i class="fa-regular fa-calendar" style="color:#f59e0b;"></i> ${data.date}</div>
+                            <span class="badge-status ${badgeClass}">${data.status || "Pending"}</span>
+                        </div>
+                        <div class="info-matrix">
+                            <div class="info-cell">IN Time<b>${data.inTime || "--:--"}</b></div>
+                            <div class="info-cell">OUT Time<b>${data.outTime || "--:--"}</b></div>
+                            <div class="info-cell">Duration<b>${data.totalHours || "0"}</b></div>
+                            <div class="info-cell">Type<b>${data.attendanceType || "Present"}</b></div>
+                            <div class="info-cell">Reason<b>${data.reason || "-"}</b></div>
+                            <div class="info-cell">Remarks<b>${data.remarks || "-"}</b></div>
+                        </div>
+                        <div class="history-actions">
+                            <button class="btn-card btn-photo-staff" onclick="openPhotoView('${inImg}', '${outImg}')"><i class="fa-solid fa-image"></i> Photos</button>
+                            <button class="btn-card btn-gps" onclick="openLocationView('${data.inLat}','${data.inLng}','${data.outLat}','${data.outLng}')"><i class="fa-solid fa-location-dot"></i> GPS</button>
+                        </div>
+                    </div>`;
+            });
+            document.getElementById("attendanceList").innerHTML = html || `<div class="empty-state"><i class="fa-solid fa-inbox"></i><p>No records found for this view.</p></div>`;
+            document.getElementById("totalAttendance").textContent = totalAttendance;
+            document.getElementById("approvedCount").textContent = approvedCount;
+            document.getElementById("pendingCount").textContent = pendingCount;
+            document.getElementById("rejectedCount").textContent = rejectedCount;
+            document.getElementById("totalHours").textContent = totalHours.toFixed(1);
+        };
+
+        window.applyPastHistoryFilter = function() {
+            const monthFilter = document.getElementById("monthFilter").value;
+            if(!monthFilter) { alert("Please select a month first!"); return; }
+            document.getElementById("viewModeBadge").textContent = "Past History";
+            document.getElementById("viewModeBadge").style.background = "rgba(245,158,11,0.12)";
+            document.getElementById("viewModeBadge").style.color = "#fbbf24";
+            loadAttendanceEngine(false);
+        };
+
+        window.resetToDailyDefaultView = function() {
+            document.getElementById("monthFilter").value = "";
+            document.getElementById("viewModeBadge").textContent = "Today's Log";
+            document.getElementById("viewModeBadge").style.background = "rgba(59,130,246,0.12)";
+            document.getElementById("viewModeBadge").style.color = "#60a5fa";
+            loadAttendanceEngine(true);
+        };
+
+        window.exportMyAttendanceExcel = async function(){
+            const querySnapshot = await getDocs(collection(db, "attendance"));
+            let csv = "Date,IN Time,OUT Time,Hours,Type,Status,Reason,Remarks\n";
+            querySnapshot.forEach((d)=>{
+                const data = d.data();
+                if(data.staffName === staffName){
+                    csv += `"${data.date}","${data.inTime}","${data.outTime}","${data.totalHours}","${data.attendanceType}","${data.status}","${data.reason}","${data.remarks}"\n`;
+                }
+            });
+            const blob = new Blob([csv], { type: "text/csv" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url; a.download = `${staffName}-attendance.csv`; a.click();
+        };
+
+        resetToDailyDefaultView();
+    }
+
+    // =============================================
+    // ========== ADMIN VIEW LOGIC ================
+    // =============================================
+    if(['ADMIN','MANAGER'].includes(currentRole)) {
+        let allData = [];
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+        }
+
+        function calculateHoursAuto(inTimeStr, outTimeStr) {
+            if (!inTimeStr || !outTimeStr || outTimeStr === '--:--') return "0.00 Hours";
+            try {
+                function convertTo24h(timeStr) {
+                    timeStr = timeStr.trim().toUpperCase();
+                    let hasAMPM = timeStr.includes("AM") || timeStr.includes("PM");
+                    let parts = timeStr.replace(/[AMP]/g, '').trim().split(':');
+                    let hrs = parseInt(parts[0], 10);
+                    let mins = parseInt(parts[1], 10) || 0;
+                    if (hasAMPM) {
+                        if (timeStr.includes("PM") && hrs < 12) hrs += 12;
+                        if (timeStr.includes("AM") && hrs === 12) hrs = 0;
+                    }
+                    return hrs * 60 + mins;
+                }
+                let startMins = convertTo24h(inTimeStr);
+                let endMins = convertTo24h(outTimeStr);
+                let diff = endMins - startMins;
+                if(diff < 0) diff += 1440;
+                return (diff / 60).toFixed(2) + " Hours";
+            } catch(e) {
+                return "0.00 Hours";
+            }
+        }
+
+        function parseDateToTimestamp(dateStr) {
+            if (!dateStr) return 0;
+            let s = dateStr.toString().trim();
+            if (s.includes('/')) {
+                let parts = s.split('/');
+                if (parts.length === 3) {
+                    let p0 = parts[0].padStart(2, '0');
+                    let p1 = parts[1].padStart(2, '0');
+                    let p2 = parts[2];
+                    if (p2.length === 4) {
+                        let d = new Date(`${p2}-${p0}-${p1}T00:00:00`);
+                        if (!isNaN(d.getTime())) return d.getTime();
+                        let d2 = new Date(`${p2}-${p1}-${p0}T00:00:00`);
+                        if (!isNaN(d2.getTime())) return d2.getTime();
+                    }
+                }
+            }
+            let timestamp = Date.parse(s);
+            if(!isNaN(timestamp)) return timestamp;
+            if (s.includes('-')) {
+                let parts = s.split('-');
+                if (parts[0].length === 4) return new Date(s + "T00:00:00").getTime() || 0;
+                let d = new Date(`${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}T00:00:00`);
+                return d.getTime() || 0;
+            }
+            return 0;
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById("adminTableBody");
+            tbody.innerHTML = "";
+            
+            if(data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px; color:#94a3b8;">No attendance records found.</td></tr>`;
+                return;
+            }
+
+            data.forEach(item => {
+                const currentStatusType = item.attendanceType === "Late Mark" ? "ad-late-mark" : (item.status ? item.status.toLowerCase() : 'ad-pending');
+                const displayLabel = item.attendanceType === "Late Mark" ? "Late Mark" : (item.status || 'Pending');
+                const autoDuration = calculateHoursAuto(item.inTime, item.outTime);
+
+                const row = `
+                    <tr>
+                        <td>
+                            <div class="ad-staff-info">
+                                <b>${escapeHtml(item.staffName) || 'Unknown'}</b><br>
+                                <small>${escapeHtml(item.staffPosition) || 'Staff Member'}</small>
+                            </div>
+                        </td>
+                    <td><i class="fa-regular fa-calendar" style="color:#3b82f6; font-weight: 600; margin-right:5px;"></i> <b>${item.date}</b></td>
+                    <td><span style="color:#10b981; font-weight:500;"><i class="fa-solid fa-right-to-bracket"></i> ${item.inTime || '--:--'}</span></td>
+                    <td><span style="color:${item.outTime ? '#ef4444' : '#94a3b8'}; font-weight:500;"><i class="fa-solid fa-right-from-bracket"></i> ${item.outTime || '--:--'}</span></td>
+                    <td><strong>${autoDuration}</strong></td>
+                    <td><span class="ad-status-badge ${currentStatusType}">${displayLabel}</span></td>
+                    <td>
+                        <button class="ad-action-btn ad-btn-approve" title="Approve Entry" onclick="changeStatus('${item.id}', 'Approved')"><i class="fa-solid fa-check"></i></button>
+                        <button class="ad-action-btn ad-btn-reject" title="Reject Entry" onclick="changeStatus('${item.id}', 'Rejected')"><i class="fa-solid fa-xmark"></i></button>
+                        <button class="ad-action-btn ad-btn-edit" title="Edit Master Log" onclick="openEditModal('${item.id}', '${escapeHtml(item.inTime || '')}', '${escapeHtml(item.outTime || '')}', '${item.status || 'Pending'}', '${item.attendanceType || ''}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="ad-action-btn ad-btn-photo-admin" title="Biometric Photos" onclick="triggerLightboxView('${item.inPhoto || ''}', '${item.outPhoto || ''}')"><i class="fa-solid fa-camera"></i></button>
+                        <button class="ad-action-btn ad-btn-map" title="View Location" onclick="viewMap('${item.inLat}', '${item.inLng}')"><i class="fa-solid fa-location-dot"></i></button>
+                    </td>
+                </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        window.changeStatus = async (id, newStatus) => {
+            const docRef = doc(db, "attendance", id);
+            await updateDoc(docRef, { status: newStatus });
+        };
+
+        window.saveLateMarkCutoffConfig = async () => {
+            const inputVal = document.getElementById("lateCutoffTimeInput").value;
+            if(!inputVal) return alert("Select a valid cutoff threshold!");
+            try {
+                await setDoc(doc(db, "settings", "lateCutoffTime"), { value: inputVal });
+                showToast("Rules Engine sync complete! Locked at: " + inputVal, 'success');
+            } catch(e) { console.error(e); }
+        };
+
+        function listenToBackdateRequests() {
+            const tbody = document.getElementById("backdateRequestsTableBody");
+            onSnapshot(collection(db, "backdate_requests"), (snapshot) => {
+                tbody.innerHTML = "";
+                let pendingItemsCount = 0;
+
+                snapshot.forEach((requestDoc) => {
+                    const reqData = requestDoc.data();
+                    if(reqData.status !== "Pending") return;
+                    pendingItemsCount++;
+                    const row = `
+                        <tr>
+                            <td>
+                                <div class="ad-staff-info">
+                                    <b>${escapeHtml(reqData.staffName)}</b><br>
+                                    <small>${escapeHtml(reqData.staffPosition) || 'Member'}</small>
+                                </div>
+                            <td><b>${reqData.requestedDate}</b></td>
+                            <td><small>${reqData.timestamp || '-'}</small></td>
+                            <td><span class="ad-status-badge ad-pending">Awaiting Action</span></td>
+                            <td>
+                                <button class="ad-action-btn ad-btn-approve" title="Approve" id="btn_approve_bd_${requestDoc.id}"><i class="fa-solid fa-circle-check"></i></button>
+                                <button class="ad-action-btn ad-btn-reject" title="Reject" id="btn_reject_bd_${requestDoc.id}"><i class="fa-solid fa-circle-xmark"></i></button>
+                            </td>
+                        </tr>`;
+                    tbody.innerHTML += row;
+                });
+
+                snapshot.forEach((requestDoc) => {
+                    const reqData = requestDoc.data();
+                    if(reqData.status !== "Pending") return;
+
+                    document.getElementById(`btn_approve_bd_${requestDoc.id}`).onclick = () => {
+                        processBackdateDecision(requestDoc.id, 'Approved', reqData.staffName, reqData.requestedDate, reqData.staffPosition || 'Staff');
+                    };
+                    document.getElementById(`btn_reject_bd_${requestDoc.id}`).onclick = () => {
+                        processBackdateDecision(requestDoc.id, 'Rejected');
+                    };
+                });
+
+                if(pendingItemsCount === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:15px; color:#94a3b8;">No pending back-date requests.</td></tr>`;
+                }
+            });
+        }
+
+        async function processBackdateDecision(reqId, decision, sName, rDate, sPos) {
+            try {
+                await updateDoc(doc(db, "backdate_requests", reqId), { status: decision });
+                if(decision === "Approved") {
+                    await addDoc(collection(db, "attendance"), {
+                        staffName: sName,
+                        staffPosition: sPos,
+                        date: rDate,
+                        inTime: "10:00:00 AM (Backdated)",
+                        outTime: "06:00:00 PM (Backdated)",
+                        totalHours: "8.00 Hours",
+                        attendanceType: "Present",
+                        status: "Approved"
+                    });
+                }
+                showToast(`Backdate request: ${decision}`, decision === 'Approved' ? 'success' : 'warning');
+            } catch(e) { console.error(e); }
+        }
+
+        window.saveEditedAttendanceLog = async () => {
+            const id = document.getElementById("editLogId").value;
+            const newInTime = document.getElementById("editInTime").value;
+            const newOutTime = document.getElementById("editOutTime").value;
+            const newStatus = document.getElementById("editStatus").value;
+            const newType = document.getElementById("editType").value;
+            if(!id) return;
+            const calculatedHours = calculateHoursAuto(newInTime, newOutTime);
+            try {
+                await updateDoc(doc(db, "attendance", id), {
+                    inTime: newInTime,
+                    outTime: newOutTime,
+                    totalHours: calculatedHours,
+                    status: newStatus,
+                    attendanceType: newType
+                });
+                showToast("Attendance record modified successfully!", 'success');
+                closeEditModal();
+            } catch(err) { console.error(err); }
+        };
+
+        window.viewMap = (lat, lng) => {
+            if(lat && lat !== 'undefined' && lat !== '' && lat !== 'null') {
+                window.open(`https://maps.google.com/?q=${lat},${lng}`, '_blank');
+            } else {
+                alert("Location data not found.");
+            }
+        };
+
+        function updateStats() {
+            document.getElementById("statTotal").innerText = allData.length;
+            document.getElementById("statPending").innerText = allData.filter(d => d.status === "Pending" || !d.status).length;
+            document.getElementById("statApproved").innerText = allData.filter(d => d.status === "Approved").length;
+            document.getElementById("statRejected").innerText = allData.filter(d => d.status === "Rejected").length;
+        }
+
+        window.filterData = () => {
+            const name = document.getElementById("searchName").value.toLowerCase();
+            const date = document.getElementById("searchDate").value;
+            const status = document.getElementById("statusFilter").value;
+            const sortOrder = document.getElementById("dateSortOrder").value;
+
+            const filtered = allData.filter(item => {
+                const matchesName = item.staffName ? item.staffName.toLowerCase().includes(name) : false;
+                
+                let matchesDate = true;
+                if(date) {
+                    const parts = date.split('-');
+                    const variantA = `${parseInt(parts[1])}/${parseInt(parts[2])}/${parts[0]}`;
+                    const variantB = `${parseInt(parts[2])}/${parseInt(parts[1])}/${parts[0]}`;
+                    const variantC = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                    matchesDate = item.date && (item.date.includes(date) || item.date === variantA || item.date === variantB || item.date.includes(variantC));
+                }
+
+                let matchesStatus = !status || item.status === status;
+                if(status === "Late Mark") {
+                    matchesStatus = item.attendanceType === "Late Mark";
+                } else if (status === "Pending") {
+                    matchesStatus = (item.status === "Pending" || !item.status) && item.attendanceType !== "Late Mark";
+                }
+                return matchesName && matchesDate && matchesStatus;
+            });
+
+            filtered.sort((a, b) => {
+                const timeA = parseDateToTimestamp(a.date);
+                const timeB = parseDateToTimestamp(b.date);
+                return sortOrder === "desc" ? (timeB - timeA) : (timeA - timeB);
+            });
+
+            renderTable(filtered);
+        };
+
+        window.exportMasterData = () => {
+            let csv = "Name,Position,Date,In Time,Out Time,Total Hours,Status,Type\n";
+            allData.forEach(d => {
+                const autoH = calculateHoursAuto(d.inTime, d.outTime);
+                csv += `"${d.staffName || ''}","${d.staffPosition || ''}","${d.date || ''}","${d.inTime || ''}","${d.outTime || ''}","${autoH}","${d.status || 'Pending'}","${d.attendanceType || 'Standard'}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Master_Attendance_Dataset.csv`;
+            a.click();
+        };
+
+        function listenToAdminData() {
+            try {
+                onSnapshot(collection(db, "settings"), (snapshot) => {
+                    snapshot.forEach((cfgDoc) => {
+                        if(cfgDoc.id === "lateCutoffTime") {
+                            document.getElementById("lateCutoffTimeInput").value = cfgDoc.data().value || "10:30";
+                        }
+                    });
+                });
+
+                // Load assigned team (chain inheritance from staffs.assignedTo) 
+                // Manager -> sees Coordinators + their Crew (recursive chain)
+                // Coordinator -> sees their Crew
+                // Crew -> sees self only
+                let myTeamEmails = null;
+                let myTeamNames = null;
+                const currentUserEmail = (localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')).email : '') || localStorage.getItem('staffEmail') || localStorage.getItem('activeStaffUser') || '';
+
+                async function loadMyTeam() {
+                    try {
+                        if(currentRole === 'ADMIN') { myTeamEmails = null; myTeamNames = null; return; }
+                        const cu = String(currentUserEmail).toLowerCase().trim();
+                        const staffSnap = await getDocs(collection(db, "staffs"));
+                        const emailToName = {};
+                        const emailToRole = {};
+                        const assignedByEmail = {}; // email -> email of senior they are assigned to
+
+                        staffSnap.forEach((s) => {
+                            const sd = s.data();
+                            const se = String(sd.email || '').toLowerCase().trim();
+                            emailToName[se] = sd.staffName || '';
+                            emailToRole[se] = sd.role || 'CREW';
+                            assignedByEmail[se] = String(sd.assignedTo || '').toLowerCase().trim();
+                        });
+
+                        const emails = new Set();
+                        const names = new Set();
+                        // Include the user themselves
+                        emails.add(cu);
+
+                        // Build team chain: find everyone directly or indirectly under `cu`
+                        // BFS starting from cu: find staff whose assignedTo is in the collected set
+                        const frontier = [cu];
+                        const visited = new Set(frontier);
+                        while(frontier.length > 0) {
+                            const current = frontier.shift();
+                            staffSnap.forEach((s) => {
+                                const sd = s.data();
+                                const se = String(sd.email || '').toLowerCase().trim();
+                                if(String(sd.assignedTo || '').toLowerCase().trim() === current) {
+                                    if(!visited.has(se)) {
+                                        visited.add(se);
+                                        emails.add(se);
+                                        if(sd.staffName) names.add(String(sd.staffName).toLowerCase().trim());
+                                        // If this is a Coordinator/Manager, their own crew also comes under cu
+                                        if(emailToRole[se] === 'MANAGER' || emailToRole[se] === 'COORDINATOR') {
+                                            frontier.push(se);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+
+                        // Fallback: if COORDINATOR, also include staff from their coordinated events
+                        if(currentRole === 'COORDINATOR') {
+                            try {
+                                const eventsSnap = await getDocs(collection(db, "events"));
+                                eventsSnap.forEach((docItem) => {
+                                    const ev = docItem.data();
+                                    const evOwner = String(ev.eventCoordinator || '').toLowerCase().trim();
+                                    if(evOwner === cu) {
+                                        (ev.posts || []).forEach((post) => {
+                                            (post.staffEmails || []).forEach((em) => {
+                                                const e = String(em).toLowerCase().trim();
+                                                emails.add(e);
+                                                if(emailToName[e]) names.add(String(emailToName[e]).toLowerCase().trim());
+                                            });
+                                        });
+                                    }
+                                });
+                            } catch(e) {}
+                        }
+
+                        myTeamEmails = emails;
+                        myTeamNames = names;
+                    } catch(e) { console.error('Team load error:', e); myTeamEmails = new Set(); myTeamNames = new Set(); }
+                }
+
+                onSnapshot(collection(db, "attendance"), async (querySnapshot) => {
+                    allData = [];
+                    await loadMyTeam();
+                    querySnapshot.forEach(docItem => {
+                        const rec = { id: docItem.id, ...docItem.data() };
+                        if(currentRole === 'ADMIN') {
+                            allData.push(rec);
+                        } else if(myTeamNames && myTeamNames.size > 0) {
+                            const recName = String(rec.staffName || '').toLowerCase().trim();
+                            if(myTeamNames.has(recName)) allData.push(rec);
+                        }
+                    });
+                    filterData();
+                    updateStats();
+                });
+
+                listenToBackdateRequests();
+            } catch(err) {
+                console.error("Error setting up listener: ", err);
+            }
+        }
+
+        listenToAdminData();
+    }
+</script>
+
+<!-- Staff Modal Functions -->
+<script>
+    function openPhotoView(inPhoto, outPhoto) {
+        const body = document.getElementById("photoModalBody");
+        body.innerHTML = `
+            <div class="photo-compare">
+                <div class="photo-slot">
+                    <label><i class="fa-solid fa-arrow-right-to-bracket" style="color:#10b981;"></i> Check-In</label>
+                    <img src="${inPhoto || 'https://via.placeholder.com/220?text=No+Photo'}" onclick="zoomImage('${inPhoto}')" style="width:100%;max-width:220px;aspect-ratio:1;object-fit:cover;border-radius:14px;border:2px solid rgba(255,255,255,0.08);cursor:pointer;">
+                </div>
+                <div class="photo-slot">
+                    <label><i class="fa-solid fa-arrow-right-from-bracket" style="color:#ef4444;"></i> Check-Out</label>
+                    <img src="${outPhoto || 'https://via.placeholder.com/220?text=No+Photo'}" onclick="zoomImage('${outPhoto}')" style="width:100%;max-width:220px;aspect-ratio:1;object-fit:cover;border-radius:14px;border:2px solid rgba(255,255,255,0.08);cursor:pointer;">
+                </div>
+            </div>`;
+        document.getElementById("modalTitle").innerHTML = '<i class="fa-solid fa-camera" style="color:#3b82f6; margin-right:8px;"></i>Biometric Snap Verification';
+        document.getElementById("photoModal").style.display = "flex";
+    }
+
+    function zoomImage(url) {
+        if(!url) return;
+        const body = document.getElementById("photoModalBody");
+        body.innerHTML = `<img src="${url}" class="zoom-img">`;
+        document.getElementById("modalTitle").innerHTML = '<i class="fa-solid fa-magnifying-glass-plus" style="color:#f59e0b; margin-right:8px;"></i>Detailed Preview';
+    }
+
+    function openLocationView(inLat, inLng, outLat, outLng) {
+        const body = document.getElementById("locationModalBody");
+        body.innerHTML = `
+            <div class="loc-card">
+                <h4><i class="fa-solid fa-location-crosshairs" style="color:#10b981;"></i> GPS Coordinates</h4>
+                <p><b>IN:</b> ${inLat || 'N/A'}, ${inLng || 'N/A'}</p>
+                <p><b>OUT:</b> ${outLat || 'N/A'}, ${outLng || 'N/A'}</p>
+                <a href="https://maps.google.com/?q=${inLat},${inLng}" target="_blank" class="map-link"><i class="fa-solid fa-map-location-dot"></i> Open in Google Maps</a>
+            </div>`;
+        document.getElementById("locationModal").style.display = "flex";
+    }
+
+    function closeStaffModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
+
+    // Admin Modal Functions
+    function triggerLightboxView(inSnap, outSnap) {
+        const container = document.getElementById("lightboxPhotoContainer");
+        container.innerHTML = `
+            <div>
+                <p style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:6px; text-align:center;">Check-In Photo</p>
+                <img src="${inSnap || 'https://via.placeholder.com/220?text=No+Photo'}" class="ad-attendance-photo">
+            </div>
+            <div>
+                <p style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:6px; text-align:center;">Check-Out Photo</p>
+                <img src="${outSnap || 'https://via.placeholder.com/220?text=No+Photo'}" class="ad-attendance-photo">
+            </div>`;
+        document.getElementById("photoLightboxModal").style.display = "flex";
+    }
+
+    function closeLightboxModal() {
+        document.getElementById("photoLightboxModal").style.display = "none";
+    }
+
+    function openEditModal(id, inTime, outTime, status, type) {
+        document.getElementById("editLogId").value = id;
+        document.getElementById("editInTime").value = inTime;
+        document.getElementById("editOutTime").value = outTime;
+        document.getElementById("editStatus").value = status === "" ? "Pending" : status;
+        document.getElementById("editType").value = type === "Late Mark" ? "Late Mark" : "Standard";
+        document.getElementById("editLogModal").style.display = "flex";
+    }
+
+    function closeEditModal() {
+        document.getElementById("editLogModal").style.display = "none";
+    }
+
+    // Close modals on backdrop click
+    window.onclick = function(e) {
+        if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('ad-modal')) {
+            e.target.style.display = "none";
+        }
+    }
+</script>
+
+<!-- Back-button auth guard -->
+<script>
+    window.addEventListener('pageshow', function(e) {
+        if (e.persisted) { window.location.replace(window.location.href); }
+    });
+    window.addEventListener('popstate', function() {
+        var user = localStorage.getItem('activeStaffUser') || localStorage.getItem('currentUser') || localStorage.getItem('userRole');
+        if (!user) { window.location.replace('login.html'); }
+    });
+</script>
+
+<!-- Premium Scroll-Reveal Animations -->
+<script>
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach((e, i) => {
+            if (e.isIntersecting) { e.target.style.animation = `fadeInUp 0.5s ease ${i * 0.08}s forwards`; e.target.style.opacity = '0'; obs.unobserve(e.target); }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.stat-pill, .punch-card, .admin-card').forEach(el => obs.observe(el));
+
+// === PREMIUM TOAST NOTIFICATIONS ===
+(function(){
+    let wrap = document.getElementById('toastWrap');
+    if(!wrap){ wrap = document.createElement('div'); wrap.id = 'toastWrap'; document.body.appendChild(wrap); }
+    const icons = { success: '&#10003;', error: '&#10005;', warning: '&#9888;', info: '&#9432;' };
+    window.showToast = function(msg, type){
+        type = type || 'info';
+        const t = document.createElement('div');
+        t.className = 'toast toast-' + type;
+        t.innerHTML = '<span class="t-ic">' + (icons[type]||icons.info) + '</span><span>' + msg + '</span>';
+        wrap.appendChild(t);
+        setTimeout(function(){ t.classList.add('out'); setTimeout(function(){ t.remove(); }, 400); }, 3000);
+    };
+    window.alert = function(msg){ showToast(msg, 'warning'); };
+})();
+</script>
+</body>
+</html>

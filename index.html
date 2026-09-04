@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta property="og:site_name" content="A.A.Q Solutions & Outsourcing">
+    <link rel="icon" type="image/png" href="logo.png">
+    <title>A.A.Q Solutions & Outsourcing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes scaleIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+        @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary: #0f766e;
+            --primary-light: #14b8a6;
+            --primary-bg: #ccfbf1;
+            --accent-gold: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+            --dark: #0f172a;
+            --dark-mid: #1e293b;
+            --dark-light: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-hover: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background:
+                radial-gradient(at 10% 15%, rgba(20,184,166,0.14), transparent 45%),
+                radial-gradient(at 85% 10%, rgba(139,92,246,0.16), transparent 45%),
+                radial-gradient(at 75% 70%, rgba(245,158,11,0.10), transparent 50%),
+                radial-gradient(at 15% 85%, rgba(59,130,246,0.13), transparent 50%),
+                linear-gradient(135deg, #0f172a 0%, #111c33 50%, #0f172a 100%);
+            background-attachment: fixed;
+            background-size: 100% 100%;
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(245, 158, 11, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ====== NAVBAR ====== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            transition: all 0.4s ease;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 10px 40px;
+            background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-brand img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s;
+        }
+
+        .nav-brand:hover img { transform: scale(1.1) rotate(-5deg); }
+
+        .nav-brand span {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .nav-brand .brand-accent {
+            color: var(--accent-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-purple));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            padding: 10px 24px !important;
+            background: linear-gradient(135deg, var(--accent-gold), #d97706) !important;
+            color: var(--dark) !important;
+            border-radius: 50px !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.2);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.35) !important;
+        }
+
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .mobile-toggle:hover { transform: scale(1.1); }
+
+        /* ====== HERO ====== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 80px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+            animation: heroGlow 10s ease-in-out infinite alternate;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        @keyframes heroGlow {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-5%, 5%); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 13px;
+            color: var(--accent-gold);
+            font-weight: 500;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .hero-badge i {
+            font-size: 12px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-gold), #f97316, var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: shimmer 4s linear infinite;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before { left: 100%; }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--accent-gold), #d97706);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-gold:hover {
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.45);
+        }
+
+        .btn-purple {
+            background: linear-gradient(135deg, var(--accent-purple), #7c3aed);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-purple:hover {
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.45);
+        }
+
+        .btn-pink {
+            background: linear-gradient(135deg, var(--accent-pink), #db2777);
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, var(--accent-green), #059669);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-blue {
+            background: linear-gradient(135deg, var(--accent-blue), #2563eb);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-cyan {
+            background: linear-gradient(135deg, var(--accent-cyan), #0891b2);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .btn-outline-white:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+            animation: float 4s ease-in-out infinite;
+        }
+        .hero-stat:nth-child(2) { animation-delay: 0.5s; }
+        .hero-stat:nth-child(3) { animation-delay: 1s; }
+        .hero-stat:nth-child(4) { animation-delay: 1.5s; }
+
+        .hero-stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent-gold);
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* ====== SECTIONS ====== */
+        .section {
+            padding: 100px 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header .tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 50px;
+            font-size: 13px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .section-header .tag:hover { background: rgba(245, 158, 11, 0.15); transform: scale(1.05); }
+
+        .section-header h2 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* ====== CARDS ====== */
+        .card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(245, 158, 11, 0.2);
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover .card-icon { transform: scale(1.1) rotate(-5deg); }
+
+        .card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        /* ====== ABOUT ====== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .about-content h2 span {
+            color: var(--accent-gold);
+        }
+
+        .about-content p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .about-feature:hover { background: rgba(245, 158, 11, 0.05); }
+
+        .about-feature i {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-gold);
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        .about-feature:hover i { transform: scale(1.15); }
+
+        .about-feature span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover img { transform: scale(1.02); }
+
+        .about-float-card {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background: var(--dark-mid);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .about-float-card .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-gold), #d97706);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .about-float-card .info h4 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .about-float-card .info p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* ====== WHY CHOOSE US ====== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card .card-icon {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-gold);
+        }
+
+        /* ====== SERVICES ====== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card .card-icon {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-purple);
+        }
+
+        /* ====== STATS ====== */
+        .stats-section {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(139, 92, 246, 0.05));
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        .stat-item:hover { background: rgba(255,255,255,0.03); transform: translateY(-4px); }
+
+        .stat-item .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 20px;
+            transition: transform 0.3s;
+        }
+        .stat-item:hover .stat-icon { transform: scale(1.1); }
+
+        .stat-item .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-item .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* ====== GALLERY ====== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 280px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 20px 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .gallery-overlay h4 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* ====== REVIEWS ====== */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .review-card {
+            position: relative;
+        }
+
+        .review-stars {
+            color: var(--accent-gold);
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .review-stars i { transition: transform 0.2s; display: inline-block; }
+        .review-stars i:hover { transform: scale(1.3) rotate(15deg); }
+
+        .review-card blockquote {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .review-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            transition: transform 0.3s;
+        }
+        .review-author:hover .review-avatar { transform: scale(1.1); }
+
+        .review-author-info h5 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .review-author-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* ====== LEADERSHIP ====== */
+        .leader-card {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 50px 40px;
+        }
+
+        .leader-card img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent-gold);
+            margin-bottom: 25px;
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.2);
+            transition: all 0.4s;
+        }
+
+        .leader-card:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(245, 158, 11, 0.3);
+        }
+
+        .leader-card h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .leader-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, var(--accent-gold), #d97706);
+            color: var(--dark);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        .leader-card:hover .leader-badge { box-shadow: 0 4px 15px rgba(245,158,11,0.3); }
+
+        .leader-card p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        /* ====== CONTACT ====== */
+        .contact-card {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 50px 40px;
+        }
+
+        .contact-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 16px;
+            color: var(--text-muted);
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .contact-item:hover { background: rgba(6,182,212,0.05); transform: translateX(5px); }
+
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-cyan);
+            transition: transform 0.3s;
+        }
+        .contact-item:hover i { transform: scale(1.15); }
+
+        /* ====== FOOTER ====== */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(15,23,42,0.5));
+            border-top: 1px solid var(--glass-border);
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.3s;
+        }
+        .footer-links a:hover::after { width: 100%; }
+        .footer-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .copyright {
+            font-size: 13px;
+            color: var(--dark-light);
+        }
+
+        /* ====== POPUPS ====== */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .popup-content {
+            background: var(--dark-mid);
+            width: 100%;
+            max-width: 500px;
+            padding: 35px;
+            border-radius: 24px;
+            position: relative;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            animation: scaleIn 0.3s ease;
+        }
+
+        .popup-content h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            background: none;
+            border: none;
+        }
+
+        .popup .close:hover {
+            color: var(--accent-red);
+            transform: rotate(90deg);
+        }
+
+        .popup input,
+        .popup textarea,
+        .popup select {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            background: var(--dark);
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .popup input:focus,
+        .popup textarea:focus,
+        .popup select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        .popup textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .popup select option {
+            background: var(--dark);
+            color: white;
+        }
+
+        .popup .btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 5px;
+        }
+
+        /* ====== SCROLL ANIMATIONS ====== */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 968px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-image {
+                order: -1;
+            }
+
+            .navbar {
+                padding: 12px 20px;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 23, 42, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                border-bottom: 1px solid var(--glass-border);
+                animation: fadeInUp 0.3s ease;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-stats {
+                gap: 30px;
+            }
+
+            .hero-stat-number {
+                font-size: 28px;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-item .stat-number {
+                font-size: 36px;
+            }
+
+            .leader-card {
+                padding: 30px 20px;
+            }
+
+            .contact-card {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-brand">
+            <img src="logo.png" alt="AAQ">
+            <span><span class="brand-accent">AAQ</span> Solutions</span>
+        </a>
+        <button class="mobile-toggle" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="login.html" class="nav-cta">Web App</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-circle" style="font-size: 6px; color: #10b981;"></i>
+                Trusted Event Management Partner
+            </div>
+            <h1>
+                Professional <span class="gradient-text">Event Management</span> & Outsourcing Solutions
+            </h1>
+            <p>
+                Delivering world-class Event Management, Volunteer Coordination, Corporate Events, Live Streaming, VIP Management, Staffing Solutions & Outsourcing Services across Gujarat.
+            </p>
+            <div class="hero-buttons">
+                <button class="btn btn-gold" onclick="openPopup('bookingPopup')">
+                    <i class="fas fa-calendar-check"></i> Book Event
+                </button>
+                <button class="btn btn-purple" onclick="openPopup('feedbackPopup')">
+                    <i class="fas fa-star"></i> Feedback
+                </button>
+                <button class="btn btn-pink" onclick="openPopup('complaintPopup')">
+                    <i class="fas fa-exclamation-triangle"></i> Complaint
+                </button>
+                <button class="btn btn-green" onclick="openPopup('careerPopup')">
+                    <i class="fas fa-briefcase"></i> Career
+                </button>
+                <a href="login.html" class="btn btn-blue">
+                    <i class="fas fa-globe"></i> Web App
+                </a>
+                <a href="https://wa.me/917600263704" target="_blank" class="btn btn-cyan">
+                    <i class="fas fa-phone"></i> Contact Us
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">50+</div>
+                    <div class="hero-stat-label">Events Managed</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">250+</div>
+                    <div class="hero-stat-label">Volunteers</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">10+</div>
+                    <div class="hero-stat-label">Corporate Clients</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">24/7</div>
+                    <div class="hero-stat-label">Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+        <div class="about-grid">
+            <div class="about-content">
+                <div class="section-header" style="text-align: left; margin-bottom: 30px;">
+                    <div class="tag">About Us</div>
+                    <h2>Your Trusted Partner for <span style="color: var(--accent-gold);">Professional Events</span></h2>
+                </div>
+                <p>
+                    A.A.Q Solutions & Outsourcing is a professional Event Management and Staffing Company providing high-quality services across Gujarat. We specialize in Event Management, Volunteer Management, Corporate Events, Religious Programs, Live Streaming, VIP Management, Access Control, Manpower Solutions, Promotional Activities and Outsourcing Services.
+                </p>
+                <p>
+                    Our mission is to deliver professional, reliable and result-oriented solutions for every event and project.
+                </p>
+                <div class="about-features">
+                    <div class="about-feature">
+                        <i class="fas fa-check"></i>
+                        <span>Professional Team</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check"></i>
+                        <span>Fast Execution</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check"></i>
+                        <span>Reliable Service</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check"></i>
+                        <span>Gujarat Coverage</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&auto=format&fit=crop" alt="Event Management">
+                <div class="about-float-card">
+                    <div class="icon"><i class="fas fa-trophy"></i></div>
+                    <div class="info">
+                        <h4>50+ Events</h4>
+                        <p>Successfully Managed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="section">
+        <div class="section-header">
+            <div class="tag">Why Choose Us</div>
+            <h2>What Makes Us Different</h2>
+            <p>We deliver excellence in every aspect of event management and staffing solutions.</p>
+        </div>
+        <div class="features-grid">
+            <div class="card feature-card">
+                <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: var(--accent-blue);">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Professional Team</h3>
+                <p>Experienced and trained staff for all types of events and operations.</p>
+            </div>
+            <div class="card feature-card">
+                <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green);">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Fast Execution</h3>
+                <p>Quick planning, deployment and execution with professional management.</p>
+            </div>
+            <div class="card feature-card">
+                <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Reliable Service</h3>
+                <p>Trusted by clients for quality, commitment and transparency.</p>
+            </div>
+            <div class="card feature-card">
+                <div class="card-icon" style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple);">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3>Gujarat Coverage</h3>
+                <p>Providing services across Gujarat with dedicated support and manpower.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" id="services">
+        <div class="section-header">
+            <div class="tag">Our Services</div>
+            <h2>Comprehensive Event Solutions</h2>
+            <p>End-to-end solutions for all your event management and staffing needs.</p>
+        </div>
+        <div class="services-grid">
+            <div class="card service-card">
+                <div class="card-icon"><i class="fas fa-glass-cheers"></i></div>
+                <h3>Event Management</h3>
+                <p>Complete planning and execution of events from start to finish.</p>
+            </div>
+            <div class="card service-card">
+                <div class="card-icon" style="background: rgba(59, 130, 246, 0.1); color: var(--accent-blue);"><i class="fas fa-building"></i></div>
+                <h3>Corporate Events</h3>
+                <p>Professional management of meetings, seminars and corporate gatherings.</p>
+            </div>
+            <div class="card service-card">
+                <div class="card-icon" style="background: rgba(236, 72, 153, 0.1); color: var(--accent-pink);"><i class="fas fa-video"></i></div>
+                <h3>Live Streaming</h3>
+                <p>Multi-camera live streaming solutions for online and hybrid events.</p>
+            </div>
+            <div class="card service-card">
+                <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green);"><i class="fas fa-hands-helping"></i></div>
+                <h3>Volunteer Management</h3>
+                <p>Volunteer recruitment, deployment and coordination services.</p>
+            </div>
+            <div class="card service-card">
+                <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);"><i class="fas fa-star"></i></div>
+                <h3>VIP Management</h3>
+                <p>Professional guest handling and protocol management services.</p>
+            </div>
+            <div class="card service-card">
+                <div class="card-icon" style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan);"><i class="fas fa-user-tie"></i></div>
+                <h3>Staffing Solutions</h3>
+                <p>Temporary and permanent staffing for events and businesses.</p>
+            </div>
+            <div class="card service-card">
+                <div class="card-icon" style="background: rgba(239, 68, 68, 0.1); color: var(--accent-red);"><i class="fas fa-ticket-alt"></i></div>
+                <h3>Access Management</h3>
+                <p>Entry control, pass management and visitor verification systems.</p>
+            </div>
+            <div class="card service-card">
+                <div class="card-icon" style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple);"><i class="fas fa-bullhorn"></i></div>
+                <h3>Promotions & Activations</h3>
+                <p>Brand promotion, marketing activities and field activation campaigns.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats-section">
+        <div class="section" style="padding-top: 80px; padding-bottom: 80px;">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-number" style="color: var(--accent-gold);">50+</div>
+                    <div class="stat-label">Events Successfully Managed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number" style="color: var(--accent-green);">250+</div>
+                    <div class="stat-label">Volunteers Managed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: var(--accent-blue);">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="stat-number" style="color: var(--accent-blue);">10+</div>
+                    <div class="stat-label">Corporate Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon" style="background: rgba(236, 72, 153, 0.1); color: var(--accent-pink);">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="stat-number" style="color: var(--accent-pink);">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST -->
+    <section class="section">
+        <div class="section-header">
+            <div class="tag">Why Clients Trust Us</div>
+            <h2>Built on Trust & Excellence</h2>
+        </div>
+        <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <div class="card">
+                <div class="card-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--accent-green);">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3>Quality Service</h3>
+                <p>Delivering high-quality event and staffing solutions with professionalism.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--accent-gold);">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3>Trusted Partner</h3>
+                <p>Long-term relationships built on trust, transparency and commitment.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(139, 92, 246, 0.1); color: var(--accent-purple);">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3>Innovation</h3>
+                <p>Using modern technology and management systems for better event execution.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section" id="gallery">
+        <div class="section-header">
+            <div class="tag">Gallery</div>
+            <h2>Event Highlights</h2>
+            <p>A glimpse of our successful events and professional executions.</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&auto=format&fit=crop" alt="Event 1">
+                <div class="gallery-overlay">
+                    <h4>Corporate Event</h4>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&auto=format&fit=crop" alt="Event 2">
+                <div class="gallery-overlay">
+                    <h4>Festival Celebration</h4>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&auto=format&fit=crop" alt="Event 3">
+                <div class="gallery-overlay">
+                    <h4>Live Concert</h4>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1515169067868-5387ec356754?w=800&auto=format&fit=crop" alt="Event 4">
+                <div class="gallery-overlay">
+                    <h4>Team Building</h4>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&auto=format&fit=crop" alt="Event 5">
+                <div class="gallery-overlay">
+                    <h4>Seminar</h4>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800&auto=format&fit=crop" alt="Event 6">
+                <div class="gallery-overlay">
+                    <h4>Grand Celebration</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="section" id="reviews">
+        <div class="section-header">
+            <div class="tag">Reviews</div>
+            <h2>What Our Clients Say</h2>
+        </div>
+        <div class="reviews-grid">
+            <div class="card review-card">
+                <div class="review-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <blockquote>
+                    Professional team and excellent event management services. Highly recommended for any corporate event.
+                </blockquote>
+                <div class="review-author">
+                    <div class="review-avatar">RC</div>
+                    <div class="review-author-info">
+                        <h5>Rajesh Company</h5>
+                        <p>Corporate Client</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card review-card">
+                <div class="review-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <blockquote>
+                    Very well organized event with excellent staff support and management. They handled everything perfectly.
+                </blockquote>
+                <div class="review-author">
+                    <div class="review-avatar" style="background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));">PM</div>
+                    <div class="review-author-info">
+                        <h5>Priya Manager</h5>
+                        <p>Event Organizer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card review-card">
+                <div class="review-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <blockquote>
+                    Outstanding volunteer and access management services during our large-scale event. Truly professional team.
+                </blockquote>
+                <div class="review-author">
+                    <div class="review-avatar" style="background: linear-gradient(135deg, var(--accent-gold), var(--accent-pink));">SF</div>
+                    <div class="review-author-info">
+                        <h5>Sara Foundation</h5>
+                        <p>NGO Partner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEADERSHIP -->
+    <section class="section">
+        <div class="section-header">
+            <div class="tag">Leadership</div>
+            <h2>Meet Our Leader</h2>
+        </div>
+        <div class="card leader-card">
+            <img src="ceo.png" alt="Shaikh Mohammad Arkan">
+            <h2>Shaikh Mohammad Arkan</h2>
+            <div class="leader-badge">Founder & CEO</div>
+            <p>
+                Leading A.A.Q Solutions & Outsourcing with a vision to provide professional Event Management, Volunteer Management, Staffing Solutions, Corporate Event Operations and Outsourcing Services across Gujarat with quality, commitment and innovation.
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+        <div class="section-header">
+            <div class="tag">Contact</div>
+            <h2>Get In Touch</h2>
+        </div>
+        <div class="card contact-card">
+            <div class="contact-items">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+91 7600263704</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>aaqsolutioninfoteam@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Ahmedabad, Gujarat, India</span>
+                </div>
+            </div>
+            <a href="https://wa.me/917600263704" target="_blank" class="btn btn-cyan" style="width: 100%; justify-content: center;">
+                <i class="fab fa-whatsapp"></i> WhatsApp Now
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <h2>A.A.Q Solutions & Outsourcing</h2>
+        <p>Professional Event Management & Staffing Services</p>
+        <div class="footer-links">
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#contact">Contact</a>
+            <a href="login.html">Web App</a>
+        </div>
+        <p style="margin-top: 15px;">
+            <i class="fas fa-phone" style="margin-right: 5px;"></i> +91 7600263704 &nbsp;&nbsp;
+            <i class="fas fa-envelope" style="margin-right: 5px;"></i> aaqsolutioninfoteam@gmail.com
+        </p>
+        <p class="copyright" style="margin-top: 20px;">&copy; 2026 A.A.Q Solutions & Outsourcing. All Rights Reserved.</p>
+    </footer>
+
+    <!-- POPUPS -->
+    <div class="popup" id="feedbackPopup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup('feedbackPopup')">&times;</span>
+            <h2><i class="fas fa-star" style="color: var(--accent-gold);"></i> Client Feedback</h2>
+            <form action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
+                <input type="hidden" name="subject" value="New Feedback Received">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="tel" name="mobile" placeholder="Mobile Number" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <select name="rating" required>
+                    <option value="">Select Rating</option>
+                    <option>1 Star</option>
+                    <option>2 Stars</option>
+                    <option>3 Stars</option>
+                    <option>4 Stars</option>
+                    <option>5 Stars</option>
+                </select>
+                <textarea name="message" placeholder="Your Feedback"></textarea>
+                <button type="submit" class="btn btn-gold">
+                    <i class="fas fa-paper-plane"></i> Submit Feedback
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="popup" id="complaintPopup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup('complaintPopup')">&times;</span>
+            <h2><i class="fas fa-exclamation-circle" style="color: var(--accent-red);"></i> Complaint Support</h2>
+            <form action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
+                <input type="hidden" name="subject" value="New Complaint Received">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="tel" name="mobile" placeholder="Mobile Number" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <textarea name="message" placeholder="Complaint Details"></textarea>
+                <button type="submit" class="btn btn-pink">
+                    <i class="fas fa-paper-plane"></i> Submit Complaint
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="popup" id="bookingPopup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup('bookingPopup')">&times;</span>
+            <h2><i class="fas fa-calendar-check" style="color: var(--accent-gold);"></i> Book Event</h2>
+            <form action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
+                <input type="hidden" name="subject" value="New Event Booking">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="tel" name="mobile" placeholder="Mobile Number" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <select name="eventtype" required>
+                    <option value="">Select Event Type</option>
+                    <option>Corporate Event</option>
+                    <option>Conference</option>
+                    <option>Seminar</option>
+                    <option>Live Streaming</option>
+                    <option>Religious Program</option>
+                    <option>Other</option>
+                </select>
+                <textarea name="message" placeholder="Event Details"></textarea>
+                <button type="submit" class="btn btn-gold">
+                    <i class="fas fa-paper-plane"></i> Book Event
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="popup" id="careerPopup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup('careerPopup')">&times;</span>
+            <h2><i class="fas fa-briefcase" style="color: var(--accent-green);"></i> Career Application</h2>
+            <form action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="1d7484dc-e1f8-4068-bb1b-c8feb65c788a">
+                <input type="hidden" name="subject" value="New Career Application">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="tel" name="mobile" placeholder="Mobile Number" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="text" name="city" placeholder="City" required>
+                <select name="position" required>
+                    <option value="">Select Position</option>
+                    <option>Event Coordinator</option>
+                    <option>Event Crew</option>
+                    <option>Volunteer</option>
+                    <option>Access Manager</option>
+                    <option>Technical Team</option>
+                    <option>Office Staff</option>
+                </select>
+                <textarea name="experience" placeholder="Experience / Skills"></textarea>
+                <button type="submit" class="btn btn-green">
+                    <i class="fas fa-paper-plane"></i> Apply Now
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile nav toggle
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Popups
+        function openPopup(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closePopup(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        window.onclick = function(e) {
+            document.querySelectorAll('.popup').forEach(p => {
+                if (e.target === p) p.style.display = 'none';
+            });
+        };
+
+        // Form subject auto-fill
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+                const nameInput = form.querySelector('input[name="name"]');
+                const subjectInput = form.querySelector('input[name="subject"]');
+                if (nameInput && subjectInput) {
+                    const name = nameInput.value;
+                    const sub = subjectInput.value;
+                    if (sub.includes('Feedback')) subjectInput.value = 'New Feedback From ' + name;
+                    if (sub.includes('Complaint')) subjectInput.value = 'New Complaint From ' + name;
+                    if (sub.includes('Booking')) subjectInput.value = 'New Booking From ' + name;
+                    if (sub.includes('Career')) subjectInput.value = 'New Career Application From ' + name;
+                }
+            });
+        });
+
+        // Animate stats on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card, .stat-item, .gallery-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>
